@@ -315,6 +315,26 @@ class SkyBlockCommand extends Command {
                             $this->sendMessage($sender, "Usage: /skyblock accept <sender name>");
                         }
                         break;
+                    case "members":
+                        $config = $this->plugin->getSkyBlockManager()->getPlayerConfig($sender);
+                        if(empty($config->get("island"))) {
+                            $this->sendMessage($sender, "You must be in a island to use this command!");
+                        }
+                        else {
+                            $island = $this->plugin->getIslandManager()->getOnlineIsland($config->get("island"));
+                            if($island instanceof Island) {
+                                $this->sendMessage($sender, "____| {$island->getOwnerName()}'s Members |____");
+                                $i = 1;
+                                foreach($island->getAllMembers() as $member) {
+                                    $this->sendMessage($sender, "{$i}. {$member}");
+                                    $i++;
+                                }
+                            }
+                            else {
+                                $this->sendMessage($sender, "You must be in a island to use this command!!");
+                            }
+                        }
+                        break;
                     case "disband":
                         $config = $this->plugin->getSkyBlockManager()->getPlayerConfig($sender);
                         if(empty($config->get("island"))) {
@@ -500,13 +520,14 @@ class SkyBlockCommand extends Command {
                         break;
                     case "info":
                         $commands = [
-                            "info" => "Shows skyblock command info",
+                            "info" => "Show skyblock command info",
                             "create" => "Create a new island",
                             "join" => "Teleport you to your island",
                             "expel" => "Kick someone from your island",
                             "lock" => "Lock/unlock your island, then nobody/everybody will be able to join",
                             "sethome" => "Set your island home",
                             "home" => "Teleport you to your island home",
+                            "members" => "Show all members of your island",
                             "tp <ownerName>" => "Teleport you to a island that isn't yours",
                             "invite" => "Invite a player to be member of your island",
                             "accept/reject <sender name>" => "Accept/reject an invitation",

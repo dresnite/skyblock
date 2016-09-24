@@ -30,6 +30,7 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -198,6 +199,15 @@ class EventListener implements Listener {
                     $event->setCancelled();
                 }
             }
+        }
+    }
+
+    /**
+     * @param LevelUnloadEvent $event
+     */
+    public function onUnloadLevel(LevelUnloadEvent $event) {
+        foreach($event->getLevel()->getPlayers() as $player) {
+            $player->teleportImmediate($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
 
