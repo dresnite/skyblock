@@ -15,6 +15,7 @@ use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Config;
 use SkyBlock\Main;
+use pocketmine\level\Level;
 
 class SkyBlockManager {
 
