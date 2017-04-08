@@ -82,7 +82,7 @@ class BasicIsland extends SkyBlockGenerator {
     public function populateChunk($chunkX, $chunkZ) {
         for ($x = 0; $x < 16; $x++) {
             for ($z = 0; $z < 16; $z++) {
-                $this->level->getChunk($chunkX, $chunkZ)->setBiomeColor($x, $z, 133, 188, 86);
+                
             }
         }
     }

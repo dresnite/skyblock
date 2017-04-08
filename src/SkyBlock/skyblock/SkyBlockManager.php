@@ -15,6 +15,7 @@ use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Config;
 use SkyBlock\Main;
+use pocketmine\level\Level;
 
 class SkyBlockManager {
 
@@ -44,7 +45,7 @@ class SkyBlockManager {
         $level->setBlock(new Vector3(10, 6, 4), new Block(0, 0));
         $level->loadChunk(10, 4, true);
         /** @var Chest $chest */
-        $chest = Tile::createTile("Chest",$level->getChunk(10 >> 4, 4 >> 4), new CompoundTag(" ", [
+        $chest = Tile::createTile("Chest",$level->getlevel(10 >> 4, 4 >> 4), new CompoundTag(" ", [
             new ListTag("Items", []),
             new StringTag("id", Tile::CHEST),
             new IntTag("x", 10),
