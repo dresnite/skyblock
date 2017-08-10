@@ -18,7 +18,7 @@ class PluginHearbeat extends PluginTask {
         parent::__construct($owner);
     }
 
-    public function onRun($currentTick) {
+    public function onRun(int $currentTick) {
         $this->nextUpdate++;
         /** @var Main $owner */
         $owner = $this->getOwner();

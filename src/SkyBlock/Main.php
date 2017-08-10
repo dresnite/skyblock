@@ -186,7 +186,7 @@ class Main extends PluginBase {
      * Register ChatHandler instance
      */
     public function setChatHandler() {
-        $this->chatHandler = new ChatHandler($this);
+        $this->chatHandler = new ChatHandler();
     }
 
     /**

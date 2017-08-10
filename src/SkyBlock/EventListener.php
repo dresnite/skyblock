@@ -185,7 +185,7 @@ class EventListener implements Listener {
      */
     public function onUnloadLevel(LevelUnloadEvent $event) {
         foreach($event->getLevel()->getPlayers() as $player) {
-            $player->teleportImmediate($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
+            $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
 

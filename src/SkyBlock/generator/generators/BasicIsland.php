@@ -50,15 +50,15 @@ class BasicIsland extends SkyBlockGenerator {
      *
      * @return string
      */
-    public function getName() {
+    public function getName() : string {
         return $this->name;
     }
 
-    public function getSettings() {
+    public function getSettings() : array {
         return $this->settings;
     }
 
-    public function generateChunk($chunkX, $chunkZ) {
+    public function generateChunk(int $chunkX, int $chunkZ) {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
         if ($chunkX % 20 == 0 && $chunkZ % 20 == 0) {
@@ -79,12 +79,13 @@ class BasicIsland extends SkyBlockGenerator {
         }
     }
 
-    public function populateChunk($chunkX, $chunkZ) {
-        for ($x = 0; $x < 16; $x++) {
+    public function populateChunk(int $chunkX, int $chunkZ) {
+        // this disappeared in API 3.0.0-ALPHA1 due to client changes (client doesn't support custom biome colours anymore)
+        /*for ($x = 0; $x < 16; $x++) {
             for ($z = 0; $z < 16; $z++) {
                 $this->level->getChunk($chunkX, $chunkZ)->setBiomeColor($x, $z, 133, 188, 86);
             }
-        }
+        }*/
     }
 
     /**
@@ -92,7 +93,7 @@ class BasicIsland extends SkyBlockGenerator {
      *
      * @return Vector3
      */
-    public function getSpawn() {
+    public function getSpawn() : Vector3 {
         return new Vector3(8, 7, 10);
     }
 

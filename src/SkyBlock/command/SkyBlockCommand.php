@@ -33,7 +33,7 @@ class SkyBlockCommand extends Command {
         $sender->sendMessage(TextFormat::GREEN . "- " . TextFormat::WHITE . $message);
     }
 
-    public function execute(CommandSender $sender, $commandLabel, array $args) {
+    public function execute(CommandSender $sender, string $commandLabel, array $args) {
         if($sender instanceof Player) {
             if(isset($args[0])) {
                 switch($args[0]) {
@@ -238,7 +238,7 @@ class SkyBlockCommand extends Command {
                                 if($player instanceof Player and $player->isOnline()) {
                                     $invitation = $this->plugin->getInvitationHandler()->getInvitation($player);
                                     if($invitation instanceof Invitation) {
-                                        if($invitation->getSender() == $player) {
+                                        if($invitation->getSender() === $player) {
                                             $invitation->accept();
                                         }
                                         else {
@@ -270,7 +270,7 @@ class SkyBlockCommand extends Command {
                                 if($player instanceof Player and $player->isOnline()) {
                                     $invitation = $this->plugin->getInvitationHandler()->getInvitation($player);
                                     if($invitation instanceof Invitation) {
-                                        if($invitation->getSender() == $player) {
+                                        if($invitation->getSender() === $player) {
                                             $invitation->deny();
                                         }
                                         else {
@@ -354,7 +354,7 @@ class SkyBlockCommand extends Command {
                                         if($player instanceof Player and $player->isOnline()) {
                                             $playerConfig = $this->plugin->getSkyBlockManager()->getPlayerConfig($player);
                                             $playerIsland = $this->plugin->getIslandManager()->getOnlineIsland($playerConfig->get("island"));
-                                            if($island == $playerIsland) {
+                                            if($island === $playerIsland) {
                                                 $island->setOwnerName($player);
                                                 $island->addPlayer($player);
                                                 $this->sendMessage($sender, "You sent the ownership to {$player->getName()}");

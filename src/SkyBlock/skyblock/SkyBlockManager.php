@@ -6,6 +6,7 @@ use pocketmine\block\Block;
 use pocketmine\item\Item;
 use pocketmine\level\generator\Generator;
 use pocketmine\math\Vector3;
+use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
@@ -43,15 +44,17 @@ class SkyBlockManager {
         $level = $this->plugin->getServer()->getLevelByName($islandName);
         $level->setBlock(new Vector3(10, 6, 4), new Block(0, 0));
         $level->loadChunk(10, 4, true);
+        $level->setBlock(new Vector3(10, 6, 4), new Block(54, 0));
         /** @var Chest $chest */
-        $chest = Tile::createTile("Chest",$level->getChunk(10 >> 4, 4 >> 4), new CompoundTag(" ", [
+        $nbt = new CompoundTag(" ", [
             new ListTag("Items", []),
             new StringTag("id", Tile::CHEST),
             new IntTag("x", 10),
             new IntTag("y", 6),
             new IntTag("z", 4)
-        ]));
-        $level->setBlock(new Vector3(10, 6, 4), new Block(54, 0));
+        ]);
+        $nbt->Items->setTagType(NBT::TAG_Compound);
+        $chest = Tile::createTile("Chest", $level, $nbt);
         $level->addTile($chest);
         $inventory = $chest->getInventory();
         $inventory->addItem(Item::get(Item::WATER, 0, 2));
