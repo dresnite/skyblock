@@ -12,15 +12,15 @@ class PluginHearbeat extends PluginTask {
     /**
      * PluginHearbeat constructor.
      *
-     * @param Main $owner
+     * @param SkyBlock $owner
      */
-    public function __construct(Main $owner) {
+    public function __construct(SkyBlock $owner) {
         parent::__construct($owner);
     }
 
     public function onRun(int $currentTick) {
         $this->nextUpdate++;
-        /** @var Main $owner */
+        /** @var SkyBlock $owner */
         $owner = $this->getOwner();
         if($this->nextUpdate == 120) {
             $this->nextUpdate = 0;

@@ -4,11 +4,11 @@ namespace SkyBlock\invitation;
 
 use pocketmine\Player;
 use SkyBlock\island\Island;
-use SkyBlock\Main;
+use SkyBlock\SkyBlock;
 
 class InvitationHandler {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private $plugin;
 
     /** @var Invitation[] */
@@ -17,16 +17,16 @@ class InvitationHandler {
     /**
      * InvitationManager constructor.
      *
-     * @param Main $plugin
+     * @param SkyBlock $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
     }
 
     /**
      * Return Main instance
      *
-     * @return Main
+     * @return SkyBlock
      */
     public function getPlugin() {
         return $this->plugin;

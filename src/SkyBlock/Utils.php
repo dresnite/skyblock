@@ -26,7 +26,7 @@ class Utils {
      * @return string
      */
     public static function getIslandPath($id) {
-        return Main::getInstance()->getDataFolder() . "islands" . DIRECTORY_SEPARATOR . $id . ".json";
+        return SkyBlock::getInstance()->getDataFolder() . "islands" . DIRECTORY_SEPARATOR . $id . ".json";
     }
 
     /**
@@ -57,7 +57,7 @@ class Utils {
     public static function parsePosition($string) {
         $array = explode(",", $string);
         if(isset($array[3])) {
-            $level = Main::getInstance()->getServer()->getLevelByName($array[0]);
+            $level = SkyBlock::getInstance()->getServer()->getLevelByName($array[0]);
             if($level instanceof Level) {
                 return new Position($array[1], $array[2], $array[3], $level);
             }

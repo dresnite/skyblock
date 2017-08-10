@@ -11,20 +11,20 @@ use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use SkyBlock\invitation\Invitation;
 use SkyBlock\island\Island;
-use SkyBlock\Main;
+use SkyBlock\SkyBlock;
 use SkyBlock\reset\Reset;
 
 class SkyBlockCommand extends Command {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private $plugin;
 
     /**
      * SkyBlockCommand constructor.
      *
-     * @param Main $plugin
+     * @param SkyBlock $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         parent::__construct("skyblock", "Main SkyBlock command", "Usage: /skyblock", ["sb"]);
     }

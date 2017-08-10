@@ -11,6 +11,6 @@
 name: SkyBlock
 author: GiantQuartz
 website: http://twitter.com/GiantQuartz
-main: SkyBlock\Main
+main: SkyBlock\SkyBlock
 version: "0.1.8"
 api: [3.0.0-ALPHA7]

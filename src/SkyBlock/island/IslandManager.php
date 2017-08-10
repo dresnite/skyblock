@@ -3,12 +3,12 @@ namespace SkyBlock\island;
 
 use pocketmine\Player;
 use pocketmine\utils\Config;
-use SkyBlock\Main;
+use SkyBlock\SkyBlock;
 use SkyBlock\Utils;
 
 class IslandManager {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private $plugin;
 
     /** @var Island[] */
@@ -17,9 +17,9 @@ class IslandManager {
     /**
      * IslandManager constructor.
      *
-     * @param Main $plugin
+     * @param SkyBlock $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
     }
 

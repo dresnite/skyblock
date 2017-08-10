@@ -15,19 +15,19 @@ use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Config;
-use SkyBlock\Main;
+use SkyBlock\SkyBlock;
 
 class SkyBlockManager {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private $plugin;
 
     /**
      * SkyBlockManager constructor.
      *
-     * @param Main $plugin
+     * @param SkyBlock $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
     }
 

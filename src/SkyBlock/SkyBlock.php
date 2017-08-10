@@ -11,9 +11,9 @@ use SkyBlock\island\IslandManager;
 use SkyBlock\reset\ResetHandler;
 use SkyBlock\skyblock\SkyBlockManager;
 
-class Main extends PluginBase {
+class SkyBlock extends PluginBase {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private static $object = null;
 
     /** @var SkyBlockGeneratorManager */
@@ -34,11 +34,11 @@ class Main extends PluginBase {
     /** @var ChatHandler */
     private $chatHandler;
 
-    /** @var EventListener */
+    /** @var SkyBlockListener */
     private $eventListener;
 
     public function onLoad() {
-        if(!self::$object instanceof Main) {
+        if(!self::$object instanceof SkyBlock) {
             self::$object = $this;
         }
     }
@@ -64,7 +64,7 @@ class Main extends PluginBase {
     /**
      * Return Main instance
      *
-     * @return Main
+     * @return SkyBlock
      */
     public static function getInstance() {
         return self::$object;
@@ -100,7 +100,7 @@ class Main extends PluginBase {
     /**
      * Return EventListener instance
      *
-     * @return EventListener
+     * @return SkyBlockListener
      */
     public function getEventListener() {
         return $this->eventListener;
@@ -158,7 +158,7 @@ class Main extends PluginBase {
      * Register EventListener instance
      */
     public function setEventListener() {
-        $this->eventListener = new EventListener($this);
+        $this->eventListener = new SkyBlockListener($this);
     }
 
     /**

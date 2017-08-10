@@ -21,17 +21,17 @@ use pocketmine\utils\TextFormat;
 use SkyBlock\chat\Chat;
 use SkyBlock\island\Island;
 
-class EventListener implements Listener {
+class SkyBlockListener implements Listener {
 
-    /** @var Main */
+    /** @var SkyBlock */
     private $plugin;
 
     /**
      * EventListener constructor.
      *
-     * @param Main $plugin
+     * @param SkyBlock $plugin
      */
-    public function __construct(Main $plugin) {
+    public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
     }
