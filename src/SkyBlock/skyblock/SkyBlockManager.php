@@ -64,7 +64,7 @@ class SkyBlockManager {
         $inventory->addItem(Item::get(Item::BONE, 0, 1));
         $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
         $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-        $inventory->addItem(Item::get(Item::SUGAR_CANE, 0, 1));
+        $inventory->addItem(Item::get(Item::SUGARCANE, 0, 1));
         $inventory->addItem(Item::get(Item::BREAD, 0, 1));
         $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
         $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
