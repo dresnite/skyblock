@@ -171,7 +171,7 @@ class Island {
      * @param $ownerName
      */
     public function setOwnerName($ownerName) {
-        $this->ownerName = $ownerName;
+        $this->ownerName = strtolower($ownerName);
     }
 
     /**

@@ -355,8 +355,9 @@ class SkyBlockCommand extends Command {
                                             $playerConfig = $this->plugin->getSkyBlockManager()->getPlayerConfig($player);
                                             $playerIsland = $this->plugin->getIslandManager()->getOnlineIsland($playerConfig->get("island"));
                                             if($island === $playerIsland) {
-                                                $island->setOwnerName($player);
+                                                $island->setOwnerName($player->getName());
                                                 $island->addPlayer($player);
+                                                $island->update();
                                                 $this->sendMessage($sender, "You sent the ownership to {$player->getName()}");
                                                 $this->sendMessage($player, "You get your island ownership by {$sender->getName()}");
                                             }
