@@ -61,7 +61,7 @@ class BasicIsland extends SkyBlockGenerator {
     public function generateChunk(int $chunkX, int $chunkZ) {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
-        if ($chunkX % 20 == 0 && $chunkZ % 20 == 0) {
+        if ($chunkX == 0 and $chunkZ == 0) {
             for ($x = 0; $x < 16; $x++) {
                 for ($z = 0; $z < 16; $z++) {
                     $chunk->setBlock($x, 0, $z, Block::BEDROCK);
