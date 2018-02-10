@@ -53,7 +53,7 @@ class SkyBlockManager {
             new IntTag("y", 6),
             new IntTag("z", 4)
         ]);
-        $nbt->Items->setTagType(NBT::TAG_Compound);
+        $nbt->getListTag("Items")->setTagType(NBT::TAG_Compound);
         $chest = Tile::createTile("Chest", $level, $nbt);
         $level->addTile($chest);
         $inventory = $chest->getInventory();
