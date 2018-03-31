@@ -56,6 +56,9 @@ class Utils {
      */
     public static function parsePosition($string) {
         $array = explode(",", $string);
+        $array = array_map(function($v) {
+            return (float) $v;
+        }, $array);
         if(isset($array[3])) {
             $level = SkyBlock::getInstance()->getServer()->getLevelByName($array[0]);
             if($level instanceof Level) {
