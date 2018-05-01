@@ -3,13 +3,17 @@
 namespace SkyBlock;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\TextFormat;
 use SkyBlock\chat\ChatHandler;
+use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
+use SkyBlock\command\SkyBlockUICommand;
 use SkyBlock\generator\SkyBlockGeneratorManager;
 use SkyBlock\invitation\InvitationHandler;
 use SkyBlock\island\IslandManager;
 use SkyBlock\reset\ResetHandler;
 use SkyBlock\skyblock\SkyBlockManager;
+use SkyBlock\ui\SkyBlockForms;
 
 class SkyBlock extends PluginBase {
 
@@ -37,6 +41,9 @@ class SkyBlock extends PluginBase {
     /** @var SkyBlockListener */
     private $eventListener;
 
+    /** @var SkyBlockForms */
+    private $ui;
+
     public function onLoad() {
         if(!self::$object instanceof SkyBlock) {
             self::$object = $this;
@@ -52,17 +59,18 @@ class SkyBlock extends PluginBase {
         $this->setInvitationHandler();
         $this->setChatHandler();
         $this->setResetHandler();
+        $this->setUserInterface();
         $this->setPluginHearbeat();
         $this->registerCommand();
-        $this->getLogger()->info("SkyBlock by @GiantAmethyst was enabled.");
+        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Skyblock by xXSirGamesXx has been Enabled");
     }
 
     public function onDisable() {
-        $this->getLogger()->info("SkyBlock by @GiantAmethyst was disabled.");
+        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Skyblock by xXSirGamesXx has been Disabled");
     }
 
     /**
-     * Return Main instance
+     * Return DynamicShopUI instance
      *
      * @return SkyBlock
      */
@@ -98,7 +106,7 @@ class SkyBlock extends PluginBase {
     }
 
     /**
-     * Return EventListener instance
+     * Return SkyBlockListener instance
      *
      * @return SkyBlockListener
      */
@@ -133,6 +141,17 @@ class SkyBlock extends PluginBase {
         return $this->chatHandler;
     }
 
+	/**
+	 * Returns SkyBlockForms
+	 *
+	 *
+	 * @return SkyBlockForms
+	 */
+
+    public function getUserInterface(){
+    	return $this->ui;
+	}
+
     /**
      * Register SkyBlockGeneratorManager instance
      */
@@ -155,7 +174,7 @@ class SkyBlock extends PluginBase {
     }
 
     /**
-     * Register EventListener instance
+     * Register SkyBlockListener instance
      */
     public function setEventListener() {
         $this->eventListener = new SkyBlockListener($this);
@@ -189,11 +208,18 @@ class SkyBlock extends PluginBase {
         $this->chatHandler = new ChatHandler();
     }
 
+    public function setUserInterface() {
+    	$this->ui = new SkyBlockForms();
+	}
+
     /**
-     * Register SkyBlock command
+     * Register SkyBlock commands
      */
     public function registerCommand() {
-        $this->getServer()->getCommandMap()->register("skyblock", new SkyBlockCommand($this));
+        $this->getServer()->getCommandMap()->register("island", new SkyBlockCommand($this));
+        if($this->getServer()->getPluginManager()->getPlugin("FormAPI"))
+		$this->getServer()->getCommandMap()->register("skyblock", new SkyBlockUICommand($this));
+		$this->getServer()->getCommandMap()->register("sbcleanup", new SkyBlockCleanup($this));
     }
 
     public function initialize() {

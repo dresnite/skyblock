@@ -8,8 +8,10 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -17,6 +19,8 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\item\Item;
 use pocketmine\Player;
+use pocketmine\Server;
+use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use SkyBlock\chat\Chat;
 use SkyBlock\island\Island;
@@ -25,15 +29,23 @@ class SkyBlockListener implements Listener {
 
     /** @var SkyBlock */
     private $plugin;
+    private $cobbleDrops = [];
 
     /**
-     * EventListener constructor.
+     * SkyBlockListener constructor.
      *
      * @param SkyBlock $plugin
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
+		$this->addItemMultipleTimes(3, Item::get(Item::DIAMOND), $this->cobbleDrops);
+		$this->addItemMultipleTimes(12, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
+		$this->addItemMultipleTimes(9, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
+		$this->addItemMultipleTimes(5, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
+		$this->addItemMultipleTimes(40, Item::get(Item::COAL), $this->cobbleDrops);
+		$this->addItemMultipleTimes(500, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
+		shuffle($this->cobbleDrops);
     }
 
     /**
@@ -52,6 +64,10 @@ class SkyBlockListener implements Listener {
      */
     public function onJoin(PlayerJoinEvent $event) {
         $this->plugin->getIslandManager()->checkPlayerIsland($event->getPlayer());
+		$playerLevelName = $event->getPlayer()->getLevel()->getName();
+        if($this->plugin->getIslandManager()->isOnlineIsland($playerLevelName)){
+        	$this->plugin->getIslandManager()->getOnlineIsland($playerLevelName)->addPlayer($event->getPlayer());
+		}
     }
 
     /**
@@ -63,6 +79,12 @@ class SkyBlockListener implements Listener {
         $this->plugin->getIslandManager()->unloadByPlayer($event->getPlayer());
     }
 
+	/**
+	 * @param       $times
+	 * @param Item  $item
+	 * @param array $array
+	 * @return Item[]
+	 */
     public function addItemMultipleTimes($times, Item $item, array &$array){
         for($i = 0; $i <= $times; $i++) {
             $array[] = $item;
@@ -82,14 +104,7 @@ class SkyBlockListener implements Listener {
             }
             else  {
                 if($event->getBlock()->getId() == Block::COBBLESTONE) {
-                    $items = [];
-                    $items[] = Item::get(264);
-                    $this->addItemMultipleTimes(3, Item::get(265), $items);
-                    $this->addItemMultipleTimes(10, Item::get(266), $items);
-                    $this->addItemMultipleTimes(20, Item::get(Item::LAPIS_ORE), $items);
-                    $this->addItemMultipleTimes(40, Item::get(Item::COAL), $items);
-                    $this->addItemMultipleTimes(74, Item::get(Item::COBBLESTONE), $items);
-                    $event->setDrops([$items[array_rand($items)]]);
+                    $event->setDrops([$this->cobbleDrops[array_rand($this->cobbleDrops)]]);
                 }
             }
         }
@@ -118,6 +133,10 @@ class SkyBlockListener implements Listener {
                 $event->getPlayer()->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
                 $event->setCancelled();
             }
+            if($event->getBlock() === Block::BED_BLOCK){
+            	$event->setCancelled(true);
+            	$event->getPlayer()->sendMessage("Beds cannot be used on islands.");
+			}
         }
     }
 
@@ -128,12 +147,14 @@ class SkyBlockListener implements Listener {
      */
     public function onLevelChange(EntityLevelChangeEvent $event) {
         $entity = $event->getEntity();
+        $originName = $event->getOrigin()->getName();
+        $targetName = $event->getTarget()->getName();
         if($entity instanceof Player) {
-            if($this->plugin->getIslandManager()->isOnlineIsland($event->getOrigin()->getName())) {
-                $this->plugin->getIslandManager()->getOnlineIsland($event->getOrigin()->getName())->tryRemovePlayer($entity);
+            if($this->plugin->getIslandManager()->isOnlineIsland($originName)) {
+                $this->plugin->getIslandManager()->getOnlineIsland($originName)->tryRemovePlayer($entity);
             }
-            else if($this->plugin->getIslandManager()->isOnlineIsland($event->getTarget()->getName())) {
-                $this->plugin->getIslandManager()->getOnlineIsland($event->getTarget()->getName())->addPlayer($entity);
+           if($this->plugin->getIslandManager()->isOnlineIsland($targetName)) {
+                $this->plugin->getIslandManager()->getOnlineIsland($targetName)->addPlayer($entity);
             }
         }
     }
@@ -188,5 +209,44 @@ class SkyBlockListener implements Listener {
             $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
+
+	/**
+	 * Prevent players from using beds on an island.
+	 *
+	 * @param PlayerBedEnterEvent $event
+	 */
+    public function onBedInteract(PlayerBedEnterEvent $event){
+    	foreach($this->plugin->getIslandManager()->getOnlineIslands() as $island){
+			if($island->isOnIsland($event->getPlayer())){
+				$event->setCancelled(true);
+				$event->getPlayer()->sendMessage("§l§c✖ Using beds on islands is not allowed.");
+			}
+		}
+	}
+
+	/**
+	 * @param LevelLoadEvent $event
+	 */
+	public function onLevelLoad(LevelLoadEvent $event){
+		$levelName = $event->getLevel()->getName();
+		$islandConfigFile = Utils::getIslandPath($levelName);
+		if(!$this->plugin->getIslandManager()->isOnlineIsland($levelName)){
+			if(is_file($islandConfigFile)){
+				Server::getInstance()->getLogger()->info("onLevelLoad found Island being loaded.");
+				$config = new Config($islandConfigFile, Config::JSON);
+				$this->plugin->getIslandManager()->addIsland(
+					$config,
+					$config->get("owner"),
+					$levelName,
+					$config->get("members"),
+					$config->get("locked"),
+					$config->get("home"),
+					$config->get("generator")
+				);
+			}
+			$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
+			$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
+		}
+	}
 
 }

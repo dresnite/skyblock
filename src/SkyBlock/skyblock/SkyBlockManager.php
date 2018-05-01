@@ -6,11 +6,6 @@ use pocketmine\block\Block;
 use pocketmine\item\Item;
 use pocketmine\level\generator\Generator;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
@@ -38,39 +33,33 @@ class SkyBlockManager {
         $server->generateLevel($island, null, Generator::getGenerator($generatorName));
         $server->loadLevel($island);
         $this->spawnDefaultChest($island);
+        $level = $server->getLevelByName($island);
+        $level->setSpawnLocation(new Vector3(7,64,9));
     }
 
     public function spawnDefaultChest($islandName) {
+    	$chestX = 7;
+    	$chestY = 64;
+    	$chestZ = 6;
+    	$chestVector = new Vector3($chestX, $chestY, $chestZ);
         $level = $this->plugin->getServer()->getLevelByName($islandName);
-        $level->setBlock(new Vector3(10, 6, 4), new Block(0, 0));
+        $level->setBlock($chestVector, new Block(0, 0));
         $level->loadChunk(10, 4, true);
-        $level->setBlock(new Vector3(10, 6, 4), new Block(54, 0));
         /** @var Chest $chest */
-        $nbt = new CompoundTag(" ", [
-            new ListTag("Items", []),
-            new StringTag("id", Tile::CHEST),
-            new IntTag("x", 10),
-            new IntTag("y", 6),
-            new IntTag("z", 4)
-        ]);
-        $nbt->getListTag("Items")->setTagType(NBT::TAG_Compound);
-        $chest = Tile::createTile("Chest", $level, $nbt);
-        $level->addTile($chest);
+		$nbt = Chest::createNBT($chestVector);
+        $chest = Tile::createTile(Tile::CHEST, $level, $nbt);
         $inventory = $chest->getInventory();
-        $inventory->addItem(Item::get(Item::WATER, 0, 2));
-        $inventory->addItem(Item::get(Item::LAVA, 0, 1));
+        //TODO: Use a kit config for user-friendliness.
+        $inventory->addItem(Item::get(Item::BUCKET, 10, 1));
         $inventory->addItem(Item::get(Item::ICE, 0, 2));
         $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
         $inventory->addItem(Item::get(Item::BONE, 0, 1));
         $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
-        $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-        $inventory->addItem(Item::get(Item::SUGARCANE, 0, 1));
+        //$inventory->addItem(Item::get(Item::CACTUS, 0, 1));
+        $inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
         $inventory->addItem(Item::get(Item::BREAD, 0, 1));
         $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
-        $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
-        $inventory->addItem(Item::get(Item::LEATHER_PANTS, 0, 1));
-        $inventory->addItem(Item::get(Item::LEATHER_TUNIC, 0, 1));
-        $inventory->addItem(Item::get(Item::LEATHER_CAP, 0, 1));
+		$level->setBlock($chestVector, new Block(54, 3));
     }
 
     /**

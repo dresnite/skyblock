@@ -24,7 +24,7 @@ class InvitationHandler {
     }
 
     /**
-     * Return Main instance
+     * Return SkyBlockPE instance
      *
      * @return SkyBlock
      */
@@ -42,19 +42,43 @@ class InvitationHandler {
     }
 
     /**
-     * Return an invitation
+     * Returns an array of invitations based on the sender of the invitation.
      *
-     * @param Player $player
-     * @return null|Invitation
+     * @param Player $sender
+     * @return null|Invitation[]
      */
-    public function getInvitation(Player $player) {
-        if(isset($this->invitations[strtolower($player->getName())])) {
-            return $this->invitations[strtolower($player->getName())];
-        }
-        else {
-            return null;
-        }
+    public function getInvitationBySender(Player $sender) {
+    	$invitations = [];
+    	foreach($this->invitations as $invite){
+    		if($invite->getSender()->getUniqueId() === $sender->getUniqueId()){
+    			$invitations[] = $invite;
+			}
+		}
+		if(empty($invitations)){
+    		return null;
+		}
+		return $invitations;
     }
+
+	/**
+	 * Returns an array of invitations based on the receiver of the invitation.
+	 *
+	 * @param Player $receiver
+	 * @return null|Invitation[]
+	 */
+
+    public function getInvitationByReceiver(Player $receiver) {
+		$invitations = [];
+		foreach($this->invitations as $invite){
+			if($invite->getReceiver()->getUniqueId() === $receiver->getUniqueId()){
+				$invitations[] = $invite;
+			}
+		}
+		if(empty($invitations)){
+			return null;
+		}
+		return $invitations;
+	}
 
     /**
      * Create a new invitation
@@ -64,7 +88,7 @@ class InvitationHandler {
      * @param Island $island
      */
     public function addInvitation(Player $sender, Player $receiver, Island $island) {
-        $this->invitations[strtolower($sender->getName())] = new Invitation($this, $sender, $receiver, $island);
+        $this->invitations[] = new Invitation($this, $sender, $receiver, $island);
     }
 
     /**

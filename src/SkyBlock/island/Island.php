@@ -5,6 +5,7 @@ namespace SkyBlock\island;
 
 use pocketmine\level\Position;
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 use SkyBlock\Utils;
 
@@ -81,6 +82,44 @@ class Island {
     public function getIdentifier() {
         return $this->identifier;
     }
+
+	/**
+	 * Returns true if player is currently on this island.
+	 *
+	 * @param Player $player
+	 * @return bool
+	 */
+
+    public function isOnIsland(Player $player): bool{
+		$playerName = strtolower($player->getName());
+    	foreach($this->playersOnline as $key => $testPlayer){
+			if($testPlayer instanceof Player){
+				$testName = strtolower($testPlayer->getName());
+				if($testName === $playerName){
+					return true;
+				}
+			} else {
+				Server::getInstance()->getLogger()->error("[SkyBlock] isOnIsland: found non-Player object in online player table.");
+				var_dump($testPlayer);
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Returns true if Player is a member of this island.
+	 *
+	 * @param Player $player
+	 * @return bool
+	 */
+	public function isMember(Player $player): bool {
+    	foreach($this->members as $member){
+    		if(strtolower($player->getName()) === $member){
+    			return true;
+			}
+		}
+		return false;
+	}
 
     /**
      * Return island online players
@@ -162,7 +201,9 @@ class Island {
      * @param Player $player
      */
     public function addPlayer(Player $player) {
-        $this->playersOnline[] = $player;
+    	if(!$this->isOnIsland($player)){
+			$this->playersOnline[] = $player;
+		}
     }
 
     /**
@@ -262,8 +303,15 @@ class Island {
      */
     public function tryRemovePlayer(Player $player) {
         if(in_array($player, $this->playersOnline)) {
-            unset($this->playersOnline[array_search($player, $this->playersOnline)]);
-        }
+        	$key = array_search($player, $this->playersOnline);
+            unset($this->playersOnline[$key]);
+        }else{
+        	foreach($this->playersOnline as $key => $onlinePlayer){
+        		if($onlinePlayer->getId() === $player->getId()){
+        			unset($this->playersOnline[$key]);
+				}
+			}
+		}
     }
 
     /**
