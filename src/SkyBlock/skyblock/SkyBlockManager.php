@@ -4,7 +4,7 @@ namespace SkyBlock\skyblock;
 
 use pocketmine\block\Block;
 use pocketmine\item\Item;
-use pocketmine\level\generator\Generator;
+use pocketmine\level\generator\GeneratorManager;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
@@ -33,7 +33,7 @@ class SkyBlockManager {
         $this->plugin->getIslandManager()->createIsland($player, $generatorName);
         $server = $this->plugin->getServer();
         $island = $this->getPlayerConfig($player)->get("island");
-        $server->generateLevel($island, null, Generator::getGenerator($generatorName));
+        $server->generateLevel($island, null, GeneratorManager::getGenerator($generatorName));
         $server->loadLevel($island);
         $this->spawnDefaultChest($island);
         $level = $server->getLevelByName($island);

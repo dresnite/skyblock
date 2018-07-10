@@ -18,10 +18,10 @@ class OPIsland extends SkyBlockGenerator {
 	private $name;
 
 	/** @var ChunkManager */
-	private $level;
+	protected $level;
 
 	/** @var Random */
-	private $random;
+	protected $random;
 
 	/**
 	 * BasicIsland constructor.
@@ -38,7 +38,7 @@ class OPIsland extends SkyBlockGenerator {
 	 * @param ChunkManager $level
 	 * @param Random $random
 	 */
-	public function init(ChunkManager $level, Random $random) {
+	public function init(ChunkManager $level, Random $random) : void{
 		$this->level = $level;
 		$this->random = $random;
 		$this->name = "basic";
@@ -58,7 +58,7 @@ class OPIsland extends SkyBlockGenerator {
 		return $this->settings;
 	}
 
-	public function generateChunk(int $chunkX, int $chunkZ) {
+	public function generateChunk(int $chunkX, int $chunkZ) : void {
 		$chunk = $this->level->getChunk($chunkX, $chunkZ);
 		$chunk->setGenerated();
 		if ($chunkX == 0 && $chunkZ == 0) {
@@ -79,7 +79,7 @@ class OPIsland extends SkyBlockGenerator {
 		}
 	}
 
-	public function populateChunk(int $chunkX, int $chunkZ) {
+	public function populateChunk(int $chunkX, int $chunkZ) : void {
 		//TODO: Set Biome ID?
 		return;
 	}

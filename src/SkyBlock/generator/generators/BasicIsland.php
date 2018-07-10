@@ -19,10 +19,10 @@ class BasicIsland extends SkyBlockGenerator {
     private $name;
 
     /** @var ChunkManager */
-    private $level;
+    protected $level;
 
     /** @var Random */
-    private $random;
+    protected $random;
 
     /**
      * BasicIsland constructor.
@@ -39,7 +39,7 @@ class BasicIsland extends SkyBlockGenerator {
      * @param ChunkManager $level
      * @param Random $random
      */
-    public function init(ChunkManager $level, Random $random) {
+	public function init(ChunkManager $level, Random $random) : void{
         $this->level = $level;
         $this->random = $random;
         $this->name = "basic";
@@ -59,7 +59,7 @@ class BasicIsland extends SkyBlockGenerator {
         return $this->settings;
     }
 
-    public function generateChunk(int $chunkX, int $chunkZ) {
+    public function generateChunk(int $chunkX, int $chunkZ) : void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
         //SkyBlock Island
@@ -97,7 +97,7 @@ class BasicIsland extends SkyBlockGenerator {
 		}
     }
 
-    public function populateChunk(int $chunkX, int $chunkZ) {
+    public function populateChunk(int $chunkX, int $chunkZ) : void {
         //TODO: Set Biome ID?
         return;
     }

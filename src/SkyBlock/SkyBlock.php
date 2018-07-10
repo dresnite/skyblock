@@ -184,7 +184,7 @@ class SkyBlock extends PluginBase {
      * Schedule the PluginHearbeat
      */
     public function setPluginHearbeat() {
-        $this->getServer()->getScheduler()->scheduleRepeatingTask(new PluginHearbeat($this), 20);
+        $this->getScheduler()->scheduleRepeatingTask(new PluginHearbeat($this), 20);
     }
 
     /**
