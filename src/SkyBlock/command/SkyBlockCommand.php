@@ -78,7 +78,6 @@ class SkyBlockCommand extends Command {
                                     else {
                                         $this->plugin->getSkyBlockManager()->generateIsland($sender, "basic");
                                         $this->sendMessage($sender, "§l§a✔§fYou successfully created a island!");
-                                        $this->plugin->getServer()->dispatchCommand($sender, "sb");
                                     }
                                 }
                             }
