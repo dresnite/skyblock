@@ -62,11 +62,11 @@ class SkyBlock extends PluginBase {
         $this->setUserInterface();
         $this->setPluginHearbeat();
         $this->registerCommand();
-        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Skyblock by xXSirGamesXx has been Enabled");
+        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Enabled");
     }
 
     public function onDisable() {
-        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Skyblock by xXSirGamesXx has been Disabled");
+        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Disabled");
     }
 
     /**
