@@ -70,7 +70,7 @@ class SkyBlock extends PluginBase {
     }
 
     /**
-     * Return DynamicShopUI instance
+     * Return SkyBlock instance
      *
      * @return SkyBlock
      */
