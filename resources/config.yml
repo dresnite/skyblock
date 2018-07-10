@@ -1,13 +1,61 @@
-#                        Copyright (C) 2016 EntirelyQuartz                                                                                       
-#  ,ad8888ba,    88        88         db         88888888ba   888888888888  888888888888  
-# d8"'    `"8b   88        88        d88b        88      "8b       88                ,88  
-#d8'        `8b  88        88       d8'`8b       88      ,8P       88              ,88"   
-#88          88  88        88      d8'  `8b      88aaaaaa8P'       88            ,88"     
-#88          88  88        88     d8YaaaaY8b     88""""88'         88          ,88"       
-#Y8,    "88,,8P  88        88    d8""""""""8b    88    `8b         88        ,88"         
-# Y8a.    Y88P   Y8a.    .a8P   d8'        `8b   88     `8b        88       88"           
-#  `"Y8888Y"Y8a   `"Y8888Y"'   d8'          `8b  88      `8b       88       888888888888  
-#  
 ---
 enable-teamchat: true
+
+# Place the folder names of worlds that you do not want to be deleted when the cleanup command is used.
+# If this is left empty, the cleanup command will not work.  Example: [world, lobby, pvp, shop]
+protected-worlds: []
+
+
+# This will modify the contents of the starter chest for new islands.  If you put more than 27 entries
+# the plugin will only use the first 27 and the rest will be ignored.  If no items are found in the
+# config, a set of default items will be used instead.
+starting-items:
+  - id: 325
+    meta: 10
+    quantity: 1
+  - id: 79
+    meta: 0
+    quantity: 2
+  - id: 103
+    meta: 0
+    quantity: 1
+  - id: 352
+    meta: 0
+    quantity: 1
+  - id: 361
+    meta: 0
+    quantity: 1
+  - id: 83
+    meta: 0
+    quantity: 1
+  - id: 297
+    meta: 0
+    quantity: 1
+  - id: 295
+    meta: 0
+    quantity: 2
+
+
+# This modifies the items that users will find by mining cobblestone.  To set the chance option, use
+# a number greater than 0.  The higher the number, the more likely it will be that the player will
+# get that item compared to an item with a lower number.
+cobble-drops:
+  - id: 264
+    meta: 0
+    chance: 3
+  - id: 265
+    meta: 0
+    chance: 12
+  - id: 266
+    meta: 0
+    chance: 9
+  - id: 21
+    meta: 0
+    chance: 5
+  - id: 263
+    meta: 0
+    chance: 40
+  - id: 4
+    meta: 0
+    chance: 500
 ...

@@ -21,6 +21,7 @@ use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
 use SkyBlock\chat\Chat;
 use SkyBlock\island\Island;
@@ -39,14 +40,47 @@ class SkyBlockListener implements Listener {
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
-		$this->addItemMultipleTimes(3, Item::get(Item::DIAMOND), $this->cobbleDrops);
-		$this->addItemMultipleTimes(12, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
-		$this->addItemMultipleTimes(9, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
-		$this->addItemMultipleTimes(5, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
-		$this->addItemMultipleTimes(40, Item::get(Item::COAL), $this->cobbleDrops);
-		$this->addItemMultipleTimes(500, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
-		shuffle($this->cobbleDrops);
+        $this->reloadConfig();
     }
+
+    public function reloadConfig(){
+    	if($this->plugin instanceof SkyBlock){
+    		$this->cobbleDrops = [];
+			$config = $this->plugin->getConfig()->get("cobble-drops");
+    		foreach($config as $drop){
+    			if((isset($drop["id"]) and $drop["id"] !== Item::AIR) and isset($drop["meta"])){
+
+    				$id = $drop["id"];
+    				$meta = $drop["meta"];
+    				if($id < 0){
+    					$id = 0;
+					}
+					if($meta < 0){
+						$meta = 0;
+					}
+
+    				$item = Item::get($id, $meta);
+    				if($item instanceof Item){
+    					$chance = $drop["chance"];
+    					if($chance < 1){
+    						$chance = 1;
+						}
+    					$this->addItemMultipleTimes($chance, $item, $this->cobbleDrops);
+    					MainLogger::getLogger()->debug("SkyBlockListener: Adding {$item->getName()} to cobbleDrop pool $chance times.");
+					}
+				}
+			}
+			if(empty($this->cobbleDrops)){
+				$this->addItemMultipleTimes(3, Item::get(Item::DIAMOND), $this->cobbleDrops);
+				$this->addItemMultipleTimes(12, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
+				$this->addItemMultipleTimes(9, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
+				$this->addItemMultipleTimes(5, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
+				$this->addItemMultipleTimes(40, Item::get(Item::COAL), $this->cobbleDrops);
+				$this->addItemMultipleTimes(500, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
+			}
+			shuffle($this->cobbleDrops);
+		}
+	}
 
     /**
      * Try to register a player

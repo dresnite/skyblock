@@ -10,12 +10,14 @@ use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Config;
+use pocketmine\utils\MainLogger;
 use SkyBlock\SkyBlock;
 
 class SkyBlockManager {
 
     /** @var SkyBlock */
     private $plugin;
+    private $chestItems = [];
 
     /**
      * SkyBlockManager constructor.
@@ -24,6 +26,7 @@ class SkyBlockManager {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $this->reloadConfig();
     }
 
     public function generateIsland(Player $player, $generatorName = "basic") {
@@ -50,15 +53,27 @@ class SkyBlockManager {
         $chest = Tile::createTile(Tile::CHEST, $level, $nbt);
         $inventory = $chest->getInventory();
         //TODO: Use a kit config for user-friendliness.
-        $inventory->addItem(Item::get(Item::BUCKET, 10, 1));
-        $inventory->addItem(Item::get(Item::ICE, 0, 2));
-        $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
-        $inventory->addItem(Item::get(Item::BONE, 0, 1));
-        $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
-        //$inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-        $inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
-        $inventory->addItem(Item::get(Item::BREAD, 0, 1));
-        $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
+		$itemsAdded = 0;
+		if(!empty($this->chestItems)){
+			foreach($this->chestItems as $item){
+				if($item instanceof Item){
+					$inventory->addItem($item);
+					$itemsAdded++;
+				}
+			}
+			MainLogger::getLogger()->debug("SkyBlockManager added $itemsAdded custom items to a new chest.");
+		}
+        if($itemsAdded == 0){
+			$inventory->addItem(Item::get(Item::BUCKET, 10, 1));
+			$inventory->addItem(Item::get(Item::ICE, 0, 2));
+			$inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
+			$inventory->addItem(Item::get(Item::BONE, 0, 1));
+			$inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
+			//$inventory->addItem(Item::get(Item::CACTUS, 0, 1));
+			$inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
+			$inventory->addItem(Item::get(Item::BREAD, 0, 1));
+			$inventory->addItem(Item::get(Item::WHEAT, 0, 1));
+		}
 		$level->setBlock($chestVector, new Block(54, 3));
     }
 
@@ -103,5 +118,22 @@ class SkyBlockManager {
     public function getPlayerConfig(Player $player) {
         return new Config($this->getPlayerDataPath($player), Config::JSON);
     }
+
+    public function reloadConfig(){
+    	if($this->plugin instanceof SkyBlock){
+    		$this->chestItems = [];
+    		$config = $this->plugin->getConfig();
+    		foreach($config->get("starting-items") as $chestItem){
+    			if(isset($chestItem["id"]) and isset($chestItem["meta"]) and isset($chestItem["quantity"])){
+    				MainLogger::getLogger()->debug("SkyBlockManager: Passed ID Check");
+					$item = Item::get($chestItem["id"], $chestItem["meta"], $chestItem["quantity"]);
+					if($item instanceof Item and $item->getId() !== Item::AIR){
+						MainLogger::getLogger()->debug("SkyBlockManager: Adding {$item->getName()} x {$item->count} to chestItems array.");
+						$this->chestItems[] = $item;
+					}
+				}
+			}
+		}
+	}
 
 }
