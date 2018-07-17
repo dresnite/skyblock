@@ -8,7 +8,8 @@
 namespace SkyBlock\provider;
 
 
-use SkyBlock\session\Session;
+use SkyBlock\isle\Isle;
+use SkyBlock\session\iSession;
 use SkyBlock\SkyBlock;
 
 abstract class Provider {
@@ -28,18 +29,23 @@ abstract class Provider {
     public abstract function initialize(): void;
     
     /**
-     * @param Session $session
+     * @param iSession $session
      */
-    public abstract function openSession(Session $session) : void;
+    public abstract function openSession(iSession $session) : void;
     
     /**
-     * @param Session $session
+     * @param iSession $session
      */
-    public abstract function saveSession(Session $session): void;
+    public abstract function saveSession(iSession $session): void;
     
     /**
      * @param string $identifier
      */
     public abstract function checkIsle(string $identifier): void;
+    
+    /**
+     * @param Isle $isle
+     */
+    public abstract function saveIsle(Isle $isle): void;
     
 }

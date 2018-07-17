@@ -45,19 +45,19 @@ class SessionManager {
     }
     
     /**
+     * @param string $username
+     * @return null|OfflineSession
+     */
+    public function getOfflineSession(string $username): ?OfflineSession {
+        return $this->offlineSessions[$username] ?? $this->offlineSessions[$username] = new OfflineSession($this, $username);
+    }
+    
+    /**
      * @param Player $player
      * @return null|Session
      */
     public function getSession(Player $player): ?Session {
         return $this->sessions[$player->getName()] ?? null;
-    }
-    
-    /**
-     * @param string $username
-     * @return OfflineSession
-     */
-    public function getOfflineSession(string $username) {
-        return new OfflineSession($this, $username);
     }
     
     /**
@@ -72,7 +72,7 @@ class SessionManager {
      */
     public function closeSession(Player $player): void {
         if(isset($this->sessions[$username = $player->getName()])) {
-            $this->sessions[$username]->save();
+            $this->sessions[$username]->update();
             unset($this->sessions[$username]);
         }
     }

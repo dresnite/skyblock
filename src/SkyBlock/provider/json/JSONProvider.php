@@ -8,10 +8,10 @@
 namespace SkyBlock\provider\json;
 
 
-use pocketmine\Player;
 use pocketmine\utils\Config;
+use SkyBlock\isle\Isle;
 use SkyBlock\provider\Provider;
-use SkyBlock\session\Session;
+use SkyBlock\session\iSession;
 use SkyBlock\SkyBlockUtils;
 
 class JSONProvider extends Provider {
@@ -28,11 +28,11 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param Player $player
+     * @param string $username
      * @return Config
      */
-    private function getUserConfig(Player $player): Config {
-        return new Config($this->plugin->getDataFolder() . "users/{$player->getLowerCaseName()}.json", Config::JSON, [
+    private function getUserConfig(string $username): Config {
+        return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
                 "isle" => null
             ]);
     }
@@ -46,22 +46,26 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param Session $session
+     * @param iSession $session
      */
-    public function openSession(Session $session): void {
-        $config = $this->getUserConfig($session->getPlayer());
+    public function openSession(iSession $session): void {
+        $config = $this->getUserConfig($session->getUsername());
         $isleId = $config->get("isle");
         if($isleId != null) {
             $this->checkIsle($isleId);
             $session->setIsle($this->plugin->getIsleManager()->getIsle($isleId));
         }
+        $session->setRank($config->get("rank"));
     }
     
     /**
-     * @param Session $session
+     * @param iSession $session
      */
-    public function saveSession(Session $session): void {
-        //
+    public function saveSession(iSession $session): void {
+        $config = $this->getUserConfig($session->getUsername());
+        $config->set("isle", $session->getIsle()->getIdentifier());
+        $config->set("rank", $session->getRank());
+        $config->save();
     }
     
     /**
@@ -77,10 +81,32 @@ class JSONProvider extends Provider {
         $level = $server->getLevelByName($identifier);
         $locked = $config->get("locked");
         $type = $config->get("type");
-        $position = SkyBlockUtils::parsePosition($config->get("position"));
+        $spawn = SkyBlockUtils::parsePosition($config->get("spawn"));
         
         $members = [];
-        // parse members puta
+        foreach($config->get("members", []) as $username) {
+            $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
+        }
+        $this->plugin->getIsleManager()->openIsle($identifier, $members, $locked, $type, $level, $spawn);
+    }
+    
+    /**
+     * @param Isle $isle
+     */
+    public function saveIsle(Isle $isle): void {
+        $config = $this->getIsleConfig($isle->getIdentifier());
+        $config->set("identifier", $isle->getIdentifier());
+        $config->set("locked", $isle->isLocked());
+        $config->set("type", $isle->getType());
+        $config->set("spawn", SkyBlockUtils::createPositionString($isle->getSpawn()));
+        
+        $members = [];
+        foreach($isle->getMembers() as $member) {
+            $members[] = $member->getUsername();
+        }
+        $config->set("members", $members);
+        
+        $config->save();
     }
     
 }

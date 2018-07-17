@@ -8,45 +8,17 @@
 namespace SkyBlock\session;
 
 
-class OfflineSession {
-    
-    /** @var string */
-    private $username;
-    
-    /** @var string */
-    private $isleId;
-    
-    /** @var bool */
-    private $founder;
+class OfflineSession extends iSession {
     
     /**
-     * OfflineSession constructor.
-     * @param SessionManager $manager
-     * @param string $username
+     * @return null|Session
      */
-    public function __construct(SessionManager $manager, string $username) {
-        $this->username = $username;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getUsername(): string {
-        return $this->username;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getIsleId(): string {
-        return $this->isleId;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getFounder(): string {
-        return $this->founder;
+    public function getSession(): ?Session {
+        $player = $this->manager->getPlugin()->getServer()->getPlayerExact($this->username);
+        if($player != null) {
+            return $this->manager->getSession($player);
+        }
+        return null;
     }
     
 }

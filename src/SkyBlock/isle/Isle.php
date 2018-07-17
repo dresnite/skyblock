@@ -11,8 +11,12 @@ namespace SkyBlock\isle;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use SkyBlock\session\OfflineSession;
+use SkyBlock\session\Session;
 
 class Isle {
+    
+    /** @var IsleManager */
+    private $manager;
     
     /** @var string */
     private $identifier;
@@ -39,9 +43,21 @@ class Isle {
      * Isle constructor.
      * @param IsleManager $manager
      * @param string $identifier
+     * @param array $members
+     * @param bool $locked
+     * @param string $type
+     * @param Level $level
+     * @param Position $spawn
      */
-    public function __construct(IsleManager $manager, string $identifier) {
+    public function __construct(IsleManager $manager, string $identifier, array $members, bool $locked, string $type,
+        Level $level, Position $spawn) {
+        $this->manager = $manager;
         $this->identifier = $identifier;
+        $this->members = $members;
+        $this->locked = $locked;
+        $this->type = $type;
+        $this->level = $level;
+        $this->spawn = $spawn;
     }
     
     /**
@@ -56,6 +72,20 @@ class Isle {
      */
     public function getMembers(): array {
         return $this->members;
+    }
+    
+    /**
+     * @return Session[]
+     */
+    public function getMembersOnline(): array {
+        $sessions = [];
+        foreach($this->members as $member) {
+            $session = $member->getSession();
+            if($session != null) {
+                $sessions[] = $session;
+            }
+        }
+        return $sessions;
     }
     
     /**
@@ -84,6 +114,10 @@ class Isle {
      */
     public function getSpawn(): Position {
         return $this->spawn;
+    }
+    
+    public function update(): void {
+        $this->manager->getPlugin()->getProvider()->saveIsle($this);
     }
     
 }

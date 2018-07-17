@@ -5,7 +5,6 @@ namespace SkyBlock;
 use pocketmine\plugin\PluginBase;
 use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
-use SkyBlock\command\SkyBlockUICommand;
 use SkyBlock\generator\SkyBlockGeneratorManager;
 use SkyBlock\invitation\InvitationHandler;
 use SkyBlock\island\IslandManager;
@@ -15,7 +14,6 @@ use SkyBlock\provider\Provider;
 use SkyBlock\reset\ResetHandler;
 use SkyBlock\session\SessionManager;
 use SkyBlock\skyblock\SkyBlockManager;
-use SkyBlock\ui\SkyBlockForms;
 
 class SkyBlock extends PluginBase {
 
@@ -48,9 +46,6 @@ class SkyBlock extends PluginBase {
 
     /** @var SkyBlockListener */
     private $eventListener;
-
-    /** @var SkyBlockForms */
-    private $ui;
     
     public function onLoad(): void {
         if(!self::$object instanceof SkyBlock) {
@@ -63,14 +58,12 @@ class SkyBlock extends PluginBase {
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
         $this->isleManager = new IsleManager($this);
-        
         $this->skyBlockGeneratorManager = new SkyBlockGeneratorManager($this);
         $this->skyBlockManager = new SkyBlockManager($this);
         $this->islandManager = new IslandManager($this);
         $this->eventListener = new SkyBlockListener($this);
         $this->invitationHandler = new InvitationHandler($this);
         $this->resetHandler = new ResetHandler();
-        $this->ui = new SkyBlockForms();
         $this->getScheduler()->scheduleRepeatingTask(new SkyBlockHeart($this), 20);
         $this->registerCommands();
         $this->getLogger()->info("SkyBlock was enabled");
@@ -146,24 +139,12 @@ class SkyBlock extends PluginBase {
     public function getResetHandler(): ResetHandler {
         return $this->resetHandler;
     }
-
-	/**
-	 * Returns SkyBlockForms
-	 *
-	 *
-	 * @return SkyBlockForms
-	 */
-    public function getUserInterface(): SkyBlockForms {
-    	return $this->ui;
-	}
     
     /**
      * Register SkyBlock commands
      */
     public function registerCommands(): void {
         $this->getServer()->getCommandMap()->register("island", new SkyBlockCommand($this));
-        if($this->getServer()->getPluginManager()->getPlugin("FormAPI"))
-		$this->getServer()->getCommandMap()->register("skyblock", new SkyBlockUICommand($this));
 		$this->getServer()->getCommandMap()->register("sbcleanup", new SkyBlockCleanup($this));
     }
 
