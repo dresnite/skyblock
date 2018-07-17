@@ -2,6 +2,7 @@
 namespace SkyBlock\island;
 
 use pocketmine\Player;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 use SkyBlock\SkyBlock;
 use SkyBlock\Utils;
@@ -12,7 +13,7 @@ class IslandManager {
     private $plugin;
 
     /** @var Island[] */
-    private $islands = [];
+    private $onlineIslands = [];
 
     /**
      * IslandManager constructor.
@@ -30,7 +31,7 @@ class IslandManager {
      * @return bool
      */
     public function isOnlineIsland($id) {
-        return isset($this->islands[$id]);
+        return isset($this->onlineIslands[$id]);
     }
 
     /**
@@ -39,7 +40,7 @@ class IslandManager {
      * @return Island[]
      */
     public function getOnlineIslands() {
-        return $this->islands;
+        return $this->onlineIslands;
     }
 
     /**
@@ -49,7 +50,7 @@ class IslandManager {
      * @return Island
      */
     public function getOnlineIsland($id) {
-        return isset($this->islands[$id]) ? $this->islands[$id] : null;
+        return isset($this->onlineIslands[$id]) ? $this->onlineIslands[$id] : null;
     }
 
     /**
@@ -59,8 +60,9 @@ class IslandManager {
      * @return null|Island
      */
     public function getIslandByOwner($ownerName) {
-        foreach($this->islands as $island) {
-            if($island->getOwnerName() == $ownerName) {
+        foreach($this->onlineIslands as $island) {
+        	$islandOwner = $island->getOwnerName();
+            if(strtolower($islandOwner) === strtolower($ownerName)) {
                 return $island;
             }
         }
@@ -79,7 +81,7 @@ class IslandManager {
      * @param $generator
      */
     public function addIsland(Config $config, $ownerName, $id, $members, $locked, $home, $generator) {
-        $this->islands[$id] = new Island($config, $ownerName, $id, $members, $locked, $home, $generator);
+        $this->onlineIslands[$id] = new Island($config, $ownerName, $id, $members, $locked, $home, $generator);
     }
 
     /**
@@ -110,8 +112,8 @@ class IslandManager {
      * @param $id
      */
     public function setIslandOffline($id) {
-        if(isset($this->islands[$id])) {
-            unset($this->islands[$id]);
+        if(isset($this->onlineIslands[$id])) {
+            unset($this->onlineIslands[$id]);
         }
     }
 
@@ -125,19 +127,20 @@ class IslandManager {
         if(!empty($config->get("island"))) {
             $path = Utils::getIslandPath($id = $config->get("island"));
             if(is_file($path)) {
-                $config = new Config($path, Config::JSON);
-                $this->addIsland($config, $config->get("owner"), $id, $config->get("members"), $config->get("locked"), $config->get("home"), $config->get("generator"));
-                $server = $this->plugin->getServer();
-                if(!$server->isLevelLoaded($id)) {
-                    $server->loadLevel($id);
-                }
+            	if(!$this->isOnlineIsland($id)){
+					$config = new Config($path, Config::JSON);
+					$this->addIsland($config, $config->get("owner"), $id, $config->get("members"), $config->get("locked"), $config->get("home"), $config->get("generator"));
+					if(!Server::getInstance()->isLevelLoaded($id)){
+						Server::getInstance()->loadLevel($id);
+					}
+				}
             }
         }
     }
 
     public function removeIsland(Island $island) {
-        if(in_array($island, $this->islands)) {
-            unset($this->islands[$island->getIdentifier()]);
+        if(in_array($island, $this->onlineIslands)) {
+            unset($this->onlineIslands[$island->getIdentifier()]);
         }
         $server = $this->plugin->getServer();
         if($server->isLevelLoaded($island->getIdentifier())) {
@@ -149,6 +152,21 @@ class IslandManager {
                 $entity->kill();
             }
             $server->unloadLevel($level);
+			$worldDir = $server->getDataPath() . "worlds" . DIRECTORY_SEPARATOR . $level->getFolderName() . DIRECTORY_SEPARATOR;
+			$config = $this->plugin->getDataFolder() . "islands" . DIRECTORY_SEPARATOR . $level->getName() . ".json";
+
+			$files = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($worldDir, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
+
+			foreach ($files as $fileinfo) {
+				$todo = ($fileinfo->isDir() ? 'rmdir' : 'unlink');
+				$todo($fileinfo->getRealPath());
+			}
+
+			rmdir($worldDir);
+			unlink($config);
         }
     }
 
@@ -184,7 +202,7 @@ class IslandManager {
     }
 
     public function update() {
-        foreach($this->islands as $island) {
+        foreach($this->onlineIslands as $island) {
             $island->update();
         }
     }

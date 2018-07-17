@@ -4,6 +4,8 @@ namespace SkyBlock;
 
 use pocketmine\level\Level;
 use pocketmine\level\Position;
+use pocketmine\Server;
+use pocketmine\utils\Config;
 
 class Utils {
 
@@ -28,6 +30,19 @@ class Utils {
     public static function getIslandPath($id) {
         return SkyBlock::getInstance()->getDataFolder() . "islands" . DIRECTORY_SEPARATOR . $id . ".json";
     }
+
+	/**
+	 * @param $id
+	 * @return null|Config
+	 */
+	public static function getUserConfig($userName) {
+		$fileName = SkyBlock::getInstance()->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($userName) . ".json";
+		if(is_file($fileName)){
+			Server::getInstance()->getLogger()->info("SkyBlock Utils found user config for $userName");
+			return new Config($fileName, Config::JSON);
+		}
+		return null;
+	}
 
     /**
      * Return an unique island id
@@ -56,13 +71,10 @@ class Utils {
      */
     public static function parsePosition($string) {
         $array = explode(",", $string);
-        $array = array_map(function($v) {
-            return (float) $v;
-        }, $array);
         if(isset($array[3])) {
             $level = SkyBlock::getInstance()->getServer()->getLevelByName($array[0]);
             if($level instanceof Level) {
-                return new Position($array[1], $array[2], $array[3], $level);
+                return new Position((float) $array[1],(float) $array[2],(float) $array[3], $level);
             }
             else {
                 return null;
