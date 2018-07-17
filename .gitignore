@@ -85,3 +85,8 @@ Icon
 ._*
 .Spotlight-V100
 .Trashes
+
+# User Configs and Resources
+config.yml
+islands/
+users/
