@@ -198,7 +198,7 @@ class SkyBlockListener implements Listener {
     public function onChat(PlayerChatEvent $event) {
         $sessionManager = $this->plugin->getSessionManager();
         $session = $sessionManager->getSession($event->getPlayer());
-        if(!($session->hasIsland()) or !($session->isInChat())) {
+        if(!($session->hasIsle()) or !($session->isInChat())) {
             return;
         }
         $recipients = [];
