@@ -3,7 +3,6 @@
 namespace SkyBlock;
 
 use pocketmine\plugin\PluginBase;
-use pocketmine\utils\TextFormat;
 use SkyBlock\chat\ChatHandler;
 use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
@@ -52,21 +51,21 @@ class SkyBlock extends PluginBase {
 
     public function onEnable() {
         $this->initialize();
-        $this->setSkyBlockGeneratorManager();
-        $this->setSkyBlockManager();
-        $this->setIslandManager();
-        $this->setEventListener();
-        $this->setInvitationHandler();
-        $this->setChatHandler();
-        $this->setResetHandler();
-        $this->setUserInterface();
-        $this->setPluginHearbeat();
+        $this->skyBlockGeneratorManager = new SkyBlockGeneratorManager($this);
+        $this->skyBlockManager = new SkyBlockManager($this);
+        $this->islandManager = new IslandManager($this);
+        $this->eventListener = new SkyBlockListener($this);
+        $this->invitationHandler = new InvitationHandler($this);
+        $this->chatHandler = new ChatHandler();
+        $this->resetHandler = new ResetHandler();
+        $this->ui = new SkyBlockForms();
+        $this->getScheduler()->scheduleRepeatingTask(new PluginHearbeat($this), 20);
         $this->registerCommand();
-        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Enabled");
+        $this->getLogger()->info("Enabled");
     }
 
     public function onDisable() {
-        $this->getLogger()->info(TextFormat::AQUA . TextFormat::BOLD . "[" . TextFormat::GREEN . "SkyBlockPE" . TextFormat::AQUA . "] " . TextFormat::RESET . TextFormat::DARK_GREEN . "Disabled");
+        $this->getLogger()->info("Disabled");
     }
 
     /**
@@ -147,70 +146,10 @@ class SkyBlock extends PluginBase {
 	 *
 	 * @return SkyBlockForms
 	 */
-
     public function getUserInterface(){
     	return $this->ui;
 	}
-
-    /**
-     * Register SkyBlockGeneratorManager instance
-     */
-    public function setSkyBlockGeneratorManager() {
-        $this->skyBlockGeneratorManager = new SkyBlockGeneratorManager($this);
-    }
-
-    /**
-     * Register SkyBlockManager instance
-     */
-    public function setSkyBlockManager() {
-        $this->skyBlockManager = new SkyBlockManager($this);
-    }
-
-    /**
-     * Register IslandManager instance
-     */
-    public function setIslandManager() {
-        $this->islandManager = new IslandManager($this);
-    }
-
-    /**
-     * Register SkyBlockListener instance
-     */
-    public function setEventListener() {
-        $this->eventListener = new SkyBlockListener($this);
-    }
-
-    /**
-     * Schedule the PluginHearbeat
-     */
-    public function setPluginHearbeat() {
-        $this->getScheduler()->scheduleRepeatingTask(new PluginHearbeat($this), 20);
-    }
-
-    /**
-     * Register InvitationHandler instance
-     */
-    public function setInvitationHandler() {
-        $this->invitationHandler = new InvitationHandler($this);
-    }
-
-    /**
-     * Register ResetHandler instance
-     */
-    public function setResetHandler() {
-        $this->resetHandler = new ResetHandler();
-    }
-
-    /**
-     * Register ChatHandler instance
-     */
-    public function setChatHandler() {
-        $this->chatHandler = new ChatHandler();
-    }
-
-    public function setUserInterface() {
-    	$this->ui = new SkyBlockForms();
-	}
+    
 
     /**
      * Register SkyBlock commands
