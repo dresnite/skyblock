@@ -1,7 +1,7 @@
 <?php
 namespace SkyBlock\command;
 
-use SkyBlock\Utils;
+use SkyBlock\SkyBlockUtils;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\level\Position;
@@ -61,7 +61,7 @@ class SkyBlockCommand extends Command {
                             if(empty($config->get("island"))) {
                                 $reset = $this->plugin->getResetHandler()->getResetTimer($sender);
                                 if($reset instanceof Reset) {
-                                    $minutes = Utils::printSeconds($reset->getTime());
+                                    $minutes = SkyBlockUtils::printSeconds($reset->getTime());
                                     $this->sendMessage($sender, "§l§l§a✔§f➡§fYou'll be able to create a new island in §4{$minutes} §cminutes");
                                 }
                                 else {
@@ -397,7 +397,7 @@ class SkyBlockCommand extends Command {
                                         if(isset($args[1])) {
                                             if(in_array(strtolower($args[1]), $island->getMembers())) {
                                                 $island->removeMember(strtolower($args[1]));
-                                                $config = Utils::getUserConfig($args[1]);
+                                                $config = SkyBlockUtils::getUserConfig($args[1]);
                                                 $config->set("island", "");
                                                 $config->save();
                                                 $player = $this->plugin->getServer()->getPlayerExact($args[1]);
@@ -459,7 +459,7 @@ class SkyBlockCommand extends Command {
                                     if($island->getOwnerName() == strtolower($sender->getName())) {
                                         $reset = $this->plugin->getResetHandler()->getResetTimer($sender);
                                         if($reset instanceof Reset) {
-                                            $minutes = Utils::printSeconds($reset->getTime());
+                                            $minutes = SkyBlockUtils::printSeconds($reset->getTime());
                                             $this->sendMessage($sender, "§l§l§a✔§f➡§fYou'll be able to reset your island again in §d{$minutes} §l§l§a✔§f➡§fminutes");
                                         }
                                         else {

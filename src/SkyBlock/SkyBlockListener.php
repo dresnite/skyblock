@@ -263,7 +263,7 @@ class SkyBlockListener implements Listener {
 	 */
 	public function onLevelLoad(LevelLoadEvent $event){
 		$levelName = $event->getLevel()->getName();
-		$islandConfigFile = Utils::getIslandPath($levelName);
+		$islandConfigFile = SkyBlockUtils::getIslandPath($levelName);
 		if(!$this->plugin->getIslandManager()->isOnlineIsland($levelName)){
 			if(is_file($islandConfigFile)){
 				Server::getInstance()->getLogger()->info("onLevelLoad found Island being loaded.");

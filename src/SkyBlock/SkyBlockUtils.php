@@ -7,15 +7,13 @@ use pocketmine\level\Position;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 
-class Utils {
+class SkyBlockUtils {
 
     /**
-     * Return minutes
-     *
      * @param $seconds
      * @return string
      */
-    public static function printSeconds($seconds) {
+    public static function printSeconds($seconds): string {
         $m = floor($seconds / 60);
         $s = floor($seconds % 60);
         return (($m < 10 ? "0" : "") . $m . ":" . ($s < 10 ? "0" : "") . (string) $s);
@@ -38,7 +36,7 @@ class Utils {
 	public static function getUserConfig($userName) {
 		$fileName = SkyBlock::getInstance()->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($userName) . ".json";
 		if(is_file($fileName)){
-			Server::getInstance()->getLogger()->info("SkyBlock Utils found user config for $userName");
+			Server::getInstance()->getLogger()->info("SkyBlock SkyBlockUtils found user config for $userName");
 			return new Config($fileName, Config::JSON);
 		}
 		return null;

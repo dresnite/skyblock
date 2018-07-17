@@ -5,7 +5,7 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
 use SkyBlock\SkyBlock;
-use SkyBlock\Utils;
+use SkyBlock\SkyBlockUtils;
 
 class IslandManager {
 
@@ -91,9 +91,9 @@ class IslandManager {
      * @param string $generator
      */
     public function createIsland(Player $owner, $generator) {
-        $id = Utils::genIslandId();
+        $id = SkyBlockUtils::genIslandId();
         $name = strtolower($owner->getName());
-        $config = new Config(Utils::getIslandPath($id), Config::JSON, [
+        $config = new Config(SkyBlockUtils::getIslandPath($id), Config::JSON, [
             "owner" => $name,
             "members" => [],
             "locked" => false,
@@ -125,7 +125,7 @@ class IslandManager {
     public function checkPlayerIsland(Player $player) {
         $config = $this->plugin->getSkyBlockManager()->getPlayerConfig($player);
         if(!empty($config->get("island"))) {
-            $path = Utils::getIslandPath($id = $config->get("island"));
+            $path = SkyBlockUtils::getIslandPath($id = $config->get("island"));
             if(is_file($path)) {
             	if(!$this->isOnlineIsland($id)){
 					$config = new Config($path, Config::JSON);

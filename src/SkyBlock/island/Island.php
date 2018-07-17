@@ -7,7 +7,7 @@ use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
-use SkyBlock\Utils;
+use SkyBlock\SkyBlockUtils;
 
 class Island {
 
@@ -163,7 +163,7 @@ class Island {
      * @return Position
      */
     public function getHomePosition() {
-        return Utils::parsePosition($this->home);
+        return SkyBlockUtils::parsePosition($this->home);
     }
 
     /**
@@ -275,7 +275,7 @@ class Island {
      * @param Position $position
      */
     public function setHomePosition(Position $position) {
-        $this->home = Utils::createPositionString($position);
+        $this->home = SkyBlockUtils::createPositionString($position);
     }
 
     /**

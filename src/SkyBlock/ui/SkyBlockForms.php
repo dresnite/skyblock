@@ -12,7 +12,7 @@ use SkyBlock\invitation\InvitationHandler;
 use SkyBlock\island\Island;
 use SkyBlock\island\IslandManager;
 use SkyBlock\SkyBlock;
-use SkyBlock\Utils;
+use SkyBlock\SkyBlockUtils;
 
 class SkyBlockForms{
 
@@ -371,7 +371,7 @@ class SkyBlockForms{
 			$this->sendMessage($player, "{$result["newOwner"]} is not a valid player.  Please try again.");
 		}
 		$islandID = $this->islandManager->getIslandByOwner($player->getName())->getIdentifier();
-		$newOwnerConfig = Utils::getUserConfig($newOwner->getName());
+		$newOwnerConfig = SkyBlockUtils::getUserConfig($newOwner->getName());
 		if($newOwnerConfig !== null){
 			$newOwnerIsland = $newOwnerConfig->get("island");
 			if($newOwnerIsland !== "" and $newOwnerIsland !== $islandID){

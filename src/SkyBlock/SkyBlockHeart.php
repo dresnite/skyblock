@@ -5,7 +5,7 @@ namespace SkyBlock;
 
 use pocketmine\scheduler\Task;
 
-class PluginHearbeat extends Task {
+class SkyBlockHeart extends Task {
 
     /** @var int */
     private $nextUpdate = 0;
@@ -14,14 +14,17 @@ class PluginHearbeat extends Task {
     private $instance;
 
     /**
-     * PluginHearbeat constructor.
+     * SkyBlockHeart constructor.
      *
-     * @param SkyBlock $owner
+     * @param SkyBlock $instance
      */
     public function __construct(SkyBlock $instance) {
         $this->instance = $instance;
     }
-
+    
+    /**
+     * @param int $currentTick
+     */
     public function onRun(int $currentTick) {
         $this->nextUpdate++;
         if($this->nextUpdate == 120) {
