@@ -64,17 +64,22 @@ class SkyBlockManager {
 			MainLogger::getLogger()->debug("SkyBlockManager added $itemsAdded custom items to a new chest.");
 		}
         if($itemsAdded == 0){
-			$inventory->addItem(Item::get(Item::BUCKET, 10, 1));
-			$inventory->addItem(Item::get(Item::ICE, 0, 2));
-			$inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
-			$inventory->addItem(Item::get(Item::BONE, 0, 1));
-			$inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
-			//$inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-			$inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
-			$inventory->addItem(Item::get(Item::BREAD, 0, 1));
-			$inventory->addItem(Item::get(Item::WHEAT, 0, 1));
-		}
-		$level->setBlock($chestVector, new Block(54, 3));
+            $inventory->addItem(Item::get(Item::WATER, 0, 2));
+            $inventory->addItem(Item::get(Item::LAVA, 0, 1));
+            $inventory->addItem(Item::get(Item::ICE, 0, 2));
+            $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
+            $inventory->addItem(Item::get(Item::BONE, 0, 1));
+            $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
+            $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
+            $inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
+            $inventory->addItem(Item::get(Item::BREAD, 0, 1));
+            $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
+            $inventory->addItem(Item::get(Item::LEATHER_HELMET, 0, 1));
+            $inventory->addItem(Item::get(Item::LEATHER_CHESTPLATE, 0, 1));
+            $inventory->addItem(Item::get(Item::LEATHER_LEGGINGS, 0, 1));
+            $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
+        }
+        $level->setBlock($chestVector, new Block(54, 3));
     }
 
     /**
