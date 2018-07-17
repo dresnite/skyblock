@@ -5,12 +5,12 @@ namespace SkyBlock\generator\generators;
 use pocketmine\block\Block;
 use pocketmine\block\BlockIds;
 use pocketmine\level\ChunkManager;
+use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
-use SkyBlock\generator\SkyBlockGenerator;
 
-class BasicIsland extends SkyBlockGenerator {
+class BasicIsland extends Generator {
 
     /** @var array */
     private $settings;
@@ -98,7 +98,6 @@ class BasicIsland extends SkyBlockGenerator {
     }
 
     public function populateChunk(int $chunkX, int $chunkZ) : void {
-        //TODO: Set Biome ID?
         return;
     }
 

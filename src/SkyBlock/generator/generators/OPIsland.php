@@ -4,12 +4,12 @@ namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
 use pocketmine\level\ChunkManager;
+use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
-use SkyBlock\generator\SkyBlockGenerator;
 
-class OPIsland extends SkyBlockGenerator {
+class OPIsland extends Generator {
 
 	/** @var array */
 	private $settings;

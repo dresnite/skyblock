@@ -5,13 +5,10 @@ namespace SkyBlock;
 use pocketmine\plugin\PluginBase;
 use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
-use SkyBlock\generator\SkyBlockGeneratorManager;
-use SkyBlock\invitation\InvitationHandler;
-use SkyBlock\island\IslandManager;
+use SkyBlock\generator\GeneratorManager;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\provider\json\JSONProvider;
 use SkyBlock\provider\Provider;
-use SkyBlock\reset\ResetHandler;
 use SkyBlock\session\SessionManager;
 use SkyBlock\skyblock\SkyBlockManager;
 
@@ -29,20 +26,11 @@ class SkyBlock extends PluginBase {
     /** @var IsleManager */
     private $isleManager;
     
-    /** @var SkyBlockGeneratorManager */
+    /** @var GeneratorManager */
     private $skyBlockGeneratorManager;
 
     /** @var SkyBlockManager */
     private $skyBlockManager;
-
-    /** @var IslandManager */
-    private $islandManager;
-
-    /** @var InvitationHandler */
-    private $invitationHandler;
-
-    /** @var ResetHandler */
-    private $resetHandler;
 
     /** @var SkyBlockListener */
     private $eventListener;
@@ -58,13 +46,9 @@ class SkyBlock extends PluginBase {
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
         $this->isleManager = new IsleManager($this);
-        $this->skyBlockGeneratorManager = new SkyBlockGeneratorManager($this);
+        $this->skyBlockGeneratorManager = new GeneratorManager($this);
         $this->skyBlockManager = new SkyBlockManager($this);
-        $this->islandManager = new IslandManager($this);
         $this->eventListener = new SkyBlockListener($this);
-        $this->invitationHandler = new InvitationHandler($this);
-        $this->resetHandler = new ResetHandler();
-        $this->getScheduler()->scheduleRepeatingTask(new SkyBlockHeart($this), 20);
         $this->registerCommands();
         $this->getLogger()->info("SkyBlock was enabled");
     }
@@ -102,9 +86,9 @@ class SkyBlock extends PluginBase {
     }
 
     /**
-     * @return SkyBlockGeneratorManager
+     * @return GeneratorManager
      */
-    public function getSkyBlockGeneratorManager(): SkyBlockGeneratorManager {
+    public function getSkyBlockGeneratorManager(): GeneratorManager {
         return $this->skyBlockGeneratorManager;
     }
 
@@ -113,31 +97,6 @@ class SkyBlock extends PluginBase {
      */
     public function getSkyBlockManager(): SkyBlockManager {
         return $this->skyBlockManager;
-    }
-
-    /**
-     * @return IslandManager
-     */
-    public function getIslandManager(): IslandManager {
-        return $this->islandManager;
-    }
-
-    /**
-     * Return InvitationHandler instance
-     *
-     * @return InvitationHandler
-     */
-    public function getInvitationHandler(): InvitationHandler {
-        return $this->invitationHandler;
-    }
-
-    /**
-     * Return ResetHandler instance
-     *
-     * @return ResetHandler
-     */
-    public function getResetHandler(): ResetHandler {
-        return $this->resetHandler;
     }
     
     /**
