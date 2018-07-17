@@ -1,65 +1,7 @@
----
 name: SkyBlock
-author: GiantQuartz, updated by FiberglassCivic
+description: A powerful core for SkyBlock servers
+author: GiantQuartz
+website: twitter.com/GiantQuartz
 main: SkyBlock\SkyBlock
-version: 0.5.0
-api:
-- 3.0.0
-
-softdepend: [FormAPI]
-permissions:
-  sbpe:
-    default: true
-    description: SkyBlockPE Base Permission
-  sbpe.cmd.help:
-    default: true
-    description: Allows player to see all the SkyBlockPE commands.
-  sbpe.cmd.create:
-    default: true
-    description:  Allows players to create an island
-  sbpe.cmd.join:
-    default: true
-    description: go to your island
-  sbpe.cmd.kick:
-    default: true
-    description: Kick someone off your island
-  sbpe.cmd.lock:
-    default: true
-    description: Lock people from going to your island
-  sbpe.cmd.sethome:
-    default: true
-    description: Sethome on your island
-  sbpe.cmd.home:
-    default: true
-    description: Go to your island home
-  sbpe.cmd.members:
-    default: true
-    description: List of members on your island.
-  sbpe.cmd.tp:
-    default: true
-    description: Teleport to an unlocked island
-  sbpe.cmd.optp:
-    default: op
-    description: Teleport to any island with someone online
-  sbpe.cmd.invite:
-    default: true
-    description: Invite a player to your island
-  sbpe.cmd.invite.accept:
-    default: true
-    description: Accept an invite
-  sbpe.cmd.invite.reject:
-    default: true
-    description: Reject an invite
-  sbpe.cmd.leave:
-    default: true
-    description: leave your island
-  sbpe.cmd.remove:
-    default: true
-    description: Delete your island
-  sbpe.cmd.makeleader:
-    default: true
-    description: make someone else the leader of your island
-  sbpe.cmd.version:
-    default: true
-    description: get version of SBPE
-...
+version: 1.0.0
+api: [4.0.0]

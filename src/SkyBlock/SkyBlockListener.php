@@ -23,7 +23,6 @@ use pocketmine\Server;
 use pocketmine\utils\Config;
 use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
-use SkyBlock\chat\Chat;
 use SkyBlock\island\Island;
 
 class SkyBlockListener implements Listener {
@@ -197,25 +196,15 @@ class SkyBlockListener implements Listener {
      * @param PlayerChatEvent $event
      */
     public function onChat(PlayerChatEvent $event) {
-        $chat = $this->plugin->getChatHandler()->getPlayerChat($event->getPlayer());
-        if($chat instanceof Chat) {
-            $recipients = $event->getRecipients();
-            foreach($recipients as $key => $recipient) {
-                if($recipient instanceof Player) {
-                    if(!in_array($recipient, $chat->getMembers())) {
-                        unset($recipients[$key]);
-                    }
-                }
-            }
+        $sessionManager = $this->plugin->getSessionManager();
+        $session = $sessionManager->getSession($event->getPlayer());
+        if(!($session->hasIsland()) or !($session->isInChat())) {
+            return;
         }
-        else {
-            $recipients = $event->getRecipients();
-            foreach($recipients as $key => $recipient) {
-                if($recipient instanceof Player) {
-                    if($this->plugin->getChatHandler()->isInChat($recipient)) {
-                        unset($recipients[$key]);
-                    }
-                }
+        $recipients = [];
+        foreach($sessionManager->getSessions() as $userSession) {
+            if($userSession->isInChat() and $userSession->getIsle() === $session->getIsle()) {
+                $recipients[] = $userSession->getPlayer();
             }
         }
         $event->setRecipients($recipients);

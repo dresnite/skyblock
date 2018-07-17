@@ -3,13 +3,15 @@
 namespace SkyBlock;
 
 use pocketmine\plugin\PluginBase;
-use SkyBlock\chat\ChatHandler;
 use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
 use SkyBlock\command\SkyBlockUICommand;
 use SkyBlock\generator\SkyBlockGeneratorManager;
 use SkyBlock\invitation\InvitationHandler;
 use SkyBlock\island\IslandManager;
+use SkyBlock\isle\IsleManager;
+use SkyBlock\provider\json\JSONProvider;
+use SkyBlock\provider\Provider;
 use SkyBlock\reset\ResetHandler;
 use SkyBlock\session\SessionManager;
 use SkyBlock\skyblock\SkyBlockManager;
@@ -20,8 +22,14 @@ class SkyBlock extends PluginBase {
     /** @var SkyBlock */
     private static $object = null;
 
+    /** @var Provider */
+    private $provider;
+    
     /** @var SessionManager */
     private $sessionManager;
+    
+    /** @var IsleManager */
+    private $isleManager;
     
     /** @var SkyBlockGeneratorManager */
     private $skyBlockGeneratorManager;
@@ -38,52 +46,38 @@ class SkyBlock extends PluginBase {
     /** @var ResetHandler */
     private $resetHandler;
 
-    /** @var ChatHandler */
-    private $chatHandler;
-
     /** @var SkyBlockListener */
     private $eventListener;
 
     /** @var SkyBlockForms */
     private $ui;
     
-    public function initialize(): void {
-        if(!is_dir($this->getDataFolder())) {
-            @mkdir($this->getDataFolder());
-        }
-        if(!is_dir($this->getDataFolder() . "islands")) {
-            @mkdir($this->getDataFolder() . "islands");
-        }
-        if(!is_dir($this->getDataFolder() . "users")) {
-            @mkdir($this->getDataFolder() . "users");
-        }
-        $this->saveDefaultConfig();
-    }
-    
     public function onLoad(): void {
         if(!self::$object instanceof SkyBlock) {
             self::$object = $this;
         }
+        $this->saveDefaultConfig();
     }
 
     public function onEnable(): void {
-        $this->initialize();
+        $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
+        $this->isleManager = new IsleManager($this);
+        
         $this->skyBlockGeneratorManager = new SkyBlockGeneratorManager($this);
         $this->skyBlockManager = new SkyBlockManager($this);
         $this->islandManager = new IslandManager($this);
         $this->eventListener = new SkyBlockListener($this);
         $this->invitationHandler = new InvitationHandler($this);
-        $this->chatHandler = new ChatHandler();
         $this->resetHandler = new ResetHandler();
         $this->ui = new SkyBlockForms();
         $this->getScheduler()->scheduleRepeatingTask(new SkyBlockHeart($this), 20);
         $this->registerCommands();
-        $this->getLogger()->info("Enabled");
+        $this->getLogger()->info("SkyBlock was enabled");
     }
 
     public function onDisable(): void {
-        $this->getLogger()->info("Disabled");
+        $this->getLogger()->info("SkyBlock was disabled");
     }
 
     /**
@@ -91,6 +85,27 @@ class SkyBlock extends PluginBase {
      */
     public static function getInstance(): SkyBlock {
         return self::$object;
+    }
+    
+    /**
+     * @return Provider
+     */
+    public function getProvider(): Provider {
+        return $this->provider;
+    }
+    
+    /**
+     * @return SessionManager
+     */
+    public function getSessionManager(): SessionManager {
+        return $this->sessionManager;
+    }
+    
+    /**
+     * @return IsleManager
+     */
+    public function getIsleManager(): IsleManager {
+        return $this->isleManager;
     }
 
     /**
@@ -130,15 +145,6 @@ class SkyBlock extends PluginBase {
      */
     public function getResetHandler(): ResetHandler {
         return $this->resetHandler;
-    }
-
-    /**
-     * Return ChatHandler instance
-     *
-     * @return ChatHandler
-     */
-    public function getChatHandler(): ChatHandler {
-        return $this->chatHandler;
     }
 
 	/**

@@ -30,13 +30,13 @@ class SkyBlockUtils {
     }
 
 	/**
-	 * @param $id
+	 * @param $username
 	 * @return null|Config
 	 */
-	public static function getUserConfig($userName) {
-		$fileName = SkyBlock::getInstance()->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($userName) . ".json";
+	public static function getUserConfig(string $username) {
+		$fileName = SkyBlock::getInstance()->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($username) . ".json";
 		if(is_file($fileName)){
-			Server::getInstance()->getLogger()->info("SkyBlock SkyBlockUtils found user config for $userName");
+			Server::getInstance()->getLogger()->info("SkyBlock SkyBlockUtils found user config for $username");
 			return new Config($fileName, Config::JSON);
 		}
 		return null;

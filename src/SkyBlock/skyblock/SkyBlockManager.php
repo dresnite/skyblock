@@ -84,7 +84,7 @@ class SkyBlockManager {
      * @return string
      */
     public function getPlayerDataPath(Player $player) {
-        return $this->plugin->getDataFolder() . "users" . DIRECTORY_SEPARATOR . strtolower($player->getName()) . ".json";
+        return $this->plugin->getDataFolder() . "users" . DIRECTORY_SEPARATOR . $player->getLowerCaseName() . ".json";
     }
 
     /**
