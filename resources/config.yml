@@ -1,4 +1,11 @@
 ---
+
+# This determines the default island generator when users don't specify which generator to use.
+# Available options: basic, legacy
+# If this option is missing, or set incorrectly, the plugin will default to basic.
+default-generator: basic
+
+
 enable-teamchat: true
 
 # Place the folder names of worlds that you do not want to be deleted when the cleanup command is used.
