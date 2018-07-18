@@ -66,8 +66,8 @@ class SkyBlockManager {
                 MainLogger::getLogger()->debug("SkyBlockManager added $itemsAdded custom items to a new chest.");
             }
             if($itemsAdded == 0){
-                $inventory->addItem(Item::get(Item::BUCKET_WATER, 0, 2));
-                $inventory->addItem(Item::get(Item::BUCKET_LAVA, 0, 1));
+                $inventory->addItem(Item::get(Item::BUCKET, 8, 2));
+                $inventory->addItem(Item::get(Item::BUCKET, 10, 1));
                 $inventory->addItem(Item::get(Item::ICE, 0, 2));
                 $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
                 $inventory->addItem(Item::get(Item::BONE, 0, 1));
