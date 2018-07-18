@@ -1,7 +1,6 @@
 <?php
 namespace SkyBlock\command;
 
-use SkyBlock\Utils;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\level\Position;
@@ -9,12 +8,15 @@ use pocketmine\Player;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use SkyBlock\island\Island;
-use SkyBlock\SkyBlock;
 use SkyBlock\reset\Reset;
+use SkyBlock\SkyBlock;
+use SkyBlock\Utils;
 
 class SkyBlockCommand extends Command {
     /** @var SkyBlock */
     private $plugin;
+
+    private $defaultGen;
 
     /**
      * SkyBlockCommand constructor.
@@ -23,6 +25,11 @@ class SkyBlockCommand extends Command {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $this->defaultGen = strtolower($this->plugin->getConfig()->get("default-generator"));
+        if(!$this->plugin->getSkyBlockGeneratorManager()->isGenerator($this->defaultGen)){
+            $this->defaultGen = "basic";
+        }
+        $this->plugin->getLogger()->info("Set defaultGen to $this->defaultGen");
         parent::__construct("island", "SkyBlock command", "§cUsage: /skyblock", ["is"]);
     }
 
@@ -45,9 +52,12 @@ class SkyBlockCommand extends Command {
                                 if($island instanceof Island) {
                                     $island->addPlayer($sender);
                                     $level = $this->plugin->getServer()->getLevelByName($island->getIdentifier());
-                                    $spawnPoint = $level->getSpawnLocation();
+                                    $generator = Utils::getIslandGenerator($level->getName());
+                                    // $spawnPoint = $level->getSpawnLocation();
+                                    $spawnCoords = $generator::getIslandSpawn();
+                                    $spawnPoint = new Position($spawnCoords->x, $spawnCoords->y, $spawnCoords->z, $level);
                                     $sender->teleport($spawnPoint);
-                                    $this->sendMessage($sender, "§l§a✔§fYou were teleported to your island home succesfully");
+                                    $this->sendMessage($sender, "§l§a✔§fYou were teleported to your island home successfully");
                                 }
                                 else {
                                     $this->sendMessage($sender, "§l§c✖§f §cYou Don't have an island!!");
@@ -76,7 +86,7 @@ class SkyBlockCommand extends Command {
                                         }
                                     }
                                     else {
-                                        $this->plugin->getSkyBlockManager()->generateIsland($sender, "basic");
+                                        $this->plugin->getSkyBlockManager()->generateIsland($sender, $this->defaultGen);
                                         $this->sendMessage($sender, "§l§a✔§fYou successfully created a island!");
                                     }
                                 }
@@ -331,7 +341,7 @@ class SkyBlockCommand extends Command {
                         if($sender->hasPermission('sbpe.cmd.disband') or $sender->hasPermission('sbpe')) {
                             $config = $this->plugin->getSkyBlockManager()->getPlayerConfig($sender);
                             if(empty($config->get("island"))) {
-                                $this->sendMessage($sender, "§l§c✖§f §cYou must be in a island to disband it!");
+                                $this->sendMessage($sender, "§l§c✖§f §cYou must own an island to disband it!");
                             }
                             else {
                                 $island = $this->plugin->getIslandManager()->getOnlineIsland($config->get("island"));

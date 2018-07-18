@@ -3,6 +3,7 @@
 namespace SkyBlock\generator;
 
 use pocketmine\level\generator\Generator;
+use pocketmine\math\Vector3;
 
 abstract class SkyBlockGenerator extends Generator {
 
@@ -26,5 +27,9 @@ abstract class SkyBlockGenerator extends Generator {
     public function setIslandName($name) {
         $this->islandName = $name;
     }
+
+    abstract public static function getChestLocation() : Vector3;
+
+    abstract public static function getIslandSpawn(): Vector3;
 
 }

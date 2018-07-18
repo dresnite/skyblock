@@ -1,4 +1,11 @@
 ---
+
+# This determines the default island generator when users don't specify which generator to use.
+# Available options: basic, legacy
+# If this option is missing, or set incorrectly, the plugin will default to basic.
+default-generator: basic
+
+
 enable-teamchat: true
 
 # Place the folder names of worlds that you do not want to be deleted when the cleanup command is used.
@@ -10,8 +17,11 @@ protected-worlds: []
 # the plugin will only use the first 27 and the rest will be ignored.  If no items are found in the
 # config, a set of default items will be used instead.
 starting-items:
-  - id: 325
-    meta: 10
+  - id: 9
+    meta: 0
+    quantity: 2
+  - id: 11
+    meta: 0
     quantity: 1
   - id: 79
     meta: 0
@@ -25,15 +35,31 @@ starting-items:
   - id: 361
     meta: 0
     quantity: 1
+  - id: 81
+    meta: 0
+    quantity: 1
   - id: 83
     meta: 0
     quantity: 1
   - id: 297
     meta: 0
     quantity: 1
-  - id: 295
+  - id: 296
     meta: 0
-    quantity: 2
+    quantity: 1
+  - id: 298
+    meta: 0
+    quantity: 1
+  - id: 299
+    meta: 0
+    quantity: 1
+  - id: 300
+    meta: 0
+    quantity: 1
+  - id: 301
+    meta: 0
+    quantity: 1
+
 
 
 # This modifies the items that users will find by mining cobblestone.  To set the chance option, use
@@ -42,20 +68,20 @@ starting-items:
 cobble-drops:
   - id: 264
     meta: 0
-    chance: 3
+    chance: 1
   - id: 265
     meta: 0
-    chance: 12
+    chance: 3
   - id: 266
     meta: 0
-    chance: 9
+    chance: 10
   - id: 21
     meta: 0
-    chance: 5
+    chance: 20
   - id: 263
     meta: 0
     chance: 40
   - id: 4
     meta: 0
-    chance: 500
+    chance: 74
 ...

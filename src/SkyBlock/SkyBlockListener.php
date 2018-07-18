@@ -71,12 +71,12 @@ class SkyBlockListener implements Listener {
 				}
 			}
 			if(empty($this->cobbleDrops)){
-				$this->addItemMultipleTimes(3, Item::get(Item::DIAMOND), $this->cobbleDrops);
-				$this->addItemMultipleTimes(12, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
-				$this->addItemMultipleTimes(9, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
-				$this->addItemMultipleTimes(5, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
+				$this->addItemMultipleTimes(1, Item::get(Item::DIAMOND), $this->cobbleDrops);
+				$this->addItemMultipleTimes(3, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
+				$this->addItemMultipleTimes(10, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
+				$this->addItemMultipleTimes(20, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
 				$this->addItemMultipleTimes(40, Item::get(Item::COAL), $this->cobbleDrops);
-				$this->addItemMultipleTimes(500, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
+				$this->addItemMultipleTimes(74, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
 			}
 			shuffle($this->cobbleDrops);
 		}
@@ -277,9 +277,9 @@ class SkyBlockListener implements Listener {
 					$config->get("home"),
 					$config->get("generator")
 				);
+				$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
+				$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
 			}
-			$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
-			$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
 		}
 	}
 

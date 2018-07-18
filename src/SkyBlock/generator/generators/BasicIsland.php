@@ -3,7 +3,6 @@
 namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
-use pocketmine\block\BlockIds;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
@@ -59,56 +58,50 @@ class BasicIsland extends SkyBlockGenerator {
         return $this->settings;
     }
 
-    public function generateChunk(int $chunkX, int $chunkZ) : void {
-        $chunk = $this->level->getChunk($chunkX, $chunkZ);
-        $chunk->setGenerated();
-        //SkyBlock Island
-        if ($chunkX == 0 && $chunkZ == 0) {
-            for ($x = 6; $x < 12; $x++) {
-                for ($z = 6; $z < 12; $z++) {
-					$chunk->setBlock($x, 61, $z, Block::DIRT);
-                    $chunk->setBlock($x, 62, $z, Block::DIRT);
-                    $chunk->setBlock($x, 63, $z, Block::GRASS);
-                }
-            }
-            for($airX = 9; $airX < 12; $airX++){
-            	for($airZ = 9; $airZ < 12; $airZ++) {
-					$chunk->setBlock($airX, 61, $airZ, Block::AIR);
-					$chunk->setBlock($airX, 62, $airZ, Block::AIR);
-					$chunk->setBlock($airX, 63, $airZ, Block::AIR);
-				}
-			}
-			Tree::growTree($this->level, $chunkX * 16 + 11 , 64, $chunkZ * 16 + 6, $this->random, 0);
-            $chunk->setX($chunkX);
-            $chunk->setZ($chunkZ);
-            $this->level->setChunk($chunkX, $chunkZ, $chunk);
-        }
-
-        // Sand Island
-		if($chunkX == 4 and $chunkZ == 0) {
-        	for($x = 6; $x < 11; $x++){
-        		for($z = 6; $z < 11; $z++) {
-        			for($y = 60; $y < 65; $y++){
-						$chunk->setBlock($x, $y, $z, Block::SAND);
+	public function generateChunk(int $chunkX, int $chunkZ) : void {
+		$chunk = $this->level->getChunk($chunkX, $chunkZ);
+		$chunk->setGenerated();
+		if ($chunkX == 0 && $chunkZ == 0) {
+			for ($x = 0; $x < 16; $x++) {
+				for ($z = 0; $z < 16; $z++) {
+					$chunk->setBlock($x, 0, $z, Block::BEDROCK);
+					for ($y = 1; $y <= 3; $y++) {
+						$chunk->setBlock($x, $y, $z, Block::STONE);
 					}
+					$chunk->setBlock($x, 4, $z, Block::DIRT);
+					$chunk->setBlock($x, 5, $z, Block::GRASS);
 				}
+				Tree::growTree($this->level, $chunkX * 16 + 8, 6, $chunkZ * 16 + 8, $this->random, 0);
 			}
-			$chunk->setBlock(8, 65, 8, BlockIds::CACTUS);
+			$chunk->setX($chunkX);
+			$chunk->setZ($chunkZ);
+			$this->level->setChunk($chunkX, $chunkZ, $chunk);
 		}
-    }
+	}
 
     public function populateChunk(int $chunkX, int $chunkZ) : void {
         //TODO: Set Biome ID?
         return;
     }
 
-    /**
-     * Return BasicIsland spawn
-     *
-     * @return Vector3
-     */
-    public function getSpawn(): Vector3{
-        return new Vector3(7, 66, 7);
+	/**
+	 * Return BasicIsland spawn
+	 *
+	 * @return Vector3
+	 */
+	public function getSpawn(): Vector3{
+		return new Vector3(15, 7, 10);
+	}
+
+
+	/** This returns the location of the starter chest on the island. */
+    public static function getChestLocation(): Vector3 {
+        return new Vector3(10,6,4);
+    }
+
+    /** This returns the starting location for players on the island. */
+    public static function getIslandSpawn(): Vector3 {
+        return new Vector3(15,7,10);
     }
 
 }

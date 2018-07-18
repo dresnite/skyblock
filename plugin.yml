@@ -1,8 +1,8 @@
 ---
-name: SkyBlock
+name: SkyBlockPE
 author: GiantQuartz, updated by FiberglassCivic
 main: SkyBlock\SkyBlock
-version: 0.5.0
+version: 0.6.0
 api:
 - 3.0.0
 
