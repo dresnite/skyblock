@@ -50,11 +50,7 @@ class JSONProvider extends Provider {
      */
     public function openSession(iSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
-        $isleId = $config->get("isle");
-        if($isleId != null) {
-            $this->checkIsle($isleId);
-            $session->setIsle($this->plugin->getIsleManager()->getIsle($isleId));
-        }
+        $session->setIsleId($config->get("isle"));
         $session->setRank($config->get("rank"));
     }
     
@@ -63,7 +59,7 @@ class JSONProvider extends Provider {
      */
     public function saveSession(iSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
-        $config->set("isle", $session->getIsle()->getIdentifier());
+        $config->set("isle", $session->getIsleId());
         $config->set("rank", $session->getRank());
         $config->save();
     }

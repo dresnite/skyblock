@@ -8,7 +8,6 @@
 namespace SkyBlock\session;
 
 
-use SkyBlock\isle\Isle;
 use SkyBlock\provider\Provider;
 
 abstract class iSession {
@@ -22,8 +21,8 @@ abstract class iSession {
     /** @var string */
     protected $username;
     
-    /** @var Isle|null */
-    protected $isle = null;
+    /** @var string|null */
+    protected $isleId = null;
     
     /** @var bool */
     protected $inChat = false;
@@ -54,10 +53,10 @@ abstract class iSession {
     }
     
     /**
-     * @return null|Isle
+     * @return null|string
      */
-    public function getIsle() {
-        return $this->isle;
+    public function getIsleId() {
+        return $this->isleId;
     }
     
     /**
@@ -68,13 +67,6 @@ abstract class iSession {
     }
     
     /**
-     * @return bool
-     */
-    public function hasIsle(): bool {
-        return $this->isle != null;
-    }
-    
-    /**
      * @return int
      */
     public function getRank(): int {
@@ -82,10 +74,10 @@ abstract class iSession {
     }
     
     /**
-     * @param null|Isle $isle
+     * @param null|string $isle
      */
-    public function setIsle(?Isle $isle): void {
-        $this->isle = $isle;
+    public function setIsleId(?string $isle): void {
+        $this->isleId = $isle;
     }
     
     /**
@@ -103,13 +95,10 @@ abstract class iSession {
     }
     
     /**
-     * Saves session information to the database and checks if the isle needs to be unloaded
+     * Saves session information to the database
      */
     public function update(): void {
         $this->provider->saveSession($this);
-        if($this->hasIsle()) {
-            $this->manager->getPlugin()->getIsleManager()->tryToCloseIsle($this->isle);
-        }
     }
     
 }

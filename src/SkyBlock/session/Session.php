@@ -9,11 +9,15 @@ namespace SkyBlock\session;
 
 
 use pocketmine\Player;
+use SkyBlock\isle\Isle;
 
 class Session extends iSession {
     
     /** @var Player */
     private $player;
+    
+    /** @var null|Isle */
+    private $isle = null;
     
     /**
      * Session constructor.
@@ -22,6 +26,10 @@ class Session extends iSession {
      */
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
+        if($this->isleId != null) {
+            $this->provider->checkIsle($this->isleId);
+            $this->isle = $this->manager->getPlugin()->getIsleManager()->getIsle($this->isleId);
+        }
         parent::__construct($manager, $player->getLowerCaseName());
     }
     
@@ -30,6 +38,27 @@ class Session extends iSession {
      */
     public function getPlayer(): Player {
         return $this->player;
+    }
+    
+    /**
+     * @return null|Isle
+     */
+    public function getIsle(): ?Isle {
+        return $this->isle;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasIsle(): bool {
+        return $this->isle != null;
+    }
+    
+    public function update(): void {
+        parent::update();
+        if($this->hasIsle()) {
+            $this->manager->getPlugin()->getIsleManager()->tryToCloseIsle($this->isle);
+        }
     }
     
 }
