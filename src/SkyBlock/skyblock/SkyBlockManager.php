@@ -11,7 +11,9 @@ use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\Config;
 use pocketmine\utils\MainLogger;
+use SkyBlock\generator\SkyBlockGenerator;
 use SkyBlock\SkyBlock;
+use SkyBlock\Utils;
 
 class SkyBlockManager {
 
@@ -37,49 +39,51 @@ class SkyBlockManager {
         $server->loadLevel($island);
         $this->spawnDefaultChest($island);
         $level = $server->getLevelByName($island);
-        $level->setSpawnLocation(new Vector3(7,64,9));
+        $islandGen = Utils::getIslandGenerator($island);
+        $level->setSpawnLocation($islandGen::getIslandSpawn());
     }
 
     public function spawnDefaultChest($islandName) {
-    	$chestX = 7;
-    	$chestY = 64;
-    	$chestZ = 6;
-    	$chestVector = new Vector3($chestX, $chestY, $chestZ);
         $level = $this->plugin->getServer()->getLevelByName($islandName);
-        $level->setBlock($chestVector, new Block(0, 0));
-        $level->loadChunk(10, 4, true);
-        /** @var Chest $chest */
-		$nbt = Chest::createNBT($chestVector);
-        $chest = Tile::createTile(Tile::CHEST, $level, $nbt);
-        $inventory = $chest->getInventory();
-        //TODO: Use a kit config for user-friendliness.
-		$itemsAdded = 0;
-		if(!empty($this->chestItems)){
-			foreach($this->chestItems as $item){
-				if($item instanceof Item){
-					$inventory->addItem($item);
-					$itemsAdded++;
-				}
-			}
-			MainLogger::getLogger()->debug("SkyBlockManager added $itemsAdded custom items to a new chest.");
-		}
-        if($itemsAdded == 0){
-            $inventory->addItem(Item::get(Item::WATER, 0, 2));
-            $inventory->addItem(Item::get(Item::LAVA, 0, 1));
-            $inventory->addItem(Item::get(Item::ICE, 0, 2));
-            $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
-            $inventory->addItem(Item::get(Item::BONE, 0, 1));
-            $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
-            $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
-            $inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
-            $inventory->addItem(Item::get(Item::BREAD, 0, 1));
-            $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
-            $inventory->addItem(Item::get(Item::LEATHER_HELMET, 0, 1));
-            $inventory->addItem(Item::get(Item::LEATHER_CHESTPLATE, 0, 1));
-            $inventory->addItem(Item::get(Item::LEATHER_LEGGINGS, 0, 1));
-            $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
+        $islandGenerator = Utils::getIslandGenerator($islandName);
+        if($islandGenerator instanceof SkyBlockGenerator){
+            $chestVector = $islandGenerator::getChestLocation();
+            $level->setBlock($chestVector, new Block(0, 0));
+            $level->loadChunk($chestVector->x, $chestVector->z, true);
+            /** @var Chest $chest */
+            $nbt = Chest::createNBT($chestVector);
+            $chest = Tile::createTile(Tile::CHEST, $level, $nbt);
+            $level->setBlock($chestVector, new Block(54, 3));
+            $inventory = $chest->getInventory();
+            $itemsAdded = 0;
+            if(!empty($this->chestItems)){
+                foreach($this->chestItems as $item){
+                    if($item instanceof Item){
+                        $inventory->addItem($item);
+                        $itemsAdded++;
+                    }
+                }
+                MainLogger::getLogger()->debug("SkyBlockManager added $itemsAdded custom items to a new chest.");
+            }
+            if($itemsAdded == 0){
+                $inventory->addItem(Item::get(Item::WATER, 0, 2));
+                $inventory->addItem(Item::get(Item::LAVA, 0, 1));
+                $inventory->addItem(Item::get(Item::ICE, 0, 2));
+                $inventory->addItem(Item::get(Item::MELON_BLOCK, 0, 1));
+                $inventory->addItem(Item::get(Item::BONE, 0, 1));
+                $inventory->addItem(Item::get(Item::PUMPKIN_SEEDS, 0, 1));
+                $inventory->addItem(Item::get(Item::CACTUS, 0, 1));
+                $inventory->addItem(Item::get(Item::SUGARCANE_BLOCK, 0, 1));
+                $inventory->addItem(Item::get(Item::BREAD, 0, 1));
+                $inventory->addItem(Item::get(Item::WHEAT, 0, 1));
+                $inventory->addItem(Item::get(Item::LEATHER_HELMET, 0, 1));
+                $inventory->addItem(Item::get(Item::LEATHER_CHESTPLATE, 0, 1));
+                $inventory->addItem(Item::get(Item::LEATHER_LEGGINGS, 0, 1));
+                $inventory->addItem(Item::get(Item::LEATHER_BOOTS, 0, 1));
+            }
+        } else {
+            MainLogger::getLogger()->error("spawnDefaultChest called with invalid generator.");
         }
-        $level->setBlock($chestVector, new Block(54, 3));
     }
 
     /**
