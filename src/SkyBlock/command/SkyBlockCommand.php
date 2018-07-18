@@ -341,7 +341,7 @@ class SkyBlockCommand extends Command {
                         if($sender->hasPermission('sbpe.cmd.disband') or $sender->hasPermission('sbpe')) {
                             $config = $this->plugin->getSkyBlockManager()->getPlayerConfig($sender);
                             if(empty($config->get("island"))) {
-                                $this->sendMessage($sender, "§l§c✖§f §cYou must be in a island to disband it!");
+                                $this->sendMessage($sender, "§l§c✖§f §cYou must own an island to disband it!");
                             }
                             else {
                                 $island = $this->plugin->getIslandManager()->getOnlineIsland($config->get("island"));
