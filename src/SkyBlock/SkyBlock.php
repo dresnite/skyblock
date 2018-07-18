@@ -5,8 +5,7 @@ namespace SkyBlock;
 use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
-use SkyBlock\command\SkyBlockCleanup;
-use SkyBlock\command\SkyBlockCommand;
+use SkyBlock\command\IsleCommandMap;
 use SkyBlock\generator\GeneratorManager;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\provider\json\JSONProvider;
@@ -27,6 +26,9 @@ class SkyBlock extends PluginBase {
     /** @var IsleManager */
     private $isleManager;
     
+    /** @var IsleCommandMap */
+    private $commandMap;
+    
     /** @var GeneratorManager */
     private $generatorManager;
     
@@ -45,8 +47,8 @@ class SkyBlock extends PluginBase {
         $this->sessionManager = new SessionManager($this);
         $this->isleManager = new IsleManager($this);
         $this->generatorManager = new GeneratorManager($this);
+        $this->commandMap = new IsleCommandMap($this);
         $this->eventListener = new SkyBlockListener($this);
-        $this->registerCommands();
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
@@ -87,14 +89,6 @@ class SkyBlock extends PluginBase {
      */
     public function getGeneratorManager(): GeneratorManager {
         return $this->generatorManager;
-    }
-    
-    /**
-     * Register SkyBlock commands
-     */
-    public function registerCommands(): void {
-        $this->getServer()->getCommandMap()->register("island", new SkyBlockCommand($this));
-		$this->getServer()->getCommandMap()->register("sbcleanup", new SkyBlockCleanup($this));
     }
     
     /**
