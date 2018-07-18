@@ -94,7 +94,7 @@ class SkyBlockForms{
 		$form = $this->formAPI->createSimpleForm([$this, "handleMemberUI"]);
 		$form->setTitle(self::BASE_TITLE . "§r§2 - Member SkyBlock");
 		$form->addButton("§1Go Home",-1,"","home");
-		$form->addButton("§1Leave",-1,"","leave");
+		$form->addButton("§1Quit Being a Member",-1,"","leave");
 		$form->addButton("§1Go to Spawn",-1,"","spawn");
 		$form->sendToPlayer($player);
 	}
