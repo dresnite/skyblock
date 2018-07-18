@@ -277,9 +277,9 @@ class SkyBlockListener implements Listener {
 					$config->get("home"),
 					$config->get("generator")
 				);
+				$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
+				$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
 			}
-			$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
-			$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
 		}
 	}
 
