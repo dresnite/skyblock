@@ -108,15 +108,6 @@ class SkyBlock extends PluginBase {
     }
     
     /**
-     * Return an unique island id
-     *
-     * @return string
-     */
-    public static function genIslandId() {
-        return "a" . floor(microtime(true)) . "-" . rand(1,9999);
-    }
-    
-    /**
      * @param Position $position
      * @return string
      */

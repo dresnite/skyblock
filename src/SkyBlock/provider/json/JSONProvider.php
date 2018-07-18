@@ -43,7 +43,7 @@ class JSONProvider extends Provider {
      * @param string $isleId
      * @return Config
      */
-    private function getIsleConfig(string $isleId) {
+    private function getIsleConfig(string $isleId): Config {
         return new Config($this->plugin->getDataFolder() . "isles/$isleId.json", Config::JSON);
     }
     

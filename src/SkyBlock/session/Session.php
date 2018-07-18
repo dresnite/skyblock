@@ -57,7 +57,7 @@ class Session extends iSession {
     /**
      * @param null|Isle $isle
      */
-    public function setIsle(?Isle $isle) {
+    public function setIsle(?Isle $isle): void {
         $lastIsle = $this->isle;
         $this->isle = $isle;
         $this->isleId = ($isle != null) ? $isle->getIdentifier() : null;

@@ -145,8 +145,8 @@ class Isle {
         foreach($this->level->getPlayers() as $player) {
             $this->players[] = $this->manager->getPlugin()->getSessionManager()->getSession($player);
         }
-        if(empty($this->players)) {
-            $this->manager->tryToCloseIsle($this);
+        if(empty($this->players) and empty($this->getMembersOnline())) {
+            $this->manager->closeIsle($this);
         }
     }
     

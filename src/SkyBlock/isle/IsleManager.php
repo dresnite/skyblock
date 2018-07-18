@@ -65,10 +65,9 @@ class IsleManager {
     /**
      * @param Isle $isle
      */
-    public function tryToCloseIsle(Isle $isle) {
-        if(empty($isle->getMembersOnline())) {
-            $this->plugin->getServer()->unloadLevel($isle->getLevel());
-        }
+    public function closeIsle(Isle $isle): void {
+        $this->plugin->getServer()->unloadLevel($isle->getLevel());
+        unset($this->isles[$isle->getIdentifier()]);
     }
     
 }
