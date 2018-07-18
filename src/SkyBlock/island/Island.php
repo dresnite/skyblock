@@ -100,7 +100,6 @@ class Island {
 				}
 			} else {
 				Server::getInstance()->getLogger()->error("[SkyBlock] isOnIsland: found non-Player object in online player table.");
-				var_dump($testPlayer);
 			}
 		}
 		return false;
@@ -230,7 +229,11 @@ class Island {
      * @param Player[] $playersOnline
      */
     public function setPlayersOnline($playersOnline) {
-        $this->playersOnline = $playersOnline;
+    	foreach ($playersOnline as $player){
+			if($player instanceof Player){
+				$this->playersOnline[$player->getXuid()] = $player;
+			}
+		}
     }
 
     /**
