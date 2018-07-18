@@ -2,10 +2,12 @@
 
 namespace SkyBlock;
 
+use pocketmine\level\generator\GeneratorManager;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\Server;
 use pocketmine\utils\Config;
+use SkyBlock\generator\SkyBlockGenerator;
 
 class Utils {
 
@@ -83,6 +85,23 @@ class Utils {
         else {
             return null;
         }
+    }
+
+    /**
+     * Compares a string to available world names.  If the matching world is a SkyBlock island,
+     * this will return a copy of the matching SkyBlockIslandGenerator, otherwise it returns null.
+     *
+     * @param string $islandName
+     * @return null|SkyBlockGenerator
+     */
+    public static function getIslandGenerator(string $islandName): ?SkyBlockGenerator {
+        $level = Server::getInstance()->getLevelByName($islandName);
+        $islandGeneratorName = GeneratorManager::getGenerator($level->getProvider()->getGenerator());
+        $islandGenerator = new $islandGeneratorName();
+        if($islandGenerator instanceof SkyBlockGenerator){
+            return $islandGenerator;
+        }
+        return null;
     }
 
 }
