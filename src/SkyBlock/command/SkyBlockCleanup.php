@@ -7,6 +7,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\level\Level;
+use pocketmine\Server;
 use pocketmine\utils\Config;
 use SkyBlock\SkyBlock;
 
@@ -42,7 +43,7 @@ class SkyBlockCleanup extends Command{
 				foreach($worldFolders as $worldFolder){
 					$string = $this->worldsDir;
 					$worldName = str_replace($string, "", $worldFolder);
-					if(!in_array($worldName, $validWorlds)){
+					if($worldName !== Server::getInstance()->getDefaultLevel()->getName() and !in_array($worldName, $validWorlds)){
 						$world = $this->plugin->getServer()->getLevelByName($worldName);
 						if($world instanceof Level){
 							$this->plugin->getServer()->unloadLevel($world);
