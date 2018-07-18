@@ -51,7 +51,8 @@ class SkyBlockForms{
 	public function ownerUI(Player $player){
 		$form = $this->formAPI->createSimpleForm([$this, "handleOwnerUI"]);
 		$form->setTitle(self::BASE_TITLE . "§r§2 - Owner SkyBlock");
-		$form->addButton("§1Go Home",-1,"","home");
+		$form->addButton("§1Go to Island Spawn", -1, "", "join");
+		$form->addButton("§1Go to Island Home",-1,"","home");
 		if($this->islandManager->getIslandByOwner($player->getName())->isLocked()){
 			$form->addButton("§1Unlock this Island",-1,"","lock");
 		} else {
@@ -69,7 +70,10 @@ class SkyBlockForms{
 		if($result == null){
 			return;
 		}
+		$command = "";
 		switch($result){
+            case "join": $command = "join";
+                break;
 			case "home": $command = "home";
 				break;
 			case "lock": $command = "lock";
@@ -93,7 +97,8 @@ class SkyBlockForms{
 	public function memberUI(Player $player){
 		$form = $this->formAPI->createSimpleForm([$this, "handleMemberUI"]);
 		$form->setTitle(self::BASE_TITLE . "§r§2 - Member SkyBlock");
-		$form->addButton("§1Go Home",-1,"","home");
+		$form->addButton("§1§1Go to Island Spawn", -1, "", "join");
+		$form->addButton("§1Go to Island Home",-1,"","home");
 		$form->addButton("§1Quit Being a Member",-1,"","leave");
 		$form->addButton("§1Go to Spawn",-1,"","spawn");
 		$form->sendToPlayer($player);
@@ -104,7 +109,10 @@ class SkyBlockForms{
 		if($result === null){
 			return;
 		}
+		$command = "";
 		switch($result){
+            case "join": $command = "join";
+                break;
 			case "home": $command = "home";
 				break;
 
@@ -129,7 +137,8 @@ class SkyBlockForms{
 		if(empty($config->get("island"))){
 			$form->addButton("§1Create an Island",-1,"","create");
 		} else {
-			$form->addButton("§1Go to your Island",-1,"","join");
+			$form->addButton("§1Go to Island Spawn",-1,"","join");
+            $form->addButton("§1Go to Island Home",-1,"","home");
 			if($this->islandManager->getIslandByOwner($player->getName()) !== null){
 				$form->addButton("§1Manage Your Island", -1, "", "manage");
 			}
@@ -153,6 +162,8 @@ class SkyBlockForms{
 		switch($result){
 			case "join":  $command = "join";
 				break;
+            case "home": $command = "home";
+                break;
 			case "create":  $command = "create";
 				break;
 			case "manage": $this->manageUI($player);
