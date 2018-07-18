@@ -2,7 +2,9 @@
 
 namespace SkyBlock;
 
+use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
+use pocketmine\Server;
 use SkyBlock\command\SkyBlockCleanup;
 use SkyBlock\command\SkyBlockCommand;
 use SkyBlock\generator\GeneratorManager;
@@ -10,7 +12,6 @@ use SkyBlock\isle\IsleManager;
 use SkyBlock\provider\json\JSONProvider;
 use SkyBlock\provider\Provider;
 use SkyBlock\session\SessionManager;
-use SkyBlock\skyblock\SkyBlockManager;
 
 class SkyBlock extends PluginBase {
 
@@ -27,11 +28,8 @@ class SkyBlock extends PluginBase {
     private $isleManager;
     
     /** @var GeneratorManager */
-    private $skyBlockGeneratorManager;
-
-    /** @var SkyBlockManager */
-    private $skyBlockManager;
-
+    private $generatorManager;
+    
     /** @var SkyBlockListener */
     private $eventListener;
     
@@ -46,8 +44,7 @@ class SkyBlock extends PluginBase {
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
         $this->isleManager = new IsleManager($this);
-        $this->skyBlockGeneratorManager = new GeneratorManager($this);
-        $this->skyBlockManager = new SkyBlockManager($this);
+        $this->generatorManager = new GeneratorManager($this);
         $this->eventListener = new SkyBlockListener($this);
         $this->registerCommands();
         $this->getLogger()->info("SkyBlock was enabled");
@@ -88,15 +85,8 @@ class SkyBlock extends PluginBase {
     /**
      * @return GeneratorManager
      */
-    public function getSkyBlockGeneratorManager(): GeneratorManager {
-        return $this->skyBlockGeneratorManager;
-    }
-
-    /**
-     * @return SkyBlockManager
-     */
-    public function getSkyBlockManager(): SkyBlockManager {
-        return $this->skyBlockManager;
+    public function getGeneratorManager(): GeneratorManager {
+        return $this->generatorManager;
     }
     
     /**
@@ -106,5 +96,47 @@ class SkyBlock extends PluginBase {
         $this->getServer()->getCommandMap()->register("island", new SkyBlockCommand($this));
 		$this->getServer()->getCommandMap()->register("sbcleanup", new SkyBlockCleanup($this));
     }
-
+    
+    /**
+     * @param int $seconds
+     * @return string
+     */
+    public static function printSeconds(int $seconds): string {
+        $m = floor($seconds / 60);
+        $s = floor($seconds % 60);
+        return (($m < 10 ? "0" : "") . $m . ":" . ($s < 10 ? "0" : "") . (string) $s);
+    }
+    
+    /**
+     * Return an unique island id
+     *
+     * @return string
+     */
+    public static function genIslandId() {
+        return "a" . floor(microtime(true)) . "-" . rand(1,9999);
+    }
+    
+    /**
+     * @param Position $position
+     * @return string
+     */
+    public static function writePosition(Position $position): string {
+        return "{$position->getLevel()->getName()},{$position->getX()},{$position->getY()},{$position->getZ()}";
+    }
+    
+    /**
+     * @param string $position
+     * @return null|Position
+     */
+    public static function parsePosition(string $position): ?Position {
+        $array = explode(",", $position);
+        if(isset($array[3])) {
+            $level = Server::getInstance()->getLevelByName($array[0]);
+            if($level != null) {
+                return new Position((float) $array[1],(float) $array[2],(float) $array[3], $level);
+            }
+        }
+        return null;
+    }
+    
 }

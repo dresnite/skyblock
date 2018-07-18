@@ -4,6 +4,7 @@ namespace SkyBlock\generator;
 
 use pocketmine\level\generator\GeneratorManager as GManager;
 use SkyBlock\generator\generators\BasicIsland;
+use SkyBlock\generator\generators\OPIsland;
 use SkyBlock\SkyBlock;
 
 class GeneratorManager {
@@ -11,18 +12,19 @@ class GeneratorManager {
     /** @var SkyBlock */
     private $plugin;
 
-    const GENERATORS = [
-        "Basic" => BasicIsland::class
+    /** @var string[] */
+    private $generators = [
+        "Basic" => BasicIsland::class,
+        "OP" => OPIsland::class
     ];
     
     /**
-     * SkyBlockGeneratorManager constructor.
-     *
+     * GeneratorManager constructor.
      * @param SkyBlock $plugin
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
-        foreach(self::GENERATORS as $name => $class) {
+        foreach($this->generators as $name => $class) {
             GManager::addGenerator($class, $name);
         }
     }
@@ -30,10 +32,10 @@ class GeneratorManager {
     /**
      * Return if a generator exists
      *
-     * @param $name
+     * @param string $name
      * @return bool
      */
-    public function isGenerator($name) {
+    public function isGenerator(string $name) {
         return isset($this->generators[$name]);
     }
 

@@ -42,8 +42,7 @@ class BasicIsland extends Generator {
 	public function init(ChunkManager $level, Random $random) : void{
         $this->level = $level;
         $this->random = $random;
-        $this->name = "basic";
-        $this->islandName = "Basic Island";
+        $this->name = "Basic";
     }
 
     /**
@@ -54,11 +53,18 @@ class BasicIsland extends Generator {
     public function getName(): string {
         return $this->name;
     }
-
+    
+    /**
+     * @return array
+     */
     public function getSettings(): array {
         return $this->settings;
     }
-
+    
+    /**
+     * @param int $chunkX
+     * @param int $chunkZ
+     */
     public function generateChunk(int $chunkX, int $chunkZ) : void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
@@ -96,7 +102,11 @@ class BasicIsland extends Generator {
 			$chunk->setBlock(8, 65, 8, BlockIds::CACTUS);
 		}
     }
-
+    
+    /**
+     * @param int $chunkX
+     * @param int $chunkZ
+     */
     public function populateChunk(int $chunkX, int $chunkZ) : void {
         return;
     }

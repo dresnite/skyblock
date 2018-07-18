@@ -54,10 +54,23 @@ class Session extends iSession {
         return $this->isle != null;
     }
     
+    /**
+     * @param null|Isle $isle
+     */
+    public function setIsle(?Isle $isle) {
+        $lastIsle = $this->isle;
+        $this->isle = $isle;
+        $this->isleId = ($isle != null) ? $isle->getIdentifier() : null;
+        if($lastIsle != null) {
+            $lastIsle->update();
+        }
+        $this->update();
+    }
+    
     public function update(): void {
         parent::update();
         if($this->hasIsle()) {
-            $this->manager->getPlugin()->getIsleManager()->tryToCloseIsle($this->isle);
+            $this->isle->update();
         }
     }
     

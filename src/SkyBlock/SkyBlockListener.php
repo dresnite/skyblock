@@ -2,34 +2,31 @@
 
 namespace SkyBlock;
 
-use pocketmine\block\Block;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
-use pocketmine\event\level\LevelLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
-use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
-use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\event\player\PlayerLoginEvent;
-use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\Server;
-use pocketmine\utils\Config;
-use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
-use SkyBlock\island\Island;
+use SkyBlock\isle\IsleManager;
+use SkyBlock\session\Session;
+use SkyBlock\session\SessionManager;
 
 class SkyBlockListener implements Listener {
 
     /** @var SkyBlock */
     private $plugin;
-    private $cobbleDrops = [];
+    
+    /** @var SessionManager */
+    private $sessionManager;
+    
+    /** @var IsleManager */
+    private $isleManager;
 
     /**
      * SkyBlockListener constructor.
@@ -38,164 +35,76 @@ class SkyBlockListener implements Listener {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $this->sessionManager = $plugin->getSessionManager();
+        $this->isleManager = $plugin->getIsleManager();
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
-        $this->reloadConfig();
     }
-
-    public function reloadConfig(){
-    	if($this->plugin instanceof SkyBlock){
-    		$this->cobbleDrops = [];
-			$config = $this->plugin->getConfig()->get("cobble-drops");
-    		foreach($config as $drop){
-    			if((isset($drop["id"]) and $drop["id"] !== Item::AIR) and isset($drop["meta"])){
-
-    				$id = $drop["id"];
-    				$meta = $drop["meta"];
-    				if($id < 0){
-    					$id = 0;
-					}
-					if($meta < 0){
-						$meta = 0;
-					}
-
-    				$item = Item::get($id, $meta);
-    				if($item instanceof Item){
-    					$chance = $drop["chance"];
-    					if($chance < 1){
-    						$chance = 1;
-						}
-    					$this->addItemMultipleTimes($chance, $item, $this->cobbleDrops);
-    					MainLogger::getLogger()->debug("SkyBlockListener: Adding {$item->getName()} to cobbleDrop pool $chance times.");
-					}
-				}
-			}
-			if(empty($this->cobbleDrops)){
-				$this->addItemMultipleTimes(3, Item::get(Item::DIAMOND), $this->cobbleDrops);
-				$this->addItemMultipleTimes(12, Item::get(Item::IRON_INGOT), $this->cobbleDrops);
-				$this->addItemMultipleTimes(9, Item::get(Item::GOLD_INGOT), $this->cobbleDrops);
-				$this->addItemMultipleTimes(5, Item::get(Item::LAPIS_ORE), $this->cobbleDrops);
-				$this->addItemMultipleTimes(40, Item::get(Item::COAL), $this->cobbleDrops);
-				$this->addItemMultipleTimes(500, Item::get(Item::COBBLESTONE), $this->cobbleDrops);
-			}
-			shuffle($this->cobbleDrops);
-		}
-	}
-
+    
     /**
-     * Try to register a player
-     *
-     * @param PlayerLoginEvent $event
+     * @param Player $player
+     * @return Session
      */
-    public function onLogin(PlayerLoginEvent $event) {
-        $this->plugin->getSkyBlockManager()->tryRegisterUser($event->getPlayer());
-    }
-
-    /**
-     * Executes onJoin actions
-     *
-     * @param PlayerJoinEvent $event
-     */
-    public function onJoin(PlayerJoinEvent $event) {
-        $this->plugin->getIslandManager()->checkPlayerIsland($event->getPlayer());
-		$playerLevelName = $event->getPlayer()->getLevel()->getName();
-        if($this->plugin->getIslandManager()->isOnlineIsland($playerLevelName)){
-        	$this->plugin->getIslandManager()->getOnlineIsland($playerLevelName)->addPlayer($event->getPlayer());
-		}
-    }
-
-    /**
-     * Executes onLeave actions
-     *
-     * @param PlayerQuitEvent $event
-     */
-    public function onLeave(PlayerQuitEvent $event) {
-        $this->plugin->getIslandManager()->unloadByPlayer($event->getPlayer());
-    }
-
-	/**
-	 * @param       $times
-	 * @param Item  $item
-	 * @param array $array
-	 * @return Item[]
-	 */
-    public function addItemMultipleTimes($times, Item $item, array &$array){
-        for($i = 0; $i <= $times; $i++) {
-            $array[] = $item;
-        }
-        return $array;
+    public function getSession(Player $player): Session {
+        return $this->plugin->getSessionManager()->getSession($player);
     }
 
     /**
      * @param BlockBreakEvent $event
      */
-    public function onBreak(BlockBreakEvent $event) {
-        $island = $this->plugin->getIslandManager()->getOnlineIsland($event->getPlayer()->getLevel()->getName());
-        if($island instanceof Island) {
-            if(!$event->getPlayer()->isOp() and !in_array(strtolower($event->getPlayer()->getName()), $island->getAllMembers())) {
-                $event->getPlayer()->sendPopup(TextFormat::RED . "You must be part of this island to break here!");
-                $event->setCancelled();
-            }
-            else  {
-                if($event->getBlock()->getId() == Block::COBBLESTONE) {
-                    $event->setDrops([$this->cobbleDrops[array_rand($this->cobbleDrops)]]);
-                }
-            }
+    public function onBreak(BlockBreakEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
+        if($isle != null and $session->getIsle() !== $isle) {
+            $player->sendPopup(TextFormat::RED . "You must be part of this island to break here!");
+            $event->setCancelled();
         }
     }
 
     /**
      * @param BlockPlaceEvent $event
      */
-    public function onPlace(BlockPlaceEvent $event) {
-        $island = $this->plugin->getIslandManager()->getOnlineIsland($event->getPlayer()->getLevel()->getName());
-        if($island instanceof Island) {
-            if(!$event->getPlayer()->isOp() and !in_array(strtolower($event->getPlayer()->getName()), $island->getAllMembers())) {
-                $event->getPlayer()->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
-                $event->setCancelled();
-            }
+    public function onPlace(BlockPlaceEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
+        if($isle != null and $session->getIsle() !== $isle) {
+            $player->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
+            $event->setCancelled();
         }
     }
 
     /**
      * @param PlayerInteractEvent $event
      */
-    public function onInteract(PlayerInteractEvent $event) {
-        $island = $this->plugin->getIslandManager()->getOnlineIsland($event->getPlayer()->getLevel()->getName());
-        if($island instanceof Island) {
-            if(!$event->getPlayer()->isOp() and !in_array(strtolower($event->getPlayer()->getName()), $island->getAllMembers())) {
-                $event->getPlayer()->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
-                $event->setCancelled();
-            }
-            if($event->getBlock() === Block::BED_BLOCK){
-            	$event->setCancelled(true);
-            	$event->getPlayer()->sendMessage("Beds cannot be used on islands.");
-			}
+    public function onInteract(PlayerInteractEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
+        if($isle != null and $session->getIsle() !== $isle) {
+            $player->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
+            $event->setCancelled();
         }
     }
 
     /**
-     * Tries to remove a player on change event
-     *
      * @param EntityLevelChangeEvent $event
      */
-    public function onLevelChange(EntityLevelChangeEvent $event) {
-        $entity = $event->getEntity();
-        $originName = $event->getOrigin()->getName();
-        $targetName = $event->getTarget()->getName();
-        if($entity instanceof Player) {
-            if($this->plugin->getIslandManager()->isOnlineIsland($originName)) {
-                $this->plugin->getIslandManager()->getOnlineIsland($originName)->tryRemovePlayer($entity);
-            }
-           if($this->plugin->getIslandManager()->isOnlineIsland($targetName)) {
-                $this->plugin->getIslandManager()->getOnlineIsland($targetName)->addPlayer($entity);
-            }
+    public function onLevelChange(EntityLevelChangeEvent $event): void {
+        $originIsle = $this->isleManager->getIsle($event->getOrigin()->getName());
+        $targetIsle = $this->isleManager->getIsle($event->getTarget()->getName());
+        if($originIsle != null) {
+            $originIsle->update();
+        }
+        if($targetIsle != null) {
+            $targetIsle->update();
         }
     }
 
     /**
      * @param PlayerChatEvent $event
      */
-    public function onChat(PlayerChatEvent $event) {
+    public function onChat(PlayerChatEvent $event): void {
         $sessionManager = $this->plugin->getSessionManager();
         $session = $sessionManager->getSession($event->getPlayer());
         if(!($session->hasIsle()) or !($session->isInChat())) {
@@ -213,11 +122,11 @@ class SkyBlockListener implements Listener {
     /**
      * @param EntityDamageEvent $event
      */
-    public function onHurt(EntityDamageEvent $event) {
+    public function onHurt(EntityDamageEvent $event): void {
         if($event instanceof EntityDamageByEntityEvent) {
             $entity = $event->getEntity();
             if($entity instanceof Player) {
-                if($this->plugin->getIslandManager()->isOnlineIsland($entity->getLevel()->getName())) {
+                if($this->isleManager->getIsle($entity->getLevel()->getName()) != null) {
                     $event->setCancelled();
                 }
             }
@@ -227,49 +136,10 @@ class SkyBlockListener implements Listener {
     /**
      * @param LevelUnloadEvent $event
      */
-    public function onUnloadLevel(LevelUnloadEvent $event) {
+    public function onUnloadLevel(LevelUnloadEvent $event): void {
         foreach($event->getLevel()->getPlayers() as $player) {
             $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
-
-	/**
-	 * Prevent players from using beds on an island.
-	 *
-	 * @param PlayerBedEnterEvent $event
-	 */
-    public function onBedInteract(PlayerBedEnterEvent $event){
-    	foreach($this->plugin->getIslandManager()->getOnlineIslands() as $island){
-			if($island->isOnIsland($event->getPlayer())){
-				$event->setCancelled(true);
-				$event->getPlayer()->sendMessage("§l§c✖ Using beds on islands is not allowed.");
-			}
-		}
-	}
-
-	/**
-	 * @param LevelLoadEvent $event
-	 */
-	public function onLevelLoad(LevelLoadEvent $event){
-		$levelName = $event->getLevel()->getName();
-		$islandConfigFile = SkyBlockUtils::getIslandPath($levelName);
-		if(!$this->plugin->getIslandManager()->isOnlineIsland($levelName)){
-			if(is_file($islandConfigFile)){
-				Server::getInstance()->getLogger()->info("onLevelLoad found Island being loaded.");
-				$config = new Config($islandConfigFile, Config::JSON);
-				$this->plugin->getIslandManager()->addIsland(
-					$config,
-					$config->get("owner"),
-					$levelName,
-					$config->get("members"),
-					$config->get("locked"),
-					$config->get("home"),
-					$config->get("generator")
-				);
-			}
-			$island = $this->plugin->getIslandManager()->getOnlineIsland($levelName);
-			$island->setPlayersOnline([$event->getLevel()->getPlayers()]);
-		}
-	}
 
 }

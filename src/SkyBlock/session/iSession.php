@@ -46,7 +46,7 @@ abstract class iSession {
     }
     
     /**
-     * @return mixed
+     * @return string
      */
     public function getUsername() {
         return $this->username;

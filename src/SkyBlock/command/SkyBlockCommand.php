@@ -65,7 +65,7 @@ class SkyBlockCommand extends Command {
                                     $this->sendMessage($sender, "§l§l§a✔§f➡§fYou'll be able to create a new island in §4{$minutes} §cminutes");
                                 }
                                 else {
-                                    $skyBlockManager = $this->plugin->getSkyBlockGeneratorManager();
+                                    $skyBlockManager = $this->plugin->getGeneratorManager();
                                     if(isset($args[1])) {
                                         if($skyBlockManager->isGenerator($args[1])) {
                                             $this->plugin->getSkyBlockManager()->generateIsland($sender, $args[1]);

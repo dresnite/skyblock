@@ -12,7 +12,8 @@ use pocketmine\utils\Config;
 use SkyBlock\isle\Isle;
 use SkyBlock\provider\Provider;
 use SkyBlock\session\iSession;
-use SkyBlock\SkyBlockUtils;
+use SkyBlock\session\Session;
+use SkyBlock\SkyBlock;
 
 class JSONProvider extends Provider {
     
@@ -33,7 +34,8 @@ class JSONProvider extends Provider {
      */
     private function getUserConfig(string $username): Config {
         return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
-                "isle" => null
+                "isle" => null,
+                "rank" => Session::RANK_DEFAULT
             ]);
     }
     
@@ -77,11 +79,11 @@ class JSONProvider extends Provider {
         $level = $server->getLevelByName($identifier);
         $locked = $config->get("locked");
         $type = $config->get("type");
-        $spawn = SkyBlockUtils::parsePosition($config->get("spawn"));
+        $spawn = SkyBlock::parsePosition($config->get("spawn"));
         
         $members = [];
         foreach($config->get("members", []) as $username) {
-            $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
+            $members[$username] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
         $this->plugin->getIsleManager()->openIsle($identifier, $members, $locked, $type, $level, $spawn);
     }
@@ -94,7 +96,7 @@ class JSONProvider extends Provider {
         $config->set("identifier", $isle->getIdentifier());
         $config->set("locked", $isle->isLocked());
         $config->set("type", $isle->getType());
-        $config->set("spawn", SkyBlockUtils::createPositionString($isle->getSpawn()));
+        $config->set("spawn", SkyBlock::writePosition($isle->getSpawn()));
         
         $members = [];
         foreach($isle->getMembers() as $member) {
