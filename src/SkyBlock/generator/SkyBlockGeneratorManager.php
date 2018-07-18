@@ -11,7 +11,7 @@ class SkyBlockGeneratorManager {
     /** @var SkyBlock */
     private $plugin;
 
-    /** @var string[] */
+    /** @var string|SkyBlockGenerator[] */
     private $generators = [];
 
     /**
@@ -36,9 +36,9 @@ class SkyBlockGeneratorManager {
     }
 
     /**
-     * Return skyblock generators
+     * Return array of strings with SkyBlockGenerator generator class names.
      *
-     * @return SkyBlockGenerator[]
+     * @return string|SkyBlockGenerator[]
      */
     public function getGenerators() {
         return $this->generators;
