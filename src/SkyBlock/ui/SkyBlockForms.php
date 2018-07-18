@@ -278,9 +278,11 @@ class SkyBlockForms{
 
 		$invitations = $this->invitationHandler->getInvitationByReceiver($player);
 		$invitation = null;
-		foreach($invitations as $invite){
-			if($invite->getSender()->getName() == $sender){
-				$invitation = $invite;
+		if($invitations !== null){
+			foreach ($invitations as $invite){
+				if ($invite->getSender()->getName() == $sender){
+					$invitation = $invite;
+				}
 			}
 		}
 		if($invitation !== null){
