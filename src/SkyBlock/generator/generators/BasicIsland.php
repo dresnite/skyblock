@@ -94,4 +94,14 @@ class BasicIsland extends SkyBlockGenerator {
 	}
 
 
+	/** This returns the location of the starter chest on the island. */
+    public static function getChestLocation(): Vector3 {
+        return new Vector3(10,6,4);
+    }
+
+    /** This returns the starting location for players on the island. */
+    public static function getIslandSpawn(): Vector3 {
+        return new Vector3(15,7,10);
+    }
+
 }
