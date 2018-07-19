@@ -126,14 +126,6 @@ class Isle {
         return $this->spawn;
     }
     
-    /**
-     * @param Session $session
-     * @return bool
-     */
-    public function canInteract(Session $session): bool {
-        return $session->getIsle() === $this;
-    }
-    
     public function update(): void {
         foreach($this->getMembersOnline() as $member) {
             if($member->getIsle() !== $this) {
