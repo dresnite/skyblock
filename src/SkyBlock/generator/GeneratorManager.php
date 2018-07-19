@@ -28,6 +28,13 @@ class GeneratorManager {
             GManager::addGenerator($class, $name);
         }
     }
+    
+    /**
+     * @return string[]
+     */
+    public function getGenerators(): array {
+        return $this->generators;
+    }
 
     /**
      * Return if a generator exists
@@ -37,6 +44,18 @@ class GeneratorManager {
      */
     public function isGenerator(string $name) {
         return isset($this->generators[$name]);
+    }
+    
+    /**
+     * @param string $name
+     * @param string $class
+     */
+    public function registerGenerator(string $name, string $class): void {
+        GManager::addGenerator($class, $name);
+        if(isset($this->generators[$name])) {
+            $this->plugin->getLogger()->debug("Overwriting generator: $name");
+        }
+        $this->generators[$name] = $class;
     }
 
 }
