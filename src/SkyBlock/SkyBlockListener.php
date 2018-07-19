@@ -12,7 +12,6 @@ use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\session\Session;
 use SkyBlock\session\SessionManager;
@@ -56,7 +55,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null and $session->getIsle() !== $isle) {
-            $player->sendPopup(TextFormat::RED . "You must be part of this island to break here!");
+            $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
         }
     }
@@ -69,7 +68,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null and $session->getIsle() !== $isle) {
-            $player->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
+            $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
         }
     }
@@ -82,7 +81,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
         if($isle != null and $session->getIsle() !== $isle) {
-            $player->sendPopup(TextFormat::RED . "You must be part of this island to place here!");
+            $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
         }
     }

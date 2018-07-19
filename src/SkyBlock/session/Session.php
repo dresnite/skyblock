@@ -74,4 +74,37 @@ class Session extends iSession {
         }
     }
     
+    /**
+     * @param string $identifier
+     * @param array $args
+     * @return string
+     */
+    public function translate(string $identifier, array $args): string {
+        return $this->manager->getPlugin()->getMessage($identifier, $args);
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function sendTranslatedMessage(string $identifier, array $args = []): void {
+        $this->player->sendMessage($this->translate($identifier, $args));
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function sendTranslatedPopup(string $identifier, array $args = []): void {
+        $this->player->sendPopup($this->translate($identifier, $args));
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function sendTranslatedTip(string $identifier, array $args = []): void {
+        $this->player->sendTip($this->translate($identifier, $args));
+    }
+    
 }

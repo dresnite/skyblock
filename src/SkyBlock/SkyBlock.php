@@ -5,6 +5,7 @@ namespace SkyBlock;
 use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
+use pocketmine\utils\TextFormat;
 use SkyBlock\command\IsleCommandMap;
 use SkyBlock\generator\GeneratorManager;
 use SkyBlock\isle\IsleManager;
@@ -35,10 +36,14 @@ class SkyBlock extends PluginBase {
     /** @var SkyBlockListener */
     private $eventListener;
     
+    /** @var string[] */
+    private $messages = [];
+    
     public function onLoad(): void {
         if(!self::$object instanceof SkyBlock) {
             self::$object = $this;
         }
+        $this->saveResource("messages.json");
         $this->saveDefaultConfig();
     }
 
@@ -49,6 +54,7 @@ class SkyBlock extends PluginBase {
         $this->generatorManager = new GeneratorManager($this);
         $this->commandMap = new IsleCommandMap($this);
         $this->eventListener = new SkyBlockListener($this);
+        $this->messages = json_decode(file_get_contents($this->getDataFolder() . "messages.json"), true);
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
@@ -92,6 +98,27 @@ class SkyBlock extends PluginBase {
     }
     
     /**
+     * @return string[]
+     */
+    public function getMessages(): array {
+        return $this->messages;
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     * @return string
+     */
+    public function getMessage(string $identifier, array $args = []) {
+        $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
+        $message = self::translateColors($message);
+        foreach($args as $arg => $value) {
+            $message = str_replace("{" . $arg . "}", $value, $message);
+        }
+        return $message;
+    }
+    
+    /**
      * @param int $seconds
      * @return string
      */
@@ -122,6 +149,36 @@ class SkyBlock extends PluginBase {
             }
         }
         return null;
+    }
+    
+    /**
+     * @param string $message
+     * @return string
+     */
+    public static function translateColors(string $message): string {
+        $message = str_replace("{BLACK}", TextFormat::BLACK, $message);
+        $message = str_replace("{DARK_BLUE}", TextFormat::DARK_BLUE, $message);
+        $message = str_replace("{DARK_GREEN}", TextFormat::DARK_GREEN, $message);
+        $message = str_replace("{DARK_AQUA}", TextFormat::DARK_AQUA, $message);
+        $message = str_replace("{DARK_RED}", TextFormat::DARK_RED, $message);
+        $message = str_replace("{DARK_PURPLE}", TextFormat::DARK_PURPLE, $message);
+        $message = str_replace("{ORANGE}", TextFormat::GOLD, $message);
+        $message = str_replace("{GRAY}", TextFormat::GRAY, $message);
+        $message = str_replace("{DARK_GRAY}", TextFormat::DARK_GRAY, $message);
+        $message = str_replace("{BLUE}", TextFormat::BLUE, $message);
+        $message = str_replace("{GREEN}", TextFormat::GREEN, $message);
+        $message = str_replace("{AQUA}", TextFormat::AQUA, $message);
+        $message = str_replace("{RED}", TextFormat::RED, $message);
+        $message = str_replace("{LIGHT_PURPLE}", TextFormat::LIGHT_PURPLE, $message);
+        $message = str_replace("{YELLOW}", TextFormat::YELLOW, $message);
+        $message = str_replace("{WHITE}", TextFormat::WHITE, $message);
+        $message = str_replace("{OBFUSCATED}", TextFormat::OBFUSCATED, $message);
+        $message = str_replace("{BOLD}", TextFormat::BOLD, $message);
+        $message = str_replace("{STRIKETHROUGH}", TextFormat::STRIKETHROUGH, $message);
+        $message = str_replace("{UNDERLINE}", TextFormat::UNDERLINE, $message);
+        $message = str_replace("{ITALIC}", TextFormat::ITALIC, $message);
+        $message = str_replace("{RESET}", TextFormat::RESET, $message);
+        return $message;
     }
     
 }

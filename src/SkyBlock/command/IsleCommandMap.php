@@ -77,7 +77,7 @@ class IsleCommandMap extends Command {
         if(isset($args[0]) and $this->getCommand($args[0]) != null){
             $this->getCommand(array_shift($args))->onCommand($session, $args);
         } else {
-            // $session->sendMessage("TRY_USING_HELP");
+            $session->sendTranslatedMessage("TRY_USING_HELP");
         }
     }
     
