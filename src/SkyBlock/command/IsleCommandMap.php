@@ -11,6 +11,7 @@ namespace SkyBlock\command;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\SkyBlock;
 
 class IsleCommandMap extends Command {
@@ -27,6 +28,7 @@ class IsleCommandMap extends Command {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $this->registerCommand(new HelpCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "isle",
             "island",
