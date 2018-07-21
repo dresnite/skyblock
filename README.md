@@ -1,6 +1,23 @@
 # SkyBlock
-SkyBlock for PocketMine-MP servers.
-### Contributions
-You are free to contribute to this project, any kind of help is accepted.
-### Where I can download it?
-You can download it [here](https://github.com/GiantAmethyst/SkyBlock/releases).
+
+A powerful core for SkyBlock servers
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your server.
+
+### Downloading
+
+You can get the latest compiled version in our [releases section.](https://github.com/room17/SkyBlock/releases)
+
+### Installing
+
+This is a plug-and-play plugin, to install it you must drop its file inside your PocketMine's plugins folder.
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+## License
+
+This project is licensed under the GNU LESSER GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE) file for details
