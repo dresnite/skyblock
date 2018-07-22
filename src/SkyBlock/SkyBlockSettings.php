@@ -72,7 +72,7 @@ class SkyBlockSettings {
      * @param array $args
      * @return string
      */
-    public function getMessage(string $identifier, array $args = []) {
+    public function getMessage(string $identifier, array $args = []): string {
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
         $message = SkyBlock::translateColors($message);
         foreach($args as $arg => $value) {

@@ -63,7 +63,7 @@ class IsleManager {
      * @param Session $session
      * @param string $type
      */
-    public function createIsleFor(Session $session, string $type) {
+    public function createIsleFor(Session $session, string $type): void {
         $identifier = "{$session->getUsername()} isle";
         $server = $this->plugin->getServer();
         

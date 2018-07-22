@@ -59,14 +59,14 @@ abstract class iSession {
     /**
      * @return string
      */
-    public function getUsername() {
+    public function getUsername(): string {
         return $this->username;
     }
     
     /**
      * @return null|string
      */
-    public function getIsleId() {
+    public function getIsleId(): ?string {
         return $this->isleId;
     }
     

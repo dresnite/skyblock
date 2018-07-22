@@ -66,7 +66,7 @@ class IsleGeneratorManager {
      * @param string $name
      * @return bool
      */
-    public function isGenerator(string $name) {
+    public function isGenerator(string $name): bool {
         return isset($this->generators[$name]);
     }
     

@@ -122,6 +122,13 @@ class Isle {
         return $this->level;
     }
     
+    /**
+     * @param bool $locked
+     */
+    public function setLocked(bool $locked = true): void {
+        $this->locked = $locked;
+    }
+    
     public function update(): void {
         foreach($this->getMembersOnline() as $member) {
             if($member->getIsle() !== $this) {

@@ -161,7 +161,7 @@ class SkyBlockListener implements Listener {
     /**
      * @param ChunkLoadEvent $event
      */
-    public function onChunkLoad(ChunkLoadEvent $event) {
+    public function onChunkLoad(ChunkLoadEvent $event): void {
         $level = $event->getLevel();
         $isle = $this->plugin->getIsleManager()->getIsle($level->getName());
         if($isle == null) {
