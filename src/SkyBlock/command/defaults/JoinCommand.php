@@ -26,7 +26,7 @@ class JoinCommand extends IsleCommand {
      * JoinCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["join", "tp"], "JOIN_USAGE", "JOIN_DESCRIPTION");
+        parent::__construct(["join"], "JOIN_USAGE", "JOIN_DESCRIPTION");
     }
     
     /**
