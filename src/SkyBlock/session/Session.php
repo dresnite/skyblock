@@ -64,6 +64,13 @@ class Session extends iSession {
     }
     
     /**
+     * @return OfflineSession
+     */
+    public function getOffline(): OfflineSession {
+        return new OfflineSession($this->manager, $this->username);
+    }
+    
+    /**
      * @param null|Isle $isle
      */
     public function setIsle(?Isle $isle): void {
