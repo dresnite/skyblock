@@ -48,6 +48,13 @@ class IsleCommandMap extends Command {
     }
     
     /**
+     * @return SkyBlock
+     */
+    public function getPlugin(): SkyBlock {
+        return $this->plugin;
+    }
+    
+    /**
      * @return IsleCommand[]
      */
     public function getCommands(): array {
