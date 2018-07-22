@@ -40,7 +40,8 @@ abstract class iSession {
     protected $rank = false;
     
     const RANK_DEFAULT = 0;
-    const RANK_FOUNDER = 1;
+    const RANK_OFFICER = 1;
+    const RANK_FOUNDER = 2;
     
     /**
      * iSession constructor.
