@@ -14,5 +14,7 @@
   "JOIN_USAGE": "Usage /is join",
   "JOIN_DESCRIPTION": "Teleports you to your isle",
   "MUST_BE_LEADER": "{YELLOW}You must be a leader to do this!",
-  "MUST_BE_OFFICER": "{YELLOW}You must be a officer to do this!"
+  "MUST_BE_OFFICER": "{YELLOW}You must be a officer to do this!",
+  "ISLE_LOCKED": "{GREEN}You successfully locked your isle!",
+  "ISLE_UNLOCKED": "{GREEN}You successfully unlocked your isle!"
 }
