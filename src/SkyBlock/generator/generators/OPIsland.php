@@ -18,12 +18,12 @@ namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
 use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
 use pocketmine\utils\Random;
+use SkyBlock\generator\IsleGenerator;
 
-class OPIsland extends Generator {
+class OPIsland extends IsleGenerator {
 
 	/** @var array */
 	private $settings;
@@ -57,12 +57,10 @@ class OPIsland extends Generator {
 		$this->random = $random;
 		$this->name = "OP";
 	}
-
-	/**
-	 * Return generator name
-	 *
-	 * @return string
-	 */
+    
+    /**
+     * @return string
+     */
 	public function getName(): string {
 		return $this->name;
 	}
@@ -91,8 +89,9 @@ class OPIsland extends Generator {
 					$chunk->setBlock($x, 4, $z, Block::DIRT);
 					$chunk->setBlock($x, 5, $z, Block::GRASS);
 				}
-				Tree::growTree($this->level, $chunkX * 16 + 8, 6, $chunkZ * 16 + 8, $this->random, 0);
 			}
+            Tree::growTree($this->level, 8, 6, 8, $this->random, 0);
+			$chunk->setBlock(10, 6, 8, Block::CHEST);
 			$chunk->setX($chunkX);
 			$chunk->setZ($chunkZ);
 			$this->level->setChunk($chunkX, $chunkZ, $chunk);
@@ -115,5 +114,12 @@ class OPIsland extends Generator {
 	public function getSpawn(): Vector3 {
 		return new Vector3(8, 7, 10);
 	}
-
+    
+    /**
+     * @return Vector3
+     */
+	public function getChestPosition(): Vector3 {
+	    return new Vector3(10, 6, 8);
+    }
+    
 }

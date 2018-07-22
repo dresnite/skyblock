@@ -19,9 +19,10 @@ namespace SkyBlock\generator;
 use pocketmine\level\generator\GeneratorManager as GManager;
 use SkyBlock\generator\generators\BasicIsland;
 use SkyBlock\generator\generators\OPIsland;
+use SkyBlock\generator\generators\ShellyGenerator;
 use SkyBlock\SkyBlock;
 
-class GeneratorManager {
+class IsleGeneratorManager {
 
     /** @var SkyBlock */
     private $plugin;
@@ -29,7 +30,8 @@ class GeneratorManager {
     /** @var string[] */
     private $generators = [
         "Basic" => BasicIsland::class,
-        "OP" => OPIsland::class
+        "OP" => OPIsland::class,
+        "Shelly" => ShellyGenerator::class
     ];
     
     /**
