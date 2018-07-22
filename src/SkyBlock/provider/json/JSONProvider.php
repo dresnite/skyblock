@@ -76,7 +76,7 @@ class JSONProvider extends Provider {
     /**
      * @param string $identifier
      */
-    public function checkIsle(string $identifier): void {
+    public function openIsle(string $identifier): void {
         $config = $this->getIsleConfig($identifier);
         $server = $this->plugin->getServer();
         if(!$server->isLevelLoaded($identifier)) {

@@ -50,7 +50,7 @@ abstract class Provider {
     /**
      * @param string $identifier
      */
-    public abstract function checkIsle(string $identifier): void;
+    public abstract function openIsle(string $identifier): void;
     
     /**
      * @param Isle $isle
