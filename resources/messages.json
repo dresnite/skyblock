@@ -5,7 +5,7 @@
   "HELP_DESCRIPTION": "Provides information about available commands",
   "HELP_HEADER": "{RED}___ {WHITE}Command Information {RED}___",
   "HELP_COMMAND_TEMPLATE": "{GREEN}/is {name}: {WHITE}{description}",
-  "NEED_ISLE": "{YELLOW}You must be part of a isle to do this!",
+  "NEED_ISLE": "{YELLOW}You must be part of an isle to do this!",
   "NEED_TO_BE_FREE": "{YELLOW}You can't do this if you're part of a isle!",
   "SUCCESSFULLY_CREATED_A_ISLE": "{GREEN}You successfully created a isle!",
   "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!",
@@ -22,5 +22,10 @@
   "CHAT_USAGE": "Usage: /is chat",
   "CHAT_DESCRIPTION": "Switch your chat room between the global chat and your isle's chat room",
   "JOINED_ISLE_CHAT": "{RED}> {WHITE}You joined your isle's chat room!",
-  "JOINED_GLOBAL_CHAT": "{RED}> {WHITE}You joined global chat room!"
+  "JOINED_GLOBAL_CHAT": "{RED}> {WHITE}You joined global chat room!",
+  "VISIT_USAGE": "Usage: /is visit <player>",
+  "VISIT_DESCRIPTION": "Lets you visit an isle if it's not locked",
+  "HE_DO_NOT_HAVE_AN_ISLE": "{name} {YELLOW}doesn't have an isle!",
+  "VISITING_ISLE": "{GREEN}You're visiting {WHITE}{name}{GREEN}'s isle!",
+  "HIS_ISLE_IS_LOCKED": "{name}{YELLOW}'s isle is locked! :("
 }

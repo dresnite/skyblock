@@ -25,6 +25,7 @@ use SkyBlock\command\defaults\CreateCommand;
 use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\command\defaults\JoinCommand;
 use SkyBlock\command\defaults\LockCommand;
+use SkyBlock\command\defaults\VisitCommand;
 use SkyBlock\SkyBlock;
 
 class IsleCommandMap extends Command {
@@ -46,6 +47,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new JoinCommand());
         $this->registerCommand(new LockCommand());
         $this->registerCommand(new ChatCommand());
+        $this->registerCommand(new VisitCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",
