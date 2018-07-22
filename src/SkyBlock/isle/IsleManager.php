@@ -18,6 +18,7 @@ namespace SkyBlock\isle;
 
 
 use pocketmine\level\Level;
+use SkyBlock\session\iSession;
 use SkyBlock\session\Session;
 use SkyBlock\SkyBlock;
 
@@ -80,6 +81,7 @@ class IsleManager {
         
         $this->openIsle($identifier, [$session->getOffline()], true, $type, $level);
         $session->setIsle($this->isles[$identifier]);
+        $session->setRank(iSession::RANK_FOUNDER);
     }
     
     /**
