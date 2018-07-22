@@ -129,6 +129,63 @@ class Isle {
         $this->locked = $locked;
     }
     
+    /**
+     * @param string $message
+     */
+    public function broadcastMessage(string $message): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->getPlayer()->sendMessage($message);
+        }
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function broadcastTranslatedMessage(string $identifier, array $args = []): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->sendTranslatedMessage($identifier, $args);
+        }
+    }
+    
+    /**
+     * @param string $message
+     */
+    public function broadcastPopup(string $message): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->getPlayer()->sendPopup($message);
+        }
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function broadcastTranslatedPopup(string $identifier, array $args = []): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->sendTranslatedPopup($identifier, $args);
+        }
+    }
+    
+    /**
+     * @param string $message
+     */
+    public function broadcastTip(string $message): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->getPlayer()->sendTip($message);
+        }
+    }
+    
+    /**
+     * @param string $identifier
+     * @param array $args
+     */
+    public function broadcastTranslatedTip(string $identifier, array $args = []): void {
+        foreach($this->getMembersOnline() as $session) {
+            $session->sendTranslatedTip($identifier, $args);
+        }
+    }
+    
     public function update(): void {
         $membersOnline = $this->getMembersOnline();
         foreach($membersOnline as $member) {
