@@ -8,5 +8,9 @@
   "NEED_ISLE": "{YELLOW}You must be part of a isle to do this!",
   "NEED_TO_BE_FREE": "{YELLOW}You can't do this if you're part of a isle!",
   "SUCCESSFULLY_CREATED_A_ISLE": "{GREEN}You successfully created a isle!",
-  "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!"
+  "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!",
+  "CREATE_USAGE": "Usage: /is create",
+  "CREATE_DESCRIPTION": "Generates a new isle",
+  "JOIN_USAGE": "Usage /is join",
+  "JOIN_DESCRIPTION": "Teleports you to your isle"
 }

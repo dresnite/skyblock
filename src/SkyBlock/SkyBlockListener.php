@@ -21,11 +21,14 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityLevelChangeEvent;
+use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\Player;
+use pocketmine\tile\Chest;
+use pocketmine\tile\Tile;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\session\Session;
 use SkyBlock\session\SessionManager;
@@ -152,6 +155,26 @@ class SkyBlockListener implements Listener {
     public function onUnloadLevel(LevelUnloadEvent $event): void {
         foreach($event->getLevel()->getPlayers() as $player) {
             $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
+        }
+    }
+    
+    /**
+     * @param ChunkLoadEvent $event
+     */
+    public function onChunkLoad(ChunkLoadEvent $event) {
+        $level = $event->getLevel();
+        $isle = $this->plugin->getIsleManager()->getIsle($level->getName());
+        if($isle == null) {
+            return;
+        }
+        $generator = $this->plugin->getGeneratorManager()->getGenerator($type = $isle->getType());
+        $position = (new $generator())->getChestPosition();
+        if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
+            /** @var Chest $chest */
+            $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
+            foreach($this->plugin->getSettings()->getChestPerGenerator($type) as $item) {
+                $chest->getInventory()->addItem($item);
+            }
         }
     }
 

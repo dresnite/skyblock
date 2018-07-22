@@ -96,7 +96,7 @@ class Session extends iSession {
      * @return string
      */
     public function translate(string $identifier, array $args = []): string {
-        return $this->manager->getPlugin()->getMessage($identifier, $args);
+        return $this->manager->getPlugin()->getSettings()->getMessage($identifier, $args);
     }
     
     /**

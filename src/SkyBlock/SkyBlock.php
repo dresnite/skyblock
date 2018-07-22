@@ -16,12 +16,13 @@
 
 namespace SkyBlock;
 
+use pocketmine\item\Item;
 use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use SkyBlock\command\IsleCommandMap;
-use SkyBlock\generator\GeneratorManager;
+use SkyBlock\generator\IsleGeneratorManager;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\provider\json\JSONProvider;
 use SkyBlock\provider\Provider;
@@ -32,6 +33,9 @@ class SkyBlock extends PluginBase {
     /** @var SkyBlock */
     private static $object = null;
 
+    /** @var SkyBlockSettings */
+    private $settings;
+    
     /** @var Provider */
     private $provider;
     
@@ -44,14 +48,11 @@ class SkyBlock extends PluginBase {
     /** @var IsleCommandMap */
     private $commandMap;
     
-    /** @var GeneratorManager */
+    /** @var IsleGeneratorManager */
     private $generatorManager;
     
     /** @var SkyBlockListener */
     private $eventListener;
-    
-    /** @var string[] */
-    private $messages = [];
     
     public function onLoad(): void {
         self::$object = $this;
@@ -59,17 +60,17 @@ class SkyBlock extends PluginBase {
             mkdir($this->getDataFolder());
         }
         $this->saveResource("messages.json");
-        $this->saveDefaultConfig();
+        $this->saveResource("settings.json");
     }
 
     public function onEnable(): void {
+        $this->settings = new SkyBlockSettings($this);
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
         $this->isleManager = new IsleManager($this);
-        $this->generatorManager = new GeneratorManager($this);
+        $this->generatorManager = new IsleGeneratorManager($this);
         $this->commandMap = new IsleCommandMap($this);
         $this->eventListener = new SkyBlockListener($this);
-        $this->messages = json_decode(file_get_contents($this->getDataFolder() . "messages.json"), true);
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
@@ -82,6 +83,13 @@ class SkyBlock extends PluginBase {
      */
     public static function getInstance(): SkyBlock {
         return self::$object;
+    }
+    
+    /**
+     * @return SkyBlockSettings
+     */
+    public function getSettings(): SkyBlockSettings {
+        return $this->settings;
     }
     
     /**
@@ -106,31 +114,10 @@ class SkyBlock extends PluginBase {
     }
 
     /**
-     * @return GeneratorManager
+     * @return IsleGeneratorManager
      */
-    public function getGeneratorManager(): GeneratorManager {
+    public function getGeneratorManager(): IsleGeneratorManager {
         return $this->generatorManager;
-    }
-    
-    /**
-     * @return string[]
-     */
-    public function getMessages(): array {
-        return $this->messages;
-    }
-    
-    /**
-     * @param string $identifier
-     * @param array $args
-     * @return string
-     */
-    public function getMessage(string $identifier, array $args = []) {
-        $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
-        $message = self::translateColors($message);
-        foreach($args as $arg => $value) {
-            $message = str_replace("{" . $arg . "}", $value, $message);
-        }
-        return $message;
     }
     
     /**
@@ -164,6 +151,38 @@ class SkyBlock extends PluginBase {
             }
         }
         return null;
+    }
+    
+    /**
+     * Parse an Item
+     *
+     * @param string $item
+     * @return null|Item
+     */
+    public static function parseItem(string $item): ?Item {
+        $parts = explode(",", $item);
+        foreach($parts as $key => $value) {
+            $parts[$key] = (int) $value;
+        }
+        if(isset($parts[0])) {
+            return Item::get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1);
+        }
+        return null;
+    }
+    
+    /**
+     * @param array $items
+     * @return array
+     */
+    public static function parseItems(array $items): array {
+        $result = [];
+        foreach($items as $item) {
+            $item = self::parseItem($item);
+            if($item != null) {
+                $result[] = $item;
+            }
+        }
+        return $result;
     }
     
     /**
