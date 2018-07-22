@@ -20,6 +20,7 @@ namespace SkyBlock\command;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use SkyBlock\command\defaults\ChatCommand;
 use SkyBlock\command\defaults\CreateCommand;
 use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\command\defaults\JoinCommand;
@@ -44,6 +45,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new CreateCommand($this));
         $this->registerCommand(new JoinCommand());
         $this->registerCommand(new LockCommand());
+        $this->registerCommand(new ChatCommand());
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",

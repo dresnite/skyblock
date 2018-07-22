@@ -11,10 +11,16 @@
   "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!",
   "CREATE_USAGE": "Usage: /is create",
   "CREATE_DESCRIPTION": "Generates a new isle",
-  "JOIN_USAGE": "Usage /is join",
+  "JOIN_USAGE": "Usage: /is join",
   "JOIN_DESCRIPTION": "Teleports you to your isle",
   "MUST_BE_LEADER": "{YELLOW}You must be a leader to do this!",
   "MUST_BE_OFFICER": "{YELLOW}You must be a officer to do this!",
+  "LOCK_USAGE": "Usage: /is lock",
+  "LOCK_DESCRIPTION": "Lock or unlock your isle. If your isle is locked, nobody other than the members will be able to visit it.",
   "ISLE_LOCKED": "{GREEN}You successfully locked your isle!",
-  "ISLE_UNLOCKED": "{GREEN}You successfully unlocked your isle!"
+  "ISLE_UNLOCKED": "{GREEN}You successfully unlocked your isle!",
+  "CHAT_USAGE": "Usage: /is chat",
+  "CHAT_DESCRIPTION": "Switch your chat room between the global chat and your isle's chat room",
+  "JOINED_ISLE_CHAT": "{RED}> {WHITE}You joined your isle's chat room!",
+  "JOINED_GLOBAL_CHAT": "{RED}> {WHITE}You joined global chat room!"
 }
