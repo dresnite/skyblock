@@ -21,6 +21,9 @@ use SkyBlock\session\Session;
 
 abstract class IsleCommand {
     
+    /** @var string */
+    private $name;
+    
     /** @var array */
     private $aliases = [];
     
@@ -38,8 +41,16 @@ abstract class IsleCommand {
      */
     public function __construct(array $aliases, string $usageMessageId, string $descriptionMessageId) {
         $this->aliases = array_map("strtolower", $aliases);
+        $this->name = array_shift($this->aliases);
         $this->usageMessageId = $usageMessageId;
         $this->descriptionMessageId = $descriptionMessageId;
+    }
+    
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return $this->name;
     }
     
     /**

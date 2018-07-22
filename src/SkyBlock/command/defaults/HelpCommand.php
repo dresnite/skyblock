@@ -32,7 +32,7 @@ class HelpCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->map = $map;
-        parent::__construct([], "HELP_USAGE", "HELP_DESCRIPTION");
+        parent::__construct(["help"], "HELP_USAGE", "HELP_DESCRIPTION");
     }
     
     /**
@@ -43,11 +43,10 @@ class HelpCommand extends IsleCommand {
         $session->sendTranslatedMessage("HELP_HEADER", ["amount" => count($this->map->getCommands())]);
         foreach($this->map->getCommands() as $command) {
             $session->sendTranslatedMessage("HELP_COMMAND_TEMPLATE", [
-                "name" => array_shift($command->getAliases()),
+                "name" => $command->getName(),
                 "description" => $session->translate($command->getDescriptionMessageId()),
                 "usage" => $session->translate($command->getUsageMessageId())
             ]);
-            $session->getPlayer()->sendMessage(array_shift($command->getAliases()) . ": " . $session->translate($command->getDescriptionMessageId()));
         }
     }
     

@@ -39,11 +39,12 @@ class IsleCommandMap extends Command {
         $this->plugin = $plugin;
         $this->registerCommand(new HelpCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
-            "isle",
             "island",
+            "is",
             "sb",
             "skyblock"
         ]);
+        $plugin->getServer()->getCommandMap()->register("isle", $this);
     }
     
     /**
@@ -58,9 +59,9 @@ class IsleCommandMap extends Command {
      * @return null|IsleCommand
      */
     public function getCommand(string $alias): ?IsleCommand {
-        foreach($this->commands as $key => $subcommand) {
-            if(in_array(strtolower($alias), $subcommand->getAliases())) {
-                return $subcommand;
+        foreach($this->commands as $key => $command) {
+            if(in_array(strtolower($alias), $command->getAliases()) or $alias == $command->getName()) {
+                return $command;
             }
         }
         return null;
