@@ -12,5 +12,7 @@
   "CREATE_USAGE": "Usage: /is create",
   "CREATE_DESCRIPTION": "Generates a new isle",
   "JOIN_USAGE": "Usage /is join",
-  "JOIN_DESCRIPTION": "Teleports you to your isle"
+  "JOIN_DESCRIPTION": "Teleports you to your isle",
+  "MUST_BE_LEADER": "{YELLOW}You must be a leader to do this!",
+  "MUST_BE_OFFICER": "{YELLOW}You must be a officer to do this!"
 }

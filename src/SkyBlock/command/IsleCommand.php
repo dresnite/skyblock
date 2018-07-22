@@ -17,6 +17,7 @@
 namespace SkyBlock\command;
 
 
+use SkyBlock\session\iSession;
 use SkyBlock\session\Session;
 
 abstract class IsleCommand {
@@ -78,11 +79,39 @@ abstract class IsleCommand {
      * @param Session $session
      * @return bool
      */
-    public function checkIsle(Session $session) {
+    public function checkIsle(Session $session): bool {
         if($session->hasIsle()) {
             return false;
         }
         $session->sendTranslatedMessage("NEED_ISLE");
+        return true;
+    }
+    
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    public function checkLeader(Session $session): bool {
+        if($this->checkIsle($session)) {
+            return true;
+        } elseif($session->getRank() == iSession::RANK_FOUNDER or $session->getRank() == iSession::RANK_LEADER) {
+            return false;
+        }
+        $session->sendTranslatedMessage("MUST_BE_LEADER");
+        return true;
+    }
+    
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    public function checkOfficer(Session $session): bool {
+        if($this->checkIsle($session)) {
+            return true;
+        } elseif($session->getRank() == iSession::RANK_OFFICER) {
+            return false;
+        }
+        $session->sendTranslatedMessage("MUST_BE_OFFICER");
         return true;
     }
     
