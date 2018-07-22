@@ -1,8 +1,12 @@
 {
-  "MUST_ME_MEMBER": "{YELLOW}You must be part of this island to do this!",
+  "MUST_ME_MEMBER": "{YELLOW}You must be part of this isle to do this!",
   "TRY_USING_HELP": "{GREEN}You don't know how to use SkyBlock commands?\n{GREEN}Take a look at: {WHITE}/is help",
   "HELP_USAGE": "Usage: /is help",
   "HELP_DESCRIPTION": "Provides information about available commands",
   "HELP_HEADER": "{RED}___ {WHITE}Command Information {RED}___",
-  "HELP_COMMAND_TEMPLATE": "{GREEN}/is {name}: {WHITE}{description}"
+  "HELP_COMMAND_TEMPLATE": "{GREEN}/is {name}: {WHITE}{description}",
+  "NEED_ISLE": "{YELLOW}You must be part of a isle to do this!",
+  "NEED_TO_BE_FREE": "{YELLOW}You can't do this if you're part of a isle!",
+  "SUCCESSFULLY_CREATED_A_ISLE": "{GREEN}You successfully created a isle!",
+  "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!"
 }
