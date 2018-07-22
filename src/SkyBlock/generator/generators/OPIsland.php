@@ -112,7 +112,7 @@ class OPIsland extends Generator {
 	 *
 	 * @return Vector3
 	 */
-	public function getSpawn(): Vector3{
+	public function getSpawn(): Vector3 {
 		return new Vector3(8, 7, 10);
 	}
 

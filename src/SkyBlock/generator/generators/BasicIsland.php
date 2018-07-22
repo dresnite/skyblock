@@ -130,7 +130,7 @@ class BasicIsland extends Generator {
      *
      * @return Vector3
      */
-    public function getSpawn(): Vector3{
+    public function getSpawn(): Vector3 {
         return new Vector3(7, 66, 7);
     }
 

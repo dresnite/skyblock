@@ -49,6 +49,14 @@ class GeneratorManager {
     public function getGenerators(): array {
         return $this->generators;
     }
+    
+    /**
+     * @param string $name
+     * @return null|string
+     */
+    public function getGenerator(string $name): ?string {
+        return $this->generators[$name] ?? null;
+    }
 
     /**
      * Return if a generator exists
