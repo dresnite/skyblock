@@ -41,7 +41,8 @@ abstract class iSession {
     
     const RANK_DEFAULT = 0;
     const RANK_OFFICER = 1;
-    const RANK_FOUNDER = 2;
+    const RANK_LEADER = 2;
+    const RANK_FOUNDER = 3;
     
     /**
      * iSession constructor.
