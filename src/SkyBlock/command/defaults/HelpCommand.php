@@ -32,7 +32,7 @@ class HelpCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->map = $map;
-        parent::__construct(["help"], "HELP_USAGE", "HELP_DESCRIPTION");
+        parent::__construct(["help", "?"], "HELP_USAGE", "HELP_DESCRIPTION");
     }
     
     /**
