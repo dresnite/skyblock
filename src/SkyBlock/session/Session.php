@@ -28,6 +28,12 @@ class Session extends iSession {
     /** @var null|Isle */
     private $isle = null;
     
+    /** @var string|null */
+    private $lastInvitation = null;
+    
+    /** @var array */
+    private $invitations = [];
+    
     /**
      * Session constructor.
      * @param SessionManager $manager
@@ -71,6 +77,35 @@ class Session extends iSession {
     }
     
     /**
+     * @return array
+     */
+    public function getInvitations(): array {
+        return $this->invitations;
+    }
+    
+    /**
+     * @param string $senderName
+     * @return null|Isle
+     */
+    public function getInvitation(string $senderName): ?Isle {
+        return $this->invitations[$senderName] ?? null;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getLastInvitation(): ?string {
+        return $this->lastInvitation;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function hasLastInvitation(): bool {
+        return $this->lastInvitation != null;
+    }
+    
+    /**
      * @param null|Isle $isle
      */
     public function setIsle(?Isle $isle): void {
@@ -81,6 +116,38 @@ class Session extends iSession {
             $lastIsle->update();
         }
         $this->update();
+    }
+    
+    /**
+     * @param array $invitations
+     */
+    public function setInvitations(array $invitations): void {
+        $this->invitations = $invitations;
+    }
+    
+    /**
+     * @param string $senderName
+     * @param Isle $isle
+     */
+    public function addInvitation(string $senderName, Isle $isle): void {
+        $this->invitations[$senderName] = $isle;
+        $this->lastInvitation = $senderName;
+    }
+    
+    /**
+     * @param string $senderName
+     */
+    public function removeInvitation(string $senderName): void {
+        if(isset($this->invitations[$senderName])) {
+            unset($this->invitations[$senderName]);
+        }
+    }
+    
+    /**
+     * @param null|string $senderName
+     */
+    public function setLastInvitation(?string $senderName): void {
+        $this->lastInvitation = $senderName;
     }
     
     public function update(): void {

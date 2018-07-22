@@ -36,5 +36,13 @@
   "ONLINE_MEMBER": "{BOLD}{GREEN}ONLINE{RESET} {WHITE}{name}",
   "OFFLINE_MEMBER": "{BOLD}{RED}OFFLINE{RESET} {WHITE}{name}",
   "MEMBERS_USAGE": "Usage: /is members",
-  "MEMBERS_DESCRIPTION": "Show all the members of a isle"
+  "MEMBERS_DESCRIPTION": "Show all the members of a isle",
+  "NOT_ONLINE_PLAYER": "{name} {YELLOW}is not an online player!",
+  "CANT_BE_YOURSELF": "{YELLOW}You can't do this to yourself!",
+  "CANNOT_INVITE_BECAUSE_HAS_ISLE": "{YELLOW}Cannot invite {WHITE}{name} {YELLOW}because he is already part of an isle!",
+  "YOU_WERE_INVITED_TO_AN_ISLE": "{RED}> {BOLD}{WHITE}You were invited to {GREEN}{name}'s {WHITE}isle!\n{GRAY}* Type {WHITE}/is accept {name} {GRAY}to accept it",
+  "SUCCESSFULLY_INVITED": "{GREEN}You successfully invited {WHITE}{name} {GREEN}to your isle!",
+  "INVITE_USAGE": "Usage: /is invite <player>",
+  "INVITE_DESCRIPTION": "Invites a player to your isle",
+  "PLAYER_JOINED_THE_ISLE": "{RED}{BOLD}> {WHITE}{name} {GREEN}joined the isle!"
 }
