@@ -76,6 +76,18 @@ abstract class IsleCommand {
     
     /**
      * @param Session $session
+     * @return bool
+     */
+    public function checkIsle(Session $session) {
+        if($session->hasIsle()) {
+            return false;
+        }
+        $session->sendTranslatedMessage("NEED_ISLE");
+        return true;
+    }
+    
+    /**
+     * @param Session $session
      * @param array $args
      * @return void
      */
