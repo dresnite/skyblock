@@ -22,7 +22,6 @@ use SkyBlock\isle\Isle;
 use SkyBlock\provider\Provider;
 use SkyBlock\session\iSession;
 use SkyBlock\session\Session;
-use SkyBlock\SkyBlock;
 
 class JSONProvider extends Provider {
     
@@ -87,13 +86,12 @@ class JSONProvider extends Provider {
         $level = $server->getLevelByName($identifier);
         $locked = $config->get("locked");
         $type = $config->get("type");
-        $spawn = SkyBlock::parsePosition($config->get("spawn"));
         
         $members = [];
         foreach($config->get("members", []) as $username) {
             $members[$username] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
-        $this->plugin->getIsleManager()->openIsle($identifier, $members, $locked, $type, $level, $spawn);
+        $this->plugin->getIsleManager()->openIsle($identifier, $members, $locked, $type, $level);
     }
     
     /**
@@ -104,7 +102,6 @@ class JSONProvider extends Provider {
         $config->set("identifier", $isle->getIdentifier());
         $config->set("locked", $isle->isLocked());
         $config->set("type", $isle->getType());
-        $config->set("spawn", SkyBlock::writePosition($isle->getSpawn()));
         
         $members = [];
         foreach($isle->getMembers() as $member) {

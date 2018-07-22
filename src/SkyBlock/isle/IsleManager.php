@@ -18,7 +18,7 @@ namespace SkyBlock\isle;
 
 
 use pocketmine\level\Level;
-use pocketmine\level\Position;
+use SkyBlock\session\Session;
 use SkyBlock\SkyBlock;
 
 class IsleManager {
@@ -60,15 +60,37 @@ class IsleManager {
     }
     
     /**
+     * @param Session $session
+     * @param string $type
+     */
+    public function createIsleFor(Session $session, string $type) {
+        $identifier = "{$session->getUsername()} isle";
+        $server = $this->plugin->getServer();
+        
+        $generatorManager = $this->plugin->getGeneratorManager();
+        if($generatorManager->isGenerator($type)) {
+            $generator = $generatorManager->getGenerator($type);
+        } else {
+            $generator = $generatorManager->getGenerator("Basic");
+        }
+        $server->generateLevel($identifier, null, $generator);
+        $server->loadLevel($identifier);
+        $level = $server->getLevelByName($identifier);
+        $level->setSpawnLocation((new $generator())->getSpawn());
+        
+        $this->openIsle($identifier, [$session->getOffline()], true, $type, $level);
+        $session->setIsle($this->isles[$identifier]);
+    }
+    
+    /**
      * @param string $identifier
      * @param array $members
      * @param bool $locked
      * @param string $type
      * @param Level $level
-     * @param Position $spawn
      */
-    public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level, Position $spawn): void {
-        $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level, $spawn);
+    public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level): void {
+        $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level);
     }
     
     /**

@@ -18,7 +18,6 @@ namespace SkyBlock\isle;
 
 
 use pocketmine\level\Level;
-use pocketmine\level\Position;
 use SkyBlock\session\OfflineSession;
 use SkyBlock\session\Session;
 
@@ -48,9 +47,6 @@ class Isle {
     /** @var Level */
     private $level;
     
-    /** @var Position */
-    private $spawn;
-    
     /**
      * Isle constructor.
      * @param IsleManager $manager
@@ -59,17 +55,15 @@ class Isle {
      * @param bool $locked
      * @param string $type
      * @param Level $level
-     * @param Position $spawn
      */
     public function __construct(IsleManager $manager, string $identifier, array $members, bool $locked, string $type,
-        Level $level, Position $spawn) {
+        Level $level) {
         $this->manager = $manager;
         $this->identifier = $identifier;
         $this->members = $members;
         $this->locked = $locked;
         $this->type = $type;
         $this->level = $level;
-        $this->spawn = $spawn;
     }
     
     /**
@@ -126,13 +120,6 @@ class Isle {
      */
     public function getLevel(): Level {
         return $this->level;
-    }
-    
-    /**
-     * @return Position
-     */
-    public function getSpawn(): Position {
-        return $this->spawn;
     }
     
     public function update(): void {
