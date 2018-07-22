@@ -24,6 +24,7 @@ use SkyBlock\command\defaults\ChatCommand;
 use SkyBlock\command\defaults\CreateCommand;
 use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\command\defaults\JoinCommand;
+use SkyBlock\command\defaults\LeaveCommand;
 use SkyBlock\command\defaults\LockCommand;
 use SkyBlock\command\defaults\VisitCommand;
 use SkyBlock\SkyBlock;
@@ -48,6 +49,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new LockCommand());
         $this->registerCommand(new ChatCommand());
         $this->registerCommand(new VisitCommand($this));
+        $this->registerCommand(new LeaveCommand());
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",

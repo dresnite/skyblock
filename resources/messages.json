@@ -27,5 +27,9 @@
   "VISIT_DESCRIPTION": "Lets you visit an isle if it's not locked",
   "HE_DO_NOT_HAVE_AN_ISLE": "{name} {YELLOW}doesn't have an isle!",
   "VISITING_ISLE": "{GREEN}You're visiting {WHITE}{name}{GREEN}'s isle!",
-  "HIS_ISLE_IS_LOCKED": "{name}{YELLOW}'s isle is locked! :("
+  "HIS_ISLE_IS_LOCKED": "{name}{YELLOW}'s isle is locked! :(",
+  "LEAVE_USAGE": "Usage: /is leave",
+  "LEAVE_DESCRIPTION": "Leave your current isle",
+  "FOUNDER_CANNOT_LEAVE": "{YELLOW}The founder can't leave the isle!\n{YELLOW}If you want to leave your isle, {RED}you'll have to disband it",
+  "LEFT_ISLE": "{GREEN}You successfully left your isle!"
 }
