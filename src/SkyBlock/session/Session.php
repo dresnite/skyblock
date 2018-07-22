@@ -35,11 +35,11 @@ class Session extends iSession {
      */
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
+        parent::__construct($manager, $player->getLowerCaseName());
         if($this->isleId != null) {
             $this->provider->checkIsle($this->isleId);
             $this->isle = $this->manager->getPlugin()->getIsleManager()->getIsle($this->isleId);
         }
-        parent::__construct($manager, $player->getLowerCaseName());
     }
     
     /**
