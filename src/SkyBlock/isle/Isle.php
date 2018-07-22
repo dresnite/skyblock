@@ -33,7 +33,7 @@ class Isle {
     private $members = [];
     
     /** @var Session[] */
-    private $players = [];
+    private $visitors = [];
     
     /** @var bool */
     private $locked = false;
@@ -83,8 +83,8 @@ class Isle {
     /**
      * @return Session[]
      */
-    public function getPlayers(): array {
-        return $this->players;
+    public function getVisitors(): array {
+        return $this->visitors;
     }
     
     /**
@@ -130,17 +130,21 @@ class Isle {
     }
     
     public function update(): void {
-        foreach($this->getMembersOnline() as $member) {
+        $membersOnline = $this->getMembersOnline();
+        foreach($membersOnline as $member) {
             if($member->getIsle() !== $this) {
                 unset($this->members[$member->getUsername()]);
             }
         }
         $this->manager->getPlugin()->getProvider()->saveIsle($this);
-        $this->players = [];
+        $this->visitors = [];
         foreach($this->level->getPlayers() as $player) {
-            $this->players[] = $this->manager->getPlugin()->getSessionManager()->getSession($player);
+            $session = $this->manager->getPlugin()->getSessionManager()->getSession($player);
+            if(!in_array($session, $membersOnline)) {
+                $this->visitors[] = $session;
+            }
         }
-        if(empty($this->players) and empty($this->getMembersOnline())) {
+        if(empty($this->visitors) and empty($this->getMembersOnline())) {
             $this->manager->closeIsle($this);
         }
     }
