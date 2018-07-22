@@ -32,7 +32,6 @@ class SessionListener implements Listener {
      */
     public function __construct(SessionManager $manager) {
         $this->manager = $manager;
-        $manager->getPlugin()->getServer()->getPluginManager()->registerEvents($this, $manager->getPlugin());
     }
     
     /**

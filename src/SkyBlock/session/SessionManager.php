@@ -37,6 +37,7 @@ class SessionManager {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $plugin->getServer()->getPluginManager()->registerEvents(new SessionListener($this), $plugin);
     }
     
     /**
