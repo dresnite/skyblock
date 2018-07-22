@@ -41,7 +41,7 @@ class VisitCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if(isset($args[0])) {
+        if(!isset($args[0])) {
             $session->sendTranslatedMessage("VISIT_USAGE");
             return;
         }
