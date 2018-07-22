@@ -31,5 +31,10 @@
   "LEAVE_USAGE": "Usage: /is leave",
   "LEAVE_DESCRIPTION": "Leave your current isle",
   "FOUNDER_CANNOT_LEAVE": "{YELLOW}The founder can't leave the isle!\n{YELLOW}If you want to leave your isle, {RED}you'll have to disband it",
-  "LEFT_ISLE": "{GREEN}You successfully left your isle!"
+  "LEFT_ISLE": "{GREEN}You successfully left your isle!",
+  "MEMBERS_COMMAND_HEADER": "{RED}__{WHITE}Members ({amount}){RED}__",
+  "ONLINE_MEMBER": "{BOLD}{GREEN}ONLINE{RESET} {WHITE}{name}",
+  "OFFLINE_MEMBER": "{BOLD}{RED}OFFLINE{RESET} {WHITE}{name}",
+  "MEMBERS_USAGE": "Usage: /is members",
+  "MEMBERS_DESCRIPTION": "Show all the members of a isle"
 }
