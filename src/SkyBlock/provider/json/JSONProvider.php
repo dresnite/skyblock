@@ -28,11 +28,10 @@ class JSONProvider extends Provider {
     
     public function initialize(): void {
         $dataFolder = $this->plugin->getDataFolder();
-        if(!is_dir($dataFolder)) {
-            mkdir($dataFolder);
-        } else if(!is_dir($dataFolder . "isles")) {
+        if(!is_dir($dataFolder . "isles")) {
             mkdir($dataFolder . "isles");
-        } else if(!is_dir($dataFolder . "users")) {
+        }
+        if(!is_dir($dataFolder . "users")) {
             mkdir($dataFolder . "users");
         }
     }

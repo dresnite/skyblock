@@ -54,8 +54,9 @@ class SkyBlock extends PluginBase {
     private $messages = [];
     
     public function onLoad(): void {
-        if(!self::$object instanceof SkyBlock) {
-            self::$object = $this;
+        self::$object = $this;
+        if(!is_dir($this->getDataFolder())) {
+            mkdir($this->getDataFolder());
         }
         $this->saveResource("messages.json");
         $this->saveDefaultConfig();
