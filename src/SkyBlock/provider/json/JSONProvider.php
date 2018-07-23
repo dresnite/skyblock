@@ -57,7 +57,7 @@ class JSONProvider extends Provider {
     /**
      * @param iSession $session
      */
-    public function openSession(iSession $session): void {
+    public function loadSession(iSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
         $session->setIsleId($config->get("isle"));
         $session->setRank($config->get("rank"));
@@ -76,13 +76,15 @@ class JSONProvider extends Provider {
     /**
      * @param string $identifier
      */
-    public function openIsle(string $identifier): void {
+    public function loadIsle(string $identifier): void {
+        if($this->plugin->getIsleManager()->getIsle($identifier) != null) {
+            return;
+        }
         $config = $this->getIsleConfig($identifier);
         $server = $this->plugin->getServer();
         if(!$server->isLevelLoaded($identifier)) {
             $server->loadLevel($identifier);
         }
-        
         $level = $server->getLevelByName($identifier);
         $locked = $config->get("locked");
         $type = $config->get("type");

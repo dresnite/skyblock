@@ -110,10 +110,10 @@ class SkyBlockListener implements Listener {
         $originIsle = $this->isleManager->getIsle($event->getOrigin()->getName());
         $targetIsle = $this->isleManager->getIsle($event->getTarget()->getName());
         if($originIsle != null) {
-            $originIsle->update();
+            $originIsle->updateVisitors();
         }
         if($targetIsle != null) {
-            $targetIsle->update();
+            $targetIsle->updateVisitors();
         }
     }
 

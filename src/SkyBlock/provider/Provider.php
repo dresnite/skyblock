@@ -40,7 +40,7 @@ abstract class Provider {
     /**
      * @param iSession $session
      */
-    public abstract function openSession(iSession $session) : void;
+    public abstract function loadSession(iSession $session) : void;
     
     /**
      * @param iSession $session
@@ -50,7 +50,7 @@ abstract class Provider {
     /**
      * @param string $identifier
      */
-    public abstract function openIsle(string $identifier): void;
+    public abstract function loadIsle(string $identifier): void;
     
     /**
      * @param Isle $isle

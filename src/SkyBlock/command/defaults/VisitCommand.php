@@ -53,7 +53,7 @@ class VisitCommand extends IsleCommand {
             ]);
             return;
         }
-        $this->plugin->getProvider()->openIsle($isleId);
+        $this->plugin->getProvider()->loadIsle($isleId);
         $isle = $this->plugin->getIsleManager()->getIsle($isleId);
         if($isle->isLocked()) {
             $session->sendTranslatedMessage("HIS_ISLE_IS_LOCKED", [

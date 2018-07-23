@@ -186,21 +186,31 @@ class Isle {
         }
     }
     
-    public function update(): void {
-        $membersOnline = $this->getMembersOnline();
-        foreach($membersOnline as $member) {
+    public function save(): void {
+        $this->manager->getPlugin()->getProvider()->saveIsle($this);
+    }
+    
+    public function updateMembers(): void {
+        foreach($this->getMembersOnline() as $member) {
             if($member->getIsle() !== $this) {
                 unset($this->members[$member->getUsername()]);
             }
         }
-        $this->manager->getPlugin()->getProvider()->saveIsle($this);
+    }
+    
+    public function updateVisitors(): void {
         $this->visitors = [];
         foreach($this->level->getPlayers() as $player) {
             $session = $this->manager->getPlugin()->getSessionManager()->getSession($player);
-            if(!in_array($session, $membersOnline)) {
+            if(!in_array($session, $this->getMembersOnline())) {
                 $this->visitors[] = $session;
             }
         }
+    }
+    
+    public function tryToClose(): void {
+        $this->updateMembers();
+        $this->updateVisitors();
         if(empty($this->visitors) and empty($this->getMembersOnline())) {
             $this->manager->closeIsle($this);
         }

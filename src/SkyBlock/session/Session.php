@@ -42,10 +42,6 @@ class Session extends iSession {
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
         parent::__construct($manager, $player->getLowerCaseName());
-        if($this->isleId != null) {
-            $this->provider->openIsle($this->isleId);
-            $this->isle = $this->manager->getPlugin()->getIsleManager()->getIsle($this->isleId);
-        }
     }
     
     /**
@@ -106,6 +102,17 @@ class Session extends iSession {
     }
     
     /**
+     * @param null|string $isle
+     */
+    public function setIsleId(?string $isle): void {
+        parent::setIsleId($isle);
+        if($isle != null) {
+            $this->provider->loadIsle($isle);
+            $this->isle = $this->manager->getPlugin()->getIsleManager()->getIsle($isle);
+        }
+    }
+    
+    /**
      * @param null|Isle $isle
      */
     public function setIsle(?Isle $isle): void {
@@ -113,9 +120,8 @@ class Session extends iSession {
         $this->isle = $isle;
         $this->isleId = ($isle != null) ? $isle->getIdentifier() : null;
         if($lastIsle != null) {
-            $lastIsle->update();
+            $lastIsle->updateMembers();
         }
-        $this->update();
     }
     
     /**
@@ -148,13 +154,6 @@ class Session extends iSession {
      */
     public function setLastInvitation(?string $senderName): void {
         $this->lastInvitation = $senderName;
-    }
-    
-    public function update(): void {
-        parent::update();
-        if($this->hasIsle()) {
-            $this->isle->update();
-        }
     }
     
     /**

@@ -53,7 +53,7 @@ abstract class iSession {
         $this->manager = $manager;
         $this->username = $username;
         $this->provider = $manager->getPlugin()->getProvider();
-        $this->provider->openSession($this);
+        $this->provider->loadSession($this);
     }
     
     /**
@@ -105,10 +105,7 @@ abstract class iSession {
         $this->rank = $rank;
     }
     
-    /**
-     * Saves session information to the database
-     */
-    public function update(): void {
+    public function save(): void {
         $this->provider->saveSession($this);
     }
     

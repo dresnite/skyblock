@@ -66,7 +66,6 @@ class IsleManager {
      */
     public function createIsleFor(Session $session, string $type): void {
         $identifier = "{$session->getUsername()} isle";
-        $server = $this->plugin->getServer();
         
         $generatorManager = $this->plugin->getGeneratorManager();
         if($generatorManager->isGenerator($type)) {
@@ -74,14 +73,18 @@ class IsleManager {
         } else {
             $generator = $generatorManager->getGenerator("Basic");
         }
+    
+        $server = $this->plugin->getServer();
         $server->generateLevel($identifier, null, $generator);
         $server->loadLevel($identifier);
         $level = $server->getLevelByName($identifier);
         $level->setSpawnLocation((new $generator())->getSpawn());
         
         $this->openIsle($identifier, [$session->getOffline()], true, $type, $level);
-        $session->setIsle($this->isles[$identifier]);
+        $session->setIsle($isle = $this->isles[$identifier]);
         $session->setRank(iSession::RANK_FOUNDER);
+        $session->save();
+        $isle->save();
     }
     
     /**
@@ -99,6 +102,7 @@ class IsleManager {
      * @param Isle $isle
      */
     public function closeIsle(Isle $isle): void {
+        $isle->save();
         $this->plugin->getServer()->unloadLevel($isle->getLevel());
         unset($this->isles[$isle->getIdentifier()]);
     }
