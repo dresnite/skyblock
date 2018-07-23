@@ -9,7 +9,7 @@
   "NEED_TO_BE_FREE": "{YELLOW}You can't do this if you're part of a isle!",
   "SUCCESSFULLY_CREATED_A_ISLE": "{GREEN}You successfully created a isle!",
   "TELEPORTED_TO_ISLE": "{GREEN}You've been teleported to your isle!",
-  "CREATE_USAGE": "Usage: /is create",
+  "CREATE_USAGE": "Usage: /is create [generator = Shelly]",
   "CREATE_DESCRIPTION": "Generates a new isle",
   "JOIN_USAGE": "Usage: /is join",
   "JOIN_DESCRIPTION": "Teleports you to your isle",
@@ -46,5 +46,6 @@
   "INVITE_DESCRIPTION": "Invites a player to your isle",
   "PLAYER_JOINED_THE_ISLE": "{RED}{BOLD}> {WHITE}{name} {GREEN}joined the isle!",
   "ACCEPT_USAGE": "Usage: /is accept [invitation=last invitation]",
-  "ACCEPT_DESCRIPTION": "Accepts an invitation to join an isle"
+  "ACCEPT_DESCRIPTION": "Accepts an invitation to join an isle",
+  "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid isle generator!"
 }

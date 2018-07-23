@@ -45,8 +45,15 @@ class CreateCommand extends IsleCommand {
             $session->sendTranslatedMessage("NEED_TO_BE_FREE");
             return;
         }
-        $this->plugin->getIsleManager()->createIsleFor($session, "Shelly");
-        $session->sendTranslatedMessage("SUCCESSFULLY_CREATED_A_ISLE");
+        $generator = $args[0] ?? "Shelly";
+        if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
+            $this->plugin->getIsleManager()->createIsleFor($session, $generator);
+            $session->sendTranslatedMessage("SUCCESSFULLY_CREATED_A_ISLE");
+        } else {
+            $session->sendTranslatedMessage("NOT_VALID_GENERATOR", [
+                "name" => $generator
+            ]);
+        }
     }
     
 }
