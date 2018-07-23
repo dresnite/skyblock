@@ -108,7 +108,7 @@ abstract class IsleCommand {
     public function checkOfficer(Session $session): bool {
         if($this->checkIsle($session)) {
             return true;
-        } elseif($session->getRank() == iSession::RANK_OFFICER) {
+        } elseif($session->getRank() != iSession::RANK_DEFAULT) {
             return false;
         }
         $session->sendTranslatedMessage("MUST_BE_OFFICER");
