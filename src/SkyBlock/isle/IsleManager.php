@@ -91,6 +91,9 @@ class IsleManager {
      * @param Isle $isle
      */
     public function disbandIsle(Isle $isle): void {
+        foreach($isle->getLevel()->getPlayers() as $player) {
+            $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
+        }
         foreach($isle->getMembers() as $offlineMember) {
             $onlineSession = $offlineMember->getSession();
             if($onlineSession != null) {

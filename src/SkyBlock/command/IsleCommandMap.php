@@ -23,6 +23,7 @@ use pocketmine\Player;
 use SkyBlock\command\defaults\AcceptCommand;
 use SkyBlock\command\defaults\ChatCommand;
 use SkyBlock\command\defaults\CreateCommand;
+use SkyBlock\command\defaults\DisbandCommand;
 use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\command\defaults\InviteCommand;
 use SkyBlock\command\defaults\JoinCommand;
@@ -56,6 +57,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new MembersCommand());
         $this->registerCommand(new InviteCommand($this));
         $this->registerCommand(new AcceptCommand());
+        $this->registerCommand(new DisbandCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",

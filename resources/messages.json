@@ -48,5 +48,7 @@
   "ACCEPT_USAGE": "Usage: /is accept [invitation=last invitation]",
   "ACCEPT_DESCRIPTION": "Accepts an invitation to join an isle",
   "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid isle generator!",
-  "ISLE_DISBANDED": "{YELLOW}{BOLD}Your isle was disbanded!"
+  "ISLE_DISBANDED": "{YELLOW}{BOLD}Your isle was disbanded!",
+  "DISBAND_DESCRIPTION": "Removes your isle",
+  "DISBAND_USAGE": "Usage: /is disband"
 }
