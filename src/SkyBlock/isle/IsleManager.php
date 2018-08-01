@@ -65,7 +65,7 @@ class IsleManager {
      * @param string $type
      */
     public function createIsleFor(Session $session, string $type): void {
-        $identifier = "{$session->getUsername()} isle";
+        $identifier = SkyBlock::generateUniqueId();
         
         $generatorManager = $this->plugin->getGeneratorManager();
         if($generatorManager->isGenerator($type)) {
@@ -84,6 +84,27 @@ class IsleManager {
         $session->setIsle($isle = $this->isles[$identifier]);
         $session->setRank(iSession::RANK_FOUNDER);
         $session->save();
+        $isle->save();
+    }
+    
+    /**
+     * @param Isle $isle
+     */
+    public function disbandIsle(Isle $isle): void {
+        foreach($isle->getMembers() as $offlineMember) {
+            $onlineSession = $offlineMember->getSession();
+            if($onlineSession != null) {
+                $onlineSession->setIsle(null);
+                $onlineSession->setRank(Session::RANK_DEFAULT);
+                $onlineSession->save();
+                $onlineSession->sendTranslatedMessage("ISLE_DISBANDED");
+            } else {
+                $offlineMember->setIsleId(null);
+                $offlineMember->setRank(Session::RANK_DEFAULT);
+                $offlineMember->save();
+            }
+        }
+        $isle->setMembers([]);
         $isle->save();
     }
     

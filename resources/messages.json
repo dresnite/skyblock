@@ -47,5 +47,6 @@
   "PLAYER_JOINED_THE_ISLE": "{RED}{BOLD}> {WHITE}{name} {GREEN}joined the isle!",
   "ACCEPT_USAGE": "Usage: /is accept [invitation=last invitation]",
   "ACCEPT_DESCRIPTION": "Accepts an invitation to join an isle",
-  "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid isle generator!"
+  "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid isle generator!",
+  "ISLE_DISBANDED": "{YELLOW}{BOLD}Your isle was disbanded!"
 }
