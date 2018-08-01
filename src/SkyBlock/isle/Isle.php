@@ -130,6 +130,13 @@ class Isle {
     }
     
     /**
+     * @param OfflineSession[] $members
+     */
+    public function setMembers(array $members) {
+        $this->members = $members;
+    }
+    
+    /**
      * @param string $message
      */
     public function broadcastMessage(string $message): void {
