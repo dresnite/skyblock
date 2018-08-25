@@ -50,5 +50,11 @@
   "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid isle generator!",
   "ISLE_DISBANDED": "{YELLOW}{BOLD}Your isle was disbanded!",
   "DISBAND_DESCRIPTION": "Removes your isle",
-  "DISBAND_USAGE": "Usage: /is disband"
+  "DISBAND_USAGE": "Usage: /is disband",
+  "KICK_USAGE": "Usage: /is kick <player>",
+  "KICK_DESCRIPTION": "Kicks a player of your isle",
+  "KICKED_FROM_THE_ISLE": "{YELLOW}You've been kicked from the isle!",
+  "YOU_KICKED_A_PLAYER": "{GREEN}You successfully kicked {WHITE}{name} {GREEN}from your isle",
+  "CANNOT_KICK_A_MEMBER": "{YELLOW}You cannot kick a member of your isle!",
+  "NOT_A_VISITOR": "{WHITE}{name} {GREEN}is not in your isle right now!"
 }

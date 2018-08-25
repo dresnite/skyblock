@@ -27,6 +27,7 @@ use SkyBlock\command\defaults\DisbandCommand;
 use SkyBlock\command\defaults\HelpCommand;
 use SkyBlock\command\defaults\InviteCommand;
 use SkyBlock\command\defaults\JoinCommand;
+use SkyBlock\command\defaults\KickCommand;
 use SkyBlock\command\defaults\LeaveCommand;
 use SkyBlock\command\defaults\LockCommand;
 use SkyBlock\command\defaults\MembersCommand;
@@ -58,6 +59,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new InviteCommand($this));
         $this->registerCommand(new AcceptCommand());
         $this->registerCommand(new DisbandCommand($this));
+        $this->registerCommand(new KickCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",
