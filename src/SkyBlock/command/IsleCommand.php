@@ -116,11 +116,11 @@ abstract class IsleCommand {
     }
     
     /**
-     * @param Session $session
-     * @param Session $ySession
+     * @param null|Session $session
+     * @param null|Session $ySession
      * @return bool
      */
-    public function checkClone(Session $session, Session $ySession): bool {
+    public function checkClone(?Session $session, ?Session $ySession): bool {
         if($session === $ySession) {
             $session->sendTranslatedMessage("CANT_BE_YOURSELF");
             return true;
