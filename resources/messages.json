@@ -61,5 +61,6 @@
   "FIRE_DESCRIPTION": "Fires a member from your isle!",
   "MUST_BE_PART_OF_YOUR_ISLE": "{WHITE}{name} {YELLOW}must be part of your isle to do this!",
   "CANNOT_FIRE_FOUNDER": "{YELLOW}You cannot fire the founder of the isle!",
-  "SUCCESSFULLY_FIRED": "{GREEN}You successfully fired {WHITE}{name}{GREEN}!"
+  "SUCCESSFULLY_FIRED": "{GREEN}You successfully fired {WHITE}{name}{GREEN}!",
+  "YOU_HAVE_BEEN_FIRED": "{YELLOW}You have been fired from your isle!"
 }
