@@ -62,5 +62,12 @@
   "MUST_BE_PART_OF_YOUR_ISLE": "{WHITE}{name} {YELLOW}must be part of your isle to do this!",
   "CANNOT_FIRE_FOUNDER": "{YELLOW}You cannot fire the founder of the isle!",
   "SUCCESSFULLY_FIRED": "{GREEN}You successfully fired {WHITE}{name}{GREEN}!",
-  "YOU_HAVE_BEEN_FIRED": "{YELLOW}You have been fired from your isle!"
+  "YOU_HAVE_BEEN_FIRED": "{YELLOW}You have been fired from your isle!",
+  "PROMOTE_USAGE": "Usage: /is promote <player>",
+  "PROMOTE_DESCRIPTION": "Promotes a player to a higher rank",
+  "YOU_HAVE_BEEN_PROMOTED": "{GREEN}You have been promoted!",
+  "CANNOT_PROMOTE_LEADER": "{WHITE}{name} {YELLOW}already has the highest rank!",
+  "OFFICER": "officer",
+  "LEADER": "leader",
+  "SUCCESSFULLY_PROMOTED_PLAYER": "{WHITE}{name} {GREEN}was promoted to {WHITE}{to}"
 }
