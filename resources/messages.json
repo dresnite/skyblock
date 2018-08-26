@@ -69,5 +69,12 @@
   "CANNOT_PROMOTE_LEADER": "{WHITE}{name} {YELLOW}already has the highest rank!",
   "OFFICER": "officer",
   "LEADER": "leader",
-  "SUCCESSFULLY_PROMOTED_PLAYER": "{WHITE}{name} {GREEN}was promoted to {WHITE}{to}"
+  "MEMBER": "member",
+  "SUCCESSFULLY_PROMOTED_PLAYER": "{WHITE}{name} {GREEN}was promoted to {WHITE}{to}",
+  "DEMOTE_USAGE": "Usage: /is demote <player>",
+  "DEMOTE_DESCRIPTION": "Demotes a player to a lower rank",
+  "CANNOT_DEMOTE_MEMBER": "{WHITE}{name} {YELLOW}already has the lowest rank!",
+  "CANNOT_DEMOTE_FOUNDER": "{YELLOW}You cannot demote the founder of the isle!",
+  "YOU_HAVE_BEEN_DEMOTED": "{YELLOW}You have been demoted!",
+  "SUCCESSFULLY_DEMOTED_PLAYER": "{WHITE}{name} {GREEN}was demoted to {WHITE}{to}"
 }
