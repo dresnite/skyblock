@@ -168,7 +168,7 @@ class SkyBlockListener implements Listener {
             return;
         }
         $generator = $this->plugin->getGeneratorManager()->getGenerator($type = $isle->getType());
-        $position = (new $generator())->getChestPosition();
+        $position = $generator::getChestPosition();
         if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
             $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));

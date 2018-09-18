@@ -21,56 +21,25 @@ use pocketmine\block\BlockIds;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
-use pocketmine\utils\Random;
 use SkyBlock\generator\IsleGenerator;
 
 class BasicIsland extends IsleGenerator {
-
-    /** @var array */
-    private $settings;
-
-    /** @var string */
-    private $name;
-
-    /** @var ChunkManager */
-    protected $level;
-
-    /** @var Random */
-    protected $random;
-
+    
     /**
      * BasicIsland constructor.
-     *
-     * @param array $settings
-     */
-    public function __construct(array $settings = []) {
-        $this->settings = $settings;
-    }
-
-    /**
-     * Initialize BasicIsland
-     *
      * @param ChunkManager $level
-     * @param Random $random
+     * @param int $seed
+     * @param array $options
      */
-	public function init(ChunkManager $level, Random $random) : void{
-        $this->level = $level;
-        $this->random = $random;
-        $this->name = "Basic";
+    public function __construct(ChunkManager $level, $seed, array $options = []) {
+        parent::__construct($level, $seed, $options);
     }
     
     /**
      * @return string
      */
     public function getName(): string {
-        return $this->name;
-    }
-    
-    /**
-     * @return array
-     */
-    public function getSettings(): array {
-        return $this->settings;
+        return "Basic";
     }
     
     /**
@@ -121,21 +90,26 @@ class BasicIsland extends IsleGenerator {
     public function populateChunk(int $chunkX, int $chunkZ) : void {
         return;
     }
-
+    
     /**
-     * Return BasicIsland spawn
-     *
      * @return Vector3
      */
-    public function getSpawn(): Vector3 {
+    public static function getWorldSpawn(): Vector3 {
         return new Vector3(7, 66, 7);
     }
     
     /**
      * @return Vector3
      */
-    public function getChestPosition(): Vector3 {
+    public static function getChestPosition(): Vector3 {
         return new Vector3(8, 64, 7);
+    }
+    
+    /**
+     * @return Vector3
+     */
+    public function getSpawn(): Vector3 {
+        return new Vector3(7, 66, 7);
     }
 
 }
