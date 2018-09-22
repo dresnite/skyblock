@@ -25,6 +25,11 @@ abstract class IsleGenerator extends Generator {
     /**
      * @return Vector3
      */
-    public abstract function getChestPosition(): Vector3;
+    public abstract static function getWorldSpawn(): Vector3;
+    
+    /**
+     * @return Vector3
+     */
+    public abstract static function getChestPosition(): Vector3;
     
 }

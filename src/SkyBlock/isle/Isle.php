@@ -18,6 +18,8 @@ namespace SkyBlock\isle;
 
 
 use pocketmine\level\Level;
+use pocketmine\level\Position;
+use pocketmine\math\Vector3;
 use SkyBlock\session\OfflineSession;
 use SkyBlock\session\Session;
 
@@ -123,6 +125,13 @@ class Isle {
     }
     
     /**
+     * @return Position
+     */
+    public function getSpawnLocation(): Position {
+        return $this->level->getSpawnLocation();
+    }
+    
+    /**
      * @param bool $locked
      */
     public function setLocked(bool $locked = true): void {
@@ -134,6 +143,13 @@ class Isle {
      */
     public function setMembers(array $members) {
         $this->members = $members;
+    }
+    
+    /**
+     * @param Vector3 $position
+     */
+    public function setSpawnLocation(Vector3 $position) {
+        $this->level->setSpawnLocation($position);
     }
     
     /**

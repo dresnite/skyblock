@@ -78,7 +78,7 @@ class IsleManager {
         $server->generateLevel($identifier, null, $generator);
         $server->loadLevel($identifier);
         $level = $server->getLevelByName($identifier);
-        $level->setSpawnLocation((new $generator())->getSpawn());
+        $level->setSpawnLocation($generator::getWorldSpawn());
         
         $this->openIsle($identifier, [$session->getOffline()], true, $type, $level);
         $session->setIsle($isle = $this->isles[$identifier]);

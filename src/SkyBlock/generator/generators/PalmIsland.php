@@ -3,45 +3,10 @@
 namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
-use pocketmine\level\ChunkManager;
 use pocketmine\math\Vector3;
-use pocketmine\utils\Random;
 use SkyBlock\generator\IsleGenerator;
 
 class PalmIsland extends IsleGenerator {
-    
-    /** @var array */
-    private $settings;
-    
-    /** @var string */
-    private $name;
-    
-    /** @var ChunkManager */
-    protected $level;
-    
-    /** @var Random */
-    protected $random;
-
-    /**
-     * BasicIsland constructor.
-     *
-     * @param array $settings
-     */
-    public function __construct(array $settings = []) {
-        $this->settings = $settings;
-    }
-
-    /**
-     * Initialize BasicIsland
-     *
-     * @param ChunkManager $level
-     * @param Random $random
-     */
-    public function init(ChunkManager $level, Random $random): void {
-        $this->level = $level;
-        $this->random = $random;
-        $this->name = "Palm";
-    }
 
     /**
      * Return generator name
@@ -49,11 +14,7 @@ class PalmIsland extends IsleGenerator {
      * @return string
      */
     public function getName() : string {
-        return $this->name;
-    }
-
-    public function getSettings() : array {
-        return $this->settings;
+        return "Palm";
     }
     
     /**
@@ -352,21 +313,26 @@ class PalmIsland extends IsleGenerator {
      * @param int $chunkZ
      */
     public function populateChunk(int $chunkX, int $chunkZ): void {}
-
+    
     /**
-     * Return BasicIsland spawn
-     *
      * @return Vector3
      */
-    public function getSpawn() : Vector3 {
+    public static function getWorldSpawn() : Vector3 {
         return new Vector3(9, 40, 11);
     }
     
     /**
      * @return Vector3
      */
-    public function getChestPosition(): Vector3 {
+    public static function getChestPosition(): Vector3 {
         return new Vector3(7, 40, 8);
+    }
+    
+    /**
+     * @return Vector3
+     */
+    public function getSpawn() : Vector3 {
+        return new Vector3(9, 40, 11);
     }
     
 }
