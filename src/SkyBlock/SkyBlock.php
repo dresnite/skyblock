@@ -54,7 +54,7 @@ class SkyBlock extends PluginBase {
     /** @var SkyBlockListener */
     private $eventListener;
     
-    public function onLoad(): void {
+    protected function onLoad(): void {
         self::$object = $this;
         if(!is_dir($this->getDataFolder())) {
             mkdir($this->getDataFolder());
@@ -63,7 +63,7 @@ class SkyBlock extends PluginBase {
         $this->saveResource("settings.json");
     }
 
-    public function onEnable(): void {
+    protected function onEnable(): void {
         $this->settings = new SkyBlockSettings($this);
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
@@ -74,7 +74,7 @@ class SkyBlock extends PluginBase {
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
-    public function onDisable(): void {
+    protected function onDisable(): void {
         $this->getLogger()->info("SkyBlock was disabled");
     }
 
