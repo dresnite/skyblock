@@ -24,6 +24,7 @@ use SkyBlock\command\defaults\AcceptCommand;
 use SkyBlock\command\defaults\ChatCommand;
 use SkyBlock\command\defaults\CreateCommand;
 use SkyBlock\command\defaults\DemoteCommand;
+use SkyBlock\command\defaults\DenyCommand;
 use SkyBlock\command\defaults\DisbandCommand;
 use SkyBlock\command\defaults\FireCommand;
 use SkyBlock\command\defaults\HelpCommand;
@@ -63,6 +64,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new MembersCommand());
         $this->registerCommand(new InviteCommand($this));
         $this->registerCommand(new AcceptCommand());
+        $this->registerCommand(new DenyCommand());
         $this->registerCommand(new DisbandCommand($this));
         $this->registerCommand(new KickCommand($this));
         $this->registerCommand(new FireCommand($this));
