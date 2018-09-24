@@ -21,6 +21,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use SkyBlock\command\defaults\AcceptCommand;
+use SkyBlock\command\defaults\BlocksCommand;
 use SkyBlock\command\defaults\CategoryCommand;
 use SkyBlock\command\defaults\ChatCommand;
 use SkyBlock\command\defaults\CreateCommand;
@@ -74,6 +75,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new SetSpawnCommand());
         $this->registerCommand(new TransferCommand($this));
         $this->registerCommand(new CategoryCommand());
+        $this->registerCommand(new BlocksCommand());
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",
