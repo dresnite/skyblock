@@ -65,7 +65,7 @@ class InviteCommand extends IsleCommand {
         }
         $playerSession->addInvitation($session->getUsername(), $session->getIsle());
         $playerSession->sendTranslatedMessage("YOU_WERE_INVITED_TO_AN_ISLE", [
-            "name" => $session->getPlayer()->getName()
+            "name" => $session->getUsername()
         ]);
         $session->sendTranslatedMessage("SUCCESSFULLY_INVITED", [
             "name" => $player->getName()

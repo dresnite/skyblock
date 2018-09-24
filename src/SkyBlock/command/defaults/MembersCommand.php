@@ -45,7 +45,7 @@ class MembersCommand extends IsleCommand {
             $memberSession = $member->getSession();
             if($memberSession != null) {
                 $session->sendTranslatedMessage("ONLINE_MEMBER", [
-                    "name" => $memberSession->getPlayer()->getName()
+                    "name" => $memberSession->getUsername()
                 ]);
             } else {
                 $session->sendTranslatedMessage("OFFLINE_MEMBER", [

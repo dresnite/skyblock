@@ -49,7 +49,7 @@ class AcceptCommand extends IsleCommand {
         $session->setRank(iSession::RANK_DEFAULT);
         $session->setIsle($isle);
         $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLE", [
-            "name" => $session->getPlayer()->getName()
+            "name" => $session->getUsername()
         ]);
     }
     
