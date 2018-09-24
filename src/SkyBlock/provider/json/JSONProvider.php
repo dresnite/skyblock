@@ -85,15 +85,20 @@ class JSONProvider extends Provider {
         if(!$server->isLevelLoaded($identifier)) {
             $server->loadLevel($identifier);
         }
-        $level = $server->getLevelByName($identifier);
-        $locked = $config->get("locked");
-        $type = $config->get("type");
         
         $members = [];
         foreach($config->get("members", []) as $username) {
             $members[$username] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
-        $this->plugin->getIsleManager()->openIsle($identifier, $members, $locked, $type, $level);
+        
+        $this->plugin->getIsleManager()->openIsle(
+            $identifier,
+            $members,
+            $config->get("locked"),
+            $config->get("type"),
+            $server->getLevelByName($identifier),
+            $config->get("blocks")
+        );
     }
     
     /**

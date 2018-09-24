@@ -27,6 +27,9 @@ class SkyBlockSettings {
     /** @var array */
     private $data;
     
+    /** @var string[] */
+    private $slotsBySize = [];
+    
     /** @var Item[] */
     private $defaultChest;
     
@@ -43,6 +46,14 @@ class SkyBlockSettings {
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $this->refresh();
+    }
+    
+    /**
+     * @param string $size
+     * @return int
+     */
+    public function getSlotsBySize(string $size): int {
+        return $this->slotsBySize[$size] ?? 1;
     }
     
     /**
@@ -84,6 +95,7 @@ class SkyBlockSettings {
     public function refresh(): void {
         $this->data = json_decode(file_get_contents($this->plugin->getDataFolder() . "settings.json"), true);
         $this->messages = json_decode(file_get_contents($this->plugin->getDataFolder() . "messages.json"), true);
+        $this->slotsBySize = $this->data["slots-by-size"];
         $this->defaultChest = SkyBlock::parseItems($this->data["default-chest"]);
         $this->chestPerGenerator = [];
         foreach($this->data["chest-per-generator"] as $world => $items) {

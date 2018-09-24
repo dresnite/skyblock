@@ -88,5 +88,8 @@
   "TRANSFER_DESCRIPTION": "Transfers your isle to other player",
   "RANK_TRANSFERRED": "{GREEN}You successfully transferred your rank to {WHITE}{name}.\n{GREEN}You've been demoted to member",
   "GOT_RANK_TRANSFERRED": "{BOLD}{WHITE}{name} {GREEN}transferred the ownership of your isle!",
-  "PLAYER_INVITATION_DENIED": "{WHITE}{name} {YELLOW}denied the invitation to join the isle"
+  "PLAYER_INVITATION_DENIED": "{WHITE}{name} {YELLOW}denied the invitation to join the isle",
+  "ISLE_CATEGORY": "{GREEN}Your isle has been categorized as {WHITE}{category}.\n{GREEN}Make it bigger to improve your category!",
+  "ISLE_IS_FULL_BUT_YOU_CAN_UPGRADE": "{YELLOW}You can't invite nobody else to your isle because it's full!\n{GRAY}* You can get more slots increasing your isle size to {WHITE}{next}",
+  "ISLE_IS_FULL": "{YELLOW}You can't invite nobody else to your isle because it's full!"
 }

@@ -80,7 +80,7 @@ class IsleManager {
         $level = $server->getLevelByName($identifier);
         $level->setSpawnLocation($generator::getWorldSpawn());
         
-        $this->openIsle($identifier, [$session->getOffline()], true, $type, $level);
+        $this->openIsle($identifier, [$session->getOffline()], true, $type, $level, 0);
         $session->setIsle($isle = $this->isles[$identifier]);
         $session->setRank(iSession::RANK_FOUNDER);
         $session->save();
@@ -117,9 +117,10 @@ class IsleManager {
      * @param bool $locked
      * @param string $type
      * @param Level $level
+     * @param int $blocksBuilt
      */
-    public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level): void {
-        $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level);
+    public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
+        $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
     }
     
     /**
