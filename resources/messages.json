@@ -14,6 +14,7 @@
   "JOIN_USAGE": "Usage: /is join",
   "JOIN_DESCRIPTION": "Teleports you to your isle",
   "MUST_BE_LEADER": "{YELLOW}You must be a leader to do this!",
+  "MUST_BE_FOUNDER": "{YELLOW}You must be the founder to do this!",
   "MUST_BE_OFFICER": "{YELLOW}You must be a officer to do this!",
   "LOCK_USAGE": "Usage: /is lock",
   "LOCK_DESCRIPTION": "Lock or unlock your isle. If your isle is locked, nobody other than the members will be able to visit it.",
@@ -76,9 +77,5 @@
   "CANNOT_DEMOTE_MEMBER": "{WHITE}{name} {YELLOW}already has the lowest rank!",
   "CANNOT_DEMOTE_FOUNDER": "{YELLOW}You cannot demote the founder of the isle!",
   "YOU_HAVE_BEEN_DEMOTED": "{YELLOW}You have been demoted!",
-  "SUCCESSFULLY_DEMOTED_PLAYER": "{WHITE}{name} {GREEN}was demoted to {WHITE}{to}",
-  "SET_SPAWN_USAGE": "Usage: /is setspawn",
-  "SET_SPAWN_DESCRIPTION": "Sets isle spawn",
-  "MUST_BE_IN_YOUR_ISLE": "{YELLOW}You must be on your isle to do this!",
-  "SUCCESSFULLY_SET_SPAWN": "{GREEN}You successfully updated your isle spawn!"
+  "SUCCESSFULLY_DEMOTED_PLAYER": "{WHITE}{name} {GREEN}was demoted to {WHITE}{to}"
 }

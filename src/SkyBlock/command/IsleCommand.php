@@ -91,6 +91,20 @@ abstract class IsleCommand {
      * @param Session $session
      * @return bool
      */
+    public function checkFounder(Session $session): bool {
+        if($this->checkIsle($session)) {
+            return true;
+        } elseif($session->getRank() == iSession::RANK_FOUNDER) {
+            return false;
+        }
+        $session->sendTranslatedMessage("MUST_BE_FOUNDER");
+        return true;
+    }
+    
+    /**
+     * @param Session $session
+     * @return bool
+     */
     public function checkLeader(Session $session): bool {
         if($this->checkIsle($session)) {
             return true;
