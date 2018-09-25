@@ -86,11 +86,13 @@ class SkyBlockListener implements Listener {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
-        if($isle != null and $session->getIsle() !== $isle) {
-            $session->sendTranslatedPopup("MUST_ME_MEMBER");
-            $event->setCancelled();
-        } elseif(!$event->isCancelled() and $session->hasIsle()) {
-            $isle->addBlock();
+        if($isle != null) {
+            if($session->getIsle() !== $isle) {
+                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $event->setCancelled();
+            } elseif(!$event->isCancelled()) {
+                $isle->addBlock();
+            }
         }
     }
 
@@ -101,9 +103,13 @@ class SkyBlockListener implements Listener {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
-        if($isle != null and $session->getIsle() !== $isle) {
-            $session->sendTranslatedPopup("MUST_ME_MEMBER");
-            $event->setCancelled();
+        if($isle != null) {
+            if($session->getIsle() !== $isle) {
+                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $event->setCancelled();
+            } elseif(!$event->isCancelled()) {
+                $isle->addBlock();
+            }
         }
     }
 
