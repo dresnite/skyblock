@@ -31,11 +31,11 @@ class IsleGeneratorManager {
 
     /** @var string[] */
     private $generators = [
-        "Basic" => BasicIsland::class,
-        "OP" => OPIsland::class,
-        "Shelly" => ShellyGenerator::class,
-        "Palm" => PalmIsland::class,
-        "Lost" => LostIsland::class
+        "basic" => BasicIsland::class,
+        "op" => OPIsland::class,
+        "shelly" => ShellyGenerator::class,
+        "palm" => PalmIsland::class,
+        "lost" => LostIsland::class
     ];
     
     /**
@@ -61,7 +61,7 @@ class IsleGeneratorManager {
      * @return null|string
      */
     public function getGenerator(string $name): ?string {
-        return $this->generators[$name] ?? null;
+        return $this->generators[strtolower($name)] ?? null;
     }
 
     /**
@@ -71,7 +71,7 @@ class IsleGeneratorManager {
      * @return bool
      */
     public function isGenerator(string $name): bool {
-        return isset($this->generators[$name]);
+        return isset($this->generators[strtolower($name)]);
     }
     
     /**
