@@ -60,7 +60,7 @@ class KickCommand extends IsleCommand {
             return;
         } elseif($playerSession->getIsle() === $session->getIsle()) {
             $session->sendTranslatedMessage("CANNOT_KICK_A_MEMBER");
-        } elseif(in_array($playerSession, $session->getIsle()->getVisitors())) {
+        } elseif(in_array($player, $session->getIsle()->getPlayersOnline())) {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
             $playerSession->sendTranslatedMessage("KICKED_FROM_THE_ISLE");
             $session->sendTranslatedMessage("YOU_KICKED_A_PLAYER", [

@@ -34,9 +34,6 @@ class Isle {
     /** @var OfflineSession[] */
     private $members = [];
     
-    /** @var Session[] */
-    private $visitors = [];
-    
     /** @var bool */
     private $locked = false;
     
@@ -100,8 +97,8 @@ class Isle {
     /**
      * @return Session[]
      */
-    public function getVisitors(): array {
-        return $this->visitors;
+    public function getPlayersOnline(): array {
+        return $this->level->getPlayers();
     }
     
     /**
@@ -309,20 +306,9 @@ class Isle {
         }
     }
     
-    public function updateVisitors(): void {
-        $this->visitors = [];
-        foreach($this->level->getPlayers() as $player) {
-            $session = $this->manager->getPlugin()->getSessionManager()->getSession($player);
-            if(!in_array($session, $this->getMembersOnline())) {
-                $this->visitors[] = $session;
-            }
-        }
-    }
-    
     public function tryToClose(): void {
         $this->updateMembers();
-        $this->updateVisitors();
-        if(empty($this->visitors) and empty($this->getMembersOnline())) {
+        if(empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {
             $this->manager->closeIsle($this);
         }
     }

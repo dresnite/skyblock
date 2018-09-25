@@ -20,7 +20,6 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
@@ -103,27 +102,9 @@ class SkyBlockListener implements Listener {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
-        if($isle != null) {
-            if($session->getIsle() !== $isle) {
-                $session->sendTranslatedPopup("MUST_ME_MEMBER");
-                $event->setCancelled();
-            } elseif(!$event->isCancelled()) {
-                $isle->addBlock();
-            }
-        }
-    }
-
-    /**
-     * @param EntityLevelChangeEvent $event
-     */
-    public function onLevelChange(EntityLevelChangeEvent $event): void {
-        $originIsle = $this->isleManager->getIsle($event->getOrigin()->getName());
-        $targetIsle = $this->isleManager->getIsle($event->getTarget()->getName());
-        if($originIsle != null) {
-            $originIsle->updateVisitors();
-        }
-        if($targetIsle != null) {
-            $targetIsle->updateVisitors();
+        if($isle != null and $session->getIsle() !== $isle) {
+            $session->sendTranslatedPopup("MUST_ME_MEMBER");
+            $event->setCancelled();
         }
     }
 
