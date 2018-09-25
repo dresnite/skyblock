@@ -96,5 +96,6 @@
   "BLOCKS_USAGE": "Usage: /is blocks",
   "BLOCKS_DESCRIPTION": "Shows the amount of blocks built by your isle's team",
   "CATEGORY_USAGE": "Usage: /is category",
-  "CATEGORY_DESCRIPTION": "Shows your isle's category"
+  "CATEGORY_DESCRIPTION": "Shows your isle's category",
+  "INVITATION_REFUSED": "{GREEN}You refused an invitation!"
 }

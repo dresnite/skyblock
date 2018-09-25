@@ -119,6 +119,7 @@ class Session extends iSession {
         $lastIsle = $this->isle;
         $this->isle = $isle;
         $this->isleId = ($isle != null) ? $isle->getIdentifier() : null;
+        $isle->addMember($this->getOffline());
         if($lastIsle != null) {
             $lastIsle->updateMembers();
         }

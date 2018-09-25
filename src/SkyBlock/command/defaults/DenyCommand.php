@@ -35,6 +35,7 @@ class DenyCommand extends IsleCommand {
             return;
         }
         $session->removeInvitation($isleName);
+        $session->sendTranslatedMessage("INVITATION_REFUSED");
         $isle->broadcastTranslatedMessage("PLAYER_INVITATION_DENIED", [
             "name" => $session->getUsername()
         ]);

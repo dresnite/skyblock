@@ -238,6 +238,13 @@ class Isle {
     }
     
     /**
+     * @param OfflineSession $session
+     */
+    public function addMember(OfflineSession $session) {
+        $this->members[$session->getUsername()] = $session;
+    }
+    
+    /**
      * @param string $message
      */
     public function broadcastMessage(string $message): void {
