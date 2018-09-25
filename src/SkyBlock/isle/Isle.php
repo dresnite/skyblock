@@ -215,6 +215,7 @@ class Isle {
      */
     public function setBlocksBuilt(int $blocksBuilt) {
         $this->blocksBuilt = max(0, $blocksBuilt);
+        $this->updateCategory();
     }
     
     public function updateCategory(): void {
@@ -232,8 +233,7 @@ class Isle {
     }
     
     public function addBlock(): void {
-        $this->blocksBuilt++;
-        $this->updateCategory();
+        $this->setBlocksBuilt($this->blocksBuilt + 1);
     }
     
     public function destroyBlock(): void {
