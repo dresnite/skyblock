@@ -46,7 +46,7 @@ class InviteCommand extends IsleCommand {
         } elseif(!isset($args[0])) {
             $session->sendTranslatedMessage("INVITE_USAGE");
             return;
-        } elseif($session->getIsle()->getSlots() >= count($session->getIsle()->getMembers())) {
+        } elseif(count($session->getIsle()->getMembers()) >= $session->getIsle()->getSlots()) {
             $isle = $session->getIsle();
             $next = $isle->getNextCategory();
             if($next != null) {
