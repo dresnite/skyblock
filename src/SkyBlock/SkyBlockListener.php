@@ -74,7 +74,7 @@ class SkyBlockListener implements Listener {
         if($isle != null and $session->getIsle() !== $isle) {
             $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
-        } else {
+        } elseif(!$event->isCancelled() and $session->hasIsle()) {
             $isle->destroyBlock();
         }
     }
@@ -89,7 +89,7 @@ class SkyBlockListener implements Listener {
         if($isle != null and $session->getIsle() !== $isle) {
             $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
-        } else {
+        } elseif(!$event->isCancelled() and $session->hasIsle()) {
             $isle->addBlock();
         }
     }
