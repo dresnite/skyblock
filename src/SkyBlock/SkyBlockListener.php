@@ -70,11 +70,13 @@ class SkyBlockListener implements Listener {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
-        if($isle != null and $session->getIsle() !== $isle) {
-            $session->sendTranslatedPopup("MUST_ME_MEMBER");
-            $event->setCancelled();
-        } elseif(!$event->isCancelled() and $session->hasIsle()) {
-            $isle->destroyBlock();
+        if($isle != null) {
+            if($session->getIsle() !== $isle) {
+                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $event->setCancelled();
+            } elseif(!$event->isCancelled()) {
+                $isle->destroyBlock();
+            }
         }
     }
 
