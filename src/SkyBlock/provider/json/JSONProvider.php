@@ -88,7 +88,7 @@ class JSONProvider extends Provider {
         
         $members = [];
         foreach($config->get("members", []) as $username) {
-            $members[$username] = $this->plugin->getSessionManager()->getOfflineSession($username);
+            $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
         
         $this->plugin->getIsleManager()->openIsle(

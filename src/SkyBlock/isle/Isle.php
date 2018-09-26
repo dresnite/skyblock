@@ -72,11 +72,17 @@ class Isle {
         Level $level, int $blocksBuilt) {
         $this->manager = $manager;
         $this->identifier = $identifier;
-        $this->members = $members;
         $this->locked = $locked;
         $this->type = $type;
         $this->level = $level;
         $this->blocksBuilt = $blocksBuilt;
+    
+        foreach($members as $member) {
+            if($member instanceof OfflineSession) {
+                $this->addMember($member);
+            }
+        }
+        
         $this->updateCategory();
     }
     
@@ -241,7 +247,7 @@ class Isle {
      * @param OfflineSession $session
      */
     public function addMember(OfflineSession $session) {
-        $this->members[$session->getUsername()] = $session;
+        $this->members[strtolower($session->getUsername())] = $session;
     }
     
     /**
