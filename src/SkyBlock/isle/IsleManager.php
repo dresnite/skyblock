@@ -18,6 +18,7 @@ namespace SkyBlock\isle;
 
 
 use pocketmine\level\Level;
+use SkyBlock\generator\IsleGenerator;
 use SkyBlock\session\iSession;
 use SkyBlock\session\Session;
 use SkyBlock\SkyBlock;
@@ -78,6 +79,7 @@ class IsleManager {
         $server->generateLevel($identifier, null, $generator);
         $server->loadLevel($identifier);
         $level = $server->getLevelByName($identifier);
+        /** @var IsleGenerator $generator */
         $level->setSpawnLocation($generator::getWorldSpawn());
         
         $this->openIsle($identifier, [$session->getOffline()], true, $type, $level, 0);

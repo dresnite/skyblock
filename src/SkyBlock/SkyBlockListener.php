@@ -28,6 +28,7 @@ use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
+use SkyBlock\generator\IsleGenerator;
 use SkyBlock\isle\IsleManager;
 use SkyBlock\session\Session;
 use SkyBlock\session\SessionManager;
@@ -161,6 +162,7 @@ class SkyBlockListener implements Listener {
             return;
         }
         $generator = $this->plugin->getGeneratorManager()->getGenerator($type = $isle->getType());
+        /** @var IsleGenerator $generator */
         $position = $generator::getChestPosition();
         if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
