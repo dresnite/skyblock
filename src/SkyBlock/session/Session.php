@@ -125,6 +125,7 @@ class Session extends iSession {
         if($lastIsle != null) {
             $lastIsle->updateMembers();
         }
+        $this->save();
     }
     
     /**

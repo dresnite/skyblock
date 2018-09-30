@@ -62,10 +62,9 @@ class FireCommand extends IsleCommand {
                 if($onlineSession->getIsle()->getLevel() === $onlineSession->getPlayer()->getLevel()) {
                     $onlineSession->getPlayer()->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
                 }
-                $onlineSession->setIsle(null);
                 $onlineSession->setRank(Session::RANK_DEFAULT);
+                $onlineSession->setIsle(null);
                 $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_FIRED");
-                $onlineSession->save();
             } else {
                 $offlineSession->setIsleId(null);
                 $offlineSession->setRank(Session::RANK_DEFAULT);

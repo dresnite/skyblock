@@ -28,9 +28,6 @@ class SessionManager {
     /** @var Session[] */
     private $sessions = [];
     
-    /** @var OfflineSession[] */
-    private $offlineSessions = [];
-    
     /**
      * SessionManager constructor.
      * @param SkyBlock $plugin
@@ -59,7 +56,7 @@ class SessionManager {
      * @return null|OfflineSession
      */
     public function getOfflineSession(string $username): ?OfflineSession {
-        return $this->offlineSessions[$username] ?? $this->offlineSessions[$username] = new OfflineSession($this, $username);
+        return new OfflineSession($this, $username);
     }
     
     /**
