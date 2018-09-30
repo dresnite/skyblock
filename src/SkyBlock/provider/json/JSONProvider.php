@@ -109,6 +109,7 @@ class JSONProvider extends Provider {
         $config->set("identifier", $isle->getIdentifier());
         $config->set("locked", $isle->isLocked());
         $config->set("type", $isle->getType());
+        $config->set("blocks", $isle->getBlocksBuilt());
         
         $members = [];
         foreach($isle->getMembers() as $member) {
