@@ -65,6 +65,7 @@ class FireCommand extends IsleCommand {
                 $onlineSession->setRank(Session::RANK_DEFAULT);
                 $onlineSession->setIsle(null);
                 $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_FIRED");
+                $onlineSession->save();
             } else {
                 $offlineSession->setIsleId(null);
                 $offlineSession->setRank(Session::RANK_DEFAULT);
