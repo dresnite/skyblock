@@ -22,6 +22,24 @@ use pocketmine\math\Vector3;
 
 abstract class IsleGenerator extends Generator {
     
+    /** @var array */
+    protected $settings;
+    
+    /**
+     * IsleGenerator constructor.
+     * @param array $settings
+     */
+    public function __construct(array $settings = []) {
+        $this->settings = $settings;
+    }
+    
+    /**
+     * @return array
+     */
+    public function getSettings(): array {
+        return $this->settings;
+    }
+    
     /**
      * @return Vector3
      */

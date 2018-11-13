@@ -18,22 +18,11 @@ namespace SkyBlock\generator\generators;
 
 use pocketmine\block\Block;
 use pocketmine\block\BlockIds;
-use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
 use SkyBlock\generator\IsleGenerator;
 
 class BasicIsland extends IsleGenerator {
-    
-    /**
-     * BasicIsland constructor.
-     * @param ChunkManager $level
-     * @param int $seed
-     * @param array $options
-     */
-    public function __construct(ChunkManager $level, $seed, array $options = []) {
-        parent::__construct($level, $seed, $options);
-    }
     
     /**
      * @return string
