@@ -79,11 +79,12 @@ class SessionManager {
      */
     public function closeSession(Player $player): void {
         if(isset($this->sessions[$username = $player->getName()])) {
-            $this->sessions[$username]->save();
-            if($this->sessions[$username]->hasIsle()) {
-                $this->sessions[$username]->getIsle()->tryToClose();
-            }
+            $session = $this->sessions[$username];
+            $session->save();
             unset($this->sessions[$username]);
+            if($session->hasIsle()) {
+                $session->getIsle()->tryToClose();
+            }
         }
     }
     

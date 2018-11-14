@@ -59,6 +59,7 @@ class VisitCommand extends IsleCommand {
             $session->sendTranslatedMessage("HIS_ISLE_IS_LOCKED", [
                 "name" => $args[0]
             ]);
+            $isle->tryToClose();
             return;
         }
         $session->getPlayer()->teleport($isle->getLevel()->getSpawnLocation());

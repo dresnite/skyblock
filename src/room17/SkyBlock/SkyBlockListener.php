@@ -64,94 +64,6 @@ class SkyBlockListener implements Listener {
     public function getSession(Player $player): Session {
         return $this->plugin->getSessionManager()->getSession($player);
     }
-
-    /**
-     * @param BlockBreakEvent $event
-     */
-    public function onBreak(BlockBreakEvent $event): void {
-        $player = $event->getPlayer();
-        $session = $this->getSession($player);
-        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
-        if($isle != null) {
-            if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_ME_MEMBER");
-                $event->setCancelled();
-            } elseif(!$event->isCancelled()) {
-                $isle->destroyBlock();
-            }
-        }
-    }
-
-    /**
-     * @param BlockPlaceEvent $event
-     */
-    public function onPlace(BlockPlaceEvent $event): void {
-        $player = $event->getPlayer();
-        $session = $this->getSession($player);
-        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
-        if($isle != null) {
-            if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_ME_MEMBER");
-                $event->setCancelled();
-            } elseif(!$event->isCancelled()) {
-                $isle->addBlock();
-            }
-        }
-    }
-
-    /**
-     * @param PlayerInteractEvent $event
-     */
-    public function onInteract(PlayerInteractEvent $event): void {
-        $player = $event->getPlayer();
-        $session = $this->getSession($player);
-        $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
-        if(!$isle->canInteract($session)) {
-            $session->sendTranslatedPopup("MUST_ME_MEMBER");
-            $event->setCancelled();
-        }
-    }
-
-    /**
-     * @param PlayerChatEvent $event
-     */
-    public function onChat(PlayerChatEvent $event): void {
-        $sessionManager = $this->plugin->getSessionManager();
-        $session = $sessionManager->getSession($event->getPlayer());
-        if(!($session->hasIsle()) or !($session->isInChat())) {
-            return;
-        }
-        $recipients = [];
-        foreach($sessionManager->getSessions() as $userSession) {
-            if($userSession->isInChat() and $userSession->getIsle() === $session->getIsle()) {
-                $recipients[] = $userSession->getPlayer();
-            }
-        }
-        $event->setRecipients($recipients);
-    }
-
-    /**
-     * @param EntityDamageEvent $event
-     */
-    public function onHurt(EntityDamageEvent $event): void {
-        if($event instanceof EntityDamageByEntityEvent) {
-            $entity = $event->getEntity();
-            if($entity instanceof Player) {
-                if($this->isleManager->getIsle($entity->getLevel()->getName()) != null) {
-                    $event->setCancelled();
-                }
-            }
-        }
-    }
-
-    /**
-     * @param LevelUnloadEvent $event
-     */
-    public function onUnloadLevel(LevelUnloadEvent $event): void {
-        foreach($event->getLevel()->getPlayers() as $player) {
-            $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
-        }
-    }
     
     /**
      * @param ChunkLoadEvent $event
@@ -175,15 +87,111 @@ class SkyBlockListener implements Listener {
     }
     
     /**
+     * @param BlockBreakEvent $event
+     */
+    public function onBreak(BlockBreakEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
+        if($isle != null) {
+            if(!$isle->canInteract($session)) {
+                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $event->setCancelled();
+            } elseif(!$event->isCancelled()) {
+                $isle->destroyBlock();
+            }
+        }
+    }
+    
+    /**
+     * @param BlockPlaceEvent $event
+     */
+    public function onPlace(BlockPlaceEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->isleManager->getIsle($player->getLevel()->getName());
+        if($isle != null) {
+            if(!$isle->canInteract($session)) {
+                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $event->setCancelled();
+            } elseif(!$event->isCancelled()) {
+                $isle->addBlock();
+            }
+        }
+    }
+    
+    /**
+     * @param PlayerInteractEvent $event
+     */
+    public function onInteract(PlayerInteractEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
+        if(!$isle->canInteract($session)) {
+            $session->sendTranslatedPopup("MUST_ME_MEMBER");
+            $event->setCancelled();
+        }
+    }
+    
+    /**
+     * @param PlayerChatEvent $event
+     */
+    public function onChat(PlayerChatEvent $event): void {
+        $sessionManager = $this->plugin->getSessionManager();
+        $session = $sessionManager->getSession($event->getPlayer());
+        if(!($session->hasIsle()) or !($session->isInChat())) {
+            return;
+        }
+        $recipients = [];
+        foreach($sessionManager->getSessions() as $userSession) {
+            if($userSession->isInChat() and $userSession->getIsle() === $session->getIsle()) {
+                $recipients[] = $userSession->getPlayer();
+            }
+        }
+        $event->setRecipients($recipients);
+    }
+    
+    /**
+     * @param EntityDamageEvent $event
+     */
+    public function onHurt(EntityDamageEvent $event): void {
+        if($event instanceof EntityDamageByEntityEvent) {
+            $entity = $event->getEntity();
+            if($entity instanceof Player) {
+                if($this->isleManager->getIsle($entity->getLevel()->getName()) != null) {
+                    $event->setCancelled();
+                }
+            }
+        }
+    }
+    
+    
+    /**
+     * @param LevelUnloadEvent $event
+     */
+    public function onUnloadLevel(LevelUnloadEvent $event): void {
+        foreach($event->getLevel()->getPlayers() as $player) {
+            $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
+        }
+    }
+    
+    /**
      * @param PlayerQuitEvent $event
      * @priority LOWEST
      */
     public function onQuit(PlayerQuitEvent $event): void {
-        $session = $this->getSession($event->getPlayer());
-        foreach($this->plugin->getIsleManager()->getIsles() as $isle) {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isleManager = $this->plugin->getIsleManager();
+        foreach($isleManager->getIsles() as $isle) {
             if($isle->isCooperator($session)) {
                 $isle->removeCooperator($session);
             }
+        }
+        $isle = $isleManager->getIsle($player->getLevel()->getName());
+        if($isle != null) {
+            $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
+            $isle->tryToClose();
         }
     }
 
