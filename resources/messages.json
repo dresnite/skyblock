@@ -97,5 +97,11 @@
   "BLOCKS_DESCRIPTION": "Shows the amount of blocks built by your isle's team",
   "CATEGORY_USAGE": "Usage: /is category",
   "CATEGORY_DESCRIPTION": "Shows your isle's category",
-  "INVITATION_REFUSED": "{GREEN}You refused an invitation!"
+  "INVITATION_REFUSED": "{GREEN}You refused an invitation!",
+  "ALREADY_ON_YOUR_ISLE": "{YELLOW}{name} is already a member of your isle!",
+  "ALREADY_A_COOPERATOR": "{YELLOW}{name} is already a cooperator!",
+  "ADDED_A_COOPERATOR": "{WHITE}{name} {GREEN}now can cooperate with you on your isle",
+  "NOW_YOU_CAN_COOPERATE": "{WHITE}{name} {GREEN}gave you permission to cooperate in his island!",
+  "REMOVED_A_COOPERATOR": "{WHITE}{name} {GREEN}is no longer a cooperator!",
+  "NOW_YOU_CANNOT_COOPERATE": "{WHITE}{name} {GREEN}revoked you the permission to cooperate in his island!"
 }

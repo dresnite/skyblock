@@ -58,6 +58,9 @@ class Isle {
     const CATEGORY_LARGE = "L";
     const CATEGORY_EXTRA_LARGE = "XL";
     
+    /** @var Session[] */
+    private $cooperators = [];
+    
     /**
      * Isle constructor.
      * @param IsleManager $manager
@@ -193,6 +196,29 @@ class Isle {
     }
     
     /**
+     * @return Session[]
+     */
+    public function getCooperators(): array {
+        return $this->cooperators;
+    }
+    
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    public function isCooperator(Session $session): bool {
+        return isset($this->cooperators[$session->getUsername()]);
+    }
+    
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    public function canInteract(Session $session): bool {
+        return $session->getIsle() === $this or $this->isCooperator($session);
+    }
+    
+    /**
      * @param bool $locked
      */
     public function setLocked(bool $locked = true): void {
@@ -246,8 +272,31 @@ class Isle {
     /**
      * @param OfflineSession $session
      */
-    public function addMember(OfflineSession $session) {
+    public function addMember(OfflineSession $session): void {
         $this->members[strtolower($session->getUsername())] = $session;
+    }
+    
+    /**
+     * @param Session[] $cooperators
+     */
+    public function setCooperators(array $cooperators): void {
+        $this->cooperators = $cooperators;
+    }
+    
+    /**
+     * @param Session $session
+     */
+    public function addCooperator(Session $session): void {
+        $this->cooperators[$session->getUsername()] = $session;
+    }
+    
+    /**
+     * @param Session $session
+     */
+    public function removeCooperator(Session $session): void {
+        if(isset($this->cooperators[$username = $session->getUsername()])) {
+            unset($this->cooperators[$username]);
+        }
     }
     
     /**

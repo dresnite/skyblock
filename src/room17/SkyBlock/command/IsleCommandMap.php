@@ -24,6 +24,7 @@ use room17\SkyBlock\command\defaults\AcceptCommand;
 use room17\SkyBlock\command\defaults\BlocksCommand;
 use room17\SkyBlock\command\defaults\CategoryCommand;
 use room17\SkyBlock\command\defaults\ChatCommand;
+use room17\SkyBlock\command\defaults\CooperateCommand;
 use room17\SkyBlock\command\defaults\CreateCommand;
 use room17\SkyBlock\command\defaults\DemoteCommand;
 use room17\SkyBlock\command\defaults\DenyCommand;
@@ -76,6 +77,7 @@ class IsleCommandMap extends Command {
         $this->registerCommand(new TransferCommand($this));
         $this->registerCommand(new CategoryCommand());
         $this->registerCommand(new BlocksCommand());
+        $this->registerCommand(new CooperateCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",

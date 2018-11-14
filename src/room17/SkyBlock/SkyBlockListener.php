@@ -25,6 +25,7 @@ use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
@@ -72,7 +73,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
-            if($session->getIsle() !== $isle) {
+            if(!$isle->canInteract($session)) {
                 $session->sendTranslatedPopup("MUST_ME_MEMBER");
                 $event->setCancelled();
             } elseif(!$event->isCancelled()) {
@@ -89,7 +90,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
-            if($session->getIsle() !== $isle) {
+            if(!$isle->canInteract($session)) {
                 $session->sendTranslatedPopup("MUST_ME_MEMBER");
                 $event->setCancelled();
             } elseif(!$event->isCancelled()) {
@@ -105,7 +106,7 @@ class SkyBlockListener implements Listener {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
-        if($isle != null and $session->getIsle() !== $isle) {
+        if(!$isle->canInteract($session)) {
             $session->sendTranslatedPopup("MUST_ME_MEMBER");
             $event->setCancelled();
         }
@@ -169,6 +170,19 @@ class SkyBlockListener implements Listener {
             $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
             foreach($this->plugin->getSettings()->getChestPerGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
+            }
+        }
+    }
+    
+    /**
+     * @param PlayerQuitEvent $event
+     * @priority LOWEST
+     */
+    public function onQuit(PlayerQuitEvent $event): void {
+        $session = $this->getSession($event->getPlayer());
+        foreach($this->plugin->getIsleManager()->getIsles() as $isle) {
+            if($isle->isCooperator($session)) {
+                $isle->removeCooperator($session);
             }
         }
     }
