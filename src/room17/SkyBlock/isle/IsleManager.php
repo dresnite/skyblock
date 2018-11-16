@@ -111,6 +111,7 @@ class IsleManager {
         }
         $isle->setMembers([]);
         $isle->save();
+        $this->closeIsle($isle);
     }
     
     /**
