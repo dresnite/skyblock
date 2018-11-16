@@ -103,5 +103,6 @@
   "ADDED_A_COOPERATOR": "{WHITE}{name} {GREEN}now can cooperate with you on your isle",
   "NOW_YOU_CAN_COOPERATE": "{WHITE}{name} {GREEN}gave you permission to cooperate in his island!",
   "REMOVED_A_COOPERATOR": "{WHITE}{name} {GREEN}is no longer a cooperator!",
-  "NOW_YOU_CANNOT_COOPERATE": "{WHITE}{name} {GREEN}revoked you the permission to cooperate in his island!"
+  "NOW_YOU_CANNOT_COOPERATE": "{WHITE}{name} {GREEN}revoked you the permission to cooperate in his island!",
+  "COOPERATE_DESCRIPTION": "Allows another player to interact with your isle"
 }
