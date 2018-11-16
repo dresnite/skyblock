@@ -16,6 +16,7 @@
 
 namespace room17\SkyBlock;
 
+use pocketmine\block\Solid;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -97,7 +98,7 @@ class SkyBlockListener implements Listener {
             if(!$isle->canInteract($session)) {
                 $session->sendTranslatedPopup("MUST_ME_MEMBER");
                 $event->setCancelled();
-            } elseif(!$event->isCancelled()) {
+            } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->destroyBlock();
             }
         }
@@ -114,7 +115,7 @@ class SkyBlockListener implements Listener {
             if(!$isle->canInteract($session)) {
                 $session->sendTranslatedPopup("MUST_ME_MEMBER");
                 $event->setCancelled();
-            } elseif(!$event->isCancelled()) {
+            } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->addBlock();
             }
         }
