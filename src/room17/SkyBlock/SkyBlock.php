@@ -71,6 +71,9 @@ class SkyBlock extends PluginBase {
         $this->generatorManager = new IsleGeneratorManager($this);
         $this->commandMap = new IsleCommandMap($this);
         $this->eventListener = new SkyBlockListener($this);
+        if($this->getServer()->getSpawnRadius() > 0) {
+            $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
+        }
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
