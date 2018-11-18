@@ -38,7 +38,7 @@ class BasicIsland extends IsleGenerator {
     public function generateChunk(int $chunkX, int $chunkZ) : void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
-        if ($chunkX == 0 && $chunkZ == 0) {
+        if($chunkX == 0 && $chunkZ == 0) {
             for ($x = 6; $x < 12; $x++) {
                 for ($z = 6; $z < 12; $z++) {
 					$chunk->setBlock($x, 61, $z, Block::DIRT);
@@ -61,9 +61,9 @@ class BasicIsland extends IsleGenerator {
         }
         
 		if($chunkX == 4 and $chunkZ == 0) {
-        	for($x = 6; $x < 11; $x++){
+        	for($x = 6; $x < 11; $x++) {
         		for($z = 6; $z < 11; $z++) {
-        			for($y = 60; $y < 65; $y++){
+        			for($y = 60; $y < 65; $y++) {
 						$chunk->setBlock($x, $y, $z, Block::SAND);
 					}
 				}

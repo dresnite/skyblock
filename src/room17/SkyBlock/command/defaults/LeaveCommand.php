@@ -34,7 +34,7 @@ class LeaveCommand extends IsleCommand {
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsle($session)) {
             return;
-        } else if($session->getRank() == iSession::RANK_FOUNDER) {
+        } elseif($session->getRank() == iSession::RANK_FOUNDER) {
             $session->sendTranslatedMessage("FOUNDER_CANNOT_LEAVE");
             return;
         }

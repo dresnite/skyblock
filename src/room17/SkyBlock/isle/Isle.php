@@ -228,21 +228,21 @@ class Isle {
     /**
      * @param OfflineSession[] $members
      */
-    public function setMembers(array $members) {
+    public function setMembers(array $members): void {
         $this->members = $members;
     }
     
     /**
      * @param Vector3 $position
      */
-    public function setSpawnLocation(Vector3 $position) {
+    public function setSpawnLocation(Vector3 $position): void {
         $this->level->setSpawnLocation($position);
     }
     
     /**
      * @param int $blocksBuilt
      */
-    public function setBlocksBuilt(int $blocksBuilt) {
+    public function setBlocksBuilt(int $blocksBuilt): void {
         $this->blocksBuilt = max(0, $blocksBuilt);
         $this->updateCategory();
     }

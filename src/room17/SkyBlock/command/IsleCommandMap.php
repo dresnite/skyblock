@@ -134,7 +134,7 @@ class IsleCommandMap extends Command {
         }
         
         $session = $this->plugin->getSessionManager()->getSession($sender);
-        if(isset($args[0]) and $this->getCommand($args[0]) != null){
+        if(isset($args[0]) and $this->getCommand($args[0]) != null) {
             $this->getCommand(array_shift($args))->onCommand($session, $args);
         } else {
             $session->sendTranslatedMessage("TRY_USING_HELP");

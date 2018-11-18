@@ -24,7 +24,7 @@ class LostIsland extends IsleGenerator {
     public function generateChunk(int $chunkX, int $chunkZ): void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
-        if ($chunkX == 0 && $chunkZ == 0) {
+        if($chunkX == 0 && $chunkZ == 0) {
             $chunk->setBlock(11, 34, 9, Block::GRASS);
             $chunk->setBlock(11, 35, 9, Block::FENCE);
             $chunk->setBlock(11, 32, 8, Block::DIRT);

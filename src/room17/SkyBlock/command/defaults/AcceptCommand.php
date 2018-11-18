@@ -38,7 +38,7 @@ class AcceptCommand extends IsleCommand {
         if($session->hasIsle()) {
             $session->sendTranslatedMessage("NEED_TO_BE_FREE");
             return;
-        } else if(!isset($args[0]) and !$session->hasLastInvitation()) {
+        } elseif(!isset($args[0]) and !$session->hasLastInvitation()) {
             $session->sendTranslatedMessage("ACCEPT_USAGE");
             return;
         }
