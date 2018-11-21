@@ -1,6 +1,7 @@
 # SkyBlock
 
 A powerful core for SkyBlock servers
+[![](https://poggit.pmmp.io/shield.api/SkyBlock)](https://poggit.pmmp.io/p/SkyBlock)
 
 ## Getting Started
 
