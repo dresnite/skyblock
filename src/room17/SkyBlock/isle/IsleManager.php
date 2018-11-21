@@ -18,6 +18,10 @@ namespace room17\SkyBlock\isle;
 
 
 use pocketmine\level\Level;
+use room17\SkyBlock\event\isle\IsleCreateEvent;
+use room17\SkyBlock\event\isle\IsleDisbandEvent;
+use room17\SkyBlock\event\isle\IsleOpenEvent;
+use room17\SkyBlock\event\isle\IsleCloseEvent;
 use room17\SkyBlock\generator\IsleGenerator;
 use room17\SkyBlock\session\iSession;
 use room17\SkyBlock\session\Session;
@@ -87,6 +91,7 @@ class IsleManager {
         $session->setRank(iSession::RANK_FOUNDER);
         $session->save();
         $isle->save();
+        $server->getPluginManager()->callEvent(new IsleCreateEvent($isle));
     }
     
     /**
@@ -112,6 +117,7 @@ class IsleManager {
         $isle->setMembers([]);
         $isle->save();
         $this->closeIsle($isle);
+        $this->plugin->getServer()->getPluginManager()->callEvent(new IsleDisbandEvent($isle));
     }
     
     /**
@@ -124,6 +130,7 @@ class IsleManager {
      */
     public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
         $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
+        $this->plugin->getServer()->getPluginManager()->callEvent(new IsleOpenEvent($this->isles[$identifier]));
     }
     
     /**
@@ -131,7 +138,9 @@ class IsleManager {
      */
     public function closeIsle(Isle $isle): void {
         $isle->save();
-        $this->plugin->getServer()->unloadLevel($isle->getLevel());
+        $server = $this->plugin->getServer();
+        $server->getPluginManager()->callEvent(new IsleCloseEvent($isle));
+        $server->unloadLevel($isle->getLevel());
         unset($this->isles[$isle->getIdentifier()]);
     }
     

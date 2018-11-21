@@ -18,6 +18,8 @@ namespace room17\SkyBlock\session;
 
 
 use pocketmine\Player;
+use room17\SkyBlock\event\session\SessionCloseEvent;
+use room17\SkyBlock\event\session\SessionOpenEvent;
 use room17\SkyBlock\SkyBlock;
 
 class SessionManager {
@@ -71,7 +73,8 @@ class SessionManager {
      * @param Player $player
      */
     public function openSession(Player $player): void {
-        $this->sessions[$player->getName()] = new Session($this, $player);
+        $this->sessions[$username = $player->getName()] = new Session($this, $player);
+        $this->plugin->getServer()->getPluginManager()->callEvent(new SessionOpenEvent($this->sessions[$username]));
     }
     
     /**
@@ -81,6 +84,7 @@ class SessionManager {
         if(isset($this->sessions[$username = $player->getName()])) {
             $session = $this->sessions[$username];
             $session->save();
+            $this->plugin->getServer()->getPluginManager()->callEvent(new SessionCloseEvent($session));
             unset($this->sessions[$username]);
             if($session->hasIsle()) {
                 $session->getIsle()->tryToClose();
