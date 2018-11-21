@@ -32,7 +32,7 @@ class DisbandCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkLeader($session)) {
+        if($this->checkFounder($session)) {
             return;
         }
         $this->isleManager->disbandIsle($session->getIsle());
