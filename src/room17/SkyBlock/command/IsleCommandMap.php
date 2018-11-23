@@ -85,7 +85,7 @@ class IsleCommandMap extends Command {
             "sb",
             "skyblock"
         ]);
-        $plugin->getServer()->getCommandMap()->register("isle", $this);
+        $plugin->getServer()->getCommandMap()->register("skyblock", $this);
     }
     
     /**
