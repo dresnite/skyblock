@@ -17,6 +17,7 @@
 namespace room17\SkyBlock;
 
 use pocketmine\block\Solid;
+use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -158,10 +159,11 @@ class SkyBlockListener implements Listener {
     public function onHurt(EntityDamageEvent $event): void {
         if($event instanceof EntityDamageByEntityEvent) {
             $entity = $event->getEntity();
-            if($entity instanceof Player) {
-                if($this->isleManager->getIsle($entity->getLevel()->getName()) != null) {
-                    $event->setCancelled();
-                }
+            $damager = $event->getDamager();
+            $isle = $this->isleManager->getIsle($entity->getLevel()->getName());
+            if($isle != null and ($entity instanceof Player or ($entity instanceof Painting and $damager instanceof Player
+                and !$isle->canInteract($this->getSession($damager))))) {
+                $event->setCancelled();
             }
         }
     }
