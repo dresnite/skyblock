@@ -78,6 +78,9 @@ class SkyBlock extends PluginBase {
     }
 
     public function onDisable(): void {
+        foreach($this->isleManager->getIsles() as $isle) {
+            $isle->save();
+        }
         $this->getLogger()->info("SkyBlock was disabled");
     }
 
