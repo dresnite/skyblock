@@ -14,19 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
 
-class ChatCommand extends IsleCommand {
+class MembersCommand extends IsleCommand {
     
     /**
-     * ChatCommand constructor.
+     * MembersCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["chat"], "CHAT_USAGE", "CHAT_DESCRIPTION");
+        parent::__construct(["members"], "MEMBERS_USAGE", "MEMBERS_DESCRIPTION");
     }
     
     /**
@@ -37,8 +37,22 @@ class ChatCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $session->setInChat(!$session->isInChat());
-        $session->sendTranslatedMessage($session->isInChat() ? "JOINED_ISLE_CHAT" : "JOINED_GLOBAL_CHAT");
+        $members = $session->getIsle()->getMembers();
+        $session->sendTranslatedMessage("MEMBERS_COMMAND_HEADER", [
+            "amount" => count($members)
+        ]);
+        foreach($members as $member) {
+            $memberSession = $member->getSession();
+            if($memberSession != null) {
+                $session->sendTranslatedMessage("ONLINE_MEMBER", [
+                    "name" => $memberSession->getUsername()
+                ]);
+            } else {
+                $session->sendTranslatedMessage("OFFLINE_MEMBER", [
+                    "name" => $member->getUsername()
+                ]);
+            }
+        }
     }
     
 }

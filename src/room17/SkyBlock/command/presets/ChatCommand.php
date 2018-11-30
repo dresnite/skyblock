@@ -14,19 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
 
-class LockCommand extends IsleCommand {
+class ChatCommand extends IsleCommand {
     
     /**
-     * LockCommand constructor.
+     * ChatCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["lock"], "LOCK_USAGE", "LOCK_DESCRIPTION");
+        parent::__construct(["chat"], "CHAT_USAGE", "CHAT_DESCRIPTION");
     }
     
     /**
@@ -34,13 +34,11 @@ class LockCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkLeader($session)) {
+        if($this->checkIsle($session)) {
             return;
         }
-        $isle = $session->getIsle();
-        $isle->setLocked(!$isle->isLocked());
-        $isle->save();
-        $session->sendTranslatedMessage($isle->isLocked() ? "ISLE_LOCKED" : "ISLE_UNLOCKED");
+        $session->setInChat(!$session->isInChat());
+        $session->sendTranslatedMessage($session->isInChat() ? "JOINED_ISLE_CHAT" : "JOINED_GLOBAL_CHAT");
     }
     
 }

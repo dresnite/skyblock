@@ -14,26 +14,20 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\session\iSession;
 use room17\SkyBlock\session\Session;
-use room17\SkyBlock\SkyBlock;
 
-class CreateCommand extends IsleCommand {
-    
-    /** @var SkyBlock */
-    private $plugin;
+class AcceptCommand extends IsleCommand {
     
     /**
-     * CreateCommand constructor.
-     * @param IsleCommandMap $map
+     * AcceptCommand constructor.
      */
-    public function __construct(IsleCommandMap $map) {
-        $this->plugin = $map->getPlugin();
-        parent::__construct(["create"], "CREATE_USAGE", "CREATE_DESCRIPTION");
+    public function __construct() {
+        parent::__construct(["accept", "acc"], "ACCEPT_USAGE", "ACCEPT_DESCRIPTION");
     }
     
     /**
@@ -44,16 +38,19 @@ class CreateCommand extends IsleCommand {
         if($session->hasIsle()) {
             $session->sendTranslatedMessage("NEED_TO_BE_FREE");
             return;
+        } elseif(!isset($args[0]) and !$session->hasLastInvitation()) {
+            $session->sendTranslatedMessage("ACCEPT_USAGE");
+            return;
         }
-        $generator = $args[0] ?? "Shelly";
-        if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
-            $this->plugin->getIsleManager()->createIsleFor($session, $generator);
-            $session->sendTranslatedMessage("SUCCESSFULLY_CREATED_A_ISLE");
-        } else {
-            $session->sendTranslatedMessage("NOT_VALID_GENERATOR", [
-                "name" => $generator
-            ]);
+        $isle = $session->getInvitation($args[0] ?? $session->getLastInvitation());
+        if($isle == null) {
+            return;
         }
+        $session->setRank(iSession::RANK_DEFAULT);
+        $session->setIsle($isle);
+        $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLE", [
+            "name" => $session->getUsername()
+        ]);
     }
     
 }

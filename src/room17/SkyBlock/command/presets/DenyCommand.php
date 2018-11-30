@@ -14,19 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
 
-class JoinCommand extends IsleCommand {
+class DenyCommand extends IsleCommand {
     
     /**
-     * JoinCommand constructor.
+     * DenyCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["join", "go", "spawn"], "JOIN_USAGE", "JOIN_DESCRIPTION");
+        parent::__construct(["deny", "d"], "DENY_USAGE", "DENY_DESCRIPTION");
     }
     
     /**
@@ -34,11 +34,20 @@ class JoinCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkIsle($session)) {
+        if(!isset($args[0]) and !$session->hasLastInvitation()) {
+            $session->sendTranslatedMessage("DENY_USAGE");
             return;
         }
-        $session->getPlayer()->teleport($session->getIsle()->getLevel()->getSpawnLocation());
-        $session->sendTranslatedMessage("TELEPORTED_TO_ISLE");
+        $isleName = $args[0] ?? $session->getLastInvitation();
+        $isle = $session->getInvitation($isleName);
+        if($isle == null) {
+            return;
+        }
+        $session->removeInvitation($isleName);
+        $session->sendTranslatedMessage("INVITATION_REFUSED");
+        $isle->broadcastTranslatedMessage("PLAYER_INVITATION_DENIED", [
+            "name" => $session->getUsername()
+        ]);
     }
     
 }

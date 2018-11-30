@@ -14,19 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
 
-class SetSpawnCommand extends IsleCommand {
+class CategoryCommand extends IsleCommand {
     
     /**
-     * SetSpawnCommand constructor.
+     * CategoryCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["setspawn"], "SET_SPAWN_USAGE", "SET_SPAWN_DESCRIPTION");
+        parent::__construct(["category", "c"], "CATEGORY_USAGE", "CATEGORY_DESCRIPTION");
     }
     
     /**
@@ -34,14 +34,12 @@ class SetSpawnCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkOfficer($session)) {
+        if($this->checkIsle($session)) {
             return;
-        } elseif($session->getPlayer()->getLevel() !== $session->getIsle()->getLevel()) {
-            $session->sendTranslatedMessage("MUST_BE_IN_YOUR_ISLE");
-        } else {
-            $session->getIsle()->setSpawnLocation($session->getPlayer());
-            $session->sendTranslatedMessage("SUCCESSFULLY_SET_SPAWN");
         }
+        $session->sendTranslatedMessage("ISLE_CATEGORY", [
+            "category" => $session->getIsle()->getCategory()
+        ]);
     }
     
 }

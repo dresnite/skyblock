@@ -1,20 +1,33 @@
 <?php
+/**
+ *  _____    ____    ____   __  __  __  ______
+ * |  __ \  / __ \  / __ \ |  \/  |/_ ||____  |
+ * | |__) || |  | || |  | || \  / | | |    / /
+ * |  _  / | |  | || |  | || |\/| | | |   / /
+ * | | \ \ | |__| || |__| || |  | | | |  / /
+ * |_|  \_\ \____/  \____/ |_|  |_| |_| /_/
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ */
 
-namespace room17\SkyBlock\generator\generators;
+namespace room17\SkyBlock\generator\presets;
+
 
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use room17\SkyBlock\generator\IsleGenerator;
 
-class LostIsland extends IsleGenerator {
-
+class ShellyGenerator extends IsleGenerator {
+    
     /**
-     * Return generator name
-     *
      * @return string
      */
-    public function getName() : string {
-        return "Lost";
+    public function getName(): string {
+        return "Shelly";
     }
     
     /**
@@ -35,7 +48,7 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(11, 34, 7, Block::GRASS);
             $chunk->setBlock(11, 35, 7, Block::FENCE);
             $chunk->setBlock(10, 33, 10, Block::DIRT);
-            $chunk->setBlock(10, 34, 10, Block::ICE);
+            $chunk->setBlock(10, 34, 10, Block::GRASS);
             $chunk->setBlock(10, 32, 9, Block::STONE);
             $chunk->setBlock(10, 33, 9, Block::DIRT);
             $chunk->setBlock(10, 34, 9, Block::COBBLESTONE);
@@ -53,11 +66,11 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(9, 34, 11, Block::GRASS);
             $chunk->setBlock(9, 32, 10, Block::STONE);
             $chunk->setBlock(9, 33, 10, Block::DIRT);
-            $chunk->setBlock(9, 34, 10, Block::ICE);
+            $chunk->setBlock(9, 34, 10, Block::GRASS);
             $chunk->setBlock(9, 31, 9, Block::STONE);
             $chunk->setBlock(9, 32, 9, Block::STONE);
             $chunk->setBlock(9, 33, 9, Block::DIRT);
-            $chunk->setBlock(9, 34, 9, Block::ICE);
+            $chunk->setBlock(9, 34, 9, Block::GRASS);
             $chunk->setBlock(9, 30, 8, Block::STONE);
             $chunk->setBlock(9, 31, 8, Block::STONE);
             $chunk->setBlock(9, 32, 8, Block::STONE);
@@ -79,17 +92,17 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(8, 31, 10, Block::STONE);
             $chunk->setBlock(8, 32, 10, Block::STONE);
             $chunk->setBlock(8, 33, 10, Block::DIRT);
-            $chunk->setBlock(8, 34, 10, Block::ICE);
+            $chunk->setBlock(8, 34, 10, Block::GRASS);
             $chunk->setBlock(8, 30, 9, Block::STONE);
             $chunk->setBlock(8, 31, 9, Block::STONE);
             $chunk->setBlock(8, 32, 9, Block::STONE);
             $chunk->setBlock(8, 33, 9, Block::DIRT);
-            $chunk->setBlock(8, 34, 9, Block::ICE);
+            $chunk->setBlock(8, 34, 9, Block::GRASS);
             $chunk->setBlock(8, 30, 8, Block::STONE);
             $chunk->setBlock(8, 31, 8, Block::STONE);
             $chunk->setBlock(8, 32, 8, Block::STONE);
             $chunk->setBlock(8, 33, 8, Block::DIRT);
-            $chunk->setBlock(8, 34, 8, Block::ICE);
+            $chunk->setBlock(8, 34, 8, Block::GRASS);
             $chunk->setBlock(8, 30, 7, Block::STONE);
             $chunk->setBlock(8, 31, 7, Block::STONE);
             $chunk->setBlock(8, 32, 7, Block::STONE);
@@ -110,12 +123,12 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(7, 31, 9, Block::STONE);
             $chunk->setBlock(7, 32, 9, Block::STONE);
             $chunk->setBlock(7, 33, 9, Block::DIRT);
-            $chunk->setBlock(7, 34, 9, Block::ICE);
+            $chunk->setBlock(7, 34, 9, Block::GRASS);
             $chunk->setBlock(7, 30, 8, Block::STONE);
             $chunk->setBlock(7, 31, 8, Block::STONE);
             $chunk->setBlock(7, 32, 8, Block::STONE);
             $chunk->setBlock(7, 33, 8, Block::DIRT);
-            $chunk->setBlock(7, 34, 8, Block::ICE);
+            $chunk->setBlock(7, 34, 8, Block::GRASS);
             $chunk->setBlock(7, 33, 8, Block::DIRT);
             $chunk->setBlock(7, 31, 7, Block::STONE);
             $chunk->setBlock(7, 32, 7, Block::STONE);
@@ -135,7 +148,7 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(6, 32, 8, Block::STONE);
             $chunk->setBlock(6, 33, 8, Block::DIRT);
             $chunk->setBlock(6, 34, 8, Block::DIRT);
-            $chunk->setBlock(6, 35, 8, Block::HAY_BALE);
+            $chunk->setBlock(6, 35, 8, Block::CHEST);
             $chunk->setBlock(6, 32, 7, Block::STONE);
             $chunk->setBlock(6, 33, 7, Block::DIRT);
             $chunk->setBlock(6, 34, 7, Block::SAND);
@@ -211,7 +224,6 @@ class LostIsland extends IsleGenerator {
             $chunk->setBlock(4, 39, 7, Block::LEAVES);
             $chunk->setBlock(4, 40, 7, Block::LEAVES);
             $chunk->setBlock(4, 41, 7, Block::LEAVES);
-            $chunk->setBlock(6, 35, 9, Block::CHEST);
             $chunk->setX($chunkX);
             $chunk->setZ($chunkZ);
             $this->level->setChunk($chunkX, $chunkZ, $chunk);
@@ -222,27 +234,29 @@ class LostIsland extends IsleGenerator {
      * @param int $chunkX
      * @param int $chunkZ
      */
-    public function populateChunk(int $chunkX, int $chunkZ): void {}
+    public function populateChunk(int $chunkX, int $chunkZ) : void {
+        return;
+    }
     
     /**
      * @return Vector3
      */
-    public static function getWorldSpawn() : Vector3 {
-        return new Vector3(10, 35, 9);
+    public static function getWorldSpawn(): Vector3 {
+        return new Vector3(8, 35, 10);
     }
     
     /**
      * @return Vector3
      */
     public static function getChestPosition(): Vector3 {
-        return new Vector3(6, 35, 9);
+        return new Vector3(6, 35, 8);
     }
     
     /**
      * @return Vector3
      */
-    public function getSpawn() : Vector3 {
-        return new Vector3(10, 35, 9);
+    public function getSpawn(): Vector3 {
+        return new Vector3(8, 35, 10);
     }
     
 }

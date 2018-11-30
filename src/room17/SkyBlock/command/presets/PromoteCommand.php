@@ -14,7 +14,7 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
@@ -22,18 +22,18 @@ use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
-class DemoteCommand extends IsleCommand {
+class PromoteCommand extends IsleCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
-     * DemoteCommand constructor.
+     * PromoteCommand constructor.
      * @param IsleCommandMap $map
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["demote"], "DEMOTE_USAGE", "DEMOTE_DESCRIPTION");
+        parent::__construct(["promote"], "PROMOTE_USAGE", "PROMOTE_DESCRIPTION");
     }
     
     /**
@@ -44,10 +44,10 @@ class DemoteCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("DEMOTE_USAGE");
+            $session->sendTranslatedMessage("PROMOTE_USAGE");
             return;
         }
-        
+    
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
@@ -59,36 +59,31 @@ class DemoteCommand extends IsleCommand {
             $rank = null;
             $rankName = "";
             switch($offlineSession->getRank()) {
-                case Session::RANK_OFFICER:
-                    $rank = Session::RANK_DEFAULT;
-                    $rankName = "MEMBER";
-                    break;
-                case Session::RANK_LEADER:
+                case Session::RANK_DEFAULT:
                     $rank = Session::RANK_OFFICER;
                     $rankName = "OFFICER";
                     break;
-                case Session::RANK_FOUNDER:
-                    $rank = false;
+                case Session::RANK_OFFICER:
+                    $rank = Session::RANK_LEADER;
+                    $rankName = "LEADER";
+                    break;
             }
             if($rank == null) {
-                $session->sendTranslatedMessage("CANNOT_DEMOTE_MEMBER", [
+                $session->sendTranslatedMessage("CANNOT_PROMOTE_LEADER", [
                     "name" => $args[0]
                 ]);
-                return;
-            } elseif($rank == false) {
-                $session->sendTranslatedMessage("CANNOT_DEMOTE_FOUNDER");
                 return;
             }
             $onlineSession = $offlineSession->getSession();
             if($onlineSession != null) {
                 $onlineSession->setRank($rank);
-                $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_DEMOTED");
+                $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED");
                 $onlineSession->save();
             } else {
                 $offlineSession->setRank($rank);
                 $offlineSession->save();
             }
-            $session->sendTranslatedMessage("SUCCESSFULLY_DEMOTED_PLAYER", [
+            $session->sendTranslatedMessage("SUCCESSFULLY_PROMOTED_PLAYER", [
                 "name" => $args[0],
                 "to" => $session->translate($rankName)
             ]);

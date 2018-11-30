@@ -14,26 +14,27 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\session\iSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
-class KickCommand extends IsleCommand {
+class TransferCommand extends IsleCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
-     * KickCommand constructor.
+     * TransferCommand constructor.
      * @param IsleCommandMap $map
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["kick"], "KICK_USAGE", "KICK_DESCRIPTION");
+        parent::__construct(["transfer", "makeleader"], "TRANSFER_USAGE", "TRANSFER_DESCRIPTION");
     }
     
     /**
@@ -41,14 +42,13 @@ class KickCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkOfficer($session)) {
+        if($this->checkFounder($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("KICK_USAGE");
+            $session->sendTranslatedMessage("TRANSFER_USAGE");
             return;
         }
-        $server = $this->plugin->getServer();
-        $player = $server->getPlayer($args[0]);
+        $player = $this->plugin->getServer()->getPlayer($args[0]);
         if($player == null) {
             $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
@@ -58,19 +58,20 @@ class KickCommand extends IsleCommand {
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
-        } elseif($playerSession->getIsle() === $session->getIsle()) {
-            $session->sendTranslatedMessage("CANNOT_KICK_A_MEMBER");
-        } elseif(in_array($player, $session->getIsle()->getPlayersOnline())) {
-            $player->teleport($server->getDefaultLevel()->getSpawnLocation());
-            $playerSession->sendTranslatedMessage("KICKED_FROM_THE_ISLE");
-            $session->sendTranslatedMessage("YOU_KICKED_A_PLAYER", [
+        } elseif($playerSession->getIsle() !== $session->getIsle()) {
+            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLE", [
                 "name" => $playerSession->getUsername()
             ]);
-        } else {
-            $session->sendTranslatedMessage("NOT_A_VISITOR", [
-                "name" => $playerSession->getUsername()
-            ]);
+            return;
         }
+        $session->setRank(iSession::RANK_DEFAULT);
+        $playerSession->setRank(iSession::RANK_FOUNDER);
+        $session->sendTranslatedMessage("RANK_TRANSFERRED", [
+            "name" => $playerSession->getUsername()
+        ]);
+        $playerSession->sendTranslatedMessage("GOT_RANK_TRANSFERRED", [
+            "name" => $session->getUsername()
+        ]);
     }
     
 }

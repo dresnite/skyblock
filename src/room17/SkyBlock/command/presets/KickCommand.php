@@ -14,9 +14,7 @@
  *
  */
 
-declare(strict_types=1);
-
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
@@ -24,18 +22,18 @@ use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
-class CooperateCommand extends IsleCommand {
+class KickCommand extends IsleCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
-     * CooperateCommand constructor.
+     * KickCommand constructor.
      * @param IsleCommandMap $map
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["cooperate"], "COOPERATE_USAGE", "COOPERATE_DESCRIPTION");
+        parent::__construct(["kick"], "KICK_USAGE", "KICK_DESCRIPTION");
     }
     
     /**
@@ -43,12 +41,14 @@ class CooperateCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkLeader($session)) {
+        if($this->checkOfficer($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("COOPERATE_USAGE");
+            $session->sendTranslatedMessage("KICK_USAGE");
+            return;
         }
-        $player = $this->plugin->getServer()->getPlayer($args[0]);
+        $server = $this->plugin->getServer();
+        $player = $server->getPlayer($args[0]);
         if($player == null) {
             $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
@@ -56,30 +56,19 @@ class CooperateCommand extends IsleCommand {
             return;
         }
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
-        $playerName = $playerSession->getPlayer()->getName();
-        $sessionName = $session->getPlayer()->getName();
-        $isle = $session->getIsle();
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() === $session->getIsle()) {
-            $session->sendTranslatedMessage("ALREADY_ON_YOUR_ISLE", [
-                "name" => $playerName
-            ]);
-        } elseif($isle->isCooperator($playerSession)) {
-            $isle->removeCooperator($playerSession);
-            $session->sendTranslatedMessage("REMOVED_A_COOPERATOR", [
-                "name" => $playerName
-            ]);
-            $playerSession->sendTranslatedMessage("NOW_YOU_CANNOT_COOPERATE", [
-                "name" => $sessionName
+            $session->sendTranslatedMessage("CANNOT_KICK_A_MEMBER");
+        } elseif(in_array($player, $session->getIsle()->getPlayersOnline())) {
+            $player->teleport($server->getDefaultLevel()->getSpawnLocation());
+            $playerSession->sendTranslatedMessage("KICKED_FROM_THE_ISLE");
+            $session->sendTranslatedMessage("YOU_KICKED_A_PLAYER", [
+                "name" => $playerSession->getUsername()
             ]);
         } else {
-            $isle->addCooperator($playerSession);
-            $session->sendTranslatedMessage("ADDED_A_COOPERATOR", [
-                "name" => $playerName
-            ]);
-            $playerSession->sendTranslatedMessage("NOW_YOU_CAN_COOPERATE", [
-                "name" => $sessionName
+            $session->sendTranslatedMessage("NOT_A_VISITOR", [
+                "name" => $playerSession->getUsername()
             ]);
         }
     }

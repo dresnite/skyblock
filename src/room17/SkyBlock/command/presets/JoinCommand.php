@@ -14,19 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
 
-class MembersCommand extends IsleCommand {
+class JoinCommand extends IsleCommand {
     
     /**
-     * MembersCommand constructor.
+     * JoinCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["members"], "MEMBERS_USAGE", "MEMBERS_DESCRIPTION");
+        parent::__construct(["join", "go", "spawn"], "JOIN_USAGE", "JOIN_DESCRIPTION");
     }
     
     /**
@@ -37,22 +37,8 @@ class MembersCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $members = $session->getIsle()->getMembers();
-        $session->sendTranslatedMessage("MEMBERS_COMMAND_HEADER", [
-            "amount" => count($members)
-        ]);
-        foreach($members as $member) {
-            $memberSession = $member->getSession();
-            if($memberSession != null) {
-                $session->sendTranslatedMessage("ONLINE_MEMBER", [
-                    "name" => $memberSession->getUsername()
-                ]);
-            } else {
-                $session->sendTranslatedMessage("OFFLINE_MEMBER", [
-                    "name" => $member->getUsername()
-                ]);
-            }
-        }
+        $session->getPlayer()->teleport($session->getIsle()->getLevel()->getSpawnLocation());
+        $session->sendTranslatedMessage("TELEPORTED_TO_ISLE");
     }
     
 }

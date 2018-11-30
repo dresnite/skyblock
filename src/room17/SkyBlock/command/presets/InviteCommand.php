@@ -14,27 +14,26 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
-use room17\SkyBlock\session\iSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
-class TransferCommand extends IsleCommand {
+class InviteCommand extends IsleCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
-     * TransferCommand constructor.
+     * InviteCommand constructor.
      * @param IsleCommandMap $map
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["transfer", "makeleader"], "TRANSFER_USAGE", "TRANSFER_DESCRIPTION");
+        parent::__construct(["invite", "inv"], "INVITE_USAGE", "INVITE_DESCRIPTION");
     }
     
     /**
@@ -42,10 +41,21 @@ class TransferCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkFounder($session)) {
+        if($this->checkOfficer($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("TRANSFER_USAGE");
+            $session->sendTranslatedMessage("INVITE_USAGE");
+            return;
+        } elseif(count($session->getIsle()->getMembers()) >= $session->getIsle()->getSlots()) {
+            $isle = $session->getIsle();
+            $next = $isle->getNextCategory();
+            if($next != null) {
+                $session->sendTranslatedMessage("ISLE_IS_FULL_BUT_YOU_CAN_UPGRADE", [
+                    "next" => $next
+                ]);
+            } else {
+                $session->sendTranslatedMessage("ISLE_IS_FULL");
+            }
             return;
         }
         $player = $this->plugin->getServer()->getPlayer($args[0]);
@@ -58,19 +68,18 @@ class TransferCommand extends IsleCommand {
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
-        } elseif($playerSession->getIsle() !== $session->getIsle()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLE", [
-                "name" => $playerSession->getUsername()
+        } elseif($playerSession->hasIsle()) {
+            $session->sendTranslatedMessage("CANNOT_INVITE_BECAUSE_HAS_ISLE", [
+                "name" => $player->getName()
             ]);
             return;
         }
-        $session->setRank(iSession::RANK_DEFAULT);
-        $playerSession->setRank(iSession::RANK_FOUNDER);
-        $session->sendTranslatedMessage("RANK_TRANSFERRED", [
-            "name" => $playerSession->getUsername()
-        ]);
-        $playerSession->sendTranslatedMessage("GOT_RANK_TRANSFERRED", [
+        $playerSession->addInvitation($session->getUsername(), $session->getIsle());
+        $playerSession->sendTranslatedMessage("YOU_WERE_INVITED_TO_AN_ISLE", [
             "name" => $session->getUsername()
+        ]);
+        $session->sendTranslatedMessage("SUCCESSFULLY_INVITED", [
+            "name" => $player->getName()
         ]);
     }
     

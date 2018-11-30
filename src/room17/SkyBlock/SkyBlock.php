@@ -196,6 +196,7 @@ class SkyBlock extends PluginBase {
      * @return string
      */
     public static function translateColors(string $message): string {
+        $message = str_replace("&", TextFormat::ESCAPE, $message);
         $message = str_replace("{BLACK}", TextFormat::BLACK, $message);
         $message = str_replace("{DARK_BLUE}", TextFormat::DARK_BLUE, $message);
         $message = str_replace("{DARK_GREEN}", TextFormat::DARK_GREEN, $message);

@@ -1,6 +1,6 @@
 <?php
 
-namespace room17\SkyBlock\generator\generators;
+namespace room17\SkyBlock\generator\presets;
 
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;

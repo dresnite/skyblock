@@ -14,20 +14,19 @@
  *
  */
 
-namespace room17\SkyBlock\command\defaults;
+namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\session\iSession;
 use room17\SkyBlock\session\Session;
 
-class AcceptCommand extends IsleCommand {
+class LockCommand extends IsleCommand {
     
     /**
-     * AcceptCommand constructor.
+     * LockCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["accept", "acc"], "ACCEPT_USAGE", "ACCEPT_DESCRIPTION");
+        parent::__construct(["lock"], "LOCK_USAGE", "LOCK_DESCRIPTION");
     }
     
     /**
@@ -35,22 +34,13 @@ class AcceptCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($session->hasIsle()) {
-            $session->sendTranslatedMessage("NEED_TO_BE_FREE");
-            return;
-        } elseif(!isset($args[0]) and !$session->hasLastInvitation()) {
-            $session->sendTranslatedMessage("ACCEPT_USAGE");
+        if($this->checkLeader($session)) {
             return;
         }
-        $isle = $session->getInvitation($args[0] ?? $session->getLastInvitation());
-        if($isle == null) {
-            return;
-        }
-        $session->setRank(iSession::RANK_DEFAULT);
-        $session->setIsle($isle);
-        $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLE", [
-            "name" => $session->getUsername()
-        ]);
+        $isle = $session->getIsle();
+        $isle->setLocked(!$isle->isLocked());
+        $isle->save();
+        $session->sendTranslatedMessage($isle->isLocked() ? "ISLE_LOCKED" : "ISLE_UNLOCKED");
     }
     
 }
