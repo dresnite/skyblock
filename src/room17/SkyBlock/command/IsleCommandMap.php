@@ -19,7 +19,9 @@ namespace room17\SkyBlock\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
+use pocketmine\plugin\Plugin;
 use room17\SkyBlock\command\presets\AcceptCommand;
 use room17\SkyBlock\command\presets\BlocksCommand;
 use room17\SkyBlock\command\presets\CategoryCommand;
@@ -43,7 +45,7 @@ use room17\SkyBlock\command\presets\TransferCommand;
 use room17\SkyBlock\command\presets\VisitCommand;
 use room17\SkyBlock\SkyBlock;
 
-class IsleCommandMap extends Command {
+class IsleCommandMap extends Command implements PluginIdentifiableCommand {
     
     /** @var SkyBlock */
     private $plugin;
@@ -89,9 +91,9 @@ class IsleCommandMap extends Command {
     }
     
     /**
-     * @return SkyBlock
+     * @return SkyBlock|Plugin
      */
-    public function getPlugin(): SkyBlock {
+    public function getPlugin(): Plugin {
         return $this->plugin;
     }
     
