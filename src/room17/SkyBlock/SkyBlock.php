@@ -127,16 +127,6 @@ class SkyBlock extends PluginBase {
     }
     
     /**
-     * @param int $seconds
-     * @return string
-     */
-    public static function printSeconds(int $seconds): string {
-        $m = floor($seconds / 60);
-        $s = floor($seconds % 60);
-        return (($m < 10 ? "0" : "") . $m . ":" . ($s < 10 ? "0" : "") . (string) $s);
-    }
-    
-    /**
      * @param Position $position
      * @return string
      */
