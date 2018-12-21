@@ -3,5 +3,5 @@ description: A powerful core for SkyBlock servers
 author: GiantQuartz
 website: twitter.com/GiantQuartz
 main: room17\SkyBlock\SkyBlock
-version: 2.2.3
+version: 2.2.4
 api: [3.0.0]

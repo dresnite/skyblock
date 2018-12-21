@@ -47,6 +47,7 @@ class CooperateCommand extends IsleCommand {
             return;
         } elseif(!isset($args[0])) {
             $session->sendTranslatedMessage("COOPERATE_USAGE");
+            return;
         }
         $player = $this->plugin->getServer()->getPlayer($args[0]);
         if($player == null) {
