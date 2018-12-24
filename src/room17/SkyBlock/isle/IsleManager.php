@@ -71,7 +71,7 @@ class IsleManager {
      */
     public function createIsleFor(Session $session, string $type): void {
         $identifier = SkyBlock::generateUniqueId();
-        
+
         $generatorManager = $this->plugin->getGeneratorManager();
         if($generatorManager->isGenerator($type)) {
             $generator = $generatorManager->getGenerator($type);
@@ -91,6 +91,7 @@ class IsleManager {
         $session->setRank(iSession::RANK_FOUNDER);
         $session->save();
         $isle->save();
+        $session->setLastIslandCreationTime(microtime(true));
         $server->getPluginManager()->callEvent(new IsleCreateEvent($isle));
     }
     

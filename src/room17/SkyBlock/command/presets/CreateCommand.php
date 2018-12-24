@@ -45,6 +45,18 @@ class CreateCommand extends IsleCommand {
             $session->sendTranslatedMessage("NEED_TO_BE_FREE");
             return;
         }
+        $minutesSinceLastIsle = $session->getLastIslandCreationTime() !== null
+            ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
+            : -1;
+        $countdownDuration = $this->plugin->getSettings()->getCountdownDuration();
+        if($minutesSinceLastIsle !== -1 and $minutesSinceLastIsle < $countdownDuration) {
+            $session->sendTranslatedMessage("YOU_HAVE_TO_WAIT", [
+                "minutes" => ceil($countdownDuration - $minutesSinceLastIsle),
+            ]);
+            return;
+        } else {
+            $session->getPlayer()->sendMessage("Time required {$countdownDuration} time passed {$minutesSinceLastIsle}");
+        }
         $generator = $args[0] ?? "Shelly";
         if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
             $this->plugin->getIsleManager()->createIsleFor($session, $generator);

@@ -38,6 +38,9 @@ class SkyBlockSettings {
     
     /** @var string[] */
     private $messages = [];
+
+    /** @var int */
+    private $countdownDuration;
     
     /**
      * SkyBlockSettings constructor.
@@ -77,6 +80,13 @@ class SkyBlockSettings {
     public function getMessages(): array {
         return $this->messages;
     }
+
+    /**
+     * @return int
+     */
+    public function getCountdownDuration(): int {
+        return $this->countdownDuration;
+    }
     
     /**
      * @param string $identifier
@@ -91,7 +101,7 @@ class SkyBlockSettings {
         }
         return $message;
     }
-    
+
     public function refresh(): void {
         $this->data = json_decode(file_get_contents($this->plugin->getDataFolder() . "settings.json"), true);
         $this->messages = json_decode(file_get_contents($this->plugin->getDataFolder() . "messages.json"), true);
@@ -101,6 +111,7 @@ class SkyBlockSettings {
         foreach($this->data["chest-per-generator"] as $world => $items) {
             $this->chestPerGenerator[$world] = SkyBlock::parseItems($items);
         }
+        $this->countdownDuration = $this->data["countdown-duration-minutes"] ?? 20;
     }
     
 }

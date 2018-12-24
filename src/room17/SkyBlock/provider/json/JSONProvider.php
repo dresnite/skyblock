@@ -61,6 +61,7 @@ class JSONProvider extends Provider {
         $config = $this->getUserConfig($session->getUsername());
         $session->setIsleId($config->get("isle"));
         $session->setRank($config->get("rank"));
+        $session->setLastIslandCreationTime($config->get("lastIsle", null));
     }
     
     /**
@@ -70,6 +71,7 @@ class JSONProvider extends Provider {
         $config = $this->getUserConfig($session->getUsername());
         $config->set("isle", $session->getIsleId());
         $config->set("rank", $session->getRank());
+        $config->set("lastIsle", $session->getLastIslandCreationTime());
         $config->save();
     }
     

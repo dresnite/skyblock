@@ -9,5 +9,6 @@
     "M": 10,
     "L": 15,
     "XL": 20
-  }
+  },
+  "countdown-duration-minutes": 20
 }

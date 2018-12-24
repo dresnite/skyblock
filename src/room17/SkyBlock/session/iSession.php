@@ -43,6 +43,9 @@ abstract class iSession {
     const RANK_OFFICER = 1;
     const RANK_LEADER = 2;
     const RANK_FOUNDER = 3;
+
+    /** @var float|null */
+    protected $lastIslandCreationTime;
     
     /**
      * iSession constructor.
@@ -83,6 +86,20 @@ abstract class iSession {
     public function getRank(): int {
         return $this->rank;
     }
+
+    /**
+     * @return bool
+     */
+    public function hasLastIslandCreationTime(): bool {
+        return $this->lastIslandCreationTime != null;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getLastIslandCreationTime(): ?float {
+        return $this->lastIslandCreationTime;
+    }
     
     /**
      * @param null|string $isle
@@ -103,6 +120,13 @@ abstract class iSession {
      */
     public function setRank(int $rank = self::RANK_DEFAULT): void {
         $this->rank = $rank;
+    }
+
+    /**
+     * @param float|null $lastIslandCreationTime
+     */
+    public function setLastIslandCreationTime(?float $lastIslandCreationTime): void  {
+        $this->lastIslandCreationTime = $lastIslandCreationTime;
     }
     
     public function save(): void {
