@@ -54,8 +54,6 @@ class CreateCommand extends IsleCommand {
                 "minutes" => ceil($countdownDuration - $minutesSinceLastIsle),
             ]);
             return;
-        } else {
-            $session->getPlayer()->sendMessage("Time required {$countdownDuration} time passed {$minutesSinceLastIsle}");
         }
         $generator = $args[0] ?? "Shelly";
         if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
