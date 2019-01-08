@@ -48,10 +48,10 @@ class CreateCommand extends IsleCommand {
         $minutesSinceLastIsle = $session->getLastIslandCreationTime() !== null
             ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
             : -1;
-        $countdownDuration = $this->plugin->getSettings()->getCountdownDuration();
-        if($minutesSinceLastIsle !== -1 and $minutesSinceLastIsle < $countdownDuration) {
+        $cooldownDuration = $this->plugin->getSettings()->getCooldownDuration();
+        if($minutesSinceLastIsle !== -1 and $minutesSinceLastIsle < $cooldownDuration) {
             $session->sendTranslatedMessage("YOU_HAVE_TO_WAIT", [
-                "minutes" => ceil($countdownDuration - $minutesSinceLastIsle),
+                "minutes" => ceil($cooldownDuration - $minutesSinceLastIsle),
             ]);
             return;
         }

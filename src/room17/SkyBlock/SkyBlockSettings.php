@@ -40,7 +40,7 @@ class SkyBlockSettings {
     private $messages = [];
 
     /** @var int */
-    private $countdownDuration;
+    private $cooldownDuration;
     
     /**
      * SkyBlockSettings constructor.
@@ -84,8 +84,8 @@ class SkyBlockSettings {
     /**
      * @return int
      */
-    public function getCountdownDuration(): int {
-        return $this->countdownDuration;
+    public function getCooldownDuration(): int {
+        return $this->cooldownDuration;
     }
     
     /**
@@ -111,7 +111,7 @@ class SkyBlockSettings {
         foreach($this->data["chest-per-generator"] as $world => $items) {
             $this->chestPerGenerator[$world] = SkyBlock::parseItems($items);
         }
-        $this->countdownDuration = $this->data["countdown-duration-minutes"] ?? 20;
+        $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
     }
     
 }
