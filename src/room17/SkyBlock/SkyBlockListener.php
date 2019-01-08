@@ -19,6 +19,7 @@ namespace room17\SkyBlock;
 use pocketmine\block\Solid;
 use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
@@ -119,6 +120,18 @@ class SkyBlockListener implements Listener {
             } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->addBlock();
             }
+        }
+    }
+
+    /**
+     * @param BlockFormEvent $event
+     */
+    public function onBlockForm(BlockFormEvent $event): void {
+        $block = $event->getBlock();
+        $newBlock = $event->getNewState();
+        $isle = $this->isleManager->getIsle($block->getLevel()->getName());
+        if($isle != null and !($block instanceof Solid) and $newBlock instanceof Solid) {
+            $isle->addBlock();
         }
     }
     
