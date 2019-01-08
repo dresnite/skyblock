@@ -215,7 +215,7 @@ class Isle {
      * @return bool
      */
     public function canInteract(Session $session): bool {
-        return $session->getIsle() === $this or $this->isCooperator($session);
+        return $session->getIsle() === $this or $this->isCooperator($session) or $session->getPlayer()->isOp();
     }
     
     /**
