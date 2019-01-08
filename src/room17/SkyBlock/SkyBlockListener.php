@@ -170,14 +170,19 @@ class SkyBlockListener implements Listener {
      * @param EntityDamageEvent $event
      */
     public function onHurt(EntityDamageEvent $event): void {
+        $entity = $event->getEntity();
+        $isle = $this->isleManager->getIsle($entity->getLevel()->getName());
+        if($isle == null) return;
         if($event instanceof EntityDamageByEntityEvent) {
-            $entity = $event->getEntity();
             $damager = $event->getDamager();
-            $isle = $this->isleManager->getIsle($entity->getLevel()->getName());
-            if($isle != null and ($entity instanceof Player or ($entity instanceof Painting and $damager instanceof Player
+            if(($entity instanceof Player or ($entity instanceof Painting and $damager instanceof Player
                 and !$isle->canInteract($this->getSession($damager))))) {
                 $event->setCancelled();
             }
+        } elseif($event->getCause() == EntityDamageEvent::CAUSE_VOID
+            and $this->plugin->getSettings()->isPreventVoidDamage()) {
+            $entity->teleport($isle->getSpawnLocation());
+            $event->setCancelled();
         }
     }
     

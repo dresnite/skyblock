@@ -10,5 +10,6 @@
     "L": 15,
     "XL": 20
   },
-  "cooldown-duration-minutes": 20
+  "cooldown-duration-minutes": 20,
+  "prevent-void-damage": true
 }

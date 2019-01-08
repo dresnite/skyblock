@@ -41,6 +41,9 @@ class SkyBlockSettings {
 
     /** @var int */
     private $cooldownDuration;
+
+    /** @var bool */
+    private $preventVoidDamage;
     
     /**
      * SkyBlockSettings constructor.
@@ -87,7 +90,14 @@ class SkyBlockSettings {
     public function getCooldownDuration(): int {
         return $this->cooldownDuration;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function isPreventVoidDamage(): bool {
+        return $this->preventVoidDamage;
+    }
+
     /**
      * @param string $identifier
      * @param array $args
@@ -112,6 +122,7 @@ class SkyBlockSettings {
             $this->chestPerGenerator[$world] = SkyBlock::parseItems($items);
         }
         $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
+        $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
     }
     
 }
