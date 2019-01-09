@@ -55,7 +55,7 @@ class VisitCommand extends IsleCommand {
         }
         $this->plugin->getProvider()->loadIsle($isleId);
         $isle = $this->plugin->getIsleManager()->getIsle($isleId);
-        if($isle->isLocked()) {
+        if($isle->isLocked() and !($session->getPlayer()->isOp())) {
             $session->sendTranslatedMessage("HIS_ISLE_IS_LOCKED", [
                 "name" => $args[0]
             ]);
