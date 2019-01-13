@@ -46,6 +46,7 @@ class AcceptCommand extends IsleCommand {
         if($isle == null) {
             return;
         }
+        $session->setLastInvitation(null);
         $session->removeInvitation($invitation);
         $session->setRank(iSession::RANK_DEFAULT);
         $session->setIsle($isle);
