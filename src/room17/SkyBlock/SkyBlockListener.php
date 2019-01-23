@@ -171,7 +171,9 @@ class SkyBlockListener implements Listener {
      */
     public function onHurt(EntityDamageEvent $event): void {
         $entity = $event->getEntity();
-        $isle = $this->isleManager->getIsle($entity->getLevel()->getName());
+        $level = $entity->getLevel();
+        if($level == null) return;
+        $isle = $this->isleManager->getIsle($level->getName());
         if($isle == null) return;
         if($event instanceof EntityDamageByEntityEvent) {
             $damager = $event->getDamager();
