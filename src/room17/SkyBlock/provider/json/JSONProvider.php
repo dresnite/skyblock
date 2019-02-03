@@ -74,9 +74,10 @@ class JSONProvider extends Provider {
         $config->set("lastIsle", $session->getLastIslandCreationTime());
         $config->save();
     }
-    
+
     /**
      * @param string $identifier
+     * @throws \ReflectionException
      */
     public function loadIsle(string $identifier): void {
         if($this->plugin->getIsleManager()->getIsle($identifier) != null) {

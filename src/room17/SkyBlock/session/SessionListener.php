@@ -33,16 +33,18 @@ class SessionListener implements Listener {
     public function __construct(SessionManager $manager) {
         $this->manager = $manager;
     }
-    
+
     /**
      * @param PlayerLoginEvent $event
+     * @throws \ReflectionException
      */
     public function onLogin(PlayerLoginEvent $event): void {
         $this->manager->openSession($event->getPlayer());
     }
-    
+
     /**
      * @param PlayerQuitEvent $event
+     * @throws \ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {
         $this->manager->closeSession($event->getPlayer());

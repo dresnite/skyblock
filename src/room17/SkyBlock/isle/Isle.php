@@ -367,7 +367,10 @@ class Isle {
             }
         }
     }
-    
+
+    /**
+     * @throws \ReflectionException
+     */
     public function tryToClose(): void {
         $this->updateMembers();
         if(empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {

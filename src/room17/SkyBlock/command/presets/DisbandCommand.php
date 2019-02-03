@@ -35,10 +35,11 @@ class DisbandCommand extends IsleCommand {
         $this->isleManager = $map->getPlugin()->getIsleManager();
         parent::__construct(["disband"], "DISBAND_USAGE", "DISBAND_DESCRIPTION");
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkFounder($session)) {

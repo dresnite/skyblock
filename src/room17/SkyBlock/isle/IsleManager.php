@@ -64,10 +64,11 @@ class IsleManager {
     public function getIsle(string $identifier): ?Isle {
         return $this->isles[$identifier] ?? null;
     }
-    
+
     /**
      * @param Session $session
      * @param string $type
+     * @throws \ReflectionException
      */
     public function createIsleFor(Session $session, string $type): void {
         $identifier = SkyBlock::generateUniqueId();
@@ -92,11 +93,12 @@ class IsleManager {
         $session->save();
         $isle->save();
         $session->setLastIslandCreationTime(microtime(true));
-        $server->getPluginManager()->callEvent(new IsleCreateEvent($isle));
+        (new IsleCreateEvent($isle))->call();
     }
-    
+
     /**
      * @param Isle $isle
+     * @throws \ReflectionException
      */
     public function disbandIsle(Isle $isle): void {
         foreach($isle->getLevel()->getPlayers() as $player) {
@@ -118,9 +120,9 @@ class IsleManager {
         $isle->setMembers([]);
         $isle->save();
         $this->closeIsle($isle);
-        $this->plugin->getServer()->getPluginManager()->callEvent(new IsleDisbandEvent($isle));
+        (new IsleDisbandEvent($isle))->call();
     }
-    
+
     /**
      * @param string $identifier
      * @param array $members
@@ -128,19 +130,21 @@ class IsleManager {
      * @param string $type
      * @param Level $level
      * @param int $blocksBuilt
+     * @throws \ReflectionException
      */
     public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
         $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
-        $this->plugin->getServer()->getPluginManager()->callEvent(new IsleOpenEvent($this->isles[$identifier]));
+        (new IsleOpenEvent($this->isles[$identifier]))->call();
     }
-    
+
     /**
      * @param Isle $isle
+     * @throws \ReflectionException
      */
     public function closeIsle(Isle $isle): void {
         $isle->save();
         $server = $this->plugin->getServer();
-        $server->getPluginManager()->callEvent(new IsleCloseEvent($isle));
+        (new IsleCloseEvent($isle))->call();
         $server->unloadLevel($isle->getLevel());
         unset($this->isles[$isle->getIdentifier()]);
     }

@@ -35,10 +35,11 @@ class VisitCommand extends IsleCommand {
         $this->plugin = $map->getPlugin();
         parent::__construct(["visit", "teleport", "tp"], "VISIT_USAGE", "VISIT_DESCRIPTION");
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if(!isset($args[0])) {

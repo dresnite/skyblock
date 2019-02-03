@@ -68,23 +68,25 @@ class SessionManager {
     public function getSession(Player $player): ?Session {
         return $this->sessions[$player->getName()] ?? null;
     }
-    
+
     /**
      * @param Player $player
+     * @throws \ReflectionException
      */
     public function openSession(Player $player): void {
         $this->sessions[$username = $player->getName()] = new Session($this, $player);
-        $this->plugin->getServer()->getPluginManager()->callEvent(new SessionOpenEvent($this->sessions[$username]));
+        (new SessionOpenEvent($this->sessions[$username]))->call();
     }
-    
+
     /**
      * @param Player $player
+     * @throws \ReflectionException
      */
     public function closeSession(Player $player): void {
         if(isset($this->sessions[$username = $player->getName()])) {
             $session = $this->sessions[$username];
             $session->save();
-            $this->plugin->getServer()->getPluginManager()->callEvent(new SessionCloseEvent($session));
+            (new SessionCloseEvent($session))->call();
             unset($this->sessions[$username]);
             if($session->hasIsle()) {
                 $session->getIsle()->tryToClose();
