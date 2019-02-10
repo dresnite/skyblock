@@ -18,7 +18,7 @@ namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 
 class AcceptCommand extends IsleCommand {
@@ -48,7 +48,7 @@ class AcceptCommand extends IsleCommand {
         }
         $session->setLastInvitation(null);
         $session->removeInvitation($invitation);
-        $session->setRank(iSession::RANK_DEFAULT);
+        $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle($isle);
         $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLE", [
             "name" => $session->getUsername()

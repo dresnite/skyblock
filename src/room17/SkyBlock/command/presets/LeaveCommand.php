@@ -18,7 +18,7 @@ namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 
 class LeaveCommand extends IsleCommand {
@@ -34,11 +34,11 @@ class LeaveCommand extends IsleCommand {
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsle($session)) {
             return;
-        } elseif($session->getRank() == iSession::RANK_FOUNDER) {
+        } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
             $session->sendTranslatedMessage("FOUNDER_CANNOT_LEAVE");
             return;
         }
-        $session->setRank(iSession::RANK_DEFAULT);
+        $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle(null);
         $session->setInChat(false);
         $session->sendTranslatedMessage("LEFT_ISLE");

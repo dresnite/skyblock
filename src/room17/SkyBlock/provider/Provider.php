@@ -18,7 +18,7 @@ namespace room17\SkyBlock\provider;
 
 
 use room17\SkyBlock\isle\Isle;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\SkyBlock;
 
 abstract class Provider {
@@ -38,14 +38,14 @@ abstract class Provider {
     public abstract function initialize(): void;
     
     /**
-     * @param iSession $session
+     * @param BaseSession $session
      */
-    public abstract function loadSession(iSession $session) : void;
+    public abstract function loadSession(BaseSession $session) : void;
     
     /**
-     * @param iSession $session
+     * @param BaseSession $session
      */
-    public abstract function saveSession(iSession $session): void;
+    public abstract function saveSession(BaseSession $session): void;
     
     /**
      * @param string $identifier

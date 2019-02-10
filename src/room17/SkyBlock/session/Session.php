@@ -20,7 +20,7 @@ namespace room17\SkyBlock\session;
 use pocketmine\Player;
 use room17\SkyBlock\isle\Isle;
 
-class Session extends iSession {
+class Session extends BaseSession {
     
     /** @var Player */
     private $player;

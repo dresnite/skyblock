@@ -19,7 +19,7 @@ namespace room17\SkyBlock\session;
 
 use room17\SkyBlock\provider\Provider;
 
-abstract class iSession {
+abstract class BaseSession {
     
     /** @var SessionManager */
     protected $manager;

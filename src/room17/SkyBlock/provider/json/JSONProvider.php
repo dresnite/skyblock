@@ -20,7 +20,7 @@ namespace room17\SkyBlock\provider\json;
 use pocketmine\utils\Config;
 use room17\SkyBlock\isle\Isle;
 use room17\SkyBlock\provider\Provider;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 
 class JSONProvider extends Provider {
@@ -55,9 +55,9 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param iSession $session
+     * @param BaseSession $session
      */
-    public function loadSession(iSession $session): void {
+    public function loadSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
         $session->setIsleId($config->get("isle"));
         $session->setRank($config->get("rank"));
@@ -65,9 +65,9 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param iSession $session
+     * @param BaseSession $session
      */
-    public function saveSession(iSession $session): void {
+    public function saveSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
         $config->set("isle", $session->getIsleId());
         $config->set("rank", $session->getRank());

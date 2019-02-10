@@ -23,7 +23,7 @@ use room17\SkyBlock\event\isle\IsleDisbandEvent;
 use room17\SkyBlock\event\isle\IsleOpenEvent;
 use room17\SkyBlock\event\isle\IsleCloseEvent;
 use room17\SkyBlock\generator\IsleGenerator;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
@@ -89,7 +89,7 @@ class IsleManager {
         
         $this->openIsle($identifier, [$session->getOffline()], true, $type, $level, 0);
         $session->setIsle($isle = $this->isles[$identifier]);
-        $session->setRank(iSession::RANK_FOUNDER);
+        $session->setRank(BaseSession::RANK_FOUNDER);
         $session->save();
         $isle->save();
         $session->setLastIslandCreationTime(microtime(true));

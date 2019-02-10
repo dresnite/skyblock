@@ -17,7 +17,7 @@
 namespace room17\SkyBlock\session;
 
 
-class OfflineSession extends iSession {
+class OfflineSession extends BaseSession {
     
     /**
      * @return null|Session

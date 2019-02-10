@@ -19,7 +19,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 
@@ -64,8 +64,8 @@ class TransferCommand extends IsleCommand {
             ]);
             return;
         }
-        $session->setRank(iSession::RANK_DEFAULT);
-        $playerSession->setRank(iSession::RANK_FOUNDER);
+        $session->setRank(BaseSession::RANK_DEFAULT);
+        $playerSession->setRank(BaseSession::RANK_FOUNDER);
         $session->sendTranslatedMessage("RANK_TRANSFERRED", [
             "name" => $playerSession->getUsername()
         ]);

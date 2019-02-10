@@ -17,7 +17,7 @@
 namespace room17\SkyBlock\command;
 
 
-use room17\SkyBlock\session\iSession;
+use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 
 abstract class IsleCommand {
@@ -94,7 +94,7 @@ abstract class IsleCommand {
     public function checkFounder(Session $session): bool {
         if($this->checkIsle($session)) {
             return true;
-        } elseif($session->getRank() == iSession::RANK_FOUNDER) {
+        } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
             return false;
         }
         $session->sendTranslatedMessage("MUST_BE_FOUNDER");
@@ -108,7 +108,7 @@ abstract class IsleCommand {
     public function checkLeader(Session $session): bool {
         if($this->checkIsle($session)) {
             return true;
-        } elseif($session->getRank() == iSession::RANK_FOUNDER or $session->getRank() == iSession::RANK_LEADER) {
+        } elseif($session->getRank() == BaseSession::RANK_FOUNDER or $session->getRank() == BaseSession::RANK_LEADER) {
             return false;
         }
         $session->sendTranslatedMessage("MUST_BE_LEADER");
@@ -122,7 +122,7 @@ abstract class IsleCommand {
     public function checkOfficer(Session $session): bool {
         if($this->checkIsle($session)) {
             return true;
-        } elseif($session->getRank() != iSession::RANK_DEFAULT) {
+        } elseif($session->getRank() != BaseSession::RANK_DEFAULT) {
             return false;
         }
         $session->sendTranslatedMessage("MUST_BE_OFFICER");
