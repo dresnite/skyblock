@@ -40,7 +40,7 @@ abstract class Provider {
     /**
      * @param BaseSession $session
      */
-    public abstract function loadSession(BaseSession $session) : void;
+    public abstract function loadSession(BaseSession $session): void;
     
     /**
      * @param BaseSession $session
