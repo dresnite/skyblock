@@ -11,5 +11,9 @@
     "XL": 20
   },
   "cooldown-duration-minutes": 20,
-  "prevent-void-damage": true
+  "prevent-void-damage": true,
+  "commands-blocked-in-isles": [
+    "sethome",
+    "home"
+  ]
 }

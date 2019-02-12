@@ -27,6 +27,7 @@ use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
@@ -197,10 +198,24 @@ class SkyBlockListener implements Listener {
             $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
-    
+
+    /**
+     * @param PlayerCommandPreprocessEvent $event
+     */
+    public function onCommand(PlayerCommandPreprocessEvent $event): void {
+        $message = $event->getMessage();
+        if($message{0} == "/" and in_array(
+            strtolower(substr($message, 1)),
+            $this->plugin->getSettings()->getIsleBlockedCommands())
+        ) {
+            $this->getSession($event->getPlayer())->sendTranslatedMessage("BLOCKED_COMMAND");
+            $event->setCancelled();
+        }
+    }
+
     /**
      * @param PlayerQuitEvent $event
-     * @priority LOWEST
+     * @throws \ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();

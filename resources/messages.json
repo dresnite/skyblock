@@ -106,5 +106,6 @@
   "NOW_YOU_CANNOT_COOPERATE": "{WHITE}{name} {GREEN}revoked you the permission to cooperate in his island!",
   "COOPERATE_USAGE": "{WHITE}Usage: /is cooperate <player>",
   "COOPERATE_DESCRIPTION": "Allows another player to interact with your isle",
-  "YOU_HAVE_TO_WAIT": "{YELLOW}To create another island you have to wait {WHITE}{minutes} {YELLOW}minutes!"
+  "YOU_HAVE_TO_WAIT": "{YELLOW}To create another island you have to wait {WHITE}{minutes} {YELLOW}minutes!",
+  "BLOCKED_COMMAND": "{YELLOW}That command is not allowed in the isles!"
 }
