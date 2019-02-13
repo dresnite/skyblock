@@ -204,11 +204,12 @@ class SkyBlockListener implements Listener {
      */
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
         $message = $event->getMessage();
-        if($message{0} == "/" and in_array(
-            strtolower(substr($message, 1)),
-            $this->plugin->getSettings()->getIsleBlockedCommands())
+        $player = $event->getPlayer();
+        if($this->isleManager->getIsle($player->getLevel()->getName()) != null and
+            $message{0} == "/" and
+            in_array(strtolower(substr($message, 1)), $this->plugin->getSettings()->getIsleBlockedCommands())
         ) {
-            $this->getSession($event->getPlayer())->sendTranslatedMessage("BLOCKED_COMMAND");
+            $this->getSession($player)->sendTranslatedMessage("BLOCKED_COMMAND");
             $event->setCancelled();
         }
     }
