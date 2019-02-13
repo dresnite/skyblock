@@ -60,12 +60,12 @@ class SkyBlockListener implements Listener {
         $this->isleManager = $plugin->getIsleManager();
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
     }
-    
+
     /**
      * @param Player $player
-     * @return Session
+     * @return Session|null
      */
-    public function getSession(Player $player): Session {
+    public function getSession(Player $player): ?Session {
         return $this->plugin->getSessionManager()->getSession($player);
     }
     
@@ -221,6 +221,7 @@ class SkyBlockListener implements Listener {
     public function onQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();
         $session = $this->getSession($player);
+        if($session == null) return;
         $isleManager = $this->plugin->getIsleManager();
         foreach($isleManager->getIsles() as $isle) {
             if($isle->isCooperator($session)) {
