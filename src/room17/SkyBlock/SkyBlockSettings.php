@@ -133,7 +133,7 @@ class SkyBlockSettings {
         }
         $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
         $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
-        $this->isleBlockedCommands = $this->data["commands-blocked-in-islands"] ?? [];
+        $this->isleBlockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
         $this->isleBlockedCommands = array_map("strtolower", $this->isleBlockedCommands);
     }
     
