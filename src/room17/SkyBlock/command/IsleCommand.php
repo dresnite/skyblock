@@ -14,6 +14,8 @@
  *
  */
 
+declare(strict_types=1);
+
 namespace room17\SkyBlock\command;
 
 
@@ -141,7 +143,7 @@ abstract class IsleCommand {
         }
         return false;
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
