@@ -243,7 +243,6 @@ class SkyBlockListener implements Listener {
      */
     public function onSleep(PlayerBedEnterEvent $event): void {
         $player = $event->getPlayer();
-        $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
         if($isle != null) {
             $event->setCancelled();
