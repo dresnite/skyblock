@@ -13,8 +13,11 @@
  * (at your option) any later version.
  *
  */
+
 declare(strict_types=1);
+
 namespace room17\SkyBlock;
+
 use pocketmine\block\Solid;
 use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
@@ -25,6 +28,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -36,7 +40,9 @@ use room17\SkyBlock\generator\IsleGenerator;
 use room17\SkyBlock\isle\IsleManager;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionManager;
+
 class SkyBlockListener implements Listener {
+
     /** @var SkyBlock */
     private $plugin;
     
@@ -45,6 +51,7 @@ class SkyBlockListener implements Listener {
     
     /** @var IsleManager */
     private $isleManager;
+
     /**
      * SkyBlockListener constructor.
      *
@@ -56,6 +63,7 @@ class SkyBlockListener implements Listener {
         $this->isleManager = $plugin->getIsleManager();
         $plugin->getServer()->getPluginManager()->registerEvents($this, $plugin);
     }
+
     /**
      * @param Player $player
      * @return Session|null
@@ -118,6 +126,7 @@ class SkyBlockListener implements Listener {
             }
         }
     }
+
     /**
      * @param BlockFormEvent $event
      */
@@ -192,6 +201,7 @@ class SkyBlockListener implements Listener {
             $player->teleport($this->plugin->getServer()->getDefaultLevel()->getSafeSpawn());
         }
     }
+
     /**
      * @param PlayerCommandPreprocessEvent $event
      */
@@ -206,6 +216,7 @@ class SkyBlockListener implements Listener {
             $event->setCancelled();
         }
     }
+
     /**
      * @param PlayerQuitEvent $event
      * @throws \ReflectionException
@@ -226,10 +237,17 @@ class SkyBlockListener implements Listener {
             $isle->tryToClose();
         }
     }
+    
     /**
-     * @param PlayerQuitEvent $event
+     * @param PlayerBedEnterEvent $event
      */
-    public function onSleep(PlayerBedEnterEvent $event){
-        $event->setCancelled(true);
+    public function onSleep(PlayerBedEnterEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($player);
+        $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
+        if($isle != null) {
+            $event->setCancelled();
+        }
     }
+
 }
