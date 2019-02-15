@@ -230,6 +230,6 @@ class SkyBlockListener implements Listener {
      * @param PlayerQuitEvent $event
      */
     public function onSleep(PlayerBedEnterEvent $event){
-        event->setCancelled(true);
+        $event->setCancelled(true);
     }
 }
