@@ -201,19 +201,21 @@ class SkyBlockListener implements Listener {
         }
     }
 
-    /**
+     /**
      * @param PlayerCommandPreprocessEvent $event
      */
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
         $message = $event->getMessage();
         $player = $event->getPlayer();
-        if($this->isleManager->getIsle($player->getLevel()->getName()) != null and
-            $message{0} == "/" and
-            in_array(strtolower(substr($message, 1)), $this->plugin->getSettings()->getIsleBlockedCommands())
-        ) {
+        if($this->isleManager->getIsle($player->getLevel()->getName()) != null){
+        	$blockedcommands = $this->plugin->getSettings()->getIsleBlockedCommands(); //New way to display a list of blocked commands, which then foreaches, and then detects the blocked commands.
+		foreach($blockedcommands as $blocked) {
+			if(strpos($message, $blocked) !== false) {
             $this->getSession($player)->sendTranslatedMessage("BLOCKED_COMMAND");
             $event->setCancelled();
         }
+    }
+    }
     }
 
     /**
