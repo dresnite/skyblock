@@ -24,7 +24,7 @@ use room17\SkyBlock\session\Session;
 
 class JoinCommand extends IsleCommand {
     
-    $this->player = $player;
+    
     /**
      * JoinCommand constructor.
      */
