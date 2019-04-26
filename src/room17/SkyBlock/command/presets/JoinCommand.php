@@ -24,6 +24,7 @@ use room17\SkyBlock\session\Session;
 
 class JoinCommand extends IsleCommand {
     
+    $this->player = $player;
     /**
      * JoinCommand constructor.
      */
@@ -39,6 +40,7 @@ class JoinCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
+        $player->getInventory()->clearAll(true);
         $session->getPlayer()->teleport($session->getIsle()->getLevel()->getSpawnLocation());
         $session->sendTranslatedMessage("TELEPORTED_TO_ISLE");
     }
