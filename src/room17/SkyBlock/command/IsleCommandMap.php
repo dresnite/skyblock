@@ -83,8 +83,6 @@ class IsleCommandMap extends Command implements PluginIdentifiableCommand {
         $this->registerCommand(new BlocksCommand());
         $this->registerCommand(new CooperateCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
-            "island",
-            "is",
             "isle",
             "sb",
             "skyblock"
