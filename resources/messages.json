@@ -1,5 +1,5 @@
 {
-  "MUST_ME_MEMBER": "{YELLOW}You must be part of this isle to do this!",
+  "MUST_BE_MEMBER": "{YELLOW}You must be part of this isle to do this!",
   "TRY_USING_HELP": "{GREEN}You don't know how to use SkyBlock commands?\n{GREEN}Take a look at: {WHITE}/is help",
   "HELP_USAGE": "Usage: /is help",
   "HELP_DESCRIPTION": "Provides information about available commands",
