@@ -217,7 +217,7 @@ class Isle {
      * @return bool
      */
     public function canInteract(Session $session): bool {
-        return $session->getIsle() === $this or $this->isCooperator($session) or $session->getPlayer()->isOp();
+        return $session->getIsle() === $this or $this->isCooperator($session) or $session->getPlayer()->hasPermission("skyblock.interaction");
     }
     
     /**
