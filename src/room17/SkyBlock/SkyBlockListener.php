@@ -101,7 +101,7 @@ class SkyBlockListener implements Listener {
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
             if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $session->sendTranslatedPopup("MUST_BE_MEMBER");
                 $event->setCancelled();
             } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->destroyBlock();
@@ -118,7 +118,7 @@ class SkyBlockListener implements Listener {
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
             if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_ME_MEMBER");
+                $session->sendTranslatedPopup("MUST_BE_MEMBER");
                 $event->setCancelled();
             } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->addBlock();
@@ -146,7 +146,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
         if($isle != null and !($isle->canInteract($session))) {
-            $session->sendTranslatedPopup("MUST_ME_MEMBER");
+            $session->sendTranslatedPopup("MUST_BE_MEMBER");
             $event->setCancelled();
         }
     }
