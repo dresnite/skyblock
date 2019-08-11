@@ -32,13 +32,7 @@ class IsleGeneratorManager {
     private $plugin;
 
     /** @var string[] */
-    private $generators = [
-        "basic" => BasicIsland::class,
-        "op" => OPIsland::class,
-        "shelly" => ShellyGenerator::class,
-        "palm" => PalmIsland::class,
-        "lost" => LostIsland::class
-    ];
+    private $generators = [];
     
     /**
      * GeneratorManager constructor.
@@ -46,9 +40,7 @@ class IsleGeneratorManager {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
-        foreach($this->generators as $name => $class) {
-            GManager::addGenerator($class, $name);
-        }
+        $this->registerDefaultGenerators();
     }
     
     /**
@@ -81,11 +73,19 @@ class IsleGeneratorManager {
      * @param string $class
      */
     public function registerGenerator(string $name, string $class): void {
-        GManager::addGenerator($class, $name);
+        GManager::addGenerator($class, $name, true);
         if(isset($this->generators[$name])) {
             $this->plugin->getLogger()->debug("Overwriting generator: $name");
         }
         $this->generators[$name] = $class;
+    }
+
+    private function registerDefaultGenerators(): void {
+        $this->registerGenerator("basic", BasicIsland::class);
+        $this->registerGenerator("op", OPIsland::class);
+        $this->registerGenerator("shelly", ShellyGenerator::class);
+        $this->registerGenerator("palm", PalmIsland::class);
+        $this->registerGenerator("lost", LostIsland::class);
     }
 
 }
