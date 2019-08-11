@@ -52,7 +52,7 @@ class AcceptCommand extends IsleCommand {
         $session->removeInvitation($invitation);
         $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle($isle);
-        $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLE", [
+        $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLAND", [
             "name" => $session->getUsername()
         ]);
     }

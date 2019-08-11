@@ -42,7 +42,7 @@ class LockCommand extends IsleCommand {
         $isle = $session->getIsle();
         $isle->setLocked(!$isle->isLocked());
         $isle->save();
-        $session->sendTranslatedMessage($isle->isLocked() ? "ISLE_LOCKED" : "ISLE_UNLOCKED");
+        $session->sendTranslatedMessage($isle->isLocked() ? "ISLAND_LOCKED" : "ISLAND_UNLOCKED");
     }
     
 }

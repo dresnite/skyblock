@@ -61,7 +61,7 @@ class TransferCommand extends IsleCommand {
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() !== $session->getIsle()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLE", [
+            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $playerSession->getUsername()
             ]);
             return;

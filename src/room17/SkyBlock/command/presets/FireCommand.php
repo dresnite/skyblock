@@ -53,7 +53,7 @@ class FireCommand extends IsleCommand {
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
         } elseif($offlineSession->getIsleId() != $session->getIsleId()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLE", [
+            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
             ]);
         } elseif($offlineSession->getRank() == Session::RANK_FOUNDER) {

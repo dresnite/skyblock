@@ -63,7 +63,7 @@ class CooperateCommand extends IsleCommand {
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() === $session->getIsle()) {
-            $session->sendTranslatedMessage("ALREADY_ON_YOUR_ISLE", [
+            $session->sendTranslatedMessage("ALREADY_ON_YOUR_ISLAND", [
                 "name" => $playerName
             ]);
         } elseif($isle->isCooperator($playerSession)) {

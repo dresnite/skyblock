@@ -39,7 +39,7 @@ class SetSpawnCommand extends IsleCommand {
         if($this->checkOfficer($session)) {
             return;
         } elseif($session->getPlayer()->getLevel() !== $session->getIsle()->getLevel()) {
-            $session->sendTranslatedMessage("MUST_BE_IN_YOUR_ISLE");
+            $session->sendTranslatedMessage("MUST_BE_IN_YOUR_ISLAND");
         } else {
             $session->getIsle()->setSpawnLocation($session->getPlayer());
             $session->sendTranslatedMessage("SUCCESSFULLY_SET_SPAWN");

@@ -40,7 +40,7 @@ class ChatCommand extends IsleCommand {
             return;
         }
         $session->setInChat(!$session->isInChat());
-        $session->sendTranslatedMessage($session->isInChat() ? "JOINED_ISLE_CHAT" : "JOINED_GLOBAL_CHAT");
+        $session->sendTranslatedMessage($session->isInChat() ? "JOINED_ISLAND_CHAT" : "JOINED_GLOBAL_CHAT");
     }
     
 }

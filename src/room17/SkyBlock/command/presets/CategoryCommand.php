@@ -39,7 +39,7 @@ class CategoryCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $session->sendTranslatedMessage("ISLE_CATEGORY", [
+        $session->sendTranslatedMessage("ISLAND_CATEGORY", [
             "category" => $session->getIsle()->getCategory()
         ]);
     }

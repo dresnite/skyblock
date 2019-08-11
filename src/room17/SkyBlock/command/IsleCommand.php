@@ -85,7 +85,7 @@ abstract class IsleCommand {
         if($session->hasIsle()) {
             return false;
         }
-        $session->sendTranslatedMessage("NEED_ISLE");
+        $session->sendTranslatedMessage("NEED_ISLAND");
         return true;
     }
     

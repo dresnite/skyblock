@@ -43,7 +43,7 @@ class LeaveCommand extends IsleCommand {
         $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle(null);
         $session->setInChat(false);
-        $session->sendTranslatedMessage("LEFT_ISLE");
+        $session->sendTranslatedMessage("LEFT_ISLAND");
     }
     
 }

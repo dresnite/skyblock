@@ -52,11 +52,11 @@ class InviteCommand extends IsleCommand {
             $isle = $session->getIsle();
             $next = $isle->getNextCategory();
             if($next != null) {
-                $session->sendTranslatedMessage("ISLE_IS_FULL_BUT_YOU_CAN_UPGRADE", [
+                $session->sendTranslatedMessage("ISLAND_IS_FULL_BUT_YOU_CAN_UPGRADE", [
                     "next" => $next
                 ]);
             } else {
-                $session->sendTranslatedMessage("ISLE_IS_FULL");
+                $session->sendTranslatedMessage("ISLAND_IS_FULL");
             }
             return;
         }
@@ -71,13 +71,13 @@ class InviteCommand extends IsleCommand {
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->hasIsle()) {
-            $session->sendTranslatedMessage("CANNOT_INVITE_BECAUSE_HAS_ISLE", [
+            $session->sendTranslatedMessage("CANNOT_INVITE_BECAUSE_HAS_ISLAND", [
                 "name" => $player->getName()
             ]);
             return;
         }
         $playerSession->addInvitation($session->getUsername(), $session->getIsle());
-        $playerSession->sendTranslatedMessage("YOU_WERE_INVITED_TO_AN_ISLE", [
+        $playerSession->sendTranslatedMessage("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $session->getUsername()
         ]);
         $session->sendTranslatedMessage("SUCCESSFULLY_INVITED", [

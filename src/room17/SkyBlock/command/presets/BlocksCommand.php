@@ -39,7 +39,7 @@ class BlocksCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $session->sendTranslatedMessage("ISLE_BLOCKS", [
+        $session->sendTranslatedMessage("ISLAND_BLOCKS", [
             "amount" => $session->getIsle()->getBlocksBuilt()
         ]);
     }

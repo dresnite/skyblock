@@ -51,7 +51,7 @@ class VisitCommand extends IsleCommand {
         $offline = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         $isleId = $offline->getIsleId();
         if($isleId == null) {
-            $session->sendTranslatedMessage("HE_DO_NOT_HAVE_AN_ISLE", [
+            $session->sendTranslatedMessage("HE_DO_NOT_HAVE_AN_ISLAND", [
                 "name" => $args[0]
             ]);
             return;
@@ -59,14 +59,14 @@ class VisitCommand extends IsleCommand {
         $this->plugin->getProvider()->loadIsle($isleId);
         $isle = $this->plugin->getIsleManager()->getIsle($isleId);
         if($isle->isLocked() and !($session->getPlayer()->isOp())) {
-            $session->sendTranslatedMessage("HIS_ISLE_IS_LOCKED", [
+            $session->sendTranslatedMessage("HIS_ISLAND_IS_LOCKED", [
                 "name" => $args[0]
             ]);
             $isle->tryToClose();
             return;
         }
         $session->getPlayer()->teleport($isle->getLevel()->getSpawnLocation());
-        $session->sendTranslatedMessage("VISITING_ISLE", [
+        $session->sendTranslatedMessage("VISITING_ISLAND", [
             "name" => $args[0]
         ]);
     }

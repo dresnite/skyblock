@@ -112,7 +112,7 @@ class IsleManager {
                 $onlineSession->setIsle(null);
                 $onlineSession->setRank(Session::RANK_DEFAULT);
                 $onlineSession->save();
-                $onlineSession->sendTranslatedMessage("ISLE_DISBANDED");
+                $onlineSession->sendTranslatedMessage("ISLAND_DISBANDED");
             } else {
                 $offlineMember->setIsleId(null);
                 $offlineMember->setRank(Session::RANK_DEFAULT);
