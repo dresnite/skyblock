@@ -28,6 +28,7 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -150,7 +151,18 @@ class SkyBlockListener implements Listener {
             $event->setCancelled();
         }
     }
-    
+
+    /**
+     * @param PlayerBedEnterEvent $event
+     */
+    public function onBedEnter(PlayerBedEnterEvent $event): void {
+        $player = $event->getPlayer();
+        $session = $this->getSession($event->getPlayer());
+        if($session->hasIsle() && $session->getIsle()->getLevel() === $player->getLevel()) {
+            $event->setCancelled();
+        }
+    }
+
     /**
      * @param PlayerChatEvent $event
      */
