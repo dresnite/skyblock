@@ -62,6 +62,9 @@ class Isle {
     
     /** @var Session[] */
     private $cooperators = [];
+
+    /** @var bool */
+    private $closed = false;
     
     /**
      * Isle constructor.
@@ -210,6 +213,13 @@ class Isle {
      */
     public function isCooperator(Session $session): bool {
         return isset($this->cooperators[$session->getUsername()]);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClosed(): bool {
+        return $this->closed;
     }
     
     /**
@@ -375,7 +385,8 @@ class Isle {
      */
     public function tryToClose(): void {
         $this->updateMembers();
-        if(empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {
+        if(!$this->closed and empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {
+            $this->closed = true;
             $this->manager->closeIsle($this);
         }
     }
