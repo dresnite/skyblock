@@ -61,9 +61,9 @@ class JSONProvider extends Provider {
      */
     public function loadSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
-        $session->setIsleId($config->get("isle"));
-        $session->setRank($config->get("rank"));
-        $session->setLastIslandCreationTime($config->get("lastIsle", null));
+        $session->setIsleId($config->get("isle", null) ?? null);
+        $session->setRank($config->get("rank", null) ?? Session::RANK_DEFAULT);
+        $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
     }
     
     /**
@@ -100,9 +100,9 @@ class JSONProvider extends Provider {
             $identifier,
             $members,
             $config->get("locked"),
-            $config->get("type"),
+            $config->get("type", null) ?? "basic",
             $server->getLevelByName($identifier),
-            $config->get("blocks")
+            $config->get("blocks") ?? 0
         );
     }
     
