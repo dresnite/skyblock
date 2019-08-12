@@ -29,7 +29,7 @@ class SkyBlockSettings {
     /** @var array */
     private $data;
     
-    /** @var string[] */
+    /** @var int[] */
     private $slotsBySize = [];
     
     /** @var Item[] */
