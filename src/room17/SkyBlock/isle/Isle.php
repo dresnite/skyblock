@@ -24,6 +24,7 @@ use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class Isle {
     
@@ -319,14 +320,13 @@ class Isle {
             $session->getPlayer()->sendMessage($message);
         }
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function broadcastTranslatedMessage(string $identifier, array $args = []): void {
+    public function broadcastTranslatedMessage(MessageContainer $container): void {
         foreach($this->getMembersOnline() as $session) {
-            $session->sendTranslatedMessage($identifier, $args);
+            $session->sendTranslatedMessage($container);
         }
     }
     
@@ -338,14 +338,13 @@ class Isle {
             $session->getPlayer()->sendPopup($message);
         }
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function broadcastTranslatedPopup(string $identifier, array $args = []): void {
+    public function broadcastTranslatedPopup(MessageContainer $container): void {
         foreach($this->getMembersOnline() as $session) {
-            $session->sendTranslatedPopup($identifier, $args);
+            $session->sendTranslatedPopup($container);
         }
     }
     
@@ -357,14 +356,13 @@ class Isle {
             $session->getPlayer()->sendTip($message);
         }
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function broadcastTranslatedTip(string $identifier, array $args = []): void {
+    public function broadcastTranslatedTip(MessageContainer $container): void {
         foreach($this->getMembersOnline() as $session) {
-            $session->sendTranslatedTip($identifier, $args);
+            $session->sendTranslatedTip($container);
         }
     }
     

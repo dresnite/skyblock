@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class KickCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class KickCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["kick"], "KICK_USAGE", "KICK_DESCRIPTION");
+        parent::__construct([
+            "kick"
+        ], new MessageContainer("KICK_USAGE"), new MessageContainer("KICK_DESCRIPTION"));
     }
     
     /**
@@ -46,32 +49,32 @@ class KickCommand extends IsleCommand {
         if($this->checkOfficer($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("KICK_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("KICK_USAGE"));
             return;
         }
         $server = $this->plugin->getServer();
         $player = $server->getPlayer($args[0]);
         if($player == null) {
-            $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
-            ]);
+            ]));
             return;
         }
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() === $session->getIsle()) {
-            $session->sendTranslatedMessage("CANNOT_KICK_A_MEMBER");
+            $session->sendTranslatedMessage(new MessageContainer("CANNOT_KICK_A_MEMBER"));
         } elseif(in_array($player, $session->getIsle()->getPlayersOnline())) {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
-            $playerSession->sendTranslatedMessage("KICKED_FROM_THE_ISLAND");
-            $session->sendTranslatedMessage("YOU_KICKED_A_PLAYER", [
+            $playerSession->sendTranslatedMessage(new MessageContainer("KICKED_FROM_THE_ISLAND"));
+            $session->sendTranslatedMessage(new MessageContainer("YOU_KICKED_A_PLAYER", [
                 "name" => $playerSession->getUsername()
-            ]);
+            ]));
         } else {
-            $session->sendTranslatedMessage("NOT_A_VISITOR", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_A_VISITOR", [
                 "name" => $playerSession->getUsername()
-            ]);
+            ]));
         }
     }
     

@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class MembersCommand extends IsleCommand {
     
@@ -28,7 +29,9 @@ class MembersCommand extends IsleCommand {
      * MembersCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["members"], "MEMBERS_USAGE", "MEMBERS_DESCRIPTION");
+        parent::__construct([
+            "members"
+        ], new MessageContainer("MEMBERS_USAGE"), new MessageContainer("MEMBERS_DESCRIPTION"));
     }
     
     /**
@@ -40,19 +43,19 @@ class MembersCommand extends IsleCommand {
             return;
         }
         $members = $session->getIsle()->getMembers();
-        $session->sendTranslatedMessage("MEMBERS_COMMAND_HEADER", [
+        $session->sendTranslatedMessage(new MessageContainer("MEMBERS_COMMAND_HEADER", [
             "amount" => count($members)
-        ]);
+        ]));
         foreach($members as $member) {
             $memberSession = $member->getSession();
             if($memberSession != null) {
-                $session->sendTranslatedMessage("ONLINE_MEMBER", [
+                $session->sendTranslatedMessage(new MessageContainer("ONLINE_MEMBER", [
                     "name" => $memberSession->getUsername()
-                ]);
+                ]));
             } else {
-                $session->sendTranslatedMessage("OFFLINE_MEMBER", [
+                $session->sendTranslatedMessage(new MessageContainer("OFFLINE_MEMBER", [
                     "name" => $member->getUsername()
-                ]);
+                ]));
             }
         }
     }

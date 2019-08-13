@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class BlocksCommand extends IsleCommand {
     
@@ -28,7 +29,9 @@ class BlocksCommand extends IsleCommand {
      * BlocksCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["blocks"], "BLOCKS_USAGE", "BLOCKS_DESCRIPTION");
+        parent::__construct([
+            "blocks"
+        ], new MessageContainer("BLOCKS_USAGE"), new MessageContainer("BLOCKS_DESCRIPTION"));
     }
     
     /**
@@ -39,9 +42,9 @@ class BlocksCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $session->sendTranslatedMessage("ISLAND_BLOCKS", [
+        $session->sendTranslatedMessage(new MessageContainer("ISLAND_BLOCKS", [
             "amount" => $session->getIsle()->getBlocksBuilt()
-        ]);
+        ]));
     }
     
 }

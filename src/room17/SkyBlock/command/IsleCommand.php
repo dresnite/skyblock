@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command;
 
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 abstract class IsleCommand {
     
@@ -30,23 +31,23 @@ abstract class IsleCommand {
     /** @var array */
     private $aliases = [];
     
-    /** @var string */
-    private $usageMessageId;
+    /** @var MessageContainer */
+    private $usageMessageContainer;
     
-    /** @var string */
-    private $descriptionMessageId;
+    /** @var MessageContainer */
+    private $descriptionMessageContainer;
     
     /**
      * IsleCommand constructor.
      * @param array $aliases
-     * @param string $usageMessageId
-     * @param string $descriptionMessageId
+     * @param MessageContainer $usageMessageContainer
+     * @param MessageContainer $descriptionMessageContainer
      */
-    public function __construct(array $aliases, string $usageMessageId, string $descriptionMessageId) {
+    public function __construct(array $aliases, MessageContainer $usageMessageContainer, MessageContainer $descriptionMessageContainer) {
         $this->aliases = array_map("strtolower", $aliases);
         $this->name = array_shift($this->aliases);
-        $this->usageMessageId = $usageMessageId;
-        $this->descriptionMessageId = $descriptionMessageId;
+        $this->usageMessageContainer = $usageMessageContainer;
+        $this->descriptionMessageContainer = $descriptionMessageContainer;
     }
     
     /**
@@ -64,17 +65,17 @@ abstract class IsleCommand {
     }
     
     /**
-     * @return string
+     * @return MessageContainer
      */
-    public function getUsageMessageId(): string {
-        return $this->usageMessageId;
+    public function getUsageMessageContainer(): MessageContainer {
+        return $this->usageMessageContainer;
     }
     
     /**
-     * @return string
+     * @return MessageContainer
      */
-    public function getDescriptionMessageId(): string {
-        return $this->descriptionMessageId;
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return $this->descriptionMessageContainer;
     }
     
     /**
@@ -85,7 +86,7 @@ abstract class IsleCommand {
         if($session->hasIsle()) {
             return false;
         }
-        $session->sendTranslatedMessage("NEED_ISLAND");
+        $session->sendTranslatedMessage(new MessageContainer("NEED_ISLAND"));
         return true;
     }
     
@@ -99,7 +100,7 @@ abstract class IsleCommand {
         } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
             return false;
         }
-        $session->sendTranslatedMessage("MUST_BE_FOUNDER");
+        $session->sendTranslatedMessage(new MessageContainer("MUST_BE_FOUNDER"));
         return true;
     }
     
@@ -113,7 +114,7 @@ abstract class IsleCommand {
         } elseif($session->getRank() == BaseSession::RANK_FOUNDER or $session->getRank() == BaseSession::RANK_LEADER) {
             return false;
         }
-        $session->sendTranslatedMessage("MUST_BE_LEADER");
+        $session->sendTranslatedMessage(new MessageContainer("MUST_BE_LEADER"));
         return true;
     }
     
@@ -127,7 +128,7 @@ abstract class IsleCommand {
         } elseif($session->getRank() != BaseSession::RANK_DEFAULT) {
             return false;
         }
-        $session->sendTranslatedMessage("MUST_BE_OFFICER");
+        $session->sendTranslatedMessage(new MessageContainer("MUST_BE_OFFICER"));
         return true;
     }
     
@@ -138,7 +139,7 @@ abstract class IsleCommand {
      */
     public function checkClone(?Session $session, ?Session $ySession): bool {
         if($session === $ySession) {
-            $session->sendTranslatedMessage("CANT_BE_YOURSELF");
+            $session->sendTranslatedMessage(new MessageContainer("CANT_BE_YOURSELF"));
             return true;
         }
         return false;

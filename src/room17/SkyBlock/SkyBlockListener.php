@@ -40,6 +40,7 @@ use room17\SkyBlock\generator\IsleGenerator;
 use room17\SkyBlock\isle\IsleManager;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionManager;
+use room17\SkyBlock\utils\MessageContainer;
 
 class SkyBlockListener implements Listener {
 
@@ -102,7 +103,7 @@ class SkyBlockListener implements Listener {
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
             if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_BE_MEMBER");
+                $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
                 $event->setCancelled();
             } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->destroyBlock();
@@ -119,7 +120,7 @@ class SkyBlockListener implements Listener {
         $isle = $this->isleManager->getIsle($player->getLevel()->getName());
         if($isle != null) {
             if(!$isle->canInteract($session)) {
-                $session->sendTranslatedPopup("MUST_BE_MEMBER");
+                $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
                 $event->setCancelled();
             } elseif(!($event->isCancelled()) and $event->getBlock() instanceof Solid) {
                 $isle->addBlock();
@@ -147,7 +148,7 @@ class SkyBlockListener implements Listener {
         $session = $this->getSession($player);
         $isle = $this->plugin->getIsleManager()->getIsle($player->getLevel()->getName());
         if($isle != null and !($isle->canInteract($session))) {
-            $session->sendTranslatedPopup("MUST_BE_MEMBER");
+            $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
             $event->setCancelled();
         }
     }
@@ -223,7 +224,7 @@ class SkyBlockListener implements Listener {
             $message{0} == "/" and
             in_array(strtolower(substr($message, 1)), $this->plugin->getSettings()->getIsleBlockedCommands())
         ) {
-            $this->getSession($player)->sendTranslatedMessage("BLOCKED_COMMAND");
+            $this->getSession($player)->sendTranslatedMessage(new MessageContainer("BLOCKED_COMMAND"));
             $event->setCancelled();
         }
     }

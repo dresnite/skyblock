@@ -46,6 +46,7 @@ use room17\SkyBlock\command\presets\SetSpawnCommand;
 use room17\SkyBlock\command\presets\TransferCommand;
 use room17\SkyBlock\command\presets\VisitCommand;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class IsleCommandMap extends Command implements PluginIdentifiableCommand {
     
@@ -141,7 +142,7 @@ class IsleCommandMap extends Command implements PluginIdentifiableCommand {
         if(isset($args[0]) and $this->getCommand($args[0]) != null) {
             $this->getCommand(array_shift($args))->onCommand($session, $args);
         } else {
-            $session->sendTranslatedMessage("TRY_USING_HELP");
+            $session->sendTranslatedMessage(new MessageContainer("TRY_USING_HELP"));
         }
     }
     

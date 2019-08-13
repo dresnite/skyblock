@@ -22,6 +22,7 @@ namespace room17\SkyBlock\command\presets;
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class AcceptCommand extends IsleCommand {
     
@@ -29,7 +30,10 @@ class AcceptCommand extends IsleCommand {
      * AcceptCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["accept", "acc"], "ACCEPT_USAGE", "ACCEPT_DESCRIPTION");
+        parent::__construct([
+            "accept",
+            "acc"
+        ], new MessageContainer("ACCEPT_USAGE"), new MessageContainer("ACCEPT_DESCRIPTION"));
     }
     
     /**
@@ -38,10 +42,10 @@ class AcceptCommand extends IsleCommand {
      */
     public function onCommand(Session $session, array $args): void {
         if($session->hasIsle()) {
-            $session->sendTranslatedMessage("NEED_TO_BE_FREE");
+            $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
         } elseif(!isset($args[0]) and !$session->hasLastInvitation()) {
-            $session->sendTranslatedMessage("ACCEPT_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("ACCEPT_USAGE"));
             return;
         }
         $isle = $session->getInvitation($invitation = $args[0] ?? $session->getLastInvitation());
@@ -52,9 +56,9 @@ class AcceptCommand extends IsleCommand {
         $session->removeInvitation($invitation);
         $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle($isle);
-        $isle->broadcastTranslatedMessage("PLAYER_JOINED_THE_ISLAND", [
+        $isle->broadcastTranslatedMessage(new MessageContainer("PLAYER_JOINED_THE_ISLAND", [
             "name" => $session->getUsername()
-        ]);
+        ]));
     }
     
 }

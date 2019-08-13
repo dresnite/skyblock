@@ -22,6 +22,7 @@ namespace room17\SkyBlock\command\presets;
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class HelpCommand extends IsleCommand {
     
@@ -34,7 +35,10 @@ class HelpCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->map = $map;
-        parent::__construct(["help", "?"], "HELP_USAGE", "HELP_DESCRIPTION");
+        parent::__construct([
+            "help",
+            "?"
+        ], new MessageContainer("HELP_USAGE"), new MessageContainer("HELP_DESCRIPTION"));
     }
     
     /**
@@ -42,13 +46,16 @@ class HelpCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        $session->sendTranslatedMessage("HELP_HEADER", ["amount" => count($this->map->getCommands())]);
+        $session->sendTranslatedMessage(new MessageContainer("HELP_HEADER", [
+            "amount" => count($this->map->getCommands())
+        ]));
+
         foreach($this->map->getCommands() as $command) {
-            $session->sendTranslatedMessage("HELP_COMMAND_TEMPLATE", [
+            $session->sendTranslatedMessage(new MessageContainer("HELP_COMMAND_TEMPLATE", [
                 "name" => $command->getName(),
-                "description" => $session->translate($command->getDescriptionMessageId()),
-                "usage" => $session->translate($command->getUsageMessageId())
-            ]);
+                "description" => $session->getMessage($command->getDescriptionMessageContainer()),
+                "usage" => $session->getMessage($command->getUsageMessageContainer())
+            ]));
         }
     }
     

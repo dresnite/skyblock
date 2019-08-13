@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class ChatCommand extends IsleCommand {
     
@@ -28,7 +29,9 @@ class ChatCommand extends IsleCommand {
      * ChatCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["chat"], "CHAT_USAGE", "CHAT_DESCRIPTION");
+        parent::__construct([
+            "chat"
+        ], new MessageContainer("CHAT_USAGE"), new MessageContainer("CHAT_DESCRIPTION"));
     }
     
     /**
@@ -40,7 +43,7 @@ class ChatCommand extends IsleCommand {
             return;
         }
         $session->setInChat(!$session->isInChat());
-        $session->sendTranslatedMessage($session->isInChat() ? "JOINED_ISLAND_CHAT" : "JOINED_GLOBAL_CHAT");
+        $session->sendTranslatedMessage(new MessageContainer($session->isInChat() ? "JOINED_ISLAND_CHAT" : "JOINED_GLOBAL_CHAT"));
     }
     
 }

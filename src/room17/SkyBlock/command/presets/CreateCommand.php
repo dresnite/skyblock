@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class CreateCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class CreateCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["create"], "CREATE_USAGE", "CREATE_DESCRIPTION");
+        parent::__construct([
+            "create"
+        ], new MessageContainer("CREATE_USAGE"), new MessageContainer("CREATE_DESCRIPTION"));
     }
 
     /**
@@ -45,7 +48,7 @@ class CreateCommand extends IsleCommand {
      */
     public function onCommand(Session $session, array $args): void {
         if($session->hasIsle()) {
-            $session->sendTranslatedMessage("NEED_TO_BE_FREE");
+            $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
         }
         $minutesSinceLastIsle = $session->getLastIslandCreationTime() !== null
@@ -53,19 +56,19 @@ class CreateCommand extends IsleCommand {
             : -1;
         $cooldownDuration = $this->plugin->getSettings()->getCooldownDuration();
         if($minutesSinceLastIsle !== -1 and $minutesSinceLastIsle < $cooldownDuration) {
-            $session->sendTranslatedMessage("YOU_HAVE_TO_WAIT", [
+            $session->sendTranslatedMessage(new MessageContainer("YOU_HAVE_TO_WAIT", [
                 "minutes" => ceil($cooldownDuration - $minutesSinceLastIsle),
-            ]);
+            ]));
             return;
         }
         $generator = $args[0] ?? "Shelly";
         if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
             $this->plugin->getIsleManager()->createIsleFor($session, $generator);
-            $session->sendTranslatedMessage("SUCCESSFULLY_CREATED_A_ISLAND");
+            $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
-            $session->sendTranslatedMessage("NOT_VALID_GENERATOR", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", [
                 "name" => $generator
-            ]);
+            ]));
         }
     }
     

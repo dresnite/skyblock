@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class JoinCommand extends IsleCommand {
     
@@ -28,7 +29,11 @@ class JoinCommand extends IsleCommand {
      * JoinCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["join", "go", "spawn"], "JOIN_USAGE", "JOIN_DESCRIPTION");
+        parent::__construct([
+            "join",
+            "go",
+            "spawn"
+        ], new MessageContainer("JOIN_USAGE"), new MessageContainer("JOIN_DESCRIPTION"));
     }
     
     /**
@@ -40,7 +45,7 @@ class JoinCommand extends IsleCommand {
             return;
         }
         $session->getPlayer()->teleport($session->getIsle()->getLevel()->getSpawnLocation());
-        $session->sendTranslatedMessage("TELEPORTED_TO_ISLAND");
+        $session->sendTranslatedMessage(new MessageContainer("TELEPORTED_TO_ISLAND"));
     }
     
 }

@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class PromoteCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class PromoteCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["promote"], "PROMOTE_USAGE", "PROMOTE_DESCRIPTION");
+        parent::__construct([
+            "promote"
+        ], new MessageContainer("PROMOTE_USAGE"), new MessageContainer("PROMOTE_DESCRIPTION"));
     }
     
     /**
@@ -46,7 +49,7 @@ class PromoteCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("PROMOTE_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("PROMOTE_USAGE"));
             return;
         }
     
@@ -54,9 +57,9 @@ class PromoteCommand extends IsleCommand {
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
         } elseif($offlineSession->getIsleId() != $session->getIsleId()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
-            ]);
+            ]));
         } else {
             $rank = null;
             $rankName = "";
@@ -71,24 +74,24 @@ class PromoteCommand extends IsleCommand {
                     break;
             }
             if($rank == null) {
-                $session->sendTranslatedMessage("CANNOT_PROMOTE_LEADER", [
+                $session->sendTranslatedMessage(new MessageContainer("CANNOT_PROMOTE_LEADER", [
                     "name" => $args[0]
-                ]);
+                ]));
                 return;
             }
             $onlineSession = $offlineSession->getSession();
             if($onlineSession != null) {
                 $onlineSession->setRank($rank);
-                $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_PROMOTED");
+                $onlineSession->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_PROMOTED"));
                 $onlineSession->save();
             } else {
                 $offlineSession->setRank($rank);
                 $offlineSession->save();
             }
-            $session->sendTranslatedMessage("SUCCESSFULLY_PROMOTED_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_PROMOTED_PLAYER", [
                 "name" => $args[0],
-                "to" => $session->translate($rankName)
-            ]);
+                "to" => $session->getMessage(new MessageContainer("$rankName"))
+            ]));
         }
         
     }

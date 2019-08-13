@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class InviteCommand extends IsleCommand {
     
@@ -35,7 +36,10 @@ class InviteCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["invite", "inv"], "INVITE_USAGE", "INVITE_DESCRIPTION");
+        parent::__construct([
+            "invite",
+            "inv"
+        ], new MessageContainer("INVITE_USAGE"), new MessageContainer("INVITE_DESCRIPTION"));
     }
     
     /**
@@ -46,43 +50,43 @@ class InviteCommand extends IsleCommand {
         if($this->checkOfficer($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("INVITE_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("INVITE_USAGE"));
             return;
         } elseif(count($session->getIsle()->getMembers()) >= $session->getIsle()->getSlots()) {
             $isle = $session->getIsle();
             $next = $isle->getNextCategory();
             if($next != null) {
-                $session->sendTranslatedMessage("ISLAND_IS_FULL_BUT_YOU_CAN_UPGRADE", [
+                $session->sendTranslatedMessage(new MessageContainer("ISLAND_IS_FULL_BUT_YOU_CAN_UPGRADE", [
                     "next" => $next
-                ]);
+                ]));
             } else {
-                $session->sendTranslatedMessage("ISLAND_IS_FULL");
+                $session->sendTranslatedMessage(new MessageContainer("ISLAND_IS_FULL"));
             }
             return;
         }
         $player = $this->plugin->getServer()->getPlayer($args[0]);
         if($player == null) {
-            $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
-            ]);
+            ]));
             return;
         }
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->hasIsle()) {
-            $session->sendTranslatedMessage("CANNOT_INVITE_BECAUSE_HAS_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("CANNOT_INVITE_BECAUSE_HAS_ISLAND", [
                 "name" => $player->getName()
-            ]);
+            ]));
             return;
         }
         $playerSession->addInvitation($session->getUsername(), $session->getIsle());
-        $playerSession->sendTranslatedMessage("YOU_WERE_INVITED_TO_AN_ISLAND", [
+        $playerSession->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $session->getUsername()
-        ]);
-        $session->sendTranslatedMessage("SUCCESSFULLY_INVITED", [
+        ]));
+        $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_INVITED", [
             "name" => $player->getName()
-        ]);
+        ]));
     }
     
 }

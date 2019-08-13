@@ -21,6 +21,7 @@ namespace room17\SkyBlock\session;
 
 use pocketmine\Player;
 use room17\SkyBlock\isle\Isle;
+use room17\SkyBlock\utils\MessageContainer;
 
 class Session extends BaseSession {
     
@@ -161,38 +162,34 @@ class Session extends BaseSession {
     public function setLastInvitation(?string $senderName): void {
         $this->lastInvitation = $senderName;
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      * @return string
      */
-    public function translate(string $identifier, array $args = []): string {
-        return $this->manager->getPlugin()->getSettings()->getMessage($identifier, $args);
+    public function getMessage(MessageContainer $container): string {
+        return $this->manager->getPlugin()->getSettings()->getMessage($$container);
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function sendTranslatedMessage(string $identifier, array $args = []): void {
-        $this->player->sendMessage($this->translate($identifier, $args));
+    public function sendTranslatedMessage(MessageContainer $container): void {
+        $this->player->sendMessage($this->getMessage($container));
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function sendTranslatedPopup(string $identifier, array $args = []): void {
-        $this->player->sendPopup($this->translate($identifier, $args));
+    public function sendTranslatedPopup(MessageContainer $container): void {
+        $this->player->sendPopup($this->getMessage($container));
     }
-    
+
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      */
-    public function sendTranslatedTip(string $identifier, array $args = []): void {
-        $this->player->sendTip($this->translate($identifier, $args));
+    public function sendTranslatedTip(MessageContainer $container): void {
+        $this->player->sendTip($this->getMessage($container));
     }
     
 }

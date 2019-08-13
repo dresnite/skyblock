@@ -28,6 +28,7 @@ use room17\SkyBlock\generator\IsleGenerator;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class IsleManager {
     
@@ -112,7 +113,7 @@ class IsleManager {
                 $onlineSession->setIsle(null);
                 $onlineSession->setRank(Session::RANK_DEFAULT);
                 $onlineSession->save();
-                $onlineSession->sendTranslatedMessage("ISLAND_DISBANDED");
+                $onlineSession->sendTranslatedMessage(new MessageContainer("ISLAND_DISBANDED"));
             } else {
                 $offlineMember->setIsleId(null);
                 $offlineMember->setRank(Session::RANK_DEFAULT);

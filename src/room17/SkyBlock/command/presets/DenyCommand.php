@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class DenyCommand extends IsleCommand {
     
@@ -28,7 +29,10 @@ class DenyCommand extends IsleCommand {
      * DenyCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["deny", "d"], "DENY_USAGE", "DENY_DESCRIPTION");
+        parent::__construct([
+            "deny",
+            "d"
+        ], new MessageContainer("DENY_USAGE"), new MessageContainer("DENY_DESCRIPTION"));
     }
     
     /**
@@ -37,7 +41,7 @@ class DenyCommand extends IsleCommand {
      */
     public function onCommand(Session $session, array $args): void {
         if(!isset($args[0]) and !$session->hasLastInvitation()) {
-            $session->sendTranslatedMessage("DENY_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("DENY_USAGE"));
             return;
         }
         $isleName = $args[0] ?? $session->getLastInvitation();
@@ -46,10 +50,10 @@ class DenyCommand extends IsleCommand {
             return;
         }
         $session->removeInvitation($isleName);
-        $session->sendTranslatedMessage("INVITATION_REFUSED");
-        $isle->broadcastTranslatedMessage("PLAYER_INVITATION_DENIED", [
+        $session->sendTranslatedMessage(new MessageContainer("INVITATION_REFUSED"));
+        $isle->broadcastTranslatedMessage(new MessageContainer("PLAYER_INVITATION_DENIED", [
             "name" => $session->getUsername()
-        ]);
+        ]));
     }
     
 }

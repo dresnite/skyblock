@@ -20,6 +20,7 @@ namespace room17\SkyBlock;
 
 
 use pocketmine\item\Item;
+use room17\SkyBlock\utils\MessageContainer;
 
 class SkyBlockSettings {
     
@@ -111,14 +112,14 @@ class SkyBlockSettings {
     }
 
     /**
-     * @param string $identifier
-     * @param array $args
+     * @param MessageContainer $container
      * @return string
      */
-    public function getMessage(string $identifier, array $args = []): string {
+    public function getMessage(MessageContainer $container): string {
+        $identifier = $container->getMessageId();
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
         $message = SkyBlock::translateColors($message);
-        foreach($args as $arg => $value) {
+        foreach($container->getArguments() as $arg => $value) {
             $message = str_replace("{" . $arg . "}", $value, $message);
         }
         return $message;

@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class CooperateCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class CooperateCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["cooperate"], "COOPERATE_USAGE", "COOPERATE_DESCRIPTION");
+        parent::__construct([
+            "cooperate"
+        ], new MessageContainer("COOPERATE_USAGE"), new MessageContainer("COOPERATE_DESCRIPTION"));
     }
     
     /**
@@ -46,14 +49,14 @@ class CooperateCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("COOPERATE_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("COOPERATE_USAGE"));
             return;
         }
         $player = $this->plugin->getServer()->getPlayer($args[0]);
         if($player == null) {
-            $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
-            ]);
+            ]));
             return;
         }
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
@@ -63,25 +66,25 @@ class CooperateCommand extends IsleCommand {
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() === $session->getIsle()) {
-            $session->sendTranslatedMessage("ALREADY_ON_YOUR_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("ALREADY_ON_YOUR_ISLAND", [
                 "name" => $playerName
-            ]);
+            ]));
         } elseif($isle->isCooperator($playerSession)) {
             $isle->removeCooperator($playerSession);
-            $session->sendTranslatedMessage("REMOVED_A_COOPERATOR", [
+            $session->sendTranslatedMessage(new MessageContainer("REMOVED_A_COOPERATOR", [
                 "name" => $playerName
-            ]);
-            $playerSession->sendTranslatedMessage("NOW_YOU_CANNOT_COOPERATE", [
+            ]));
+            $playerSession->sendTranslatedMessage(new MessageContainer("NOW_YOU_CANNOT_COOPERATE", [
                 "name" => $sessionName
-            ]);
+            ]));
         } else {
             $isle->addCooperator($playerSession);
-            $session->sendTranslatedMessage("ADDED_A_COOPERATOR", [
+            $session->sendTranslatedMessage(new MessageContainer("ADDED_A_COOPERATOR", [
                 "name" => $playerName
-            ]);
-            $playerSession->sendTranslatedMessage("NOW_YOU_CAN_COOPERATE", [
+            ]));
+            $playerSession->sendTranslatedMessage(new MessageContainer("NOW_YOU_CAN_COOPERATE", [
                 "name" => $sessionName
-            ]);
+            ]));
         }
     }
     

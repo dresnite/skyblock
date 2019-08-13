@@ -22,11 +22,14 @@ namespace room17\SkyBlock\command\presets;
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class LeaveCommand extends IsleCommand {
     
     public function __construct() {
-        parent::__construct(["leave"], "LEAVE_USAGE", "LEAVE_DESCRIPTION");
+        parent::__construct([
+            "leave"
+        ], new MessageContainer("LEAVE_USAGE"), new MessageContainer("LEAVE_DESCRIPTION"));
     }
     
     /**
@@ -37,13 +40,13 @@ class LeaveCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
-            $session->sendTranslatedMessage("FOUNDER_CANNOT_LEAVE");
+            $session->sendTranslatedMessage(new MessageContainer("FOUNDER_CANNOT_LEAVE"));
             return;
         }
         $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsle(null);
         $session->setInChat(false);
-        $session->sendTranslatedMessage("LEFT_ISLAND");
+        $session->sendTranslatedMessage(new MessageContainer("LEFT_ISLAND"));
     }
     
 }

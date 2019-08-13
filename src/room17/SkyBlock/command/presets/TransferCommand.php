@@ -24,6 +24,7 @@ use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class TransferCommand extends IsleCommand {
     
@@ -36,7 +37,10 @@ class TransferCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["transfer", "makeleader"], "TRANSFER_USAGE", "TRANSFER_DESCRIPTION");
+        parent::__construct([
+            "transfer",
+            "makeleader"
+        ], new MessageContainer("TRANSFER_USAGE"), new MessageContainer("TRANSFER_DESCRIPTION"));
     }
     
     /**
@@ -47,33 +51,33 @@ class TransferCommand extends IsleCommand {
         if($this->checkFounder($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("TRANSFER_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("TRANSFER_USAGE"));
             return;
         }
         $player = $this->plugin->getServer()->getPlayer($args[0]);
         if($player == null) {
-            $session->sendTranslatedMessage("NOT_ONLINE_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]
-            ]);
+            ]));
             return;
         }
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsle() !== $session->getIsle()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $playerSession->getUsername()
-            ]);
+            ]));
             return;
         }
         $session->setRank(BaseSession::RANK_DEFAULT);
         $playerSession->setRank(BaseSession::RANK_FOUNDER);
-        $session->sendTranslatedMessage("RANK_TRANSFERRED", [
+        $session->sendTranslatedMessage(new MessageContainer("RANK_TRANSFERRED", [
             "name" => $playerSession->getUsername()
-        ]);
-        $playerSession->sendTranslatedMessage("GOT_RANK_TRANSFERRED", [
+        ]));
+        $playerSession->sendTranslatedMessage(new MessageContainer("GOT_RANK_TRANSFERRED", [
             "name" => $session->getUsername()
-        ]);
+        ]));
     }
     
 }

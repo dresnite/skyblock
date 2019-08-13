@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class FireCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class FireCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["fire"], "FIRE_USAGE", "FIRE_DESCRIPTION");
+        parent::__construct([
+            "fire"
+        ], new MessageContainer("FIRE_USAGE"), new MessageContainer("FIRE_DESCRIPTION"));
     }
     
     /**
@@ -46,18 +49,18 @@ class FireCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("FIRE_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("FIRE_USAGE"));
             return;
         }
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
         } elseif($offlineSession->getIsleId() != $session->getIsleId()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
-            ]);
+            ]));
         } elseif($offlineSession->getRank() == Session::RANK_FOUNDER) {
-            $session->sendTranslatedMessage("CANNOT_FIRE_FOUNDER");
+            $session->sendTranslatedMessage(new MessageContainer("CANNOT_FIRE_FOUNDER"));
         } else {
             $onlineSession = $offlineSession->getSession();
             if($onlineSession != null) {
@@ -66,16 +69,16 @@ class FireCommand extends IsleCommand {
                 }
                 $onlineSession->setRank(Session::RANK_DEFAULT);
                 $onlineSession->setIsle(null);
-                $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_FIRED");
+                $onlineSession->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_FIRED"));
                 $onlineSession->save();
             } else {
                 $offlineSession->setIsleId(null);
                 $offlineSession->setRank(Session::RANK_DEFAULT);
                 $offlineSession->save();
             }
-            $session->sendTranslatedMessage("SUCCESSFULLY_FIRED", [
+            $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_FIRED", [
                 "name" => $args[0]
-            ]);
+            ]));
         }
     }
     

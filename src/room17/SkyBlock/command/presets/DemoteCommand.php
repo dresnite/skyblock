@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\MessageContainer;
 
 class DemoteCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class DemoteCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct(["demote"], "DEMOTE_USAGE", "DEMOTE_DESCRIPTION");
+        parent::__construct([
+            "demote"
+        ], new MessageContainer("DEMOTE_USAGE"), new MessageContainer("DEMOTE_DESCRIPTION"));
     }
     
     /**
@@ -46,7 +49,7 @@ class DemoteCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage("DEMOTE_USAGE");
+            $session->sendTranslatedMessage(new MessageContainer("DEMOTE_USAGE"));
             return;
         }
         
@@ -54,9 +57,9 @@ class DemoteCommand extends IsleCommand {
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
         } elseif($offlineSession->getIsleId() != $session->getIsleId()) {
-            $session->sendTranslatedMessage("MUST_BE_PART_OF_YOUR_ISLAND", [
+            $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
-            ]);
+            ]));
         } else {
             $rank = null;
             $rankName = "";
@@ -73,27 +76,27 @@ class DemoteCommand extends IsleCommand {
                     $rank = false;
             }
             if($rank == null) {
-                $session->sendTranslatedMessage("CANNOT_DEMOTE_MEMBER", [
+                $session->sendTranslatedMessage(new MessageContainer("CANNOT_DEMOTE_MEMBER", [
                     "name" => $args[0]
-                ]);
+                ]));
                 return;
             } elseif($rank == false) {
-                $session->sendTranslatedMessage("CANNOT_DEMOTE_FOUNDER");
+                $session->sendTranslatedMessage(new MessageContainer("CANNOT_DEMOTE_FOUNDER"));
                 return;
             }
             $onlineSession = $offlineSession->getSession();
             if($onlineSession != null) {
                 $onlineSession->setRank($rank);
-                $onlineSession->sendTranslatedMessage("YOU_HAVE_BEEN_DEMOTED");
+                $onlineSession->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_DEMOTED"));
                 $onlineSession->save();
             } else {
                 $offlineSession->setRank($rank);
                 $offlineSession->save();
             }
-            $session->sendTranslatedMessage("SUCCESSFULLY_DEMOTED_PLAYER", [
+            $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_DEMOTED_PLAYER", [
                 "name" => $args[0],
-                "to" => $session->translate($rankName)
-            ]);
+                "to" => $session->getMessage(new MessageContainer("$rankName"))
+            ]));
         }
         
     }

@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class CategoryCommand extends IsleCommand {
     
@@ -28,7 +29,10 @@ class CategoryCommand extends IsleCommand {
      * CategoryCommand constructor.
      */
     public function __construct() {
-        parent::__construct(["category", "c"], "CATEGORY_USAGE", "CATEGORY_DESCRIPTION");
+        parent::__construct([
+            "category",
+            "c"
+        ], new MessageContainer("CATEGORY_USAGE"), new MessageContainer("CATEGORY_DESCRIPTION"));
     }
     
     /**
@@ -39,9 +43,9 @@ class CategoryCommand extends IsleCommand {
         if($this->checkIsle($session)) {
             return;
         }
-        $session->sendTranslatedMessage("ISLAND_CATEGORY", [
+        $session->sendTranslatedMessage(new MessageContainer("ISLAND_CATEGORY", [
             "category" => $session->getIsle()->getCategory()
-        ]);
+        ]));
     }
     
 }

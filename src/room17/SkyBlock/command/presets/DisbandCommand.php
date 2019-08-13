@@ -23,6 +23,7 @@ use room17\SkyBlock\command\IsleCommand;
 use room17\SkyBlock\command\IsleCommandMap;
 use room17\SkyBlock\isle\IsleManager;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\utils\MessageContainer;
 
 class DisbandCommand extends IsleCommand {
     
@@ -35,7 +36,9 @@ class DisbandCommand extends IsleCommand {
      */
     public function __construct(IsleCommandMap $map) {
         $this->isleManager = $map->getPlugin()->getIsleManager();
-        parent::__construct(["disband"], "DISBAND_USAGE", "DISBAND_DESCRIPTION");
+        parent::__construct([
+            "disband"
+        ], new MessageContainer("DISBAND_USAGE"), new MessageContainer("DISBAND_DESCRIPTION"));
     }
 
     /**
