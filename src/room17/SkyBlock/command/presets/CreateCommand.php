@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\command\IslandCommandMap;
+use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
@@ -63,7 +64,7 @@ class CreateCommand extends IslandCommand {
         }
         $generator = $args[0] ?? "Shelly";
         if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
-            $this->plugin->getIslandManager()->createIslandFor($session, $generator);
+            IslandFactory::createIslandFor($session, $generator);
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
             $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", [

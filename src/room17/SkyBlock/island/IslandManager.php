@@ -20,16 +20,9 @@ namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
-use room17\SkyBlock\event\island\IslandCreateEvent;
-use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\event\island\IslandOpenEvent;
 use room17\SkyBlock\event\island\IslandCloseEvent;
-use room17\SkyBlock\island\generator\IslandGenerator;
-use room17\SkyBlock\session\BaseSession;
-use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
-use room17\SkyBlock\utils\MessageContainer;
-use room17\SkyBlock\utils\Utils;
 
 class IslandManager {
     
@@ -67,64 +60,6 @@ class IslandManager {
      */
     public function getIsland(string $identifier): ?Island {
         return $this->islands[$identifier] ?? null;
-    }
-
-    /**
-     * @param Session $session
-     * @param string $type
-     * @throws \ReflectionException
-     */
-    public function createIslandFor(Session $session, string $type): void {
-        $identifier = Utils::generateUniqueId();
-
-        $generatorManager = $this->plugin->getGeneratorManager();
-        if($generatorManager->isGenerator($type)) {
-            $generator = $generatorManager->getGenerator($type);
-        } else {
-            $generator = $generatorManager->getGenerator("Basic");
-        }
-    
-        $server = $this->plugin->getServer();
-        $server->generateLevel($identifier, null, $generator);
-        $server->loadLevel($identifier);
-        $level = $server->getLevelByName($identifier);
-        /** @var IslandGenerator $generator */
-        $level->setSpawnLocation($generator::getWorldSpawn());
-        
-        $this->openIsland($identifier, [$session->getOffline()], true, $type, $level, 0);
-        $session->setIsland($island = $this->islands[$identifier]);
-        $session->setRank(BaseSession::RANK_FOUNDER);
-        $session->save();
-        $island->save();
-        $session->setLastIslandCreationTime(microtime(true));
-        (new IslandCreateEvent($island))->call();
-    }
-
-    /**
-     * @param Island $island
-     * @throws \ReflectionException
-     */
-    public function disbandIsland(Island $island): void {
-        foreach($island->getLevel()->getPlayers() as $player) {
-            $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
-        }
-        foreach($island->getMembers() as $offlineMember) {
-            $onlineSession = $offlineMember->getSession();
-            if($onlineSession != null) {
-                $onlineSession->setIsland(null);
-                $onlineSession->setRank(Session::RANK_DEFAULT);
-                $onlineSession->save();
-                $onlineSession->sendTranslatedMessage(new MessageContainer("ISLAND_DISBANDED"));
-            } else {
-                $offlineMember->setIslandId(null);
-                $offlineMember->setRank(Session::RANK_DEFAULT);
-                $offlineMember->save();
-            }
-        }
-        $island->setMembers([]);
-        $island->save();
-        $this->closeIsland($island);
-        (new IslandDisbandEvent($island))->call();
     }
 
     /**

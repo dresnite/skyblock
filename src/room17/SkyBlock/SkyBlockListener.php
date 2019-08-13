@@ -36,7 +36,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
-use room17\SkyBlock\generator\IslandGenerator;
+use room17\SkyBlock\island\generator\IslandGenerator;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionManager;

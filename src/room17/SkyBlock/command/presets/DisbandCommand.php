@@ -21,6 +21,7 @@ namespace room17\SkyBlock\command\presets;
 
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\command\IslandCommandMap;
+use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
@@ -50,7 +51,7 @@ class DisbandCommand extends IslandCommand {
         if($this->checkFounder($session)) {
             return;
         }
-        $this->islandManager->disbandIsland($session->getIsland());
+        IslandFactory::disbandIsland($session->getIsland());
     }
     
 }
