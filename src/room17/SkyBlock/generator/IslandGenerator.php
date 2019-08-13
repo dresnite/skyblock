@@ -22,13 +22,13 @@ namespace room17\SkyBlock\generator;
 use pocketmine\level\generator\Generator;
 use pocketmine\math\Vector3;
 
-abstract class IsleGenerator extends Generator {
+abstract class IslandGenerator extends Generator {
     
     /** @var array */
     protected $settings;
     
     /**
-     * IsleGenerator constructor.
+     * IslandGenerator constructor.
      * @param array $settings
      */
     public function __construct(array $settings = []) {

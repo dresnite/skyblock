@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class KickCommand extends IsleCommand {
+class KickCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * KickCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "kick"
@@ -63,9 +63,9 @@ class KickCommand extends IsleCommand {
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
-        } elseif($playerSession->getIsle() === $session->getIsle()) {
+        } elseif($playerSession->getIsland() === $session->getIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_KICK_A_MEMBER"));
-        } elseif(in_array($player, $session->getIsle()->getPlayersOnline())) {
+        } elseif(in_array($player, $session->getIsland()->getPlayersOnline())) {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
             $playerSession->sendTranslatedMessage(new MessageContainer("KICKED_FROM_THE_ISLAND"));
             $session->sendTranslatedMessage(new MessageContainer("YOU_KICKED_A_PLAYER", [

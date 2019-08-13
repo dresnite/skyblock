@@ -16,9 +16,30 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\event\isle;
+namespace room17\SkyBlock\event\island;
 
 
-class IsleCreateEvent extends IsleEvent {
+use room17\SkyBlock\event\SkyBlockEvent;
+use room17\SkyBlock\island\Island;
+
+abstract class IslandEvent extends SkyBlockEvent {
+    
+    /** @var Island */
+    private $island;
+    
+    /**
+     * IsleEvent constructor.
+     * @param Island $island
+     */
+    public function __construct(Island $island) {
+        $this->island = $island;
+    }
+    
+    /**
+     * @return Island
+     */
+    public function getIsland(): Island {
+        return $this->island;
+    }
     
 }

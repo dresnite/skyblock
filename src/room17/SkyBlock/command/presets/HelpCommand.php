@@ -19,21 +19,21 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-class HelpCommand extends IsleCommand {
+class HelpCommand extends IslandCommand {
     
-    /** @var IsleCommandMap */
+    /** @var IslandCommandMap */
     private $map;
     
     /**
      * HelpCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->map = $map;
         parent::__construct([
             "help",

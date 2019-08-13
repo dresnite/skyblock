@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class VisitCommand extends IsleCommand {
+class VisitCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * VisitCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "visit",
@@ -54,23 +54,23 @@ class VisitCommand extends IsleCommand {
             return;
         }
         $offline = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
-        $isleId = $offline->getIsleId();
-        if($isleId == null) {
+        $islandId = $offline->getIslandId();
+        if($islandId == null) {
             $session->sendTranslatedMessage(new MessageContainer("HE_DO_NOT_HAVE_AN_ISLAND", [
                 "name" => $args[0]
             ]));
             return;
         }
-        $this->plugin->getProvider()->loadIsle($isleId);
-        $isle = $this->plugin->getIsleManager()->getIsle($isleId);
-        if($isle->isLocked() and !($session->getPlayer()->isOp())) {
+        $this->plugin->getProvider()->loadIsland($islandId);
+        $island = $this->plugin->getIslandManager()->getIsland($islandId);
+        if($island->isLocked() and !($session->getPlayer()->isOp())) {
             $session->sendTranslatedMessage(new MessageContainer("HIS_ISLAND_IS_LOCKED", [
                 "name" => $args[0]
             ]));
-            $isle->tryToClose();
+            $island->tryToClose();
             return;
         }
-        $session->getPlayer()->teleport($isle->getLevel()->getSpawnLocation());
+        $session->getPlayer()->teleport($island->getLevel()->getSpawnLocation());
         $session->sendTranslatedMessage(new MessageContainer("VISITING_ISLAND", [
             "name" => $args[0]
         ]));

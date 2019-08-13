@@ -21,9 +21,9 @@ namespace room17\SkyBlock\generator\presets;
 
 use pocketmine\block\Block;
 use pocketmine\math\Vector3;
-use room17\SkyBlock\generator\IsleGenerator;
+use room17\SkyBlock\generator\IslandGenerator;
 
-class ShellyGenerator extends IsleGenerator {
+class ShellyGenerator extends IslandGenerator {
     
     /**
      * @return string

@@ -23,9 +23,9 @@ use pocketmine\level\Position;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
-use room17\SkyBlock\command\IsleCommandMap;
-use room17\SkyBlock\generator\IsleGeneratorManager;
-use room17\SkyBlock\isle\IsleManager;
+use room17\SkyBlock\command\IslandCommandMap;
+use room17\SkyBlock\generator\IslandGeneratorManager;
+use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\SessionManager;
@@ -44,13 +44,13 @@ class SkyBlock extends PluginBase {
     /** @var SessionManager */
     private $sessionManager;
     
-    /** @var IsleManager */
-    private $isleManager;
+    /** @var IslandManager */
+    private $islandManager;
     
-    /** @var IsleCommandMap */
+    /** @var IslandCommandMap */
     private $commandMap;
     
-    /** @var IsleGeneratorManager */
+    /** @var IslandGeneratorManager */
     private $generatorManager;
     
     /** @var SkyBlockListener */
@@ -69,9 +69,9 @@ class SkyBlock extends PluginBase {
         $this->settings = new SkyBlockSettings($this);
         $this->provider = new JSONProvider($this);
         $this->sessionManager = new SessionManager($this);
-        $this->isleManager = new IsleManager($this);
-        $this->generatorManager = new IsleGeneratorManager($this);
-        $this->commandMap = new IsleCommandMap($this);
+        $this->islandManager = new IslandManager($this);
+        $this->generatorManager = new IslandGeneratorManager($this);
+        $this->commandMap = new IslandCommandMap($this);
         $this->eventListener = new SkyBlockListener($this);
         if($this->getServer()->getSpawnRadius() > 0) {
             $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
@@ -80,8 +80,8 @@ class SkyBlock extends PluginBase {
     }
 
     public function onDisable(): void {
-        foreach($this->isleManager->getIsles() as $isle) {
-            $isle->save();
+        foreach($this->islandManager->getIslands() as $island) {
+            $island->save();
         }
         $this->getLogger()->info("SkyBlock was disabled");
     }
@@ -115,16 +115,16 @@ class SkyBlock extends PluginBase {
     }
     
     /**
-     * @return IsleManager
+     * @return IslandManager
      */
-    public function getIsleManager(): IsleManager {
-        return $this->isleManager;
+    public function getIslandManager(): IslandManager {
+        return $this->islandManager;
     }
 
     /**
-     * @return IsleGeneratorManager
+     * @return IslandGeneratorManager
      */
-    public function getGeneratorManager(): IsleGeneratorManager {
+    public function getGeneratorManager(): IslandGeneratorManager {
         return $this->generatorManager;
     }
     

@@ -33,7 +33,7 @@ abstract class BaseSession {
     protected $username;
     
     /** @var string|null */
-    protected $isleId = null;
+    protected $islandId = null;
     
     /** @var bool */
     protected $inChat = false;
@@ -71,8 +71,8 @@ abstract class BaseSession {
     /**
      * @return null|string
      */
-    public function getIsleId(): ?string {
-        return $this->isleId;
+    public function getIslandId(): ?string {
+        return $this->islandId;
     }
     
     /**
@@ -104,10 +104,10 @@ abstract class BaseSession {
     }
     
     /**
-     * @param null|string $isle
+     * @param null|string $identifier
      */
-    public function setIsleId(?string $isle): void {
-        $this->isleId = $isle;
+    public function setIslandId(?string $identifier): void {
+        $this->islandId = $identifier;
     }
     
     /**

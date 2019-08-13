@@ -20,7 +20,7 @@ namespace room17\SkyBlock\provider\json;
 
 
 use pocketmine\utils\Config;
-use room17\SkyBlock\isle\Isle;
+use room17\SkyBlock\island\Island;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
@@ -49,11 +49,11 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param string $isleId
+     * @param string $islandId
      * @return Config
      */
-    private function getIsleConfig(string $isleId): Config {
-        return new Config($this->plugin->getDataFolder() . "isles/$isleId.json", Config::JSON);
+    private function getIslandConfig(string $islandId): Config {
+        return new Config($this->plugin->getDataFolder() . "isles/$islandId.json", Config::JSON);
     }
     
     /**
@@ -61,7 +61,7 @@ class JSONProvider extends Provider {
      */
     public function loadSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
-        $session->setIsleId($config->get("isle", null) ?? null);
+        $session->setIslandId($config->get("isle", null) ?? null);
         $session->setRank($config->get("rank", null) ?? Session::RANK_DEFAULT);
         $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
     }
@@ -71,7 +71,7 @@ class JSONProvider extends Provider {
      */
     public function saveSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getUsername());
-        $config->set("isle", $session->getIsleId());
+        $config->set("isle", $session->getIslandId());
         $config->set("rank", $session->getRank());
         $config->set("lastIsle", $session->getLastIslandCreationTime());
         $config->save();
@@ -81,11 +81,11 @@ class JSONProvider extends Provider {
      * @param string $identifier
      * @throws \ReflectionException
      */
-    public function loadIsle(string $identifier): void {
-        if($this->plugin->getIsleManager()->getIsle($identifier) != null) {
+    public function loadIsland(string $identifier): void {
+        if($this->plugin->getIslandManager()->getIsland($identifier) != null) {
             return;
         }
-        $config = $this->getIsleConfig($identifier);
+        $config = $this->getIslandConfig($identifier);
         $server = $this->plugin->getServer();
         if(!$server->isLevelLoaded($identifier)) {
             $server->loadLevel($identifier);
@@ -96,7 +96,7 @@ class JSONProvider extends Provider {
             $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
         
-        $this->plugin->getIsleManager()->openIsle(
+        $this->plugin->getIslandManager()->openIsland(
             $identifier,
             $members,
             $config->get("locked"),
@@ -107,17 +107,17 @@ class JSONProvider extends Provider {
     }
     
     /**
-     * @param Isle $isle
+     * @param Island $island
      */
-    public function saveIsle(Isle $isle): void {
-        $config = $this->getIsleConfig($isle->getIdentifier());
-        $config->set("identifier", $isle->getIdentifier());
-        $config->set("locked", $isle->isLocked());
-        $config->set("type", $isle->getType());
-        $config->set("blocks", $isle->getBlocksBuilt());
+    public function saveIsland(Island $island): void {
+        $config = $this->getIslandConfig($island->getIdentifier());
+        $config->set("identifier", $island->getIdentifier());
+        $config->set("locked", $island->isLocked());
+        $config->set("type", $island->getType());
+        $config->set("blocks", $island->getBlocksBuilt());
         
         $members = [];
-        foreach($isle->getMembers() as $member) {
+        foreach($island->getMembers() as $member) {
             $members[] = $member->getUsername();
         }
         $config->set("members", $members);

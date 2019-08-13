@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class InviteCommand extends IsleCommand {
+class InviteCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * InviteCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "invite",
@@ -52,9 +52,9 @@ class InviteCommand extends IsleCommand {
         } elseif(!isset($args[0])) {
             $session->sendTranslatedMessage(new MessageContainer("INVITE_USAGE"));
             return;
-        } elseif(count($session->getIsle()->getMembers()) >= $session->getIsle()->getSlots()) {
-            $isle = $session->getIsle();
-            $next = $isle->getNextCategory();
+        } elseif(count($session->getIsland()->getMembers()) >= $session->getIsland()->getSlots()) {
+            $island = $session->getIsland();
+            $next = $island->getNextCategory();
             if($next != null) {
                 $session->sendTranslatedMessage(new MessageContainer("ISLAND_IS_FULL_BUT_YOU_CAN_UPGRADE", [
                     "next" => $next
@@ -74,13 +74,13 @@ class InviteCommand extends IsleCommand {
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
-        } elseif($playerSession->hasIsle()) {
+        } elseif($playerSession->hasIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_INVITE_BECAUSE_HAS_ISLAND", [
                 "name" => $player->getName()
             ]));
             return;
         }
-        $playerSession->addInvitation($session->getUsername(), $session->getIsle());
+        $playerSession->addInvitation($session->getUsername(), $session->getIsland());
         $playerSession->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $session->getUsername()
         ]));

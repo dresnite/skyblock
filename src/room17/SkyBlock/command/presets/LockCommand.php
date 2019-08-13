@@ -19,11 +19,11 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
+use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-class LockCommand extends IsleCommand {
+class LockCommand extends IslandCommand {
     
     /**
      * LockCommand constructor.
@@ -42,10 +42,10 @@ class LockCommand extends IsleCommand {
         if($this->checkLeader($session)) {
             return;
         }
-        $isle = $session->getIsle();
-        $isle->setLocked(!$isle->isLocked());
-        $isle->save();
-        $session->sendTranslatedMessage(new MessageContainer($isle->isLocked() ? "ISLAND_LOCKED" : "ISLAND_UNLOCKED"));
+        $island = $session->getIsland();
+        $island->setLocked(!$island->isLocked());
+        $island->save();
+        $session->sendTranslatedMessage(new MessageContainer($island->isLocked() ? "ISLAND_LOCKED" : "ISLAND_UNLOCKED"));
     }
     
 }

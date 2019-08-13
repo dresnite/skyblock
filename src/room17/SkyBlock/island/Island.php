@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\isle;
+namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
@@ -26,9 +26,9 @@ use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-class Isle {
+class Island {
     
-    /** @var IsleManager */
+    /** @var IslandManager */
     private $manager;
     
     /** @var string */
@@ -68,8 +68,8 @@ class Isle {
     private $closed = false;
     
     /**
-     * Isle constructor.
-     * @param IsleManager $manager
+     * Island constructor.
+     * @param IslandManager $manager
      * @param string $identifier
      * @param array $members
      * @param bool $locked
@@ -77,8 +77,8 @@ class Isle {
      * @param Level $level
      * @param int $blocksBuilt
      */
-    public function __construct(IsleManager $manager, string $identifier, array $members, bool $locked, string $type,
-        Level $level, int $blocksBuilt) {
+    public function __construct(IslandManager $manager, string $identifier, array $members, bool $locked, string $type,
+                                Level $level, int $blocksBuilt) {
         $this->manager = $manager;
         $this->identifier = $identifier;
         $this->locked = $locked;
@@ -228,7 +228,7 @@ class Isle {
      * @return bool
      */
     public function canInteract(Session $session): bool {
-        return $session->getIsle() === $this or $this->isCooperator($session) or $session->getPlayer()->hasPermission("skyblock.interaction");
+        return $session->getIsland() === $this or $this->isCooperator($session) or $session->getPlayer()->hasPermission("skyblock.interaction");
     }
     
     /**
@@ -367,12 +367,12 @@ class Isle {
     }
     
     public function save(): void {
-        $this->manager->getPlugin()->getProvider()->saveIsle($this);
+        $this->manager->getPlugin()->getProvider()->saveIsland($this);
     }
     
     public function updateMembers(): void {
         foreach($this->getMembersOnline() as $member) {
-            if($member->getIsle() !== $this) {
+            if($member->getIsland() !== $this) {
                 unset($this->members[$member->getUsername()]);
             }
         }
@@ -385,7 +385,7 @@ class Isle {
         $this->updateMembers();
         if(!$this->closed and empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {
             $this->closed = true;
-            $this->manager->closeIsle($this);
+            $this->manager->closeIsland($this);
         }
     }
     

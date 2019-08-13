@@ -23,7 +23,7 @@ use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-abstract class IsleCommand {
+abstract class IslandCommand {
     
     /** @var string */
     private $name;
@@ -38,7 +38,7 @@ abstract class IsleCommand {
     private $descriptionMessageContainer;
     
     /**
-     * IsleCommand constructor.
+     * IslandCommand constructor.
      * @param array $aliases
      * @param MessageContainer $usageMessageContainer
      * @param MessageContainer $descriptionMessageContainer
@@ -82,8 +82,8 @@ abstract class IsleCommand {
      * @param Session $session
      * @return bool
      */
-    public function checkIsle(Session $session): bool {
-        if($session->hasIsle()) {
+    public function checkIsland(Session $session): bool {
+        if($session->hasIsland()) {
             return false;
         }
         $session->sendTranslatedMessage(new MessageContainer("NEED_ISLAND"));
@@ -95,7 +95,7 @@ abstract class IsleCommand {
      * @return bool
      */
     public function checkFounder(Session $session): bool {
-        if($this->checkIsle($session)) {
+        if($this->checkIsland($session)) {
             return true;
         } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
             return false;
@@ -109,7 +109,7 @@ abstract class IsleCommand {
      * @return bool
      */
     public function checkLeader(Session $session): bool {
-        if($this->checkIsle($session)) {
+        if($this->checkIsland($session)) {
             return true;
         } elseif($session->getRank() == BaseSession::RANK_FOUNDER or $session->getRank() == BaseSession::RANK_LEADER) {
             return false;
@@ -123,7 +123,7 @@ abstract class IsleCommand {
      * @return bool
      */
     public function checkOfficer(Session $session): bool {
-        if($this->checkIsle($session)) {
+        if($this->checkIsland($session)) {
             return true;
         } elseif($session->getRank() != BaseSession::RANK_DEFAULT) {
             return false;

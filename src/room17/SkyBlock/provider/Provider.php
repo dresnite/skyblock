@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\provider;
 
 
-use room17\SkyBlock\isle\Isle;
+use room17\SkyBlock\island\Island;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\SkyBlock;
 
@@ -52,11 +52,11 @@ abstract class Provider {
     /**
      * @param string $identifier
      */
-    public abstract function loadIsle(string $identifier): void;
+    public abstract function loadIsland(string $identifier): void;
     
     /**
-     * @param Isle $isle
+     * @param Island $island
      */
-    public abstract function saveIsle(Isle $isle): void;
+    public abstract function saveIsland(Island $island): void;
     
 }

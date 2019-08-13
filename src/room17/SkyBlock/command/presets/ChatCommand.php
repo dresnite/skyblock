@@ -19,11 +19,11 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
+use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-class ChatCommand extends IsleCommand {
+class ChatCommand extends IslandCommand {
     
     /**
      * ChatCommand constructor.
@@ -39,7 +39,7 @@ class ChatCommand extends IsleCommand {
      * @param array $args
      */
     public function onCommand(Session $session, array $args): void {
-        if($this->checkIsle($session)) {
+        if($this->checkIsland($session)) {
             return;
         }
         $session->setInChat(!$session->isInChat());

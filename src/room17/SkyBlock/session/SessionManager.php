@@ -90,8 +90,8 @@ class SessionManager {
             $session->save();
             (new SessionCloseEvent($session))->call();
             unset($this->sessions[$username]);
-            if($session->hasIsle()) {
-                $session->getIsle()->tryToClose();
+            if($session->hasIsland()) {
+                $session->getIsland()->tryToClose();
             }
         }
     }

@@ -26,7 +26,7 @@ use room17\SkyBlock\generator\presets\PalmIsland;
 use room17\SkyBlock\generator\presets\ShellyGenerator;
 use room17\SkyBlock\SkyBlock;
 
-class IsleGeneratorManager {
+class IslandGeneratorManager {
 
     /** @var SkyBlock */
     private $plugin;

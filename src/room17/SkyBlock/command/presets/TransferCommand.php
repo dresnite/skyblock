@@ -19,23 +19,23 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class TransferCommand extends IsleCommand {
+class TransferCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * TransferCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "transfer",
@@ -64,7 +64,7 @@ class TransferCommand extends IsleCommand {
         $playerSession = $this->plugin->getSessionManager()->getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
-        } elseif($playerSession->getIsle() !== $session->getIsle()) {
+        } elseif($playerSession->getIsland() !== $session->getIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $playerSession->getUsername()
             ]));

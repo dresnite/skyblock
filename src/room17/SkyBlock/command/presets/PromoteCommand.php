@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class PromoteCommand extends IsleCommand {
+class PromoteCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * PromoteCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "promote"
@@ -56,7 +56,7 @@ class PromoteCommand extends IsleCommand {
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
-        } elseif($offlineSession->getIsleId() != $session->getIsleId()) {
+        } elseif($offlineSession->getIslandId() != $session->getIslandId()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
             ]));

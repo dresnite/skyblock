@@ -16,30 +16,30 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\isle;
+namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
-use room17\SkyBlock\event\isle\IsleCreateEvent;
-use room17\SkyBlock\event\isle\IsleDisbandEvent;
-use room17\SkyBlock\event\isle\IsleOpenEvent;
-use room17\SkyBlock\event\isle\IsleCloseEvent;
-use room17\SkyBlock\generator\IsleGenerator;
+use room17\SkyBlock\event\island\IslandCreateEvent;
+use room17\SkyBlock\event\island\IslandDisbandEvent;
+use room17\SkyBlock\event\island\IslandOpenEvent;
+use room17\SkyBlock\event\island\IslandCloseEvent;
+use room17\SkyBlock\generator\IslandGenerator;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class IsleManager {
+class IslandManager {
     
     /** @var SkyBlock */
     private $plugin;
     
-    /** @var Isle[] */
-    private $isles = [];
+    /** @var Island[] */
+    private $islands = [];
     
     /**
-     * IsleManager constructor.
+     * IslandManager constructor.
      * @param SkyBlock $plugin
      */
     public function __construct(SkyBlock $plugin) {
@@ -54,18 +54,18 @@ class IsleManager {
     }
     
     /**
-     * @return Isle[]
+     * @return Island[]
      */
-    public function getIsles(): array {
-        return $this->isles;
+    public function getIslands(): array {
+        return $this->islands;
     }
     
     /**
      * @param string $identifier
-     * @return null|Isle
+     * @return null|Island
      */
-    public function getIsle(string $identifier): ?Isle {
-        return $this->isles[$identifier] ?? null;
+    public function getIsland(string $identifier): ?Island {
+        return $this->islands[$identifier] ?? null;
     }
 
     /**
@@ -73,7 +73,7 @@ class IsleManager {
      * @param string $type
      * @throws \ReflectionException
      */
-    public function createIsleFor(Session $session, string $type): void {
+    public function createIslandFor(Session $session, string $type): void {
         $identifier = SkyBlock::generateUniqueId();
 
         $generatorManager = $this->plugin->getGeneratorManager();
@@ -87,43 +87,43 @@ class IsleManager {
         $server->generateLevel($identifier, null, $generator);
         $server->loadLevel($identifier);
         $level = $server->getLevelByName($identifier);
-        /** @var IsleGenerator $generator */
+        /** @var IslandGenerator $generator */
         $level->setSpawnLocation($generator::getWorldSpawn());
         
-        $this->openIsle($identifier, [$session->getOffline()], true, $type, $level, 0);
-        $session->setIsle($isle = $this->isles[$identifier]);
+        $this->openIsland($identifier, [$session->getOffline()], true, $type, $level, 0);
+        $session->setIsland($island = $this->islands[$identifier]);
         $session->setRank(BaseSession::RANK_FOUNDER);
         $session->save();
-        $isle->save();
+        $island->save();
         $session->setLastIslandCreationTime(microtime(true));
-        (new IsleCreateEvent($isle))->call();
+        (new IslandCreateEvent($island))->call();
     }
 
     /**
-     * @param Isle $isle
+     * @param Island $island
      * @throws \ReflectionException
      */
-    public function disbandIsle(Isle $isle): void {
-        foreach($isle->getLevel()->getPlayers() as $player) {
+    public function disbandIsland(Island $island): void {
+        foreach($island->getLevel()->getPlayers() as $player) {
             $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
         }
-        foreach($isle->getMembers() as $offlineMember) {
+        foreach($island->getMembers() as $offlineMember) {
             $onlineSession = $offlineMember->getSession();
             if($onlineSession != null) {
-                $onlineSession->setIsle(null);
+                $onlineSession->setIsland(null);
                 $onlineSession->setRank(Session::RANK_DEFAULT);
                 $onlineSession->save();
                 $onlineSession->sendTranslatedMessage(new MessageContainer("ISLAND_DISBANDED"));
             } else {
-                $offlineMember->setIsleId(null);
+                $offlineMember->setIslandId(null);
                 $offlineMember->setRank(Session::RANK_DEFAULT);
                 $offlineMember->save();
             }
         }
-        $isle->setMembers([]);
-        $isle->save();
-        $this->closeIsle($isle);
-        (new IsleDisbandEvent($isle))->call();
+        $island->setMembers([]);
+        $island->save();
+        $this->closeIsland($island);
+        (new IslandDisbandEvent($island))->call();
     }
 
     /**
@@ -135,21 +135,21 @@ class IsleManager {
      * @param int $blocksBuilt
      * @throws \ReflectionException
      */
-    public function openIsle(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
-        $this->isles[$identifier] = new Isle($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
-        (new IsleOpenEvent($this->isles[$identifier]))->call();
+    public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
+        $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
+        (new IslandOpenEvent($this->islands[$identifier]))->call();
     }
 
     /**
-     * @param Isle $isle
+     * @param Island $island
      * @throws \ReflectionException
      */
-    public function closeIsle(Isle $isle): void {
-        $isle->save();
+    public function closeIsland(Island $island): void {
+        $island->save();
         $server = $this->plugin->getServer();
-        (new IsleCloseEvent($isle))->call();
-        $server->unloadLevel($isle->getLevel());
-        unset($this->isles[$isle->getIdentifier()]);
+        (new IslandCloseEvent($island))->call();
+        $server->unloadLevel($island->getLevel());
+        unset($this->islands[$island->getIdentifier()]);
     }
     
 }

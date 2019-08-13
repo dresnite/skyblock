@@ -20,7 +20,7 @@ namespace room17\SkyBlock\session;
 
 
 use pocketmine\Player;
-use room17\SkyBlock\isle\Isle;
+use room17\SkyBlock\island\Island;
 use room17\SkyBlock\utils\MessageContainer;
 
 class Session extends BaseSession {
@@ -28,8 +28,8 @@ class Session extends BaseSession {
     /** @var Player */
     private $player;
     
-    /** @var null|Isle */
-    private $isle = null;
+    /** @var null|Island */
+    private $island = null;
     
     /** @var string|null */
     private $lastInvitation = null;
@@ -55,17 +55,17 @@ class Session extends BaseSession {
     }
     
     /**
-     * @return null|Isle
+     * @return null|Island
      */
-    public function getIsle(): ?Isle {
-        return $this->isle;
+    public function getIsland(): ?Island {
+        return $this->island;
     }
     
     /**
      * @return bool
      */
-    public function hasIsle(): bool {
-        return $this->isle != null;
+    public function hasIsland(): bool {
+        return $this->island != null;
     }
     
     /**
@@ -84,9 +84,9 @@ class Session extends BaseSession {
     
     /**
      * @param string $senderName
-     * @return null|Isle
+     * @return null|Island
      */
-    public function getInvitation(string $senderName): ?Isle {
+    public function getInvitation(string $senderName): ?Island {
         return $this->invitations[$senderName] ?? null;
     }
     
@@ -105,28 +105,28 @@ class Session extends BaseSession {
     }
     
     /**
-     * @param null|string $isle
+     * @param null|string $identifier
      */
-    public function setIsleId(?string $isle): void {
-        parent::setIsleId($isle);
-        if($isle != null) {
-            $this->provider->loadIsle($isle);
-            $this->isle = $this->manager->getPlugin()->getIsleManager()->getIsle($isle);
+    public function setIslandId(?string $identifier): void {
+        parent::setIslandId($identifier);
+        if($identifier != null) {
+            $this->provider->loadIsland($identifier);
+            $this->island = $this->manager->getPlugin()->getIslandManager()->getIsland($identifier);
         }
     }
     
     /**
-     * @param null|Isle $isle
+     * @param null|Island $island
      */
-    public function setIsle(?Isle $isle): void {
-        $lastIsle = $this->isle;
-        $this->isle = $isle;
-        $this->isleId = ($isle != null) ? $isle->getIdentifier() : null;
-        if($isle != null) {
-            $isle->addMember($this->getOffline());
+    public function setIsland(?Island $island): void {
+        $lastIsland = $this->island;
+        $this->island = $island;
+        $this->islandId = ($island != null) ? $island->getIdentifier() : null;
+        if($island != null) {
+            $island->addMember($this->getOffline());
         }
-        if($lastIsle != null) {
-            $lastIsle->updateMembers();
+        if($lastIsland != null) {
+            $lastIsland->updateMembers();
         }
         $this->save();
     }
@@ -140,10 +140,10 @@ class Session extends BaseSession {
     
     /**
      * @param string $senderName
-     * @param Isle $isle
+     * @param Island $island
      */
-    public function addInvitation(string $senderName, Isle $isle): void {
-        $this->invitations[$senderName] = $isle;
+    public function addInvitation(string $senderName, Island $island): void {
+        $this->invitations[$senderName] = $island;
         $this->lastInvitation = $senderName;
     }
     

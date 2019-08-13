@@ -16,9 +16,9 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\event\isle;
+namespace room17\SkyBlock\event\island;
 
 
-class IsleCloseEvent extends IsleEvent {
+class IslandCloseEvent extends IslandEvent {
     
 }

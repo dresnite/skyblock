@@ -48,16 +48,16 @@ use room17\SkyBlock\command\presets\VisitCommand;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class IsleCommandMap extends Command implements PluginIdentifiableCommand {
+class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
-    /** @var IsleCommand[] */
+    /** @var IslandCommand[] */
     private $commands = [];
     
     /**
-     * IsleCommandMap constructor.
+     * IslandCommandMap constructor.
      * @param SkyBlock $plugin
      */
     public function __construct(SkyBlock $plugin) {
@@ -101,7 +101,7 @@ class IsleCommandMap extends Command implements PluginIdentifiableCommand {
     }
     
     /**
-     * @return IsleCommand[]
+     * @return IslandCommand[]
      */
     public function getCommands(): array {
         return $this->commands;
@@ -109,9 +109,9 @@ class IsleCommandMap extends Command implements PluginIdentifiableCommand {
     
     /**
      * @param string $alias
-     * @return null|IsleCommand
+     * @return null|IslandCommand
      */
-    public function getCommand(string $alias): ?IsleCommand {
+    public function getCommand(string $alias): ?IslandCommand {
         foreach($this->commands as $key => $command) {
             if(in_array(strtolower($alias), $command->getAliases()) or $alias == $command->getName()) {
                 return $command;
@@ -121,9 +121,9 @@ class IsleCommandMap extends Command implements PluginIdentifiableCommand {
     }
     
     /**
-     * @param IsleCommand $command
+     * @param IslandCommand $command
      */
-    public function registerCommand(IsleCommand $command) {
+    public function registerCommand(IslandCommand $command) {
         $this->commands[] = $command;
     }
     

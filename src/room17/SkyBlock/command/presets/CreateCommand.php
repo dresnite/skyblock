@@ -19,22 +19,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
-class CreateCommand extends IsleCommand {
+class CreateCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
     
     /**
      * CreateCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
+    public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
         parent::__construct([
             "create"
@@ -47,23 +47,23 @@ class CreateCommand extends IsleCommand {
      * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
-        if($session->hasIsle()) {
+        if($session->hasIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
         }
-        $minutesSinceLastIsle = $session->getLastIslandCreationTime() !== null
+        $minutesSinceLastIsland = $session->getLastIslandCreationTime() !== null
             ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
             : -1;
         $cooldownDuration = $this->plugin->getSettings()->getCooldownDuration();
-        if($minutesSinceLastIsle !== -1 and $minutesSinceLastIsle < $cooldownDuration) {
+        if($minutesSinceLastIsland !== -1 and $minutesSinceLastIsland < $cooldownDuration) {
             $session->sendTranslatedMessage(new MessageContainer("YOU_HAVE_TO_WAIT", [
-                "minutes" => ceil($cooldownDuration - $minutesSinceLastIsle),
+                "minutes" => ceil($cooldownDuration - $minutesSinceLastIsland),
             ]));
             return;
         }
         $generator = $args[0] ?? "Shelly";
         if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
-            $this->plugin->getIsleManager()->createIsleFor($session, $generator);
+            $this->plugin->getIslandManager()->createIslandFor($session, $generator);
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
             $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", [

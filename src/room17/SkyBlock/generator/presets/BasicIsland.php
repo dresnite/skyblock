@@ -22,9 +22,9 @@ use pocketmine\block\Block;
 use pocketmine\block\BlockIds;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
-use room17\SkyBlock\generator\IsleGenerator;
+use room17\SkyBlock\generator\IslandGenerator;
 
-class BasicIsland extends IsleGenerator {
+class BasicIsland extends IslandGenerator {
     
     /**
      * @return string

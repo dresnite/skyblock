@@ -19,23 +19,23 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use room17\SkyBlock\command\IsleCommand;
-use room17\SkyBlock\command\IsleCommandMap;
-use room17\SkyBlock\isle\IsleManager;
+use room17\SkyBlock\command\IslandCommand;
+use room17\SkyBlock\command\IslandCommandMap;
+use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
-class DisbandCommand extends IsleCommand {
+class DisbandCommand extends IslandCommand {
     
-    /** @var IsleManager */
-    private $isleManager;
+    /** @var IslandManager */
+    private $islandManager;
     
     /**
      * DisbandCommand constructor.
-     * @param IsleCommandMap $map
+     * @param IslandCommandMap $map
      */
-    public function __construct(IsleCommandMap $map) {
-        $this->isleManager = $map->getPlugin()->getIsleManager();
+    public function __construct(IslandCommandMap $map) {
+        $this->islandManager = $map->getPlugin()->getIslandManager();
         parent::__construct([
             "disband"
         ], new MessageContainer("DISBAND_USAGE"), new MessageContainer("DISBAND_DESCRIPTION"));
@@ -50,7 +50,7 @@ class DisbandCommand extends IsleCommand {
         if($this->checkFounder($session)) {
             return;
         }
-        $this->isleManager->disbandIsle($session->getIsle());
+        $this->islandManager->disbandIsland($session->getIsland());
     }
     
 }

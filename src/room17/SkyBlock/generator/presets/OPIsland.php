@@ -21,9 +21,9 @@ namespace room17\SkyBlock\generator\presets;
 use pocketmine\block\Block;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
-use room17\SkyBlock\generator\IsleGenerator;
+use room17\SkyBlock\generator\IslandGenerator;
 
-class OPIsland extends IsleGenerator {
+class OPIsland extends IslandGenerator {
     
     /**
      * @return string
