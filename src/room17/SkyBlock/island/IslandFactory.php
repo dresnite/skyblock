@@ -12,7 +12,6 @@ use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
-use room17\SkyBlock\utils\Utils;
 
 class IslandFactory {
 
@@ -22,7 +21,7 @@ class IslandFactory {
      * @throws \ReflectionException
      */
     public static function createIslandFor(Session $session, string $type): void {
-        $identifier = Utils::generateUniqueId();
+        $identifier = uniqid("sb-");
         $skyblock = SkyBlock::getInstance();
 
         $generatorManager = $skyblock->getGeneratorManager();

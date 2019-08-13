@@ -98,11 +98,4 @@ class Utils {
         return $message;
     }
 
-    /**
-     * @return string
-     */
-    public static function generateUniqueId(): string {
-        return "is-" . microtime();
-    }
-
 }
