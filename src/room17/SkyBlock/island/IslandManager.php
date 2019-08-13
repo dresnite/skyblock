@@ -29,6 +29,7 @@ use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\Utils;
 
 class IslandManager {
     
@@ -74,7 +75,7 @@ class IslandManager {
      * @throws \ReflectionException
      */
     public function createIslandFor(Session $session, string $type): void {
-        $identifier = SkyBlock::generateUniqueId();
+        $identifier = Utils::generateUniqueId();
 
         $generatorManager = $this->plugin->getGeneratorManager();
         if($generatorManager->isGenerator($type)) {

@@ -21,6 +21,7 @@ namespace room17\SkyBlock;
 
 use pocketmine\item\Item;
 use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
     
@@ -118,7 +119,7 @@ class SkyBlockSettings {
     public function getMessage(MessageContainer $container): string {
         $identifier = $container->getMessageId();
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
-        $message = SkyBlock::translateColors($message);
+        $message = Utils::translateColors($message);
         foreach($container->getArguments() as $arg => $value) {
             $message = str_replace("{" . $arg . "}", $value, $message);
         }
@@ -129,10 +130,10 @@ class SkyBlockSettings {
         $this->data = json_decode(file_get_contents($this->plugin->getDataFolder() . "settings.json"), true);
         $this->messages = json_decode(file_get_contents($this->plugin->getDataFolder() . "messages.json"), true);
         $this->slotsBySize = $this->data["slots-by-size"];
-        $this->defaultChest = SkyBlock::parseItems($this->data["default-chest"]);
+        $this->defaultChest = Utils::parseItems($this->data["default-chest"]);
         $this->chestPerGenerator = [];
         foreach($this->data["chest-per-generator"] as $world => $items) {
-            $this->chestPerGenerator[$world] = SkyBlock::parseItems($items);
+            $this->chestPerGenerator[$world] = Utils::parseItems($items);
         }
         $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
         $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
