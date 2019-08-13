@@ -168,7 +168,7 @@ class Session extends BaseSession {
      * @return string
      */
     public function getMessage(MessageContainer $container): string {
-        return $this->manager->getPlugin()->getSettings()->getMessage($$container);
+        return $this->manager->getPlugin()->getSettings()->getMessage($container);
     }
 
     /**
