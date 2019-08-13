@@ -24,7 +24,7 @@ use room17\SkyBlock\event\island\IslandCreateEvent;
 use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\event\island\IslandOpenEvent;
 use room17\SkyBlock\event\island\IslandCloseEvent;
-use room17\SkyBlock\generator\IslandGenerator;
+use room17\SkyBlock\island\generator\IslandGenerator;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;

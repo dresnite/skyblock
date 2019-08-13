@@ -24,7 +24,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 use room17\SkyBlock\command\IslandCommandMap;
-use room17\SkyBlock\generator\IslandGeneratorManager;
+use room17\SkyBlock\island\generator\IslandGeneratorManager;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
 use room17\SkyBlock\provider\Provider;

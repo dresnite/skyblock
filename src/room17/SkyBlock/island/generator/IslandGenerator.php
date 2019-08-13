@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\generator;
+namespace room17\SkyBlock\island\generator;
 
 
 use pocketmine\level\generator\Generator;

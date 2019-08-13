@@ -16,14 +16,14 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\generator;
+namespace room17\SkyBlock\island\generator;
 
 use pocketmine\level\generator\GeneratorManager as GManager;
-use room17\SkyBlock\generator\presets\BasicIsland;
-use room17\SkyBlock\generator\presets\LostIsland;
-use room17\SkyBlock\generator\presets\OPIsland;
-use room17\SkyBlock\generator\presets\PalmIsland;
-use room17\SkyBlock\generator\presets\ShellyGenerator;
+use room17\SkyBlock\island\generator\presets\BasicIsland;
+use room17\SkyBlock\island\generator\presets\LostIsland;
+use room17\SkyBlock\island\generator\presets\OPIsland;
+use room17\SkyBlock\island\generator\presets\PalmIsland;
+use room17\SkyBlock\island\generator\presets\ShellyGenerator;
 use room17\SkyBlock\SkyBlock;
 
 class IslandGeneratorManager {

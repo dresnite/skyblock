@@ -16,13 +16,13 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\generator\presets;
+namespace room17\SkyBlock\island\generator\presets;
 
 use pocketmine\block\Block;
 use pocketmine\block\BlockIds;
 use pocketmine\level\generator\object\Tree;
 use pocketmine\math\Vector3;
-use room17\SkyBlock\generator\IslandGenerator;
+use room17\SkyBlock\island\generator\IslandGenerator;
 
 class BasicIsland extends IslandGenerator {
     
