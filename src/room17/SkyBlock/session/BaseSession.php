@@ -22,6 +22,11 @@ namespace room17\SkyBlock\session;
 use room17\SkyBlock\provider\Provider;
 
 abstract class BaseSession {
+
+    public const RANK_DEFAULT = 0;
+    public const RANK_OFFICER = 1;
+    public const RANK_LEADER = 2;
+    public const RANK_FOUNDER = 3;
     
     /** @var SessionManager */
     protected $manager;
@@ -40,11 +45,6 @@ abstract class BaseSession {
     
     /** @var int */
     protected $rank = false;
-    
-    const RANK_DEFAULT = 0;
-    const RANK_OFFICER = 1;
-    const RANK_LEADER = 2;
-    const RANK_FOUNDER = 3;
 
     /** @var float|null */
     protected $lastIslandCreationTime;

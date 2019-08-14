@@ -27,6 +27,15 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class Island {
+
+    public const TYPE_BASIC = "basic.isle";
+    public const TYPE_OP = "op.isle";
+
+    public const CATEGORY_EXTRA_SMALL = "XS";
+    public const CATEGORY_SMALL = "S";
+    public const CATEGORY_MEDIUM = "M";
+    public const CATEGORY_LARGE = "L";
+    public const CATEGORY_EXTRA_LARGE = "XL";
     
     /** @var IslandManager */
     private $manager;
@@ -43,9 +52,6 @@ class Island {
     /** @var string */
     private $type = self::TYPE_BASIC;
     
-    const TYPE_BASIC = "basic.isle";
-    const TYPE_OP = "op.isle";
-    
     /** @var Level */
     private $level;
     
@@ -54,12 +60,6 @@ class Island {
     
     /** @var string */
     private $category;
-    
-    const CATEGORY_EXTRA_SMALL = "XS";
-    const CATEGORY_SMALL = "S";
-    const CATEGORY_MEDIUM = "M";
-    const CATEGORY_LARGE = "L";
-    const CATEGORY_EXTRA_LARGE = "XL";
     
     /** @var Session[] */
     private $cooperators = [];
