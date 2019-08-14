@@ -149,7 +149,7 @@ class SkyBlockSettings {
         $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
         $this->blockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
         $this->blockedCommands = array_map("strtolower", $this->blockedCommands);
-        $this->islandChatFormat = $this->data["island-chat-format"];
+        $this->islandChatFormat = $this->data["island-chat-format"] ?? "{BOLD}{YELLOW}{username} {GRAY}> {WHITE}{message}";
     }
     
 }
