@@ -54,6 +54,26 @@ class SessionManager {
     public function getSessions(): array {
         return $this->sessions;
     }
+
+    /**
+     * @param Player $player
+     * @return Session
+     * @throws \ReflectionException
+     */
+    public function getSession(Player $player): Session {
+        if (!$this->isSessionOpen($player)) {
+            $this->openSession($player);
+        }
+        return $this->sessions[$player->getName()];
+    }
+
+    /**
+     * @param Player $player
+     * @return bool
+     */
+    public function isSessionOpen(Player $player): bool {
+        return isset($this->sessions[$player->getName()]);
+    }
     
     /**
      * @param string $username
@@ -61,14 +81,6 @@ class SessionManager {
      */
     public function getOfflineSession(string $username): ?OfflineSession {
         return new OfflineSession($this, $username);
-    }
-    
-    /**
-     * @param Player $player
-     * @return null|Session
-     */
-    public function getSession(Player $player): ?Session {
-        return $this->sessions[$player->getName()] ?? null;
     }
 
     /**
