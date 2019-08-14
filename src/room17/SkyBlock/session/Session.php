@@ -60,6 +60,15 @@ class Session extends BaseSession {
     public function getIsland(): ?Island {
         return $this->island;
     }
+
+    /**
+     * Returns the island the player is currently in or null if he's not in one
+     *
+     * @return Island|null
+     */
+    public function getIslandByLevel(): ?Island {
+        return $this->manager->getPlugin()->getIslandManager()->getIsland($this->player->getLevel()->getName());
+    }
     
     /**
      * @return bool
@@ -190,6 +199,10 @@ class Session extends BaseSession {
      */
     public function sendTranslatedTip(MessageContainer $container): void {
         $this->player->sendTip($this->getMessage($container));
+    }
+
+    public function teleportToSpawn(): void {
+        $this->player->teleport($this->player->getServer()->getDefaultLevel()->getSafeSpawn());
     }
     
 }

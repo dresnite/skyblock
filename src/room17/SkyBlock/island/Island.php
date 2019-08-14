@@ -119,11 +119,26 @@ class Island {
     /**
      * @return Session[]
      */
-    public function getMembersOnline(): array {
+    public function getSessionsOnline(): array {
         $sessions = [];
         foreach($this->members as $member) {
             $session = $member->getSession();
             if($session != null) {
+                $sessions[] = $session;
+            }
+        }
+        return $sessions;
+    }
+
+    /**
+     * Returns the sessions of the players that are in the private island's chat
+     *
+     * @return Session[]
+     */
+    public function getChattingSessions(): array {
+        $sessions = [];
+        foreach ($this->getSessionsOnline() as $session) {
+            if ($session->isInChat()) {
                 $sessions[] = $session;
             }
         }
@@ -316,7 +331,7 @@ class Island {
      * @param string $message
      */
     public function broadcastMessage(string $message): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendMessage($message);
         }
     }
@@ -325,7 +340,7 @@ class Island {
      * @param MessageContainer $container
      */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->sendTranslatedMessage($container);
         }
     }
@@ -334,7 +349,7 @@ class Island {
      * @param string $message
      */
     public function broadcastPopup(string $message): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendPopup($message);
         }
     }
@@ -343,7 +358,7 @@ class Island {
      * @param MessageContainer $container
      */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->sendTranslatedPopup($container);
         }
     }
@@ -352,7 +367,7 @@ class Island {
      * @param string $message
      */
     public function broadcastTip(string $message): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendTip($message);
         }
     }
@@ -361,7 +376,7 @@ class Island {
      * @param MessageContainer $container
      */
     public function broadcastTranslatedTip(MessageContainer $container): void {
-        foreach($this->getMembersOnline() as $session) {
+        foreach ($this->getSessionsOnline() as $session) {
             $session->sendTranslatedTip($container);
         }
     }
@@ -371,7 +386,7 @@ class Island {
     }
     
     public function updateMembers(): void {
-        foreach($this->getMembersOnline() as $member) {
+        foreach ($this->getSessionsOnline() as $member) {
             if($member->getIsland() !== $this) {
                 unset($this->members[$member->getUsername()]);
             }
@@ -383,7 +398,7 @@ class Island {
      */
     public function tryToClose(): void {
         $this->updateMembers();
-        if(!$this->closed and empty($this->getPlayersOnline()) and empty($this->getMembersOnline())) {
+        if (!$this->closed and empty($this->getPlayersOnline()) and empty($this->getSessionsOnline())) {
             $this->closed = true;
             $this->manager->closeIsland($this);
         }

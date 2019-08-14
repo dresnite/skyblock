@@ -38,6 +38,7 @@ class IslandManager {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
+        $plugin->getServer()->getPluginManager()->registerEvents(new IslandListener($this), $plugin);
     }
     
     /**
@@ -60,6 +61,14 @@ class IslandManager {
      */
     public function getIsland(string $identifier): ?Island {
         return $this->islands[$identifier] ?? null;
+    }
+
+    /**
+     * @param Level $level
+     * @return Island|null
+     */
+    public function getIslandByLevel(Level $level): ?Island {
+        return $this->getIsland($level->getName());
     }
 
     /**

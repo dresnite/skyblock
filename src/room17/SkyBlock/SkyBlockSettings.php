@@ -50,7 +50,7 @@ class SkyBlockSettings {
     private $preventVoidDamage;
 
     /** @var array */
-    private $islandBlockedCommands = [];
+    private $blockedCommands = [];
     
     /**
      * SkyBlockSettings constructor.
@@ -101,15 +101,15 @@ class SkyBlockSettings {
     /**
      * @return bool
      */
-    public function isPreventVoidDamage(): bool {
+    public function preventVoidDamage(): bool {
         return $this->preventVoidDamage;
     }
 
     /**
      * @return array
      */
-    public function getIslandBlockedCommands(): array {
-        return $this->islandBlockedCommands;
+    public function getBlockedCommands(): array {
+        return $this->blockedCommands;
     }
 
     /**
@@ -137,8 +137,8 @@ class SkyBlockSettings {
         }
         $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
         $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
-        $this->islandBlockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
-        $this->islandBlockedCommands = array_map("strtolower", $this->islandBlockedCommands);
+        $this->blockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
+        $this->blockedCommands = array_map("strtolower", $this->blockedCommands);
     }
     
 }

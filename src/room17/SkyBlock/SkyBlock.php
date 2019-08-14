@@ -48,9 +48,6 @@ class SkyBlock extends PluginBase {
     
     /** @var IslandGeneratorManager */
     private $generatorManager;
-    
-    /** @var SkyBlockListener */
-    private $eventListener;
 
     /**
      * @return SkyBlock
@@ -75,10 +72,7 @@ class SkyBlock extends PluginBase {
         $this->islandManager = new IslandManager($this);
         $this->generatorManager = new IslandGeneratorManager($this);
         $this->commandMap = new IslandCommandMap($this);
-        $this->eventListener = new SkyBlockListener($this);
-        if($this->getServer()->getSpawnRadius() > 0) {
-            $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
-        }
+        $this->checkSpawnProtection();
         $this->getLogger()->info("SkyBlock was enabled");
     }
 
@@ -123,5 +117,11 @@ class SkyBlock extends PluginBase {
     public function getGeneratorManager(): IslandGeneratorManager {
         return $this->generatorManager;
     }
-    
+
+    private function checkSpawnProtection(): void {
+        if ($this->getServer()->getSpawnRadius() > 0) {
+            $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
+        }
+    }
+
 }
