@@ -15,5 +15,6 @@
   "commands-blocked-in-isles": [
     "sethome",
     "home"
-  ]
+  ],
+  "island-chat-format": "{BOLD}{YELLOW}{username} {GRAY}> {WHITE}{message}"
 }

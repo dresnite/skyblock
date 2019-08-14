@@ -51,6 +51,9 @@ class SkyBlockSettings {
 
     /** @var array */
     private $blockedCommands = [];
+
+    /** @var string */
+    private $islandChatFormat;
     
     /**
      * SkyBlockSettings constructor.
@@ -113,6 +116,13 @@ class SkyBlockSettings {
     }
 
     /**
+     * @return string
+     */
+    public function getIslandChatFormat(): string {
+        return $this->islandChatFormat;
+    }
+
+    /**
      * @param MessageContainer $container
      * @return string
      */
@@ -139,6 +149,7 @@ class SkyBlockSettings {
         $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
         $this->blockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
         $this->blockedCommands = array_map("strtolower", $this->blockedCommands);
+        $this->islandChatFormat = $this->data["island-chat-format"];
     }
     
 }

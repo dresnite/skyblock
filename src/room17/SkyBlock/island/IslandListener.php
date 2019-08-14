@@ -28,6 +28,7 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\Utils;
 
 class IslandListener implements Listener {
 
@@ -145,6 +146,11 @@ class IslandListener implements Listener {
         if (!$session->hasIsland() or !$session->isInChat()) {
             return;
         }
+        $chatFormat = $this->plugin->getSettings()->getIslandChatFormat();
+        $chatFormat = str_replace("{username}", $session->getUsername(), $chatFormat);
+        $chatFormat = str_replace("{message}", $event->getMessage(), $chatFormat);
+        $chatFormat = Utils::translateColors($chatFormat);
+        $event->setFormat($chatFormat);
         $event->setRecipients($session->getIsland()->getChattingSessions());
     }
 
