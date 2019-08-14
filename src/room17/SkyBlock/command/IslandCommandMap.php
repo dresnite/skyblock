@@ -45,6 +45,7 @@ use room17\SkyBlock\command\presets\PromoteCommand;
 use room17\SkyBlock\command\presets\SetSpawnCommand;
 use room17\SkyBlock\command\presets\TransferCommand;
 use room17\SkyBlock\command\presets\VisitCommand;
+use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
@@ -126,19 +127,20 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     public function registerCommand(IslandCommand $command) {
         $this->commands[] = $command;
     }
-    
+
     /**
      * @param CommandSender $sender
      * @param string $commandLabel
      * @param array $args
+     * @throws \ReflectionException
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {
         if(!$sender instanceof Player) {
             $sender->sendMessage("Please, run this command in game");
             return;
         }
-        
-        $session = $this->plugin->getSessionManager()->getSession($sender);
+
+        $session = SessionLocator::getSession($sender);
         if(isset($args[0]) and $this->getCommand($args[0]) != null) {
             $this->getCommand(array_shift($args))->onCommand($session, $args);
         } else {
