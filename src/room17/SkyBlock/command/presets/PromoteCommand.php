@@ -40,10 +40,11 @@ class PromoteCommand extends IslandCommand {
             "promote"
         ], new MessageContainer("PROMOTE_USAGE"), new MessageContainer("PROMOTE_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkLeader($session)) {

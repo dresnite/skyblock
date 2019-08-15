@@ -55,7 +55,7 @@ class CreateCommand extends IslandCommand {
         $minutesSinceLastIsland = $session->getLastIslandCreationTime() !== null
             ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
             : -1;
-        $cooldownDuration = $this->plugin->getSettings()->getCooldownDuration();
+        $cooldownDuration = $this->plugin->getSettings()->getCreationCooldownDuration();
         if($minutesSinceLastIsland !== -1 and $minutesSinceLastIsland < $cooldownDuration) {
             $session->sendTranslatedMessage(new MessageContainer("YOU_HAVE_TO_WAIT", [
                 "minutes" => ceil($cooldownDuration - $minutesSinceLastIsland),

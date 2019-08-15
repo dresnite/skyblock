@@ -40,10 +40,11 @@ class KickCommand extends IslandCommand {
             "kick"
         ], new MessageContainer("KICK_USAGE"), new MessageContainer("KICK_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkOfficer($session)) {
@@ -69,11 +70,11 @@ class KickCommand extends IslandCommand {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
             $playerSession->sendTranslatedMessage(new MessageContainer("KICKED_FROM_THE_ISLAND"));
             $session->sendTranslatedMessage(new MessageContainer("YOU_KICKED_A_PLAYER", [
-                "name" => $playerSession->getUsername()
+                "name" => $playerSession->getName()
             ]));
         } else {
             $session->sendTranslatedMessage(new MessageContainer("NOT_A_VISITOR", [
-                "name" => $playerSession->getUsername()
+                "name" => $playerSession->getName()
             ]));
         }
     }

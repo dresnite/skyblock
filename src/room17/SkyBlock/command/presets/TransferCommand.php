@@ -42,10 +42,11 @@ class TransferCommand extends IslandCommand {
             "makeleader"
         ], new MessageContainer("TRANSFER_USAGE"), new MessageContainer("TRANSFER_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkFounder($session)) {
@@ -66,17 +67,17 @@ class TransferCommand extends IslandCommand {
             return;
         } elseif($playerSession->getIsland() !== $session->getIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
-                "name" => $playerSession->getUsername()
+                "name" => $playerSession->getName()
             ]));
             return;
         }
         $session->setRank(BaseSession::RANK_DEFAULT);
         $playerSession->setRank(BaseSession::RANK_FOUNDER);
         $session->sendTranslatedMessage(new MessageContainer("RANK_TRANSFERRED", [
-            "name" => $playerSession->getUsername()
+            "name" => $playerSession->getName()
         ]));
         $playerSession->sendTranslatedMessage(new MessageContainer("GOT_RANK_TRANSFERRED", [
-            "name" => $session->getUsername()
+            "name" => $session->getName()
         ]));
     }
     

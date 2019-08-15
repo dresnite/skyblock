@@ -24,7 +24,10 @@ use room17\SkyBlock\island\Island;
 use room17\SkyBlock\utils\MessageContainer;
 
 class Session extends BaseSession {
-    
+
+    /** @var string */
+    private $name;
+
     /** @var Player */
     private $player;
     
@@ -44,7 +47,15 @@ class Session extends BaseSession {
      */
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
-        parent::__construct($manager, $player->getLowerCaseName());
+        $this->name = $player->getName();
+        parent::__construct($manager, $this->name);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return $this->name;
     }
     
     /**
@@ -81,7 +92,7 @@ class Session extends BaseSession {
      * @return OfflineSession
      */
     public function getOffline(): OfflineSession {
-        return new OfflineSession($this->manager, $this->username);
+        return new OfflineSession($this->manager, $this->lowerCaseName);
     }
     
     /**
@@ -123,9 +134,10 @@ class Session extends BaseSession {
             $this->island = $this->manager->getPlugin()->getIslandManager()->getIsland($identifier);
         }
     }
-    
+
     /**
-     * @param null|Island $island
+     * @param Island|null $island
+     * @throws \ReflectionException
      */
     public function setIsland(?Island $island): void {
         $lastIsland = $this->island;

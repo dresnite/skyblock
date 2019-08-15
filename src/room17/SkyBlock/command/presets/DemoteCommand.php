@@ -40,10 +40,11 @@ class DemoteCommand extends IslandCommand {
             "demote"
         ], new MessageContainer("DEMOTE_USAGE"), new MessageContainer("DEMOTE_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkLeader($session)) {

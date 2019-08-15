@@ -146,12 +146,12 @@ class IslandListener implements Listener {
         if (!$session->hasIsland() or !$session->isInChat()) {
             return;
         }
-        $chatFormat = $this->plugin->getSettings()->getIslandChatFormat();
-        $chatFormat = str_replace("{username}", $session->getUsername(), $chatFormat);
+        $chatFormat = $this->plugin->getSettings()->getChatFormat();
+        $chatFormat = str_replace("{username}", $session->getName(), $chatFormat);
         $chatFormat = str_replace("{message}", $event->getMessage(), $chatFormat);
         $chatFormat = Utils::translateColors($chatFormat);
         $event->setFormat($chatFormat);
-        $event->setRecipients($session->getIsland()->getChattingSessions());
+        $event->setRecipients($session->getIsland()->getChattingPlayers());
     }
 
     /**
@@ -261,7 +261,7 @@ class IslandListener implements Listener {
         if ($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
             $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
-            foreach ($this->plugin->getSettings()->getChestPerGenerator($type) as $item) {
+            foreach ($this->plugin->getSettings()->getCustomChestContent($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
         }

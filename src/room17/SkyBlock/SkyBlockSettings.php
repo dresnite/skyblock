@@ -20,40 +20,46 @@ namespace room17\SkyBlock;
 
 
 use pocketmine\item\Item;
+use pocketmine\utils\Config;
 use room17\SkyBlock\utils\MessageContainer;
 use room17\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
-    
+
+    private const VERSION = "1";
+
     /** @var SkyBlock */
     private $plugin;
-    
-    /** @var array */
-    private $data;
-    
-    /** @var int[] */
-    private $slotsBySize = [];
-    
-    /** @var Item[] */
-    private $defaultChest;
-    
-    /** @var array */
-    private $chestPerGenerator;
-    
-    /** @var string[] */
-    private $messages = [];
+
+    /** @var Config */
+    private $settingsConfig;
 
     /** @var int */
-    private $cooldownDuration;
+    private $settingsVersion;
+    
+    /** @var int[] */
+    private $slotsByCategory;
+    
+    /** @var Item[] */
+    private $defaultChestContent;
+    
+    /** @var array */
+    private $customChestContent;
+
+    /** @var int */
+    private $creationCooldownDuration;
 
     /** @var bool */
-    private $preventVoidDamage;
+    private $cancelVoidDamage;
 
     /** @var array */
     private $blockedCommands = [];
 
     /** @var string */
-    private $islandChatFormat;
+    private $chatFormat;
+
+    /** @var string[] */
+    private $messages;
     
     /**
      * SkyBlockSettings constructor.
@@ -61,51 +67,45 @@ class SkyBlockSettings {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
-        $this->refresh();
+        $this->refreshData();
+        $this->checkVersion();
     }
     
     /**
-     * @param string $size
+     * @param string $category
      * @return int
      */
-    public function getSlotsBySize(string $size): int {
-        return $this->slotsBySize[$size] ?? 1;
+    public function getSlotsByCategory(string $category): int {
+        return $this->slotsByCategory[$category] ?? 1;
     }
     
     /**
      * @return Item[]
      */
-    public function getDefaultChest(): array {
-        return $this->defaultChest;
+    public function getDefaultChestContent(): array {
+        return $this->defaultChestContent;
     }
     
     /**
      * @param string $generator
      * @return array
      */
-    public function getChestPerGenerator(string $generator): array {
-        return $this->chestPerGenerator[$generator] ?? $this->defaultChest;
-    }
-    
-    /**
-     * @return string[]
-     */
-    public function getMessages(): array {
-        return $this->messages;
+    public function getCustomChestContent(string $generator): array {
+        return $this->customChestContent[$generator] ?? $this->defaultChestContent;
     }
 
     /**
      * @return int
      */
-    public function getCooldownDuration(): int {
-        return $this->cooldownDuration;
+    public function getCreationCooldownDuration(): int {
+        return $this->creationCooldownDuration;
     }
 
     /**
      * @return bool
      */
     public function preventVoidDamage(): bool {
-        return $this->preventVoidDamage;
+        return $this->cancelVoidDamage;
     }
 
     /**
@@ -118,8 +118,8 @@ class SkyBlockSettings {
     /**
      * @return string
      */
-    public function getIslandChatFormat(): string {
-        return $this->islandChatFormat;
+    public function getChatFormat(): string {
+        return $this->chatFormat;
     }
 
     /**
@@ -136,20 +136,39 @@ class SkyBlockSettings {
         return $message;
     }
 
-    public function refresh(): void {
-        $this->data = json_decode(file_get_contents($this->plugin->getDataFolder() . "settings.json"), true);
-        $this->messages = json_decode(file_get_contents($this->plugin->getDataFolder() . "messages.json"), true);
-        $this->slotsBySize = $this->data["slots-by-size"];
-        $this->defaultChest = Utils::parseItems($this->data["default-chest"]);
-        $this->chestPerGenerator = [];
-        foreach($this->data["chest-per-generator"] as $world => $items) {
-            $this->chestPerGenerator[$world] = Utils::parseItems($items);
+    public function refreshData(): void {
+        $dataFolder = $this->plugin->getDataFolder();
+        $this->settingsConfig = new Config($dataFolder . "settings.yml");
+        $settingsData = $this->settingsConfig->getAll();
+        var_dump($settingsData);
+
+        $this->settingsVersion = $settingsData["Version"];
+        $this->slotsByCategory = $settingsData["SlotsByCategory"];
+        $this->defaultChestContent = Utils::parseItems($settingsData["ChestContent"]);
+
+        $this->customChestContent = [];
+        foreach ($settingsData["CustomChestContent"] as $generator => $items) {
+            if (!empty($items)) {
+                $this->customChestContent[$generator] = Utils::parseItems($items);
+            }
         }
-        $this->cooldownDuration = $this->data["cooldown-duration-minutes"] ?? 20;
-        $this->preventVoidDamage = $this->data["prevent-void-damage"] ?? true;
-        $this->blockedCommands = $this->data["commands-blocked-in-isles"] ?? [];
-        $this->blockedCommands = array_map("strtolower", $this->blockedCommands);
-        $this->islandChatFormat = $this->data["island-chat-format"] ?? "{BOLD}{YELLOW}{username} {GRAY}> {WHITE}{message}";
+
+        $this->creationCooldownDuration = $settingsData["CreationCooldownDuration"];
+        $this->cancelVoidDamage = $settingsData["CancelVoidDamage"];
+        $this->blockedCommands = $settingsData["BlockedCommands"];
+        $this->chatFormat = $settingsData["ChatFormat"];
+
+        $this->messages = json_decode(file_get_contents($dataFolder . "messages.json"), true);
     }
-    
+
+    private function checkVersion(): void {
+        if ($this->settingsVersion == self::VERSION) {
+            return;
+        }
+        // ToDo: Set all the new fields here
+        // $this->settingsConfig->set("newField", "value");
+        $this->settingsConfig->save();
+        $this->plugin->getLogger()->warning("The settings version does not match with the current version of SkyBlock, all fields will have been updated");
+    }
+
 }

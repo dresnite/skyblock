@@ -62,7 +62,7 @@ class SkyBlock extends PluginBase {
             mkdir($this->getDataFolder());
         }
         $this->saveResource("messages.json");
-        $this->saveResource("settings.json");
+        $this->saveResource("settings.yml");
     }
 
     public function onEnable(): void {

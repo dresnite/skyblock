@@ -33,10 +33,11 @@ class MembersCommand extends IslandCommand {
             "members"
         ], new MessageContainer("MEMBERS_USAGE"), new MessageContainer("MEMBERS_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
@@ -50,11 +51,11 @@ class MembersCommand extends IslandCommand {
             $memberSession = $member->getSession();
             if($memberSession != null) {
                 $session->sendTranslatedMessage(new MessageContainer("ONLINE_MEMBER", [
-                    "name" => $memberSession->getUsername()
+                    "name" => $memberSession->getName()
                 ]));
             } else {
                 $session->sendTranslatedMessage(new MessageContainer("OFFLINE_MEMBER", [
-                    "name" => $member->getUsername()
+                    "name" => $member->getLowerCaseName()
                 ]));
             }
         }

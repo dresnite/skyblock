@@ -35,10 +35,11 @@ class AcceptCommand extends IslandCommand {
             "acc"
         ], new MessageContainer("ACCEPT_USAGE"), new MessageContainer("ACCEPT_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($session->hasIsland()) {
@@ -57,7 +58,7 @@ class AcceptCommand extends IslandCommand {
         $session->setRank(BaseSession::RANK_DEFAULT);
         $session->setIsland($island);
         $island->broadcastTranslatedMessage(new MessageContainer("PLAYER_JOINED_THE_ISLAND", [
-            "name" => $session->getUsername()
+            "name" => $session->getName()
         ]));
     }
     

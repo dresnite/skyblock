@@ -35,7 +35,7 @@ abstract class BaseSession {
     protected $provider;
     
     /** @var string */
-    protected $username;
+    protected $lowerCaseName;
     
     /** @var string|null */
     protected $islandId = null;
@@ -52,11 +52,11 @@ abstract class BaseSession {
     /**
      * iSession constructor.
      * @param SessionManager $manager
-     * @param string $username
+     * @param string $name
      */
-    public function __construct(SessionManager $manager, string $username) {
+    public function __construct(SessionManager $manager, string $name) {
         $this->manager = $manager;
-        $this->username = $username;
+        $this->lowerCaseName = strtolower($name);
         $this->provider = $manager->getPlugin()->getProvider();
         $this->provider->loadSession($this);
     }
@@ -64,8 +64,8 @@ abstract class BaseSession {
     /**
      * @return string
      */
-    public function getUsername(): string {
-        return $this->username;
+    public function getLowerCaseName(): string {
+        return $this->lowerCaseName;
     }
     
     /**

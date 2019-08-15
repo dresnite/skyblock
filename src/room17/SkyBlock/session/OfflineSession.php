@@ -26,7 +26,7 @@ class OfflineSession extends BaseSession {
      * @throws \ReflectionException
      */
     public function getSession(): ?Session {
-        $player = $this->manager->getPlugin()->getServer()->getPlayerExact($this->username);
+        $player = $this->manager->getPlugin()->getServer()->getPlayerExact($this->lowerCaseName);
         if($player != null) {
             return $this->manager->getSession($player);
         }

@@ -1,0 +1,55 @@
+# This is the settings file of SkyBlock by @GiantQuartz
+
+# DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
+# The plugin uses this value to update your settings file when it is necessary
+Version: 1
+
+CustomChestContent:
+  basic: []
+  lost: []
+  op: []
+  palm: []
+  shelly: []
+
+# If you don't have set a specific chest content for a generator, it will be spawned with the following chest content.
+# Each value of the list stands for an item, this is the required format to add a new item:
+# [Item id], [Metadata value = 0], [Count = 1]
+ChestContent:
+  - "325, 8, 2"
+  - "325, 10, 1"
+  - "79, 0, 2"
+  - "360"
+  - "352, 0, 12"
+  - "361"
+  - "81"
+  - "338"
+  - "297"
+  - "296"
+  - "298"
+  - "299"
+  - "300"
+  - "301"
+
+# The amount of slots an island will have in base of their island's category
+# The category changes in base of how many blocks have been built on an island
+SlotsByCategory:
+  XS: 2
+  S: 5
+  M: 10
+  L: 15
+  XL: 20
+
+# The amount of minutes a person has to wait to create another island, you can use it to prevent players from spamming
+# island creation to slow down your server and/or to prevent them from getting the island chest unlimited times
+CreationCooldownDuration: 20
+
+# Should we save your players from dying into the void when they're in their islands?
+CancelVoidDamage: true
+
+# The commands that can't be used on the islands
+BlockedCommands:
+  - sethome
+  - home
+
+# The chat format of the messages sent through the private island chat
+ChatFormat: "{BOLD}{YELLOW}{username} {GRAY}> {WHITE}{message}"

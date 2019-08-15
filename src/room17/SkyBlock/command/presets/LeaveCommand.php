@@ -31,10 +31,11 @@ class LeaveCommand extends IslandCommand {
             "leave"
         ], new MessageContainer("LEAVE_USAGE"), new MessageContainer("LEAVE_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {

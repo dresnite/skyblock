@@ -22,6 +22,7 @@ namespace room17\SkyBlock\island;
 use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
+use pocketmine\Player;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
@@ -115,9 +116,10 @@ class Island {
     public function getPlayersOnline(): array {
         return $this->level->getPlayers();
     }
-    
+
     /**
-     * @return Session[]
+     * @return array
+     * @throws \ReflectionException
      */
     public function getSessionsOnline(): array {
         $sessions = [];
@@ -133,16 +135,17 @@ class Island {
     /**
      * Returns the sessions of the players that are in the private island's chat
      *
-     * @return Session[]
+     * @return Player[]
+     * @throws \ReflectionException
      */
-    public function getChattingSessions(): array {
-        $sessions = [];
+    public function getChattingPlayers(): array {
+        $players = [];
         foreach ($this->getSessionsOnline() as $session) {
             if ($session->isInChat()) {
-                $sessions[] = $session;
+                $players[] = $session->getPlayer();
             }
         }
-        return $sessions;
+        return $players;
     }
     
     /**
@@ -213,7 +216,7 @@ class Island {
      * @return int
      */
     public function getSlots(): int {
-        return $this->manager->getPlugin()->getSettings()->getSlotsBySize($this->category);
+        return $this->manager->getPlugin()->getSettings()->getSlotsByCategory($this->category);
     }
     
     /**
@@ -228,7 +231,7 @@ class Island {
      * @return bool
      */
     public function isCooperator(Session $session): bool {
-        return isset($this->cooperators[$session->getUsername()]);
+        return isset($this->cooperators[$session->getLowerCaseName()]);
     }
 
     /**
@@ -301,7 +304,7 @@ class Island {
      * @param OfflineSession $session
      */
     public function addMember(OfflineSession $session): void {
-        $this->members[strtolower($session->getUsername())] = $session;
+        $this->members[strtolower($session->getLowerCaseName())] = $session;
     }
     
     /**
@@ -315,20 +318,21 @@ class Island {
      * @param Session $session
      */
     public function addCooperator(Session $session): void {
-        $this->cooperators[$session->getUsername()] = $session;
+        $this->cooperators[$session->getLowerCaseName()] = $session;
     }
     
     /**
      * @param Session $session
      */
     public function removeCooperator(Session $session): void {
-        if(isset($this->cooperators[$username = $session->getUsername()])) {
+        if (isset($this->cooperators[$username = $session->getLowerCaseName()])) {
             unset($this->cooperators[$username]);
         }
     }
-    
+
     /**
      * @param string $message
+     * @throws \ReflectionException
      */
     public function broadcastMessage(string $message): void {
         foreach ($this->getSessionsOnline() as $session) {
@@ -338,15 +342,17 @@ class Island {
 
     /**
      * @param MessageContainer $container
+     * @throws \ReflectionException
      */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
         foreach ($this->getSessionsOnline() as $session) {
             $session->sendTranslatedMessage($container);
         }
     }
-    
+
     /**
      * @param string $message
+     * @throws \ReflectionException
      */
     public function broadcastPopup(string $message): void {
         foreach ($this->getSessionsOnline() as $session) {
@@ -356,15 +362,17 @@ class Island {
 
     /**
      * @param MessageContainer $container
+     * @throws \ReflectionException
      */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
         foreach ($this->getSessionsOnline() as $session) {
             $session->sendTranslatedPopup($container);
         }
     }
-    
+
     /**
      * @param string $message
+     * @throws \ReflectionException
      */
     public function broadcastTip(string $message): void {
         foreach ($this->getSessionsOnline() as $session) {
@@ -374,6 +382,7 @@ class Island {
 
     /**
      * @param MessageContainer $container
+     * @throws \ReflectionException
      */
     public function broadcastTranslatedTip(MessageContainer $container): void {
         foreach ($this->getSessionsOnline() as $session) {
@@ -384,11 +393,14 @@ class Island {
     public function save(): void {
         $this->manager->getPlugin()->getProvider()->saveIsland($this);
     }
-    
+
+    /**
+     * @throws \ReflectionException
+     */
     public function updateMembers(): void {
         foreach ($this->getSessionsOnline() as $member) {
             if($member->getIsland() !== $this) {
-                unset($this->members[$member->getUsername()]);
+                unset($this->members[$member->getLowerCaseName()]);
             }
         }
     }

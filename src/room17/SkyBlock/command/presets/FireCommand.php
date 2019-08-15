@@ -40,10 +40,11 @@ class FireCommand extends IslandCommand {
             "fire"
         ], new MessageContainer("FIRE_USAGE"), new MessageContainer("FIRE_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkLeader($session)) {

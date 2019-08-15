@@ -41,10 +41,11 @@ class InviteCommand extends IslandCommand {
             "inv"
         ], new MessageContainer("INVITE_USAGE"), new MessageContainer("INVITE_DESCRIPTION"));
     }
-    
+
     /**
      * @param Session $session
      * @param array $args
+     * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkOfficer($session)) {
@@ -80,9 +81,9 @@ class InviteCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession->addInvitation($session->getUsername(), $session->getIsland());
+        $playerSession->addInvitation($session->getLowerCaseName(), $session->getIsland());
         $playerSession->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
-            "name" => $session->getUsername()
+            "name" => $session->getName()
         ]));
         $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_INVITED", [
             "name" => $player->getName()

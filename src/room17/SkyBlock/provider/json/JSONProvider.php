@@ -60,7 +60,7 @@ class JSONProvider extends Provider {
      * @param BaseSession $session
      */
     public function loadSession(BaseSession $session): void {
-        $config = $this->getUserConfig($session->getUsername());
+        $config = $this->getUserConfig($session->getLowerCaseName());
         $session->setIslandId($config->get("isle", null) ?? null);
         $session->setRank($config->get("rank", null) ?? Session::RANK_DEFAULT);
         $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
@@ -70,7 +70,7 @@ class JSONProvider extends Provider {
      * @param BaseSession $session
      */
     public function saveSession(BaseSession $session): void {
-        $config = $this->getUserConfig($session->getUsername());
+        $config = $this->getUserConfig($session->getLowerCaseName());
         $config->set("isle", $session->getIslandId());
         $config->set("rank", $session->getRank());
         $config->set("lastIsle", $session->getLastIslandCreationTime());
@@ -118,7 +118,7 @@ class JSONProvider extends Provider {
         
         $members = [];
         foreach($island->getMembers() as $member) {
-            $members[] = $member->getUsername();
+            $members[] = $member->getLowerCaseName();
         }
         $config->set("members", $members);
         
