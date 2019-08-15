@@ -57,7 +57,7 @@ class Utils {
      * @return null|Item
      */
     public static function parseItem(string $item): ?Item {
-        $parts = explode(",", $item);
+        $parts = explode(",", str_replace(" ", "", $item));
         foreach($parts as $key => $value) {
             $parts[$key] = (int) $value;
         }
