@@ -20,9 +20,10 @@ namespace room17\SkyBlock\session;
 
 
 class OfflineSession extends BaseSession {
-    
+
     /**
-     * @return null|Session
+     * @return Session|null
+     * @throws \ReflectionException
      */
     public function getSession(): ?Session {
         $player = $this->manager->getPlugin()->getServer()->getPlayerExact($this->username);
