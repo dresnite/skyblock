@@ -124,8 +124,17 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     /**
      * @param IslandCommand $command
      */
-    public function registerCommand(IslandCommand $command) {
-        $this->commands[] = $command;
+    public function registerCommand(IslandCommand $command): void {
+        $this->commands[$command->getName()] = $command;
+    }
+
+    /**
+     * @param string $commandName
+     */
+    public function unregisterCommand(string $commandName): void {
+        if(isset($this->commands[$commandName])) {
+            unset($this->commands[$commandName]);
+        }
     }
 
     /**
