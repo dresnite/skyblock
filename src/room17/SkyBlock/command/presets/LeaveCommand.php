@@ -25,11 +25,26 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class LeaveCommand extends IslandCommand {
-    
-    public function __construct() {
-        parent::__construct([
-            "leave"
-        ], new MessageContainer("LEAVE_USAGE"), new MessageContainer("LEAVE_DESCRIPTION"));
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "leave";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("LEAVE_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("LEAVE_DESCRIPTION");
     }
 
     /**

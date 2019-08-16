@@ -24,17 +24,35 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class CategoryCommand extends IslandCommand {
-    
+
     /**
-     * CategoryCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "category",
-            "c"
-        ], new MessageContainer("CATEGORY_USAGE"), new MessageContainer("CATEGORY_DESCRIPTION"));
+    public function getName(): string {
+        return "category";
     }
-    
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["c"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("CATEGORY_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("CATEGORY_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

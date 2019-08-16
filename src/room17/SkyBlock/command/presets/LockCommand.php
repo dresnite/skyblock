@@ -24,16 +24,28 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class LockCommand extends IslandCommand {
-    
+
     /**
-     * LockCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "lock"
-        ], new MessageContainer("LOCK_USAGE"), new MessageContainer("LOCK_DESCRIPTION"));
+    public function getName(): string {
+        return "lock";
     }
-    
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("LOCK_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("LOCK_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

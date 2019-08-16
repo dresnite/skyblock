@@ -36,9 +36,27 @@ class KickCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "kick"
-        ], new MessageContainer("KICK_USAGE"), new MessageContainer("KICK_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "kick";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("KICK_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("KICK_DESCRIPTION");
     }
 
     /**

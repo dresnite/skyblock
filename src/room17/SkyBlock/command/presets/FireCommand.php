@@ -36,9 +36,27 @@ class FireCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "fire"
-        ], new MessageContainer("FIRE_USAGE"), new MessageContainer("FIRE_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "fire";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("FIRE_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("FIRE_DESCRIPTION");
     }
 
     /**

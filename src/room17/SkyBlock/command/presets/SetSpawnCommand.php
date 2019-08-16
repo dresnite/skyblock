@@ -24,16 +24,28 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class SetSpawnCommand extends IslandCommand {
-    
+
     /**
-     * SetSpawnCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "setspawn"
-        ], new MessageContainer("SET_SPAWN_USAGE"), new MessageContainer("SET_SPAWN_DESCRIPTION"));
+    public function getName(): string {
+        return "setspawn";
     }
-    
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("SET_SPAWN_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("SET_SPAWN_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

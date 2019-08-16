@@ -24,15 +24,33 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class DenyCommand extends IslandCommand {
-    
+
     /**
-     * DenyCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "deny",
-            "d"
-        ], new MessageContainer("DENY_USAGE"), new MessageContainer("DENY_DESCRIPTION"));
+    public function getName(): string {
+        return "deny";
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["den", "d"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("DENY_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("DENY_DESCRIPTION");
     }
 
     /**

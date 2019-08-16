@@ -37,9 +37,27 @@ class CreateCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "create"
-        ], new MessageContainer("CREATE_USAGE"), new MessageContainer("CREATE_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "create";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("CREATE_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("CREATE_DESCRIPTION");
     }
 
     /**

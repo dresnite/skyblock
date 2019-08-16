@@ -36,10 +36,34 @@ class InviteCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "invite",
-            "inv"
-        ], new MessageContainer("INVITE_USAGE"), new MessageContainer("INVITE_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "invite";
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["inv"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("INVITE_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("INVITE_DESCRIPTION");
     }
 
     /**

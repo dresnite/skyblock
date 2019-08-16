@@ -36,11 +36,34 @@ class VisitCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "visit",
-            "teleport",
-            "tp"
-        ], new MessageContainer("VISIT_USAGE"), new MessageContainer("VISIT_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "visit";
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["teleport", "tp"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("VISIT_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("VISIT_DESCRIPTION");
     }
 
     /**

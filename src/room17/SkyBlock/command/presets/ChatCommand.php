@@ -24,16 +24,28 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class ChatCommand extends IslandCommand {
-    
+
     /**
-     * ChatCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "chat"
-        ], new MessageContainer("CHAT_USAGE"), new MessageContainer("CHAT_DESCRIPTION"));
+    public function getName(): string {
+        return "chat";
     }
-    
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("CHAT_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("CHAT_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

@@ -37,9 +37,27 @@ class DisbandCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->islandManager = $map->getPlugin()->getIslandManager();
-        parent::__construct([
-            "disband"
-        ], new MessageContainer("DISBAND_USAGE"), new MessageContainer("DISBAND_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "disband";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("DISBAND_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("DISBAND_DESCRIPTION");
     }
 
     /**

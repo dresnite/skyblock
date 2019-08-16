@@ -24,16 +24,28 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class BlocksCommand extends IslandCommand {
-    
+
     /**
-     * BlocksCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "blocks"
-        ], new MessageContainer("BLOCKS_USAGE"), new MessageContainer("BLOCKS_DESCRIPTION"));
+    public function getName(): string {
+        return "blocks";
     }
-    
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("BLOCKS_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("BLOCKS_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

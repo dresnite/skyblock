@@ -24,60 +24,14 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 abstract class IslandCommand {
-    
-    /** @var string */
-    private $name;
-    
-    /** @var array */
-    private $aliases = [];
-    
-    /** @var MessageContainer */
-    private $usageMessageContainer;
-    
-    /** @var MessageContainer */
-    private $descriptionMessageContainer;
-    
-    /**
-     * IslandCommand constructor.
-     * @param array $aliases
-     * @param MessageContainer $usageMessageContainer
-     * @param MessageContainer $descriptionMessageContainer
-     */
-    public function __construct(array $aliases, MessageContainer $usageMessageContainer, MessageContainer $descriptionMessageContainer) {
-        $this->aliases = array_map("strtolower", $aliases);
-        $this->name = array_shift($this->aliases);
-        $this->usageMessageContainer = $usageMessageContainer;
-        $this->descriptionMessageContainer = $descriptionMessageContainer;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getName(): string {
-        return $this->name;
-    }
-    
+
     /**
      * @return array
      */
     public function getAliases(): array {
-        return $this->aliases;
+        return [];
     }
-    
-    /**
-     * @return MessageContainer
-     */
-    public function getUsageMessageContainer(): MessageContainer {
-        return $this->usageMessageContainer;
-    }
-    
-    /**
-     * @return MessageContainer
-     */
-    public function getDescriptionMessageContainer(): MessageContainer {
-        return $this->descriptionMessageContainer;
-    }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -144,6 +98,21 @@ abstract class IslandCommand {
         }
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public abstract function getName(): string;
+
+    /**
+     * @return MessageContainer
+     */
+    public abstract function getUsageMessageContainer(): MessageContainer;
+
+    /**
+     * @return MessageContainer
+     */
+    public abstract function getDescriptionMessageContainer(): MessageContainer;
 
     /**
      * @param Session $session

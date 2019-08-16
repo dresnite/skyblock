@@ -29,16 +29,34 @@ class CooperateCommand extends IslandCommand {
     
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * CooperateCommand constructor.
      * @param IslandCommandMap $map
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "cooperate"
-        ], new MessageContainer("COOPERATE_USAGE"), new MessageContainer("COOPERATE_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "cooperate";
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("COOPERATE_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("COOPERATE_DESCRIPTION");
     }
 
     /**

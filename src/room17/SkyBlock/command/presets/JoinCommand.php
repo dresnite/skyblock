@@ -24,18 +24,35 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class JoinCommand extends IslandCommand {
-    
+
     /**
-     * JoinCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "join",
-            "go",
-            "spawn"
-        ], new MessageContainer("JOIN_USAGE"), new MessageContainer("JOIN_DESCRIPTION"));
+    public function getName(): string {
+        return "join";
     }
-    
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["go", "spawn"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("JOIN_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("JOIN_DESCRIPTION");
+    }
+
     /**
      * @param Session $session
      * @param array $args

@@ -25,15 +25,33 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class AcceptCommand extends IslandCommand {
-    
+
     /**
-     * AcceptCommand constructor.
+     * @return string
      */
-    public function __construct() {
-        parent::__construct([
-            "accept",
-            "acc"
-        ], new MessageContainer("ACCEPT_USAGE"), new MessageContainer("ACCEPT_DESCRIPTION"));
+    public function getName(): string {
+        return "accept";
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["acc"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("ACCEPT_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("ACCEPT_DESCRIPTION");
     }
 
     /**

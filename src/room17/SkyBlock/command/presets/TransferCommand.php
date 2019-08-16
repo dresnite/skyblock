@@ -37,10 +37,34 @@ class TransferCommand extends IslandCommand {
      */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
-        parent::__construct([
-            "transfer",
-            "makeleader"
-        ], new MessageContainer("TRANSFER_USAGE"), new MessageContainer("TRANSFER_DESCRIPTION"));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string {
+        return "transfer";
+    }
+
+    /**
+     * @return array
+     */
+    public function getAliases(): array {
+        return ["makeleader"];
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getUsageMessageContainer(): MessageContainer {
+        return new MessageContainer("TRANSFER_USAGE");
+    }
+
+    /**
+     * @return MessageContainer
+     */
+    public function getDescriptionMessageContainer(): MessageContainer {
+        return new MessageContainer("TRANSFER_DESCRIPTION");
     }
 
     /**
