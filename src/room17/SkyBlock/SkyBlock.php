@@ -72,6 +72,7 @@ class SkyBlock extends PluginBase {
         $this->islandManager = new IslandManager($this);
         $this->generatorManager = new IslandGeneratorManager($this);
         $this->commandMap = new IslandCommandMap($this);
+        $this->commandMap->registerDefaultCommands();
         $this->checkSpawnProtection();
         $this->getLogger()->info("SkyBlock was enabled");
     }

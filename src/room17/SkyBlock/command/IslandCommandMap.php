@@ -63,27 +63,6 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
      */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
-        $this->registerCommand(new HelpCommand($this));
-        $this->registerCommand(new CreateCommand($this));
-        $this->registerCommand(new JoinCommand());
-        $this->registerCommand(new LockCommand());
-        $this->registerCommand(new ChatCommand());
-        $this->registerCommand(new VisitCommand($this));
-        $this->registerCommand(new LeaveCommand());
-        $this->registerCommand(new MembersCommand());
-        $this->registerCommand(new InviteCommand($this));
-        $this->registerCommand(new AcceptCommand());
-        $this->registerCommand(new DenyCommand());
-        $this->registerCommand(new DisbandCommand($this));
-        $this->registerCommand(new KickCommand($this));
-        $this->registerCommand(new FireCommand($this));
-        $this->registerCommand(new PromoteCommand($this));
-        $this->registerCommand(new DemoteCommand($this));
-        $this->registerCommand(new SetSpawnCommand());
-        $this->registerCommand(new TransferCommand($this));
-        $this->registerCommand(new CategoryCommand());
-        $this->registerCommand(new BlocksCommand());
-        $this->registerCommand(new CooperateCommand($this));
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
             "island",
             "is",
@@ -135,6 +114,30 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         if(isset($this->commands[$commandName])) {
             unset($this->commands[$commandName]);
         }
+    }
+
+    public function registerDefaultCommands(): void {
+        $this->registerCommand(new HelpCommand($this));
+        $this->registerCommand(new CreateCommand($this));
+        $this->registerCommand(new JoinCommand());
+        $this->registerCommand(new LockCommand());
+        $this->registerCommand(new ChatCommand());
+        $this->registerCommand(new VisitCommand($this));
+        $this->registerCommand(new LeaveCommand());
+        $this->registerCommand(new MembersCommand());
+        $this->registerCommand(new InviteCommand($this));
+        $this->registerCommand(new AcceptCommand());
+        $this->registerCommand(new DenyCommand());
+        $this->registerCommand(new DisbandCommand($this));
+        $this->registerCommand(new KickCommand($this));
+        $this->registerCommand(new FireCommand($this));
+        $this->registerCommand(new PromoteCommand($this));
+        $this->registerCommand(new DemoteCommand($this));
+        $this->registerCommand(new SetSpawnCommand());
+        $this->registerCommand(new TransferCommand($this));
+        $this->registerCommand(new CategoryCommand());
+        $this->registerCommand(new BlocksCommand());
+        $this->registerCommand(new CooperateCommand($this));
     }
 
     /**
