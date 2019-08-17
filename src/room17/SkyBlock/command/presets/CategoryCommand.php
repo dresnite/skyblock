@@ -65,5 +65,5 @@ class CategoryCommand extends IslandCommand {
             "category" => $session->getIsland()->getCategory()
         ]));
     }
-    
+
 }

@@ -27,10 +27,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class CreateCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * CreateCommand constructor.
      * @param IslandCommandMap $map
@@ -90,5 +90,5 @@ class CreateCommand extends IslandCommand {
             ]));
         }
     }
-    
+
 }

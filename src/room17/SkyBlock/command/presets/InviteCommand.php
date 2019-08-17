@@ -26,10 +26,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class InviteCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * InviteCommand constructor.
      * @param IslandCommandMap $map
@@ -113,5 +113,5 @@ class InviteCommand extends IslandCommand {
             "name" => $player->getName()
         ]));
     }
-    
+
 }

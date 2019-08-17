@@ -26,7 +26,7 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class CooperateCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
 
@@ -106,5 +106,5 @@ class CooperateCommand extends IslandCommand {
             ]));
         }
     }
-    
+
 }

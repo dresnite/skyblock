@@ -26,10 +26,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class DemoteCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * DemoteCommand constructor.
      * @param IslandCommandMap $map
@@ -71,7 +71,7 @@ class DemoteCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("DEMOTE_USAGE"));
             return;
         }
-        
+
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
@@ -117,7 +117,7 @@ class DemoteCommand extends IslandCommand {
                 "to" => $session->getMessage(new MessageContainer("$rankName"))
             ]));
         }
-        
+
     }
-    
+
 }

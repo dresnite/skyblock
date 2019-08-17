@@ -58,5 +58,5 @@ class BlocksCommand extends IslandCommand {
             "amount" => $session->getIsland()->getBlocksBuilt()
         ]));
     }
-    
+
 }

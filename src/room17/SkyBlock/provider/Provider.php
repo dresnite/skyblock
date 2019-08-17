@@ -24,10 +24,10 @@ use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\SkyBlock;
 
 abstract class Provider {
-    
+
     /** @var SkyBlock */
     protected $plugin;
-    
+
     /**
      * Provider constructor.
      * @param SkyBlock $plugin
@@ -36,27 +36,27 @@ abstract class Provider {
         $this->plugin = $plugin;
         $this->initialize();
     }
-    
+
     public abstract function initialize(): void;
-    
+
     /**
      * @param BaseSession $session
      */
     public abstract function loadSession(BaseSession $session): void;
-    
+
     /**
      * @param BaseSession $session
      */
     public abstract function saveSession(BaseSession $session): void;
-    
+
     /**
      * @param string $identifier
      */
     public abstract function loadIsland(string $identifier): void;
-    
+
     /**
      * @param Island $island
      */
     public abstract function saveIsland(Island $island): void;
-    
+
 }

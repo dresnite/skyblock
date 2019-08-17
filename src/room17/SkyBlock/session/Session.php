@@ -30,16 +30,16 @@ class Session extends BaseSession {
 
     /** @var Player */
     private $player;
-    
+
     /** @var null|Island */
     private $island = null;
-    
+
     /** @var string|null */
     private $lastInvitation = null;
-    
+
     /** @var array */
     private $invitations = [];
-    
+
     /**
      * Session constructor.
      * @param SessionManager $manager
@@ -57,14 +57,14 @@ class Session extends BaseSession {
     public function getName(): string {
         return $this->name;
     }
-    
+
     /**
      * @return Player
      */
     public function getPlayer(): Player {
         return $this->player;
     }
-    
+
     /**
      * @return null|Island
      */
@@ -80,28 +80,28 @@ class Session extends BaseSession {
     public function getIslandByLevel(): ?Island {
         return $this->manager->getPlugin()->getIslandManager()->getIsland($this->player->getLevel()->getName());
     }
-    
+
     /**
      * @return bool
      */
     public function hasIsland(): bool {
         return $this->island != null;
     }
-    
+
     /**
      * @return OfflineSession
      */
     public function getOffline(): OfflineSession {
         return new OfflineSession($this->manager, $this->lowerCaseName);
     }
-    
+
     /**
      * @return array
      */
     public function getInvitations(): array {
         return $this->invitations;
     }
-    
+
     /**
      * @param string $senderName
      * @return null|Island
@@ -109,21 +109,21 @@ class Session extends BaseSession {
     public function getInvitation(string $senderName): ?Island {
         return $this->invitations[$senderName] ?? null;
     }
-    
+
     /**
      * @return null|string
      */
     public function getLastInvitation(): ?string {
         return $this->lastInvitation;
     }
-    
+
     /**
      * @return bool
      */
     public function hasLastInvitation(): bool {
         return $this->lastInvitation != null;
     }
-    
+
     /**
      * @param null|string $identifier
      */
@@ -151,14 +151,14 @@ class Session extends BaseSession {
         }
         $this->save();
     }
-    
+
     /**
      * @param array $invitations
      */
     public function setInvitations(array $invitations): void {
         $this->invitations = $invitations;
     }
-    
+
     /**
      * @param string $senderName
      * @param Island $island
@@ -167,7 +167,7 @@ class Session extends BaseSession {
         $this->invitations[$senderName] = $island;
         $this->lastInvitation = $senderName;
     }
-    
+
     /**
      * @param string $senderName
      */
@@ -176,7 +176,7 @@ class Session extends BaseSession {
             unset($this->invitations[$senderName]);
         }
     }
-    
+
     /**
      * @param null|string $senderName
      */
@@ -216,5 +216,5 @@ class Session extends BaseSession {
     public function teleportToSpawn(): void {
         $this->player->teleport($this->player->getServer()->getDefaultLevel()->getSafeSpawn());
     }
-    
+
 }

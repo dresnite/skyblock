@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace room17\SkyBlock\event\session;
 
 
-
 class SessionCloseEvent extends SessionEvent {
-    
+
 }

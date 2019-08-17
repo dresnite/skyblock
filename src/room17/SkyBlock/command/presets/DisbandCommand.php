@@ -27,10 +27,10 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class DisbandCommand extends IslandCommand {
-    
+
     /** @var IslandManager */
     private $islandManager;
-    
+
     /**
      * DisbandCommand constructor.
      * @param IslandCommandMap $map
@@ -71,5 +71,5 @@ class DisbandCommand extends IslandCommand {
         }
         IslandFactory::disbandIsland($session->getIsland());
     }
-    
+
 }

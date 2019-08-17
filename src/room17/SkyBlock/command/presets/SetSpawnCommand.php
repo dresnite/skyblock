@@ -60,5 +60,5 @@ class SetSpawnCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_SET_SPAWN"));
         }
     }
-    
+
 }

@@ -33,19 +33,19 @@ class SkyBlock extends PluginBase {
 
     /** @var SkyBlockSettings */
     private $settings;
-    
+
     /** @var Provider */
     private $provider;
-    
+
     /** @var SessionManager */
     private $sessionManager;
-    
+
     /** @var IslandManager */
     private $islandManager;
-    
+
     /** @var IslandCommandMap */
     private $commandMap;
-    
+
     /** @var IslandGeneratorManager */
     private $generatorManager;
 
@@ -55,7 +55,7 @@ class SkyBlock extends PluginBase {
     public static function getInstance(): SkyBlock {
         return self::$instance;
     }
-    
+
     public function onLoad(): void {
         self::$instance = $this;
         if(!is_dir($this->getDataFolder())) {
@@ -83,28 +83,28 @@ class SkyBlock extends PluginBase {
         }
         $this->getLogger()->info("SkyBlock was disabled");
     }
-    
+
     /**
      * @return SkyBlockSettings
      */
     public function getSettings(): SkyBlockSettings {
         return $this->settings;
     }
-    
+
     /**
      * @return Provider
      */
     public function getProvider(): Provider {
         return $this->provider;
     }
-    
+
     /**
      * @return SessionManager
      */
     public function getSessionManager(): SessionManager {
         return $this->sessionManager;
     }
-    
+
     /**
      * @return IslandManager
      */
@@ -120,7 +120,7 @@ class SkyBlock extends PluginBase {
     }
 
     private function checkSpawnProtection(): void {
-        if ($this->getServer()->getSpawnRadius() > 0) {
+        if($this->getServer()->getSpawnRadius() > 0) {
             $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
         }
     }

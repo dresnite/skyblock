@@ -29,10 +29,10 @@ class PalmIsland extends IslandGenerator {
      *
      * @return string
      */
-    public function getName() : string {
+    public function getName(): string {
         return "Palm";
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
@@ -323,32 +323,33 @@ class PalmIsland extends IslandGenerator {
             $this->level->setChunk($chunkX, $chunkZ, $chunk);
         }
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
      */
-    public function populateChunk(int $chunkX, int $chunkZ): void {}
-    
+    public function populateChunk(int $chunkX, int $chunkZ): void {
+    }
+
     /**
      * @return Vector3
      */
-    public static function getWorldSpawn() : Vector3 {
+    public static function getWorldSpawn(): Vector3 {
         return new Vector3(9, 40, 11);
     }
-    
+
     /**
      * @return Vector3
      */
     public static function getChestPosition(): Vector3 {
         return new Vector3(7, 40, 8);
     }
-    
+
     /**
      * @return Vector3
      */
-    public function getSpawn() : Vector3 {
+    public function getSpawn(): Vector3 {
         return new Vector3(9, 40, 11);
     }
-    
+
 }

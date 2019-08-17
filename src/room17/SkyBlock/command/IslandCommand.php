@@ -43,7 +43,7 @@ abstract class IslandCommand {
         $session->sendTranslatedMessage(new MessageContainer("NEED_ISLAND"));
         return true;
     }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -57,7 +57,7 @@ abstract class IslandCommand {
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_FOUNDER"));
         return true;
     }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -71,7 +71,7 @@ abstract class IslandCommand {
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_LEADER"));
         return true;
     }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -85,7 +85,7 @@ abstract class IslandCommand {
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_OFFICER"));
         return true;
     }
-    
+
     /**
      * @param null|Session $session
      * @param null|Session $ySession
@@ -120,5 +120,5 @@ abstract class IslandCommand {
      * @return void
      */
     public abstract function onCommand(Session $session, array $args): void;
-    
+
 }

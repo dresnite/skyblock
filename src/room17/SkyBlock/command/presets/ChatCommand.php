@@ -57,5 +57,5 @@ class ChatCommand extends IslandCommand {
         $session->setInChat(!$session->isInChat());
         $session->sendTranslatedMessage(new MessageContainer($session->isInChat() ? "JOINED_ISLAND_CHAT" : "JOINED_GLOBAL_CHAT"));
     }
-    
+
 }

@@ -33,7 +33,7 @@ class IslandGeneratorManager {
 
     /** @var IslandGenerator[]|string[] */
     private $generators = [];
-    
+
     /**
      * GeneratorManager constructor.
      * @param SkyBlock $plugin
@@ -42,14 +42,14 @@ class IslandGeneratorManager {
         $this->plugin = $plugin;
         $this->registerDefaultGenerators();
     }
-    
+
     /**
      * @return string[]
      */
     public function getGenerators(): array {
         return $this->generators;
     }
-    
+
     /**
      * @param string $name
      * @return null|string|IslandGenerator
@@ -67,7 +67,7 @@ class IslandGeneratorManager {
     public function isGenerator(string $name): bool {
         return isset($this->generators[strtolower($name)]);
     }
-    
+
     /**
      * @param string $name
      * @param string $class

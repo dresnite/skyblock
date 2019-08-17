@@ -25,13 +25,13 @@ use room17\SkyBlock\event\island\IslandCloseEvent;
 use room17\SkyBlock\SkyBlock;
 
 class IslandManager {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /** @var Island[] */
     private $islands = [];
-    
+
     /**
      * IslandManager constructor.
      * @param SkyBlock $plugin
@@ -40,21 +40,21 @@ class IslandManager {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents(new IslandListener($this), $plugin);
     }
-    
+
     /**
      * @return SkyBlock
      */
     public function getPlugin(): SkyBlock {
         return $this->plugin;
     }
-    
+
     /**
      * @return Island[]
      */
     public function getIslands(): array {
         return $this->islands;
     }
-    
+
     /**
      * @param string $identifier
      * @return null|Island
@@ -96,5 +96,5 @@ class IslandManager {
         $server->unloadLevel($island->getLevel());
         unset($this->islands[$island->getIdentifier()]);
     }
-    
+
 }

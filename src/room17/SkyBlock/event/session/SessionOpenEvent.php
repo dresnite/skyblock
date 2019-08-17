@@ -20,5 +20,5 @@ namespace room17\SkyBlock\event\session;
 
 
 class SessionOpenEvent extends SessionEvent {
-    
+
 }

@@ -79,5 +79,5 @@ class AcceptCommand extends IslandCommand {
             "name" => $session->getName()
         ]));
     }
-    
+
 }

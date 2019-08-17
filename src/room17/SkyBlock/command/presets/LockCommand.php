@@ -59,5 +59,5 @@ class LockCommand extends IslandCommand {
         $island->save();
         $session->sendTranslatedMessage(new MessageContainer($island->isLocked() ? "ISLAND_LOCKED" : "ISLAND_UNLOCKED"));
     }
-    
+
 }

@@ -27,28 +27,28 @@ abstract class BaseSession {
     public const RANK_OFFICER = 1;
     public const RANK_LEADER = 2;
     public const RANK_FOUNDER = 3;
-    
+
     /** @var SessionManager */
     protected $manager;
-    
+
     /** @var Provider */
     protected $provider;
-    
+
     /** @var string */
     protected $lowerCaseName;
-    
+
     /** @var string|null */
     protected $islandId = null;
-    
+
     /** @var bool */
     protected $inChat = false;
-    
+
     /** @var int */
     protected $rank = false;
 
     /** @var float|null */
     protected $lastIslandCreationTime;
-    
+
     /**
      * iSession constructor.
      * @param SessionManager $manager
@@ -60,28 +60,28 @@ abstract class BaseSession {
         $this->provider = $manager->getPlugin()->getProvider();
         $this->provider->loadSession($this);
     }
-    
+
     /**
      * @return string
      */
     public function getLowerCaseName(): string {
         return $this->lowerCaseName;
     }
-    
+
     /**
      * @return null|string
      */
     public function getIslandId(): ?string {
         return $this->islandId;
     }
-    
+
     /**
      * @return bool
      */
     public function isInChat(): bool {
         return $this->inChat;
     }
-    
+
     /**
      * @return int
      */
@@ -102,21 +102,21 @@ abstract class BaseSession {
     public function getLastIslandCreationTime(): ?float {
         return $this->lastIslandCreationTime;
     }
-    
+
     /**
      * @param null|string $identifier
      */
     public function setIslandId(?string $identifier): void {
         $this->islandId = $identifier;
     }
-    
+
     /**
      * @param bool $inChat
      */
     public function setInChat(bool $inChat = true): void {
         $this->inChat = $inChat;
     }
-    
+
     /**
      * @param int $rank
      */
@@ -127,12 +127,12 @@ abstract class BaseSession {
     /**
      * @param float|null $lastIslandCreationTime
      */
-    public function setLastIslandCreationTime(?float $lastIslandCreationTime): void  {
+    public function setLastIslandCreationTime(?float $lastIslandCreationTime): void {
         $this->lastIslandCreationTime = $lastIslandCreationTime;
     }
-    
+
     public function save(): void {
         $this->provider->saveSession($this);
     }
-    
+
 }

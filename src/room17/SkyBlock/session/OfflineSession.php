@@ -32,5 +32,5 @@ class OfflineSession extends BaseSession {
         }
         return null;
     }
-    
+
 }

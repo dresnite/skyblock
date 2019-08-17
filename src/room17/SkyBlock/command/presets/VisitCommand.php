@@ -26,10 +26,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class VisitCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * VisitCommand constructor.
      * @param IslandCommandMap $map
@@ -98,5 +98,5 @@ class VisitCommand extends IslandCommand {
             "name" => $args[0]
         ]));
     }
-    
+
 }

@@ -26,10 +26,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class FireCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * FireCommand constructor.
      * @param IslandCommandMap $map
@@ -100,5 +100,5 @@ class FireCommand extends IslandCommand {
             ]));
         }
     }
-    
+
 }

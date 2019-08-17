@@ -23,10 +23,10 @@ use pocketmine\level\generator\Generator;
 use pocketmine\math\Vector3;
 
 abstract class IslandGenerator extends Generator {
-    
+
     /** @var array */
     protected $settings;
-    
+
     /**
      * IslandGenerator constructor.
      * @param array $settings
@@ -34,22 +34,22 @@ abstract class IslandGenerator extends Generator {
     public function __construct(array $settings = []) {
         $this->settings = $settings;
     }
-    
+
     /**
      * @return array
      */
     public function getSettings(): array {
         return $this->settings;
     }
-    
+
     /**
      * @return Vector3
      */
     public abstract static function getWorldSpawn(): Vector3;
-    
+
     /**
      * @return Vector3
      */
     public abstract static function getChestPosition(): Vector3;
-    
+
 }

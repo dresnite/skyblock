@@ -36,13 +36,13 @@ class SkyBlockSettings {
 
     /** @var int */
     private $settingsVersion;
-    
+
     /** @var int[] */
     private $slotsByCategory;
-    
+
     /** @var Item[] */
     private $defaultChestContent;
-    
+
     /** @var array */
     private $customChestContent;
 
@@ -60,7 +60,7 @@ class SkyBlockSettings {
 
     /** @var string[] */
     private $messages;
-    
+
     /**
      * SkyBlockSettings constructor.
      * @param SkyBlock $plugin
@@ -70,7 +70,7 @@ class SkyBlockSettings {
         $this->refreshData();
         $this->checkVersion();
     }
-    
+
     /**
      * @param string $category
      * @return int
@@ -78,14 +78,14 @@ class SkyBlockSettings {
     public function getSlotsByCategory(string $category): int {
         return $this->slotsByCategory[$category] ?? 1;
     }
-    
+
     /**
      * @return Item[]
      */
     public function getDefaultChestContent(): array {
         return $this->defaultChestContent;
     }
-    
+
     /**
      * @param string $generator
      * @return array
@@ -147,8 +147,8 @@ class SkyBlockSettings {
         $this->defaultChestContent = Utils::parseItems($settingsData["ChestContent"]);
 
         $this->customChestContent = [];
-        foreach ($settingsData["CustomChestContent"] as $generator => $items) {
-            if (!empty($items)) {
+        foreach($settingsData["CustomChestContent"] as $generator => $items) {
+            if(!empty($items)) {
                 $this->customChestContent[$generator] = Utils::parseItems($items);
             }
         }
@@ -162,7 +162,7 @@ class SkyBlockSettings {
     }
 
     private function checkVersion(): void {
-        if ($this->settingsVersion == self::VERSION) {
+        if($this->settingsVersion == self::VERSION) {
             return;
         }
         // ToDo: Set all the new fields here

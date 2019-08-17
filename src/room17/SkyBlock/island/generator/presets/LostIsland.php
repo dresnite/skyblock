@@ -29,10 +29,10 @@ class LostIsland extends IslandGenerator {
      *
      * @return string
      */
-    public function getName() : string {
+    public function getName(): string {
         return "Lost";
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
@@ -233,32 +233,33 @@ class LostIsland extends IslandGenerator {
             $this->level->setChunk($chunkX, $chunkZ, $chunk);
         }
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
      */
-    public function populateChunk(int $chunkX, int $chunkZ): void {}
-    
+    public function populateChunk(int $chunkX, int $chunkZ): void {
+    }
+
     /**
      * @return Vector3
      */
-    public static function getWorldSpawn() : Vector3 {
+    public static function getWorldSpawn(): Vector3 {
         return new Vector3(10, 35, 9);
     }
-    
+
     /**
      * @return Vector3
      */
     public static function getChestPosition(): Vector3 {
         return new Vector3(6, 35, 9);
     }
-    
+
     /**
      * @return Vector3
      */
-    public function getSpawn() : Vector3 {
+    public function getSpawn(): Vector3 {
         return new Vector3(10, 35, 9);
     }
-    
+
 }

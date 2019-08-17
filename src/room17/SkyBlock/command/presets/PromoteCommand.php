@@ -26,10 +26,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class PromoteCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * PromoteCommand constructor.
      * @param IslandCommandMap $map
@@ -71,7 +71,7 @@ class PromoteCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("PROMOTE_USAGE"));
             return;
         }
-    
+
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
@@ -112,7 +112,7 @@ class PromoteCommand extends IslandCommand {
                 "to" => $session->getMessage(new MessageContainer("$rankName"))
             ]));
         }
-        
+
     }
-    
+
 }

@@ -29,7 +29,7 @@ class Utils {
         if(isset($array[3])) {
             $level = Server::getInstance()->getLevelByName($array[0]);
             if($level != null) {
-                return new Position((float) $array[1],(float) $array[2],(float) $array[3], $level);
+                return new Position((float)$array[1], (float)$array[2], (float)$array[3], $level);
             }
         }
         return null;
@@ -59,7 +59,7 @@ class Utils {
     public static function parseItem(string $item): ?Item {
         $parts = explode(",", str_replace(" ", "", $item));
         foreach($parts as $key => $value) {
-            $parts[$key] = (int) $value;
+            $parts[$key] = (int)$value;
         }
         if(isset($parts[0])) {
             return Item::get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1);

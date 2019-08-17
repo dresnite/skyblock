@@ -27,10 +27,10 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class TransferCommand extends IslandCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /**
      * TransferCommand constructor.
      * @param IslandCommandMap $map
@@ -104,5 +104,5 @@ class TransferCommand extends IslandCommand {
             "name" => $session->getName()
         ]));
     }
-    
+
 }

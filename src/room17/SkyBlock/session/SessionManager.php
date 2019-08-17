@@ -25,13 +25,13 @@ use room17\SkyBlock\event\session\SessionOpenEvent;
 use room17\SkyBlock\SkyBlock;
 
 class SessionManager {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /** @var Session[] */
     private $sessions = [];
-    
+
     /**
      * SessionManager constructor.
      * @param SkyBlock $plugin
@@ -40,14 +40,14 @@ class SessionManager {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents(new SessionListener($this), $plugin);
     }
-    
+
     /**
      * @return SkyBlock
      */
     public function getPlugin(): SkyBlock {
         return $this->plugin;
     }
-    
+
     /**
      * @return Session[]
      */
@@ -61,7 +61,7 @@ class SessionManager {
      * @throws \ReflectionException
      */
     public function getSession(Player $player): Session {
-        if (!$this->isSessionOpen($player)) {
+        if(!$this->isSessionOpen($player)) {
             $this->openSession($player);
         }
         return $this->sessions[$player->getName()];
@@ -74,7 +74,7 @@ class SessionManager {
     public function isSessionOpen(Player $player): bool {
         return isset($this->sessions[$player->getName()]);
     }
-    
+
     /**
      * @param string $username
      * @return null|OfflineSession
@@ -107,5 +107,5 @@ class SessionManager {
             }
         }
     }
-    
+
 }

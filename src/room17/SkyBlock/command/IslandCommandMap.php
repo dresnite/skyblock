@@ -50,13 +50,13 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\MessageContainer;
 
 class IslandCommandMap extends Command implements PluginIdentifiableCommand {
-    
+
     /** @var SkyBlock */
     private $plugin;
-    
+
     /** @var IslandCommand[] */
     private $commands = [];
-    
+
     /**
      * IslandCommandMap constructor.
      * @param SkyBlock $plugin
@@ -72,21 +72,21 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         ]);
         $plugin->getServer()->getCommandMap()->register("skyblock", $this);
     }
-    
+
     /**
      * @return SkyBlock|Plugin
      */
     public function getPlugin(): Plugin {
         return $this->plugin;
     }
-    
+
     /**
      * @return IslandCommand[]
      */
     public function getCommands(): array {
         return $this->commands;
     }
-    
+
     /**
      * @param string $alias
      * @return null|IslandCommand
@@ -99,7 +99,7 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         }
         return null;
     }
-    
+
     /**
      * @param IslandCommand $command
      */
@@ -159,5 +159,5 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
             $session->sendTranslatedMessage(new MessageContainer("TRY_USING_HELP"));
         }
     }
-    
+
 }

@@ -72,5 +72,5 @@ class MembersCommand extends IslandCommand {
             }
         }
     }
-    
+
 }

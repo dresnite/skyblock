@@ -25,10 +25,10 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
 class HelpCommand extends IslandCommand {
-    
+
     /** @var IslandCommandMap */
     private $map;
-    
+
     /**
      * HelpCommand constructor.
      * @param IslandCommandMap $map
@@ -82,5 +82,5 @@ class HelpCommand extends IslandCommand {
             ]));
         }
     }
-    
+
 }

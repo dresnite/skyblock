@@ -26,7 +26,7 @@ use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 
 class JSONProvider extends Provider {
-    
+
     public function initialize(): void {
         $dataFolder = $this->plugin->getDataFolder();
         if(!is_dir($dataFolder . "isles")) {
@@ -36,18 +36,18 @@ class JSONProvider extends Provider {
             mkdir($dataFolder . "users");
         }
     }
-    
+
     /**
      * @param string $username
      * @return Config
      */
     private function getUserConfig(string $username): Config {
         return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
-                "isle" => null,
-                "rank" => Session::RANK_DEFAULT
-            ]);
+            "isle" => null,
+            "rank" => Session::RANK_DEFAULT
+        ]);
     }
-    
+
     /**
      * @param string $islandId
      * @return Config
@@ -55,7 +55,7 @@ class JSONProvider extends Provider {
     private function getIslandConfig(string $islandId): Config {
         return new Config($this->plugin->getDataFolder() . "isles/$islandId.json", Config::JSON);
     }
-    
+
     /**
      * @param BaseSession $session
      */
@@ -65,7 +65,7 @@ class JSONProvider extends Provider {
         $session->setRank($config->get("rank", null) ?? Session::RANK_DEFAULT);
         $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
     }
-    
+
     /**
      * @param BaseSession $session
      */
@@ -90,12 +90,12 @@ class JSONProvider extends Provider {
         if(!$server->isLevelLoaded($identifier)) {
             $server->loadLevel($identifier);
         }
-        
+
         $members = [];
         foreach($config->get("members", []) as $username) {
             $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
         }
-        
+
         $this->plugin->getIslandManager()->openIsland(
             $identifier,
             $members,
@@ -105,7 +105,7 @@ class JSONProvider extends Provider {
             $config->get("blocks") ?? 0
         );
     }
-    
+
     /**
      * @param Island $island
      */
@@ -115,14 +115,14 @@ class JSONProvider extends Provider {
         $config->set("locked", $island->isLocked());
         $config->set("type", $island->getType());
         $config->set("blocks", $island->getBlocksBuilt());
-        
+
         $members = [];
         foreach($island->getMembers() as $member) {
             $members[] = $member->getLowerCaseName();
         }
         $config->set("members", $members);
-        
+
         $config->save();
     }
-    
+
 }

@@ -64,5 +64,5 @@ class LeaveCommand extends IslandCommand {
         $session->setInChat(false);
         $session->sendTranslatedMessage(new MessageContainer("LEFT_ISLAND"));
     }
-    
+
 }

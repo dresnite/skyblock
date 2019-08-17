@@ -37,37 +37,37 @@ class Island {
     public const CATEGORY_MEDIUM = "M";
     public const CATEGORY_LARGE = "L";
     public const CATEGORY_EXTRA_LARGE = "XL";
-    
+
     /** @var IslandManager */
     private $manager;
-    
+
     /** @var string */
     private $identifier;
-    
+
     /** @var OfflineSession[] */
     private $members = [];
-    
+
     /** @var bool */
     private $locked = false;
-    
+
     /** @var string */
     private $type = self::TYPE_BASIC;
-    
+
     /** @var Level */
     private $level;
-    
+
     /** @var int */
     private $blocksBuilt;
-    
+
     /** @var string */
     private $category;
-    
+
     /** @var Session[] */
     private $cooperators = [];
 
     /** @var bool */
     private $closed = false;
-    
+
     /**
      * Island constructor.
      * @param IslandManager $manager
@@ -86,30 +86,30 @@ class Island {
         $this->type = $type;
         $this->level = $level;
         $this->blocksBuilt = $blocksBuilt;
-    
+
         foreach($members as $member) {
             if($member instanceof OfflineSession) {
                 $this->addMember($member);
             }
         }
-        
+
         $this->updateCategory();
     }
-    
+
     /**
      * @return string
      */
     public function getIdentifier(): string {
         return $this->identifier;
     }
-    
+
     /**
      * @return OfflineSession[]
      */
     public function getMembers(): array {
         return $this->members;
     }
-    
+
     /**
      * @return Session[]
      */
@@ -140,56 +140,56 @@ class Island {
      */
     public function getChattingPlayers(): array {
         $players = [];
-        foreach ($this->getSessionsOnline() as $session) {
-            if ($session->isInChat()) {
+        foreach($this->getSessionsOnline() as $session) {
+            if($session->isInChat()) {
                 $players[] = $session->getPlayer();
             }
         }
         return $players;
     }
-    
+
     /**
      * @return bool
      */
     public function isLocked(): bool {
         return $this->locked;
     }
-    
+
     /**
      * @return string
      */
     public function getType(): string {
         return $this->type;
     }
-    
+
     /**
      * @return Level
      */
     public function getLevel(): Level {
         return $this->level;
     }
-    
+
     /**
      * @return Position
      */
     public function getSpawnLocation(): Position {
         return $this->level->getSpawnLocation();
     }
-    
+
     /**
      * @return int
      */
     public function getBlocksBuilt(): int {
         return $this->blocksBuilt;
     }
-    
+
     /**
      * @return string
      */
     public function getCategory(): string {
         return $this->category;
     }
-    
+
     /**
      * @return string|null
      */
@@ -211,21 +211,21 @@ class Island {
                 return self::CATEGORY_SMALL;
         }
     }
-    
+
     /**
      * @return int
      */
     public function getSlots(): int {
         return $this->manager->getPlugin()->getSettings()->getSlotsByCategory($this->category);
     }
-    
+
     /**
      * @return Session[]
      */
     public function getCooperators(): array {
         return $this->cooperators;
     }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -240,7 +240,7 @@ class Island {
     public function isClosed(): bool {
         return $this->closed;
     }
-    
+
     /**
      * @param Session $session
      * @return bool
@@ -248,28 +248,28 @@ class Island {
     public function canInteract(Session $session): bool {
         return $session->getIsland() === $this or $this->isCooperator($session) or $session->getPlayer()->hasPermission("skyblock.interaction");
     }
-    
+
     /**
      * @param bool $locked
      */
     public function setLocked(bool $locked = true): void {
         $this->locked = $locked;
     }
-    
+
     /**
      * @param OfflineSession[] $members
      */
     public function setMembers(array $members): void {
         $this->members = $members;
     }
-    
+
     /**
      * @param Vector3 $position
      */
     public function setSpawnLocation(Vector3 $position): void {
         $this->level->setSpawnLocation($position);
     }
-    
+
     /**
      * @param int $blocksBuilt
      */
@@ -277,7 +277,7 @@ class Island {
         $this->blocksBuilt = max(0, $blocksBuilt);
         $this->updateCategory();
     }
-    
+
     public function updateCategory(): void {
         if($this->blocksBuilt >= 500000) {
             $this->category = self::CATEGORY_EXTRA_LARGE;
@@ -291,41 +291,41 @@ class Island {
             $this->category = self::CATEGORY_EXTRA_SMALL;
         }
     }
-    
+
     public function addBlock(): void {
         $this->setBlocksBuilt($this->blocksBuilt + 1);
     }
-    
+
     public function destroyBlock(): void {
         $this->setBlocksBuilt($this->blocksBuilt - 1);
     }
-    
+
     /**
      * @param OfflineSession $session
      */
     public function addMember(OfflineSession $session): void {
         $this->members[strtolower($session->getLowerCaseName())] = $session;
     }
-    
+
     /**
      * @param Session[] $cooperators
      */
     public function setCooperators(array $cooperators): void {
         $this->cooperators = $cooperators;
     }
-    
+
     /**
      * @param Session $session
      */
     public function addCooperator(Session $session): void {
         $this->cooperators[$session->getLowerCaseName()] = $session;
     }
-    
+
     /**
      * @param Session $session
      */
     public function removeCooperator(Session $session): void {
-        if (isset($this->cooperators[$username = $session->getLowerCaseName()])) {
+        if(isset($this->cooperators[$username = $session->getLowerCaseName()])) {
             unset($this->cooperators[$username]);
         }
     }
@@ -335,7 +335,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastMessage(string $message): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendMessage($message);
         }
     }
@@ -345,7 +345,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedMessage($container);
         }
     }
@@ -355,7 +355,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastPopup(string $message): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendPopup($message);
         }
     }
@@ -365,7 +365,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedPopup($container);
         }
     }
@@ -375,7 +375,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastTip(string $message): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendTip($message);
         }
     }
@@ -385,11 +385,11 @@ class Island {
      * @throws \ReflectionException
      */
     public function broadcastTranslatedTip(MessageContainer $container): void {
-        foreach ($this->getSessionsOnline() as $session) {
+        foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedTip($container);
         }
     }
-    
+
     public function save(): void {
         $this->manager->getPlugin()->getProvider()->saveIsland($this);
     }
@@ -398,7 +398,7 @@ class Island {
      * @throws \ReflectionException
      */
     public function updateMembers(): void {
-        foreach ($this->getSessionsOnline() as $member) {
+        foreach($this->getSessionsOnline() as $member) {
             if($member->getIsland() !== $this) {
                 unset($this->members[$member->getLowerCaseName()]);
             }
@@ -410,10 +410,10 @@ class Island {
      */
     public function tryToClose(): void {
         $this->updateMembers();
-        if (!$this->closed and empty($this->getPlayersOnline()) and empty($this->getSessionsOnline())) {
+        if(!$this->closed and empty($this->getPlayersOnline()) and empty($this->getSessionsOnline())) {
             $this->closed = true;
             $this->manager->closeIsland($this);
         }
     }
-    
+
 }

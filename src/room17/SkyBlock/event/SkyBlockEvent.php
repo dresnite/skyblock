@@ -22,8 +22,8 @@ namespace room17\SkyBlock\event;
 use pocketmine\event\Event;
 
 abstract class SkyBlockEvent extends Event {
-    
+
     /** @var null */
     public static $handlerList = null;
-    
+
 }

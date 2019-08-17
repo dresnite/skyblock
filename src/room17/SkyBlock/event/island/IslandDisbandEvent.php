@@ -20,5 +20,5 @@ namespace room17\SkyBlock\event\island;
 
 
 class IslandDisbandEvent extends IslandEvent {
-    
+
 }

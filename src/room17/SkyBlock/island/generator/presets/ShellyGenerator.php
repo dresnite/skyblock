@@ -24,14 +24,14 @@ use pocketmine\math\Vector3;
 use room17\SkyBlock\island\generator\IslandGenerator;
 
 class ShellyGenerator extends IslandGenerator {
-    
+
     /**
      * @return string
      */
     public function getName(): string {
         return "Shelly";
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
@@ -231,34 +231,34 @@ class ShellyGenerator extends IslandGenerator {
             $this->level->setChunk($chunkX, $chunkZ, $chunk);
         }
     }
-    
+
     /**
      * @param int $chunkX
      * @param int $chunkZ
      */
-    public function populateChunk(int $chunkX, int $chunkZ) : void {
+    public function populateChunk(int $chunkX, int $chunkZ): void {
         return;
     }
-    
+
     /**
      * @return Vector3
      */
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(8, 35, 10);
     }
-    
+
     /**
      * @return Vector3
      */
     public static function getChestPosition(): Vector3 {
         return new Vector3(6, 35, 8);
     }
-    
+
     /**
      * @return Vector3
      */
     public function getSpawn(): Vector3 {
         return new Vector3(8, 35, 10);
     }
-    
+
 }

@@ -23,10 +23,10 @@ use room17\SkyBlock\event\SkyBlockEvent;
 use room17\SkyBlock\session\Session;
 
 abstract class SessionEvent extends SkyBlockEvent {
-    
+
     /** @var Session */
     private $session;
-    
+
     /**
      * SessionEvent constructor.
      * @param Session $session
@@ -34,12 +34,12 @@ abstract class SessionEvent extends SkyBlockEvent {
     public function __construct(Session $session) {
         $this->session = $session;
     }
-    
+
     /**
      * @return Session
      */
     public function getSession(): Session {
         return $this->session;
     }
-    
+
 }

@@ -55,11 +55,11 @@ class IslandListener implements Listener {
      */
     public function onBreak(BlockBreakEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if (($island = $session->getIslandByLevel()) == null) {
+        if(($island = $session->getIslandByLevel()) == null) {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if (!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
             $island->destroyBlock();
         }
     }
@@ -70,7 +70,7 @@ class IslandListener implements Listener {
      * @param Cancellable $event
      */
     private function checkPermissionToInteract(Island $island, Session $session, Cancellable $event) {
-        if ($island->canInteract($session)) {
+        if($island->canInteract($session)) {
             return;
         }
         $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
@@ -85,11 +85,11 @@ class IslandListener implements Listener {
      */
     public function onPlace(BlockPlaceEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if (($island = $session->getIslandByLevel()) == null) {
+        if(($island = $session->getIslandByLevel()) == null) {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if (!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
             $island->addBlock();
         }
     }
@@ -102,7 +102,7 @@ class IslandListener implements Listener {
     public function onBlockForm(BlockFormEvent $event): void {
         $block = $event->getBlock();
         $island = $this->manager->getIsland($block->getLevel()->getName());
-        if ($island != null and !$block instanceof Solid and $event->getNewState() instanceof Solid) {
+        if($island != null and !$block instanceof Solid and $event->getNewState() instanceof Solid) {
             $island->addBlock();
         }
     }
@@ -116,7 +116,7 @@ class IslandListener implements Listener {
     public function onInteract(PlayerInteractEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
         $island = $session->getIslandByLevel();
-        if ($island != null) {
+        if($island != null) {
             $this->checkPermissionToInteract($island, $session, $event);
         }
     }
@@ -130,7 +130,7 @@ class IslandListener implements Listener {
      */
     public function onEnterBed(PlayerBedEnterEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if ($session->getIslandByLevel() != null) {
+        if($session->getIslandByLevel() != null) {
             $event->setCancelled();
         }
     }
@@ -143,7 +143,7 @@ class IslandListener implements Listener {
      */
     public function onChat(PlayerChatEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if (!$session->hasIsland() or !$session->isInChat()) {
+        if(!$session->hasIsland() or !$session->isInChat()) {
             return;
         }
         $chatFormat = $this->plugin->getSettings()->getChatFormat();
@@ -163,11 +163,11 @@ class IslandListener implements Listener {
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
         $message = $event->getMessage();
-        if ($session->getIslandByLevel() == null or $message[0] != "/") {
+        if($session->getIslandByLevel() == null or $message[0] != "/") {
             return;
         }
         $command = strtolower(substr($message, 1));
-        if (in_array($command, $this->plugin->getSettings()->getBlockedCommands())) {
+        if(in_array($command, $this->plugin->getSettings()->getBlockedCommands())) {
             $session->sendTranslatedMessage(new MessageContainer("BLOCKED_COMMAND"));
             $event->setCancelled();
         }
@@ -183,18 +183,18 @@ class IslandListener implements Listener {
         $entity = $event->getEntity();
         $level = $entity->getLevel();
 
-        if ($level == null) {
+        if($level == null) {
             return; // Basically a hack to prevent SkyBlock from crashing because of shitty poggit plugins
         }
 
         $island = $this->manager->getIslandByLevel($level);
-        if ($island == null) {
+        if($island == null) {
             return;
         }
 
-        if ($event instanceof EntityDamageByEntityEvent) {
+        if($event instanceof EntityDamageByEntityEvent) {
             $this->onDamageByEntityInIsland($island, $event);
-        } elseif ($event->getCause() == EntityDamageByEntityEvent::CAUSE_VOID and $this->plugin->getSettings()->preventVoidDamage()) {
+        } elseif($event->getCause() == EntityDamageByEntityEvent::CAUSE_VOID and $this->plugin->getSettings()->preventVoidDamage()) {
             $entity->teleport($island->getSpawnLocation());
             $event->setCancelled();
         }
@@ -211,9 +211,9 @@ class IslandListener implements Listener {
         $entity = $event->getEntity();
         $damager = $event->getDamager();
 
-        if ($entity instanceof Player) {
+        if($entity instanceof Player) {
             $event->setCancelled();
-        } elseif ($entity instanceof Painting and $damager instanceof Player) {
+        } elseif($entity instanceof Painting and $damager instanceof Player) {
             $this->checkPermissionToInteract($island, SessionLocator::getSession($damager), $event);
         }
     }
@@ -226,17 +226,17 @@ class IslandListener implements Listener {
      */
     public function onQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();
-        if (!SessionLocator::isSessionOpen($player)) {
+        if(!SessionLocator::isSessionOpen($player)) {
             return;
         }
 
         $session = SessionLocator::getSession($player);
-        foreach ($this->manager->getIslands() as $island) {
+        foreach($this->manager->getIslands() as $island) {
             $island->removeCooperator($session);
         }
 
         $island = $session->getIslandByLevel();
-        if ($island != null) {
+        if($island != null) {
             $session->teleportToSpawn();
             $island->tryToClose();
         }
@@ -251,17 +251,17 @@ class IslandListener implements Listener {
         $level = $event->getLevel();
         $island = $this->manager->getIsland($level->getName());
 
-        if ($island == null) {
+        if($island == null) {
             return;
         }
 
         $generator = $this->plugin->getGeneratorManager()->getGenerator($type = $island->getType());
         $position = $generator::getChestPosition();
 
-        if ($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
+        if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
             $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
-            foreach ($this->plugin->getSettings()->getCustomChestContent($type) as $item) {
+            foreach($this->plugin->getSettings()->getCustomChestContent($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
         }
@@ -275,7 +275,7 @@ class IslandListener implements Listener {
      * @throws \ReflectionException
      */
     public function onUnloadLevel(LevelUnloadEvent $event): void {
-        foreach ($event->getLevel()->getPlayers() as $player) {
+        foreach($event->getLevel()->getPlayers() as $player) {
             SessionLocator::getSession($player)->teleportToSpawn();
         }
     }

@@ -24,10 +24,10 @@ use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
 
 class SessionListener implements Listener {
-    
+
     /** @var SessionManager */
     private $manager;
-    
+
     /**
      * SessionListener constructor.
      * @param SessionManager $manager
@@ -51,5 +51,5 @@ class SessionListener implements Listener {
     public function onQuit(PlayerQuitEvent $event): void {
         $this->manager->closeSession($event->getPlayer());
     }
-    
+
 }

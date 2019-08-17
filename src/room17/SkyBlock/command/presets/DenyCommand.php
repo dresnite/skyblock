@@ -74,5 +74,5 @@ class DenyCommand extends IslandCommand {
             "name" => $session->getName()
         ]));
     }
-    
+
 }
