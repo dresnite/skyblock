@@ -17,7 +17,19 @@ This is a plug-and-play plugin, to install it you must drop its file inside your
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+### Coding
+
+If you're a developer and want to submit a pull request to us, please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
+### Donating
+
+If you have been one of the thousands of people that use or used one of my open-source projects, I invite you to donate or become a patron, that way, you would be supporting me to improve and create open-source software for the community.
+
+- Ethereum (ETH):`0xCF1D5a62EA738E0C2789Ff3Ca4268b4250a40050`
+- Bitcoin (BTC): `0xCF1D5a62EA738E0C2789Ff3Ca4268b4250a40050`
+- Bitcoin Cash (BTH): `qr7wk2wz5pr4qgfv2quzux28jfddq2mdmystnw0qqv`
+- [Patreon](https://patreon.com/giantquartz)
+- [PayPal](https://paypal.me/giantquartz)
 
 ## License
 
