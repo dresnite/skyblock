@@ -59,20 +59,18 @@ class DenyCommand extends IslandCommand {
      * @throws \ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
-        if(!isset($args[0]) and !$session->hasLastInvitation()) {
+        $invitation = null;
+        if(isset($args[0]) and $session->hasInvitationFrom($args[0])) {
+            $invitation = $session->getInvitationFrom($args[0]);
+        } else {
+            $invitation = $session->getLastInvitation();
+        }
+
+        if($invitation != null) {
+            $invitation->deny();
+        } else {
             $session->sendTranslatedMessage(new MessageContainer("DENY_USAGE"));
-            return;
         }
-        $islandName = $args[0] ?? $session->getLastInvitation();
-        $island = $session->getInvitation($islandName);
-        if($island == null) {
-            return;
-        }
-        $session->removeInvitation($islandName);
-        $session->sendTranslatedMessage(new MessageContainer("INVITATION_REFUSED"));
-        $island->broadcastTranslatedMessage(new MessageContainer("PLAYER_INVITATION_DENIED", [
-            "name" => $session->getName()
-        ]));
     }
 
 }

@@ -22,7 +22,9 @@ namespace room17\SkyBlock\command\presets;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
+use room17\SkyBlock\utils\Invitation;
 use room17\SkyBlock\utils\MessageContainer;
 
 class InviteCommand extends IslandCommand {
@@ -96,7 +98,7 @@ class InviteCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession = $this->plugin->getSessionManager()->getSession($player);
+        $playerSession = SessionLocator::getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->hasIsland()) {
@@ -105,7 +107,7 @@ class InviteCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession->addInvitation($session->getLowerCaseName(), $session->getIsland());
+        Invitation::send($session, $playerSession);
         $playerSession->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $session->getName()
         ]));

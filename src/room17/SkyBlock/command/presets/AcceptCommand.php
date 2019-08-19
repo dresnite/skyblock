@@ -20,7 +20,6 @@ namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\command\IslandCommand;
-use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\MessageContainer;
 
@@ -63,21 +62,20 @@ class AcceptCommand extends IslandCommand {
         if($session->hasIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
-        } elseif(!isset($args[0]) and !$session->hasLastInvitation()) {
+        }
+
+        $invitation = null;
+        if(isset($args[0]) and $session->hasInvitationFrom($args[0])) {
+            $invitation = $session->getInvitationFrom($args[0]);
+        } else {
+            $invitation = $session->getLastInvitation();
+        }
+
+        if($invitation != null) {
+            $invitation->accept();
+        } else {
             $session->sendTranslatedMessage(new MessageContainer("ACCEPT_USAGE"));
-            return;
         }
-        $island = $session->getInvitation($invitation = $args[0] ?? $session->getLastInvitation());
-        if($island == null) {
-            return;
-        }
-        $session->setLastInvitation(null);
-        $session->removeInvitation($invitation);
-        $session->setRank(BaseSession::RANK_DEFAULT);
-        $session->setIsland($island);
-        $island->broadcastTranslatedMessage(new MessageContainer("PLAYER_JOINED_THE_ISLAND", [
-            "name" => $session->getName()
-        ]));
     }
 
 }

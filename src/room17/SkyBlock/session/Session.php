@@ -21,6 +21,7 @@ namespace room17\SkyBlock\session;
 
 use pocketmine\Player;
 use room17\SkyBlock\island\Island;
+use room17\SkyBlock\utils\Invitation;
 use room17\SkyBlock\utils\MessageContainer;
 
 class Session extends BaseSession {
@@ -34,10 +35,7 @@ class Session extends BaseSession {
     /** @var null|Island */
     private $island = null;
 
-    /** @var string|null */
-    private $lastInvitation = null;
-
-    /** @var array */
+    /** @var Invitation[] */
     private $invitations = [];
 
     /**
@@ -103,25 +101,61 @@ class Session extends BaseSession {
     }
 
     /**
-     * @param string $senderName
-     * @return null|Island
-     */
-    public function getInvitation(string $senderName): ?Island {
-        return $this->invitations[$senderName] ?? null;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getLastInvitation(): ?string {
-        return $this->lastInvitation;
-    }
-
-    /**
      * @return bool
      */
-    public function hasLastInvitation(): bool {
-        return $this->lastInvitation != null;
+    public function hasInvitations(): bool {
+        return !empty($this->invitations);
+    }
+
+    /**
+     * @param string $senderName
+     * @return Invitation|null
+     */
+    public function getInvitationFrom(string $senderName): ?Invitation {
+        return $this->invitations[strtolower($senderName)] ?? null;
+    }
+
+    /**
+     * @param string $senderName
+     * @return bool
+     */
+    public function hasInvitationFrom(string $senderName): bool {
+        return isset($this->invitations[strtolower($senderName)]);
+    }
+
+    /**
+     * @return Invitation|null
+     */
+    public function getLastInvitation(): ?Invitation {
+        /** @var Invitation|null $result */
+        $result = null;
+        foreach($this->invitations as $invitation) {
+            if($result == null or $invitation->getCreationTime() > $result->getCreationTime()) {
+                $result = $invitation;
+            }
+        }
+        return $result;
+    }
+
+    /**
+     * @param Invitation $invitation
+     */
+    public function sendInvitation(Invitation $invitation): void {
+        $this->invitations[$invitation->getSender()->getLowerCaseName()] = $invitation;
+    }
+
+    /**
+     * @param Invitation $invitation
+     */
+    public function removeInvitation(Invitation $invitation): void {
+        $key = array_search($invitation, $this->invitations);
+        if($key != false) {
+            unset($this->invitations[$key]);
+        }
+    }
+
+    public function clearInvitations(): void {
+        $this->invitations = [];
     }
 
     /**
@@ -150,38 +184,6 @@ class Session extends BaseSession {
             $lastIsland->updateMembers();
         }
         $this->save();
-    }
-
-    /**
-     * @param array $invitations
-     */
-    public function setInvitations(array $invitations): void {
-        $this->invitations = $invitations;
-    }
-
-    /**
-     * @param string $senderName
-     * @param Island $island
-     */
-    public function addInvitation(string $senderName, Island $island): void {
-        $this->invitations[$senderName] = $island;
-        $this->lastInvitation = $senderName;
-    }
-
-    /**
-     * @param string $senderName
-     */
-    public function removeInvitation(string $senderName): void {
-        if(isset($this->invitations[$senderName])) {
-            unset($this->invitations[$senderName]);
-        }
-    }
-
-    /**
-     * @param null|string $senderName
-     */
-    public function setLastInvitation(?string $senderName): void {
-        $this->lastInvitation = $senderName;
     }
 
     /**
