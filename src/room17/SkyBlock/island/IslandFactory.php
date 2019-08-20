@@ -39,7 +39,7 @@ class IslandFactory {
         $level->setSpawnLocation($generator::getWorldSpawn());
 
         $islandManager = $skyblock->getIslandManager();
-        $islandManager->openIsland($identifier, [$session->getOffline()], true, $type, $level, 0);
+        $islandManager->openIsland($identifier, [$session->getOfflineSession()], true, $type, $level, 0);
         $session->setIsland($island = $islandManager->getIsland($identifier));
         $session->setRank(BaseSession::RANK_FOUNDER);
         $session->save();

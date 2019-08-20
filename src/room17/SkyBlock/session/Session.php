@@ -89,7 +89,7 @@ class Session extends BaseSession {
     /**
      * @return OfflineSession
      */
-    public function getOffline(): OfflineSession {
+    public function getOfflineSession(): OfflineSession {
         return new OfflineSession($this->manager, $this->lowerCaseName);
     }
 
@@ -178,7 +178,7 @@ class Session extends BaseSession {
         $this->island = $island;
         $this->islandId = ($island != null) ? $island->getIdentifier() : null;
         if($island != null) {
-            $island->addMember($this->getOffline());
+            $island->addMember($this->getOfflineSession());
         }
         if($lastIsland != null) {
             $lastIsland->updateMembers();
