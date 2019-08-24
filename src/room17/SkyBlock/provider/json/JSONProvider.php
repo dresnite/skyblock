@@ -24,6 +24,7 @@ use room17\SkyBlock\island\Island;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
+use room17\SkyBlock\session\SessionLocator;
 
 class JSONProvider extends Provider {
 
@@ -35,25 +36,6 @@ class JSONProvider extends Provider {
         if(!is_dir($dataFolder . "users")) {
             mkdir($dataFolder . "users");
         }
-    }
-
-    /**
-     * @param string $username
-     * @return Config
-     */
-    private function getUserConfig(string $username): Config {
-        return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
-            "isle" => null,
-            "rank" => Session::RANK_DEFAULT
-        ]);
-    }
-
-    /**
-     * @param string $islandId
-     * @return Config
-     */
-    private function getIslandConfig(string $islandId): Config {
-        return new Config($this->plugin->getDataFolder() . "isles/$islandId.json", Config::JSON);
     }
 
     /**
@@ -82,27 +64,22 @@ class JSONProvider extends Provider {
      * @throws \ReflectionException
      */
     public function loadIsland(string $identifier): void {
-        if($this->plugin->getIslandManager()->getIsland($identifier) != null) {
+        $islandManager = $this->plugin->getIslandManager();
+        if($islandManager->getIsland($identifier) != null) {
             return;
         }
+
         $config = $this->getIslandConfig($identifier);
         $server = $this->plugin->getServer();
-        if(!$server->isLevelLoaded($identifier)) {
-            $server->loadLevel($identifier);
-        }
+        $server->loadLevel($identifier);
 
         $members = [];
         foreach($config->get("members", []) as $username) {
-            $members[] = $this->plugin->getSessionManager()->getOfflineSession($username);
+            $members[] = SessionLocator::getOfflineSession($username);
         }
 
-        $this->plugin->getIslandManager()->openIsland(
-            $identifier,
-            $members,
-            $config->get("locked"),
-            $config->get("type", null) ?? "basic",
-            $server->getLevelByName($identifier),
-            $config->get("blocks") ?? 0
+        $islandManager->openIsland($identifier, $members, $config->get("locked"), $config->get("type") ?? "basic",
+            $server->getLevelByName($identifier), $config->get("blocks") ?? 0
         );
     }
 
@@ -123,6 +100,25 @@ class JSONProvider extends Provider {
         $config->set("members", $members);
 
         $config->save();
+    }
+
+    /**
+     * @param string $username
+     * @return Config
+     */
+    private function getUserConfig(string $username): Config {
+        return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
+            "isle" => null,
+            "rank" => Session::RANK_DEFAULT
+        ]);
+    }
+
+    /**
+     * @param string $islandId
+     * @return Config
+     */
+    private function getIslandConfig(string $islandId): Config {
+        return new Config($this->plugin->getDataFolder() . "isles/$islandId.json", Config::JSON);
     }
 
 }
