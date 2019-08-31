@@ -94,7 +94,7 @@ class Session extends BaseSession {
     }
 
     /**
-     * @return array
+     * @return Invitation[]
      */
     public function getInvitations(): array {
         return $this->invitations;
