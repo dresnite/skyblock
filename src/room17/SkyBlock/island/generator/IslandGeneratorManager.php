@@ -44,10 +44,12 @@ class IslandGeneratorManager {
     }
 
     /**
+     * Returns the name of all the generators
+     *
      * @return string[]
      */
     public function getGenerators(): array {
-        return $this->generators;
+        return array_keys($this->generators);
     }
 
     /**
