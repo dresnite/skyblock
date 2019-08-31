@@ -45,6 +45,7 @@ class IslandFactory {
         $session->save();
         $island->save();
         $session->setLastIslandCreationTime(microtime(true));
+        $session->getPlayer()->teleport($island->getSpawnLocation());
         (new IslandCreateEvent($island))->call();
     }
 
