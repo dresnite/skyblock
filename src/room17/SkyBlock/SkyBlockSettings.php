@@ -140,7 +140,6 @@ class SkyBlockSettings {
         $dataFolder = $this->plugin->getDataFolder();
         $this->settingsConfig = new Config($dataFolder . "settings.yml");
         $settingsData = $this->settingsConfig->getAll();
-        var_dump($settingsData);
 
         $this->settingsVersion = $settingsData["Version"];
         $this->slotsByCategory = $settingsData["SlotsByCategory"];
