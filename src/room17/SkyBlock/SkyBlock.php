@@ -131,6 +131,13 @@ class SkyBlock extends PluginBase {
         return $this->messageManager;
     }
 
+    /**
+     * @return IslandCommandMap
+     */
+    public function getCommandMap(): IslandCommandMap {
+        return $this->commandMap;
+    }
+
     private function checkSpawnProtection(): void {
         if($this->getServer()->getSpawnRadius() > 0) {
             $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
