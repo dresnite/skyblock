@@ -25,7 +25,7 @@ use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\Invitation;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class InviteCommand extends IslandCommand {
 

@@ -22,7 +22,7 @@ namespace room17\SkyBlock\session;
 use pocketmine\Player;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\utils\Invitation;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class Session extends BaseSession {
 
@@ -138,6 +138,14 @@ class Session extends BaseSession {
     }
 
     /**
+     * @param MessageContainer $container
+     * @return string
+     */
+    public function getMessage(MessageContainer $container): string {
+        return $this->manager->getPlugin()->getMessageManager()->getMessage($container);
+    }
+
+    /**
      * @param Invitation $invitation
      */
     public function sendInvitation(Invitation $invitation): void {
@@ -184,14 +192,6 @@ class Session extends BaseSession {
             $lastIsland->updateMembers();
         }
         $this->save();
-    }
-
-    /**
-     * @param MessageContainer $container
-     * @return string
-     */
-    public function getMessage(MessageContainer $container): string {
-        return $this->manager->getPlugin()->getSettings()->getMessage($container);
     }
 
     /**

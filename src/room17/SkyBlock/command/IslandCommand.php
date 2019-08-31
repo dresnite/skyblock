@@ -21,7 +21,7 @@ namespace room17\SkyBlock\command;
 
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 abstract class IslandCommand {
 

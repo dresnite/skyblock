@@ -24,7 +24,7 @@ use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class TransferCommand extends IslandCommand {
 

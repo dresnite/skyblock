@@ -25,7 +25,7 @@ use pocketmine\math\Vector3;
 use pocketmine\Player;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class Island {
 

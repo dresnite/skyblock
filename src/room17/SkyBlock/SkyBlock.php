@@ -25,6 +25,7 @@ use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\SessionManager;
+use room17\SkyBlock\utils\message\MessageManager;
 
 class SkyBlock extends PluginBase {
 
@@ -49,6 +50,9 @@ class SkyBlock extends PluginBase {
     /** @var IslandGeneratorManager */
     private $generatorManager;
 
+    /** @var MessageManager */
+    private $messageManager;
+
     /**
      * @return SkyBlock
      */
@@ -58,8 +62,8 @@ class SkyBlock extends PluginBase {
 
     public function onLoad(): void {
         self::$instance = $this;
-        if(!is_dir($this->getDataFolder())) {
-            mkdir($this->getDataFolder());
+        if(!is_dir($dataFolder = $this->getDataFolder())) {
+            mkdir($dataFolder);
         }
         $this->saveResource("messages.json");
         $this->saveResource("settings.yml");
@@ -71,6 +75,7 @@ class SkyBlock extends PluginBase {
         $this->sessionManager = new SessionManager($this);
         $this->islandManager = new IslandManager($this);
         $this->generatorManager = new IslandGeneratorManager($this);
+        $this->messageManager = new MessageManager($this);
         $this->commandMap = new IslandCommandMap($this);
         $this->commandMap->registerDefaultCommands();
         $this->checkSpawnProtection();
@@ -117,6 +122,13 @@ class SkyBlock extends PluginBase {
      */
     public function getGeneratorManager(): IslandGeneratorManager {
         return $this->generatorManager;
+    }
+
+    /**
+     * @return MessageManager
+     */
+    public function getMessageManager(): MessageManager {
+        return $this->messageManager;
     }
 
     private function checkSpawnProtection(): void {

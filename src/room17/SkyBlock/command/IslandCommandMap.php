@@ -47,7 +47,7 @@ use room17\SkyBlock\command\presets\TransferCommand;
 use room17\SkyBlock\command\presets\VisitCommand;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class IslandCommandMap extends Command implements PluginIdentifiableCommand {
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace room17\SkyBlock\utils;
+namespace room17\SkyBlock\utils\message;
 
 
 use room17\SkyBlock\SkyBlock;
@@ -40,7 +40,7 @@ class MessageContainer {
     }
 
     public function getMessage(): string {
-        return SkyBlock::getInstance()->getSettings()->getMessage($this);
+        return SkyBlock::getInstance()->getMessageManager()->getMessage($this);
     }
 
 }

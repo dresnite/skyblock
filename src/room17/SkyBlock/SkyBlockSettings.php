@@ -21,7 +21,6 @@ namespace room17\SkyBlock;
 
 use pocketmine\item\Item;
 use pocketmine\utils\Config;
-use room17\SkyBlock\utils\MessageContainer;
 use room17\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
@@ -57,9 +56,6 @@ class SkyBlockSettings {
 
     /** @var string */
     private $chatFormat;
-
-    /** @var string[] */
-    private $messages;
 
     /**
      * SkyBlockSettings constructor.
@@ -122,20 +118,6 @@ class SkyBlockSettings {
         return $this->chatFormat;
     }
 
-    /**
-     * @param MessageContainer $container
-     * @return string
-     */
-    public function getMessage(MessageContainer $container): string {
-        $identifier = $container->getMessageId();
-        $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
-        $message = Utils::translateColors($message);
-        foreach($container->getArguments() as $arg => $value) {
-            $message = str_replace("{" . $arg . "}", $value, $message);
-        }
-        return $message;
-    }
-
     public function refreshData(): void {
         $dataFolder = $this->plugin->getDataFolder();
         $this->settingsConfig = new Config($dataFolder . "settings.yml");
@@ -156,8 +138,6 @@ class SkyBlockSettings {
         $this->cancelVoidDamage = $settingsData["CancelVoidDamage"];
         $this->blockedCommands = $settingsData["BlockedCommands"];
         $this->chatFormat = $settingsData["ChatFormat"];
-
-        $this->messages = json_decode(file_get_contents($dataFolder . "messages.json"), true);
     }
 
     private function checkVersion(): void {

@@ -27,7 +27,7 @@ use pocketmine\tile\Tile;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 use room17\SkyBlock\utils\Utils;
 
 class IslandListener implements Listener {

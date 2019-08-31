@@ -24,7 +24,7 @@ use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\session\Session;
-use room17\SkyBlock\utils\MessageContainer;
+use room17\SkyBlock\utils\message\MessageContainer;
 
 class DisbandCommand extends IslandCommand {
 
