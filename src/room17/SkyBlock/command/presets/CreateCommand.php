@@ -70,6 +70,10 @@ class CreateCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
         }
+        if(!$session->getPlayer()->hasPermission("skyblock.allowed")){//if player does not have permission, don't create.
+            $session->getPlayer()->sendMessage('You are not allowed to create sky islands.');
+            return;
+        };
         $minutesSinceLastIsland = $session->getLastIslandCreationTime() !== null
             ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
             : -1;
