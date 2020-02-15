@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
+use pocketmine\level\Level;
 use room17\SkyBlock\event\island\IslandCreateEvent;
 use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\island\generator\IslandGenerator;
@@ -16,12 +17,11 @@ use room17\SkyBlock\utils\message\MessageContainer;
 class IslandFactory {
 
     /**
-     * @param Session $session
+     * @param string $identifier
      * @param string $type
-     * @throws \ReflectionException
+     * @return Level
      */
-    public static function createIslandFor(Session $session, string $type): void {
-        $identifier = uniqid("sb-");
+    public static function createIslandWorld(string $identifier, string $type): Level {
         $skyblock = SkyBlock::getInstance();
 
         $generatorManager = $skyblock->getGeneratorManager();
@@ -38,14 +38,29 @@ class IslandFactory {
         /** @var IslandGenerator $generator */
         $level->setSpawnLocation($generator::getWorldSpawn());
 
-        $islandManager = $skyblock->getIslandManager();
-        $islandManager->openIsland($identifier, [$session->getOfflineSession()], true, $type, $level, 0);
+        return $level;
+    }
+
+    /**
+     * @param Session $session
+     * @param string $type
+     * @throws \ReflectionException
+     */
+    public static function createIslandFor(Session $session, string $type): void {
+        $identifier = uniqid("sb-");
+        $islandManager = SkyBlock::getInstance()->getIslandManager();
+
+        $islandManager->openIsland($identifier, [$session->getOfflineSession()], true, $type,
+            self::createIslandWorld($identifier, $type), 0);
+
         $session->setIsland($island = $islandManager->getIsland($identifier));
         $session->setRank(BaseSession::RANK_FOUNDER);
-        $session->save();
-        $island->save();
         $session->setLastIslandCreationTime(microtime(true));
         $session->getPlayer()->teleport($island->getSpawnLocation());
+
+        $session->save();
+        $island->save();
+
         (new IslandCreateEvent($island))->call();
     }
 
