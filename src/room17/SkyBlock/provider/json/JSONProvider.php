@@ -21,6 +21,7 @@ namespace room17\SkyBlock\provider\json;
 
 use pocketmine\utils\Config;
 use room17\SkyBlock\island\Island;
+use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\Session;
@@ -76,6 +77,11 @@ class JSONProvider extends Provider {
         $members = [];
         foreach($config->get("members", []) as $username) {
             $members[] = SessionLocator::getOfflineSession($username);
+        }
+
+        if(!$server->isLevelGenerated($identifier)) {
+            IslandFactory::createIslandWorld($identifier, "Basic");
+            $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
         $islandManager->openIsland($identifier, $members, $config->get("locked"), $config->get("type") ?? "basic",
