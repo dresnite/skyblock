@@ -80,8 +80,8 @@ class CreateCommand extends IslandCommand {
             ]));
             return;
         }
-        $generator = $args[0] ?? "Shelly";
-        if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
+        $generator = strtolower($args[0] ?? "Shelly");
+        if($this->plugin->getGeneratorManager()->isGenerator($generator) and $this->hasPermission($session, $generator)) {
             IslandFactory::createIslandFor($session, $generator);
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
@@ -89,6 +89,15 @@ class CreateCommand extends IslandCommand {
                 "name" => $generator
             ]));
         }
+    }
+
+    /**
+     * @param Session $session
+     * @param string $generator
+     * @return bool
+     */
+    private function hasPermission(Session $session, string $generator): bool {
+        return $session->getPlayer()->hasPermission("skyblock.island.$generator");
     }
 
 }

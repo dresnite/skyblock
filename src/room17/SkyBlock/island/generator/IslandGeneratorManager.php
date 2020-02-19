@@ -19,6 +19,8 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island\generator;
 
 use pocketmine\level\generator\GeneratorManager as GManager;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use room17\SkyBlock\island\generator\presets\BasicIsland;
 use room17\SkyBlock\island\generator\presets\LostIsland;
 use room17\SkyBlock\island\generator\presets\OPIsland;
@@ -80,6 +82,15 @@ class IslandGeneratorManager {
             $this->plugin->getLogger()->debug("Overwriting generator: $name");
         }
         $this->generators[$name] = $class;
+        $this->registerGeneratorPermission($name);
+    }
+
+    /**
+     * @param string $name
+     */
+    private function registerGeneratorPermission(string $name): void {
+        PermissionManager::getInstance()->addPermission(new Permission("skyblock.island." . $name, "",
+            Permission::DEFAULT_TRUE));
     }
 
     private function registerDefaultGenerators(): void {
