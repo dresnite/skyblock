@@ -79,14 +79,12 @@ class SkyBlock extends PluginBase {
         $this->commandMap = new IslandCommandMap($this);
         $this->commandMap->registerDefaultCommands();
         $this->checkSpawnProtection();
-        $this->getLogger()->info("SkyBlock was enabled");
     }
 
     public function onDisable(): void {
         foreach($this->islandManager->getIslands() as $island) {
             $island->save();
         }
-        $this->getLogger()->info("SkyBlock was disabled");
     }
 
     /**
