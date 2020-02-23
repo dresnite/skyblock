@@ -15,26 +15,15 @@ class MessageContainer {
     /** @var array */
     private $arguments = [];
 
-    /**
-     * MessageContainer constructor.
-     * @param string $messageId
-     * @param array $arguments
-     */
-    public function __construct(string $messageId, $arguments = []) {
+    public function __construct(string $messageId, array $arguments = []) {
         $this->messageId = $messageId;
         $this->arguments = $arguments;
     }
 
-    /**
-     * @return string
-     */
     public function getMessageId(): string {
         return $this->messageId;
     }
 
-    /**
-     * @return array
-     */
     public function getArguments(): array {
         return $this->arguments;
     }
