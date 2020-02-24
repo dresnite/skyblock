@@ -6,34 +6,9 @@ namespace room17\SkyBlock\utils;
 
 
 use pocketmine\item\Item;
-use pocketmine\level\Position;
-use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 class Utils {
-
-    /**
-     * @param Position $position
-     * @return string
-     */
-    public static function writePosition(Position $position): string {
-        return "{$position->getLevel()->getName()},{$position->getX()},{$position->getY()},{$position->getZ()}";
-    }
-
-    /**
-     * @param string $position
-     * @return null|Position
-     */
-    public static function parsePosition(string $position): ?Position {
-        $array = explode(",", $position);
-        if(isset($array[3])) {
-            $level = Server::getInstance()->getLevelByName($array[0]);
-            if($level != null) {
-                return new Position((float)$array[1], (float)$array[2], (float)$array[3], $level);
-            }
-        }
-        return null;
-    }
 
     /**
      * @param array $items
