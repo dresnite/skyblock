@@ -23,19 +23,10 @@ class Invitation {
     /** @var float */
     private $creationTime;
 
-    /**
-     * @param Session $sender
-     * @param Session $target
-     */
     public static function send(Session $sender, Session $target): void {
         $target->sendInvitation(new Invitation($sender, $target));
     }
 
-    /**
-     * Invitation constructor.
-     * @param Session $sender
-     * @param Session $target
-     */
     public function __construct(Session $sender, Session $target) {
         $this->sender = $sender;
         $this->target = $target;
@@ -43,30 +34,18 @@ class Invitation {
         $this->creationTime = microtime(true);
     }
 
-    /**
-     * @return Session
-     */
     public function getSender(): Session {
         return $this->sender;
     }
 
-    /**
-     * @return Session
-     */
     public function getTarget(): Session {
         return $this->target;
     }
 
-    /**
-     * @return Island
-     */
     public function getIsland(): Island {
         return $this->island;
     }
 
-    /**
-     * @return float
-     */
     public function getCreationTime(): float {
         return $this->creationTime;
     }
@@ -75,6 +54,7 @@ class Invitation {
      * @throws \ReflectionException
      */
     public function accept(): void {
+        $this->target->removeInvitation($this);
         $this->target->setIsland($this->island);
         $this->target->setRank(Session::RANK_DEFAULT);
         $this->target->clearInvitations();
@@ -92,6 +72,18 @@ class Invitation {
         $this->island->broadcastTranslatedMessage(new MessageContainer("PLAYER_INVITATION_DENIED", [
             "name" => $this->target->getName()
         ]));
+    }
+
+    public function cancel(): void {
+        $this->sender->removeInvitation($this);
+
+        $messageContainer = new MessageContainer("INVITATION_CANCELLED", [
+            "sender" => $this->sender->getName(),
+            "target" => $this->target->getName()
+        ]);
+
+        $this->sender->sendTranslatedMessage($messageContainer);
+        $this->target->sendTranslatedMessage($messageContainer);
     }
 
 }

@@ -38,57 +38,35 @@ class Session extends BaseSession {
     /** @var Invitation[] */
     private $invitations = [];
 
-    /**
-     * Session constructor.
-     * @param SessionManager $manager
-     * @param Player $player
-     */
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
         $this->name = $player->getName();
         parent::__construct($manager, $this->name);
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @return Player
-     */
     public function getPlayer(): Player {
         return $this->player;
     }
 
-    /**
-     * @return null|Island
-     */
     public function getIsland(): ?Island {
         return $this->island;
     }
 
     /**
      * Returns the island the player is currently in or null if he's not in one
-     *
-     * @return Island|null
      */
     public function getIslandByLevel(): ?Island {
         return $this->manager->getPlugin()->getIslandManager()->getIsland($this->player->getLevel()->getName());
     }
 
-    /**
-     * @return bool
-     */
     public function hasIsland(): bool {
         return $this->island != null;
     }
 
-    /**
-     * @return OfflineSession
-     */
     public function getOfflineSession(): OfflineSession {
         return new OfflineSession($this->manager, $this->lowerCaseName);
     }
@@ -100,32 +78,18 @@ class Session extends BaseSession {
         return $this->invitations;
     }
 
-    /**
-     * @return bool
-     */
     public function hasInvitations(): bool {
         return !empty($this->invitations);
     }
 
-    /**
-     * @param string $senderName
-     * @return Invitation|null
-     */
     public function getInvitationFrom(string $senderName): ?Invitation {
         return $this->invitations[strtolower($senderName)] ?? null;
     }
 
-    /**
-     * @param string $senderName
-     * @return bool
-     */
     public function hasInvitationFrom(string $senderName): bool {
         return isset($this->invitations[strtolower($senderName)]);
     }
 
-    /**
-     * @return Invitation|null
-     */
     public function getLastInvitation(): ?Invitation {
         /** @var Invitation|null $result */
         $result = null;
@@ -137,24 +101,14 @@ class Session extends BaseSession {
         return $result;
     }
 
-    /**
-     * @param MessageContainer $container
-     * @return string
-     */
     public function getMessage(MessageContainer $container): string {
         return $this->manager->getPlugin()->getMessageManager()->getMessage($container);
     }
 
-    /**
-     * @param Invitation $invitation
-     */
     public function sendInvitation(Invitation $invitation): void {
         $this->invitations[$invitation->getSender()->getLowerCaseName()] = $invitation;
     }
 
-    /**
-     * @param Invitation $invitation
-     */
     public function removeInvitation(Invitation $invitation): void {
         $key = array_search($invitation, $this->invitations);
         if($key != false) {
@@ -163,12 +117,11 @@ class Session extends BaseSession {
     }
 
     public function clearInvitations(): void {
-        $this->invitations = [];
+        foreach($this->invitations as $invitation) {
+            $invitation->cancel();
+        }
     }
 
-    /**
-     * @param null|string $identifier
-     */
     public function setIslandId(?string $identifier): void {
         parent::setIslandId($identifier);
         if($identifier != null) {
@@ -178,7 +131,6 @@ class Session extends BaseSession {
     }
 
     /**
-     * @param Island|null $island
      * @throws \ReflectionException
      */
     public function setIsland(?Island $island): void {
@@ -194,23 +146,14 @@ class Session extends BaseSession {
         $this->save();
     }
 
-    /**
-     * @param MessageContainer $container
-     */
     public function sendTranslatedMessage(MessageContainer $container): void {
         $this->player->sendMessage($this->getMessage($container));
     }
 
-    /**
-     * @param MessageContainer $container
-     */
     public function sendTranslatedPopup(MessageContainer $container): void {
         $this->player->sendPopup($this->getMessage($container));
     }
 
-    /**
-     * @param MessageContainer $container
-     */
     public function sendTranslatedTip(MessageContainer $container): void {
         $this->player->sendTip($this->getMessage($container));
     }

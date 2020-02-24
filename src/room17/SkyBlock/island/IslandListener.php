@@ -49,8 +49,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents players from breaking blocks on others property
-     *
-     * @param BlockBreakEvent $event
      * @throws \ReflectionException
      */
     public function onBreak(BlockBreakEvent $event): void {
@@ -64,11 +62,6 @@ class IslandListener implements Listener {
         }
     }
 
-    /**
-     * @param Island $island
-     * @param Session $session
-     * @param Cancellable $event
-     */
     private function checkPermissionToInteract(Island $island, Session $session, Cancellable $event) {
         if($island->canInteract($session)) {
             return;
@@ -79,8 +72,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents players from placing blocks on others property
-     *
-     * @param BlockPlaceEvent $event
      * @throws \ReflectionException
      */
     public function onPlace(BlockPlaceEvent $event): void {
@@ -96,8 +87,6 @@ class IslandListener implements Listener {
 
     /**
      * Adds one to the block count if a new block is formed
-     *
-     * @param BlockFormEvent $event
      */
     public function onBlockForm(BlockFormEvent $event): void {
         $block = $event->getBlock();
@@ -109,8 +98,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevent players from interacting on others property
-     *
-     * @param PlayerInteractEvent $event
      * @throws \ReflectionException
      */
     public function onInteract(PlayerInteractEvent $event): void {
@@ -124,8 +111,6 @@ class IslandListener implements Listener {
     /**
      * Prevents players from sleeping on beds inside islands
      * This is known for causing unexpected behavior on the plugin
-     *
-     * @param PlayerBedEnterEvent $event
      * @throws \ReflectionException
      */
     public function onEnterBed(PlayerBedEnterEvent $event): void {
@@ -137,8 +122,6 @@ class IslandListener implements Listener {
 
     /**
      * Sends the message to the island private chat if the player is connected to it
-     *
-     * @param PlayerChatEvent $event
      * @throws \ReflectionException
      */
     public function onChat(PlayerChatEvent $event): void {
@@ -156,8 +139,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevent players from sending blocked commands inside islands
-     *
-     * @param PlayerCommandPreprocessEvent $event
      * @throws \ReflectionException
      */
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
@@ -175,8 +156,6 @@ class IslandListener implements Listener {
 
     /**
      * Makes sure nobody gets void damage if it's not enabled!
-     *
-     * @param EntityDamageEvent $event
      * @throws \ReflectionException
      */
     public function onDamage(EntityDamageEvent $event): void {
@@ -202,9 +181,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents PvP inside islands and makes sure nobody can steal your paintings!
-     *
-     * @param Island $island
-     * @param EntityDamageByEntityEvent $event
      * @throws \ReflectionException
      */
     private function onDamageByEntityInIsland(Island $island, EntityDamageByEntityEvent $event): void {
@@ -220,8 +196,6 @@ class IslandListener implements Listener {
 
     /**
      * Removes the player as cooperator if possible and tries to close their island
-     *
-     * @param PlayerQuitEvent $event
      * @throws \ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {
@@ -239,13 +213,13 @@ class IslandListener implements Listener {
         if($island != null) {
             $session->teleportToSpawn();
             $island->tryToClose();
+        } else {
+            $session->clearInvitations();
         }
     }
 
     /**
      * Spawns the chest of recently created islands
-     *
-     * @param ChunkLoadEvent $event
      */
     public function onChunkLoad(ChunkLoadEvent $event): void {
         $level = $event->getLevel();
@@ -270,8 +244,6 @@ class IslandListener implements Listener {
     /**
      * Teleports players to the spawn when an island is closed
      * Not sure if this is even necessary
-     *
-     * @param LevelUnloadEvent $event
      * @throws \ReflectionException
      */
     public function onUnloadLevel(LevelUnloadEvent $event): void {
