@@ -28,7 +28,6 @@ If you have been one of the thousands of people that use or used one of my open-
 - Ethereum (ETH):`0xCF1D5a62EA738E0C2789Ff3Ca4268b4250a40050`
 - Bitcoin (BTC): `39SZkM47QXzDAP7JDowWDofmWoShtJ63yX`
 - Bitcoin Cash (BTH): `qr7wk2wz5pr4qgfv2quzux28jfddq2mdmystnw0qqv`
-- [Patreon](https://patreon.com/giantquartz)
 - [PayPal](https://paypal.me/giantquartz)
 
 ## License
