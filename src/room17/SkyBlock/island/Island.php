@@ -72,7 +72,7 @@ class Island {
      * Island constructor.
      * @param IslandManager $manager
      * @param string $identifier
-     * @param array $members
+     * @param OfflineSession[] $members
      * @param bool $locked
      * @param string $type
      * @param Level $level
@@ -88,9 +88,7 @@ class Island {
         $this->blocksBuilt = $blocksBuilt;
 
         foreach($members as $member) {
-            if($member instanceof OfflineSession) {
-                $this->addMember($member);
-            }
+            $this->addMember($member);
         }
 
         $this->updateCategory();
