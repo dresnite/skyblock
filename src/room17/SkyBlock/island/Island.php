@@ -48,10 +48,10 @@ class Island {
     private $members = [];
 
     /** @var bool */
-    private $locked = false;
+    private $locked;
 
     /** @var string */
-    private $type = self::TYPE_BASIC;
+    private $type;
 
     /** @var Level */
     private $level;
