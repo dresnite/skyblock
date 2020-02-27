@@ -6,7 +6,6 @@ namespace room17\SkyBlock\island;
 
 
 use pocketmine\block\Solid;
-use pocketmine\entity\object\Painting;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -189,7 +188,7 @@ class IslandListener implements Listener {
 
         if($entity instanceof Player) {
             $event->setCancelled();
-        } elseif($entity instanceof Painting and $damager instanceof Player) {
+        } elseif($damager instanceof Player) {
             $this->checkPermissionToInteract($island, SessionLocator::getSession($damager), $event);
         }
     }
