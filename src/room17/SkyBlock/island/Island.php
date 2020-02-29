@@ -29,9 +29,6 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class Island {
 
-    public const TYPE_BASIC = "basic.isle";
-    public const TYPE_OP = "op.isle";
-
     public const CATEGORY_EXTRA_SMALL = "XS";
     public const CATEGORY_SMALL = "S";
     public const CATEGORY_MEDIUM = "M";
