@@ -6,6 +6,7 @@ namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
+use ReflectionException;
 use room17\SkyBlock\event\island\IslandCreateEvent;
 use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\island\generator\IslandGenerator;
@@ -44,7 +45,7 @@ class IslandFactory {
     /**
      * @param Session $session
      * @param string $type
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function createIslandFor(Session $session, string $type): void {
         $identifier = uniqid("sb-");
@@ -66,7 +67,7 @@ class IslandFactory {
 
     /**
      * @param Island $island
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function disbandIsland(Island $island): void {
         foreach($island->getLevel()->getPlayers() as $player) {

@@ -22,6 +22,7 @@ namespace room17\SkyBlock\session;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerLoginEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use ReflectionException;
 
 class SessionListener implements Listener {
 
@@ -38,7 +39,7 @@ class SessionListener implements Listener {
 
     /**
      * @param PlayerLoginEvent $event
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onLogin(PlayerLoginEvent $event): void {
         $this->manager->openSession($event->getPlayer());
@@ -46,7 +47,7 @@ class SessionListener implements Listener {
 
     /**
      * @param PlayerQuitEvent $event
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {
         $this->manager->closeSession($event->getPlayer());

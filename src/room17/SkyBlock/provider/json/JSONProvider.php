@@ -20,6 +20,7 @@ namespace room17\SkyBlock\provider\json;
 
 
 use pocketmine\utils\Config;
+use ReflectionException;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\provider\Provider;
@@ -62,7 +63,7 @@ class JSONProvider extends Provider {
 
     /**
      * @param string $identifier
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function loadIsland(string $identifier): void {
         $islandManager = $this->plugin->getIslandManager();

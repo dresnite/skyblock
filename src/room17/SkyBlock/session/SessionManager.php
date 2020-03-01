@@ -20,6 +20,7 @@ namespace room17\SkyBlock\session;
 
 
 use pocketmine\Player;
+use ReflectionException;
 use room17\SkyBlock\event\session\SessionCloseEvent;
 use room17\SkyBlock\event\session\SessionOpenEvent;
 use room17\SkyBlock\SkyBlock;
@@ -58,7 +59,7 @@ class SessionManager {
     /**
      * @param Player $player
      * @return Session
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getSession(Player $player): Session {
         if(!$this->isSessionOpen($player)) {
@@ -85,7 +86,7 @@ class SessionManager {
 
     /**
      * @param Player $player
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function openSession(Player $player): void {
         $this->sessions[$username = $player->getName()] = new Session($this, $player);
@@ -94,7 +95,7 @@ class SessionManager {
 
     /**
      * @param Player $player
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function closeSession(Player $player): void {
         if(isset($this->sessions[$username = $player->getName()])) {

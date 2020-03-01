@@ -6,6 +6,7 @@ namespace room17\SkyBlock\session;
 
 
 use pocketmine\Player;
+use ReflectionException;
 use room17\SkyBlock\SkyBlock;
 
 class SessionLocator {
@@ -21,7 +22,7 @@ class SessionLocator {
     /**
      * @param Player $player
      * @return Session
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function getSession(Player $player): Session {
         return SkyBlock::getInstance()->getSessionManager()->getSession($player);

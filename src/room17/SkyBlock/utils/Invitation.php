@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\utils;
 
 
+use ReflectionException;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -51,7 +52,7 @@ class Invitation {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function accept(): void {
         $this->target->removeInvitation($this);
@@ -64,7 +65,7 @@ class Invitation {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function deny(): void {
         $this->target->removeInvitation($this);

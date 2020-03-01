@@ -23,6 +23,7 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
+use ReflectionException;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -114,7 +115,7 @@ class Island {
 
     /**
      * @return array
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getSessionsOnline(): array {
         $sessions = [];
@@ -131,7 +132,7 @@ class Island {
      * Returns the sessions of the players that are in the private island's chat
      *
      * @return Player[]
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getChattingPlayers(): array {
         $players = [];
@@ -327,7 +328,7 @@ class Island {
 
     /**
      * @param string $message
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastMessage(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -337,7 +338,7 @@ class Island {
 
     /**
      * @param MessageContainer $container
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -347,7 +348,7 @@ class Island {
 
     /**
      * @param string $message
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastPopup(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -357,7 +358,7 @@ class Island {
 
     /**
      * @param MessageContainer $container
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -367,7 +368,7 @@ class Island {
 
     /**
      * @param string $message
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastTip(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -377,7 +378,7 @@ class Island {
 
     /**
      * @param MessageContainer $container
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function broadcastTranslatedTip(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
@@ -390,7 +391,7 @@ class Island {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function updateMembers(): void {
         foreach($this->getSessionsOnline() as $member) {
@@ -401,7 +402,7 @@ class Island {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function tryToClose(): void {
         $this->updateMembers();

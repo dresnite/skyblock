@@ -19,6 +19,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
+use ReflectionException;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -49,7 +50,7 @@ class MembersCommand extends IslandCommand {
     /**
      * @param Session $session
      * @param array $args
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {

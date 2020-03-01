@@ -20,6 +20,7 @@ namespace room17\SkyBlock\session;
 
 
 use pocketmine\Player;
+use ReflectionException;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\utils\Invitation;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -131,7 +132,7 @@ class Session extends BaseSession {
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function setIsland(?Island $island): void {
         $lastIsland = $this->island;

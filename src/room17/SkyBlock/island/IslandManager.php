@@ -78,7 +78,6 @@ class IslandManager {
      * @param string $type
      * @param Level $level
      * @param int $blocksBuilt
-     * @throws \ReflectionException
      */
     public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
         $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
@@ -87,7 +86,6 @@ class IslandManager {
 
     /**
      * @param Island $island
-     * @throws \ReflectionException
      */
     public function closeIsland(Island $island): void {
         $island->save();
