@@ -71,7 +71,7 @@ class CreateCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
             return;
         }
-        $minutesSinceLastIsland = $session->getLastIslandCreationTime() !== null
+        $minutesSinceLastIsland = $session->hasLastIslandCreationTime()
             ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
             : -1;
         $cooldownDuration = $this->plugin->getSettings()->getCreationCooldownDuration();
