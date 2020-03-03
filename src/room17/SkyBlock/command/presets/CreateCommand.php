@@ -67,28 +67,16 @@ class CreateCommand extends IslandCommand {
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
-        if($session->hasIsland()) {
-            $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
+        if($this->checkIslandAvailability($session) or $this->checkIslandCreationCooldown($session)) {
             return;
         }
-        $minutesSinceLastIsland = $session->hasLastIslandCreationTime()
-            ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
-            : -1;
-        $cooldownDuration = $this->plugin->getSettings()->getCreationCooldownDuration();
-        if($minutesSinceLastIsland !== -1 and $minutesSinceLastIsland < $cooldownDuration) {
-            $session->sendTranslatedMessage(new MessageContainer("YOU_HAVE_TO_WAIT", [
-                "minutes" => ceil($cooldownDuration - $minutesSinceLastIsland),
-            ]));
-            return;
-        }
+        
         $generator = strtolower($args[0] ?? "Shelly");
         if($this->plugin->getGeneratorManager()->isGenerator($generator) and $this->hasPermission($session, $generator)) {
             IslandFactory::createIslandFor($session, $generator);
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
-            $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", [
-                "name" => $generator
-            ]));
+            $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", ["name" => $generator]));
         }
     }
 
@@ -99,6 +87,37 @@ class CreateCommand extends IslandCommand {
      */
     private function hasPermission(Session $session, string $generator): bool {
         return $session->getPlayer()->hasPermission("skyblock.island.$generator");
+    }
+
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    private function checkIslandAvailability(Session $session): bool {
+        $hasIsland = $session->hasIsland();
+        if($hasIsland) {
+            $session->sendTranslatedMessage(new MessageContainer("NEED_TO_BE_FREE"));
+        }
+        return $hasIsland;
+    }
+
+    /**
+     * @param Session $session
+     * @return bool
+     */
+    private function checkIslandCreationCooldown(Session $session): bool {
+        $minutesSinceLastIsland =
+            $session->hasLastIslandCreationTime()
+            ? (microtime(true) - $session->getLastIslandCreationTime()) / 60
+            : -1;
+        $cooldownDuration = $this->plugin->getSettings()->getCreationCooldownDuration();
+        if($minutesSinceLastIsland !== -1 and $minutesSinceLastIsland < $cooldownDuration) {
+            $session->sendTranslatedMessage(new MessageContainer("YOU_HAVE_TO_WAIT", [
+                "minutes" => ceil($cooldownDuration - $minutesSinceLastIsland),
+            ]));
+            return true;
+        }
+        return false;
     }
 
 }
