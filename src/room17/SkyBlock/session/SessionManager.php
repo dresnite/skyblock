@@ -33,18 +33,11 @@ class SessionManager {
     /** @var Session[] */
     private $sessions = [];
 
-    /**
-     * SessionManager constructor.
-     * @param SkyBlock $plugin
-     */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents(new SessionListener($this), $plugin);
     }
 
-    /**
-     * @return SkyBlock
-     */
     public function getPlugin(): SkyBlock {
         return $this->plugin;
     }
@@ -57,8 +50,6 @@ class SessionManager {
     }
 
     /**
-     * @param Player $player
-     * @return Session
      * @throws ReflectionException
      */
     public function getSession(Player $player): Session {
@@ -68,24 +59,15 @@ class SessionManager {
         return $this->sessions[$player->getName()];
     }
 
-    /**
-     * @param Player $player
-     * @return bool
-     */
     public function isSessionOpen(Player $player): bool {
         return isset($this->sessions[$player->getName()]);
     }
 
-    /**
-     * @param string $username
-     * @return null|OfflineSession
-     */
     public function getOfflineSession(string $username): ?OfflineSession {
         return new OfflineSession($this, $username);
     }
 
     /**
-     * @param Player $player
      * @throws ReflectionException
      */
     public function openSession(Player $player): void {
@@ -94,7 +76,6 @@ class SessionManager {
     }
 
     /**
-     * @param Player $player
      * @throws ReflectionException
      */
     public function closeSession(Player $player): void {

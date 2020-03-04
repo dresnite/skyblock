@@ -32,45 +32,27 @@ class TransferCommand extends IslandCommand {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * TransferCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "transfer";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["makeleader"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("TRANSFER_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("TRANSFER_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

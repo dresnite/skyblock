@@ -25,31 +25,18 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class SetSpawnCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "setspawn";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("SET_SPAWN_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("SET_SPAWN_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkOfficer($session)) {
             return;

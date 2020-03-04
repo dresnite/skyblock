@@ -24,19 +24,10 @@ use room17\SkyBlock\island\generator\IslandGenerator;
 
 class LostIsland extends IslandGenerator {
 
-    /**
-     * Return generator name
-     *
-     * @return string
-     */
     public function getName(): string {
         return "Lost";
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function generateChunk(int $chunkX, int $chunkZ): void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
@@ -234,30 +225,17 @@ class LostIsland extends IslandGenerator {
         }
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function populateChunk(int $chunkX, int $chunkZ): void {
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(10, 35, 9);
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getChestPosition(): Vector3 {
         return new Vector3(6, 35, 9);
     }
 
-    /**
-     * @return Vector3
-     */
     public function getSpawn(): Vector3 {
         return new Vector3(10, 35, 9);
     }

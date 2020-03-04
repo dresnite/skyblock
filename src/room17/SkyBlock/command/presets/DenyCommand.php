@@ -26,37 +26,23 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class DenyCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "deny";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["den", "d"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("DENY_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("DENY_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

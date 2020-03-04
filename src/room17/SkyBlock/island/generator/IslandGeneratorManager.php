@@ -62,20 +62,10 @@ class IslandGeneratorManager {
         return $this->generators[strtolower($name)] ?? null;
     }
 
-    /**
-     * Return if a generator exists
-     *
-     * @param string $name
-     * @return bool
-     */
     public function isGenerator(string $name): bool {
         return isset($this->generators[strtolower($name)]);
     }
 
-    /**
-     * @param string $name
-     * @param string $class
-     */
     public function registerGenerator(string $name, string $class): void {
         GManager::addGenerator($class, $name, true);
         if(isset($this->generators[$name])) {
@@ -85,9 +75,6 @@ class IslandGeneratorManager {
         $this->registerGeneratorPermission($name);
     }
 
-    /**
-     * @param string $name
-     */
     private function registerGeneratorPermission(string $name): void {
         PermissionManager::getInstance()->addPermission(new Permission("skyblock.island." . $name, "",
             Permission::DEFAULT_TRUE));

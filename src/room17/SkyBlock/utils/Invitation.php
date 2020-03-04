@@ -24,7 +24,7 @@ class Invitation {
     /** @var float */
     private $creationTime;
 
-    public static function send(Session $sender, Session $target): void {
+    public static function send(Session $sender, Session $target) {
         $target->sendInvitation(new Invitation($sender, $target));
     }
 

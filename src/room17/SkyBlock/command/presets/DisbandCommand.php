@@ -32,38 +32,23 @@ class DisbandCommand extends IslandCommand {
     /** @var IslandManager */
     private $islandManager;
 
-    /**
-     * DisbandCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->islandManager = $map->getPlugin()->getIslandManager();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "disband";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("DISBAND_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("DISBAND_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

@@ -29,16 +29,11 @@ class SessionListener implements Listener {
     /** @var SessionManager */
     private $manager;
 
-    /**
-     * SessionListener constructor.
-     * @param SessionManager $manager
-     */
     public function __construct(SessionManager $manager) {
         $this->manager = $manager;
     }
 
     /**
-     * @param PlayerLoginEvent $event
      * @throws ReflectionException
      */
     public function onLogin(PlayerLoginEvent $event): void {
@@ -46,7 +41,6 @@ class SessionListener implements Listener {
     }
 
     /**
-     * @param PlayerQuitEvent $event
      * @throws ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {

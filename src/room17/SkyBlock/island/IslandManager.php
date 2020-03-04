@@ -32,18 +32,11 @@ class IslandManager {
     /** @var Island[] */
     private $islands = [];
 
-    /**
-     * IslandManager constructor.
-     * @param SkyBlock $plugin
-     */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $plugin->getServer()->getPluginManager()->registerEvents(new IslandListener($this), $plugin);
     }
 
-    /**
-     * @return SkyBlock
-     */
     public function getPlugin(): SkyBlock {
         return $this->plugin;
     }
@@ -55,38 +48,19 @@ class IslandManager {
         return $this->islands;
     }
 
-    /**
-     * @param string $identifier
-     * @return null|Island
-     */
     public function getIsland(string $identifier): ?Island {
         return $this->islands[$identifier] ?? null;
     }
 
-    /**
-     * @param Level $level
-     * @return Island|null
-     */
     public function getIslandByLevel(Level $level): ?Island {
         return $this->getIsland($level->getName());
     }
 
-    /**
-     * @param string $identifier
-     * @param array $members
-     * @param bool $locked
-     * @param string $type
-     * @param Level $level
-     * @param int $blocksBuilt
-     */
     public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
         $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
         (new IslandOpenEvent($this->islands[$identifier]))->call();
     }
 
-    /**
-     * @param Island $island
-     */
     public function closeIsland(Island $island): void {
         $island->save();
         $server = $this->plugin->getServer();

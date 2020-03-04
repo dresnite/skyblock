@@ -38,10 +38,6 @@ class IslandListener implements Listener {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * IslandListener constructor.
-     * @param IslandManager $manager
-     */
     public function __construct(IslandManager $manager) {
         $this->manager = $manager;
         $this->plugin = $manager->getPlugin();

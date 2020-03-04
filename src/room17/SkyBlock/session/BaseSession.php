@@ -49,11 +49,6 @@ abstract class BaseSession {
     /** @var float|null */
     protected $lastIslandCreationTime;
 
-    /**
-     * iSession constructor.
-     * @param SessionManager $manager
-     * @param string $name
-     */
     public function __construct(SessionManager $manager, string $name) {
         $this->manager = $manager;
         $this->lowerCaseName = strtolower($name);
@@ -61,72 +56,42 @@ abstract class BaseSession {
         $this->provider->loadSession($this);
     }
 
-    /**
-     * @return string
-     */
     public function getLowerCaseName(): string {
         return $this->lowerCaseName;
     }
 
-    /**
-     * @return null|string
-     */
     public function getIslandId(): ?string {
         return $this->islandId;
     }
 
-    /**
-     * @return bool
-     */
     public function isInChat(): bool {
         return $this->inChat;
     }
 
-    /**
-     * @return int
-     */
     public function getRank(): int {
         return $this->rank;
     }
 
-    /**
-     * @return bool
-     */
     public function hasLastIslandCreationTime(): bool {
         return $this->lastIslandCreationTime != null;
     }
 
-    /**
-     * @return float|null
-     */
     public function getLastIslandCreationTime(): ?float {
         return $this->lastIslandCreationTime;
     }
 
-    /**
-     * @param null|string $identifier
-     */
     public function setIslandId(?string $identifier): void {
         $this->islandId = $identifier;
     }
 
-    /**
-     * @param bool $inChat
-     */
     public function setInChat(bool $inChat = true): void {
         $this->inChat = $inChat;
     }
 
-    /**
-     * @param int $rank
-     */
     public function setRank(int $rank = self::RANK_DEFAULT): void {
         $this->rank = $rank;
     }
 
-    /**
-     * @param float|null $lastIslandCreationTime
-     */
     public function setLastIslandCreationTime(?float $lastIslandCreationTime): void {
         $this->lastIslandCreationTime = $lastIslandCreationTime;
     }

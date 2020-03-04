@@ -17,11 +17,6 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class IslandFactory {
 
-    /**
-     * @param string $identifier
-     * @param string $type
-     * @return Level
-     */
     public static function createIslandWorld(string $identifier, string $type): Level {
         $skyblock = SkyBlock::getInstance();
 
@@ -43,8 +38,6 @@ class IslandFactory {
     }
 
     /**
-     * @param Session $session
-     * @param string $type
      * @throws ReflectionException
      */
     public static function createIslandFor(Session $session, string $type): void {
@@ -66,7 +59,6 @@ class IslandFactory {
     }
 
     /**
-     * @param Island $island
      * @throws ReflectionException
      */
     public static function disbandIsland(Island $island): void {

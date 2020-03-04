@@ -32,38 +32,23 @@ class CreateCommand extends IslandCommand {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * CreateCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "create";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("CREATE_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("CREATE_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
@@ -80,19 +65,10 @@ class CreateCommand extends IslandCommand {
         }
     }
 
-    /**
-     * @param Session $session
-     * @param string $generator
-     * @return bool
-     */
     private function hasPermission(Session $session, string $generator): bool {
         return $session->getPlayer()->hasPermission("skyblock.island.$generator");
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     private function checkIslandAvailability(Session $session): bool {
         $hasIsland = $session->hasIsland();
         if($hasIsland) {
@@ -101,10 +77,6 @@ class CreateCommand extends IslandCommand {
         return $hasIsland;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     private function checkIslandCreationCooldown(Session $session): bool {
         $minutesSinceLastIsland =
             $session->hasLastIslandCreationTime()

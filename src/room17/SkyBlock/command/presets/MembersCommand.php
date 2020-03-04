@@ -26,30 +26,19 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class MembersCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "members";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("MEMBERS_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("MEMBERS_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

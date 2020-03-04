@@ -28,10 +28,6 @@ abstract class Provider {
     /** @var SkyBlock */
     protected $plugin;
 
-    /**
-     * Provider constructor.
-     * @param SkyBlock $plugin
-     */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $this->initialize();
@@ -39,24 +35,12 @@ abstract class Provider {
 
     public abstract function initialize(): void;
 
-    /**
-     * @param BaseSession $session
-     */
     public abstract function loadSession(BaseSession $session): void;
 
-    /**
-     * @param BaseSession $session
-     */
     public abstract function saveSession(BaseSession $session): void;
 
-    /**
-     * @param string $identifier
-     */
     public abstract function loadIsland(string $identifier): void;
 
-    /**
-     * @param Island $island
-     */
     public abstract function saveIsland(Island $island): void;
 
 }

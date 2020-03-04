@@ -29,46 +29,26 @@ class HelpCommand extends IslandCommand {
     /** @var IslandCommandMap */
     private $map;
 
-    /**
-     * HelpCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->map = $map;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "help";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["?"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("HELP_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("HELP_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         $session->sendTranslatedMessage(new MessageContainer("HELP_HEADER", [
             "amount" => count($this->map->getCommands())

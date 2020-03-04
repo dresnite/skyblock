@@ -24,19 +24,10 @@ use room17\SkyBlock\island\generator\IslandGenerator;
 
 class PalmIsland extends IslandGenerator {
 
-    /**
-     * Return generator name
-     *
-     * @return string
-     */
     public function getName(): string {
         return "Palm";
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function generateChunk(int $chunkX, int $chunkZ): void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
@@ -324,30 +315,17 @@ class PalmIsland extends IslandGenerator {
         }
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function populateChunk(int $chunkX, int $chunkZ): void {
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(9, 40, 11);
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getChestPosition(): Vector3 {
         return new Vector3(7, 40, 8);
     }
 
-    /**
-     * @return Vector3
-     */
     public function getSpawn(): Vector3 {
         return new Vector3(9, 40, 11);
     }

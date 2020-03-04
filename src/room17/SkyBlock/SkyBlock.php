@@ -53,9 +53,6 @@ class SkyBlock extends PluginBase {
     /** @var MessageManager */
     private $messageManager;
 
-    /**
-     * @return SkyBlock
-     */
     public static function getInstance(): SkyBlock {
         return self::$instance;
     }
@@ -87,51 +84,30 @@ class SkyBlock extends PluginBase {
         }
     }
 
-    /**
-     * @return SkyBlockSettings
-     */
     public function getSettings(): SkyBlockSettings {
         return $this->settings;
     }
 
-    /**
-     * @return Provider
-     */
     public function getProvider(): Provider {
         return $this->provider;
     }
 
-    /**
-     * @return SessionManager
-     */
     public function getSessionManager(): SessionManager {
         return $this->sessionManager;
     }
 
-    /**
-     * @return IslandManager
-     */
     public function getIslandManager(): IslandManager {
         return $this->islandManager;
     }
 
-    /**
-     * @return IslandGeneratorManager
-     */
     public function getGeneratorManager(): IslandGeneratorManager {
         return $this->generatorManager;
     }
 
-    /**
-     * @return MessageManager
-     */
     public function getMessageManager(): MessageManager {
         return $this->messageManager;
     }
 
-    /**
-     * @return IslandCommandMap
-     */
     public function getCommandMap(): IslandCommandMap {
         return $this->commandMap;
     }

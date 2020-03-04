@@ -26,17 +26,10 @@ use room17\SkyBlock\island\generator\IslandGenerator;
 
 class BasicIsland extends IslandGenerator {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "Basic";
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function generateChunk(int $chunkX, int $chunkZ): void {
         $chunk = $this->level->getChunk($chunkX, $chunkZ);
         $chunk->setGenerated();
@@ -73,31 +66,19 @@ class BasicIsland extends IslandGenerator {
         }
     }
 
-    /**
-     * @param int $chunkX
-     * @param int $chunkZ
-     */
     public function populateChunk(int $chunkX, int $chunkZ): void {
         return;
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(7, 66, 7);
     }
 
-    /**
-     * @return Vector3
-     */
     public static function getChestPosition(): Vector3 {
         return new Vector3(8, 64, 7);
     }
 
-    /**
-     * @return Vector3
-     */
+
     public function getSpawn(): Vector3 {
         return new Vector3(7, 66, 7);
     }

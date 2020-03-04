@@ -31,45 +31,27 @@ class VisitCommand extends IslandCommand {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * VisitCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "visit";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["teleport", "tp"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("VISIT_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("VISIT_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

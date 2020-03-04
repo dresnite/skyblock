@@ -25,17 +25,10 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 abstract class IslandCommand {
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return [];
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function checkIsland(Session $session): bool {
         if($session->hasIsland()) {
             return false;
@@ -44,10 +37,6 @@ abstract class IslandCommand {
         return true;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function checkFounder(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
@@ -58,10 +47,6 @@ abstract class IslandCommand {
         return true;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function checkLeader(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
@@ -72,10 +57,6 @@ abstract class IslandCommand {
         return true;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function checkOfficer(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
@@ -86,11 +67,6 @@ abstract class IslandCommand {
         return true;
     }
 
-    /**
-     * @param null|Session $session
-     * @param null|Session $ySession
-     * @return bool
-     */
     public function checkClone(?Session $session, ?Session $ySession): bool {
         if($session === $ySession) {
             $session->sendTranslatedMessage(new MessageContainer("CANT_BE_YOURSELF"));
@@ -99,26 +75,12 @@ abstract class IslandCommand {
         return false;
     }
 
-    /**
-     * @return string
-     */
     public abstract function getName(): string;
 
-    /**
-     * @return MessageContainer
-     */
     public abstract function getUsageMessageContainer(): MessageContainer;
 
-    /**
-     * @return MessageContainer
-     */
     public abstract function getDescriptionMessageContainer(): MessageContainer;
 
-    /**
-     * @param Session $session
-     * @param array $args
-     * @return void
-     */
     public abstract function onCommand(Session $session, array $args): void;
 
 }

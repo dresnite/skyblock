@@ -25,38 +25,22 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class CategoryCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "category";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["c"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("CATEGORY_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("CATEGORY_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
             return;

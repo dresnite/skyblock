@@ -31,38 +31,23 @@ class KickCommand extends IslandCommand {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * KickCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "kick";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("KICK_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("KICK_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

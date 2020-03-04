@@ -25,31 +25,18 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class BlocksCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "blocks";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("BLOCKS_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("BLOCKS_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
             return;

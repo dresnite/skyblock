@@ -31,38 +31,23 @@ class PromoteCommand extends IslandCommand {
     /** @var SkyBlock */
     private $plugin;
 
-    /**
-     * PromoteCommand constructor.
-     * @param IslandCommandMap $map
-     */
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "promote";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("PROMOTE_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("PROMOTE_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

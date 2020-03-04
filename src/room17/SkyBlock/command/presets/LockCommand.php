@@ -25,31 +25,18 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class LockCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "lock";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("LOCK_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("LOCK_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkLeader($session)) {
             return;

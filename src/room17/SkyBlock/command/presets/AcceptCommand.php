@@ -26,37 +26,23 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class AcceptCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "accept";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["acc"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("ACCEPT_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("ACCEPT_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {

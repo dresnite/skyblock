@@ -66,16 +66,6 @@ class Island {
     /** @var bool */
     private $closed = false;
 
-    /**
-     * Island constructor.
-     * @param IslandManager $manager
-     * @param string $identifier
-     * @param OfflineSession[] $members
-     * @param bool $locked
-     * @param string $type
-     * @param Level $level
-     * @param int $blocksBuilt
-     */
     public function __construct(IslandManager $manager, string $identifier, array $members, bool $locked, string $type,
                                 Level $level, int $blocksBuilt) {
         $this->manager = $manager;
@@ -92,9 +82,6 @@ class Island {
         $this->updateCategory();
     }
 
-    /**
-     * @return string
-     */
     public function getIdentifier(): string {
         return $this->identifier;
     }
@@ -114,7 +101,7 @@ class Island {
     }
 
     /**
-     * @return array
+     * @return Session[]
      * @throws ReflectionException
      */
     public function getSessionsOnline(): array {
@@ -144,51 +131,30 @@ class Island {
         return $players;
     }
 
-    /**
-     * @return bool
-     */
     public function isLocked(): bool {
         return $this->locked;
     }
 
-    /**
-     * @return string
-     */
     public function getType(): string {
         return $this->type;
     }
 
-    /**
-     * @return Level
-     */
     public function getLevel(): Level {
         return $this->level;
     }
 
-    /**
-     * @return Position
-     */
     public function getSpawnLocation(): Position {
         return $this->level->getSpawnLocation();
     }
 
-    /**
-     * @return int
-     */
     public function getBlocksBuilt(): int {
         return $this->blocksBuilt;
     }
 
-    /**
-     * @return string
-     */
     public function getCategory(): string {
         return $this->category;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNextCategory(): ?string {
         switch($this->category) {
             case self::CATEGORY_EXTRA_LARGE:
@@ -208,9 +174,6 @@ class Island {
         }
     }
 
-    /**
-     * @return int
-     */
     public function getSlots(): int {
         return $this->manager->getPlugin()->getSettings()->getSlotsByCategory($this->category);
     }
@@ -222,32 +185,18 @@ class Island {
         return $this->cooperators;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function isCooperator(Session $session): bool {
         return isset($this->cooperators[$session->getLowerCaseName()]);
     }
 
-    /**
-     * @return bool
-     */
     public function isClosed(): bool {
         return $this->closed;
     }
 
-    /**
-     * @param Session $session
-     * @return bool
-     */
     public function canInteract(Session $session): bool {
         return $session->getIsland() === $this or $this->isCooperator($session) or $session->getPlayer()->hasPermission("skyblock.interaction");
     }
 
-    /**
-     * @param bool $locked
-     */
     public function setLocked(bool $locked = true): void {
         $this->locked = $locked;
     }
@@ -259,16 +208,10 @@ class Island {
         $this->members = $members;
     }
 
-    /**
-     * @param Vector3 $position
-     */
     public function setSpawnLocation(Vector3 $position): void {
         $this->level->setSpawnLocation($position);
     }
 
-    /**
-     * @param int $blocksBuilt
-     */
     public function setBlocksBuilt(int $blocksBuilt): void {
         $this->blocksBuilt = max(0, $blocksBuilt);
         $this->updateCategory();
@@ -296,9 +239,6 @@ class Island {
         $this->setBlocksBuilt($this->blocksBuilt - 1);
     }
 
-    /**
-     * @param OfflineSession $session
-     */
     public function addMember(OfflineSession $session): void {
         $this->members[strtolower($session->getLowerCaseName())] = $session;
     }
@@ -310,16 +250,10 @@ class Island {
         $this->cooperators = $cooperators;
     }
 
-    /**
-     * @param Session $session
-     */
     public function addCooperator(Session $session): void {
         $this->cooperators[$session->getLowerCaseName()] = $session;
     }
 
-    /**
-     * @param Session $session
-     */
     public function removeCooperator(Session $session): void {
         if(isset($this->cooperators[$username = $session->getLowerCaseName()])) {
             unset($this->cooperators[$username]);
@@ -327,7 +261,6 @@ class Island {
     }
 
     /**
-     * @param string $message
      * @throws ReflectionException
      */
     public function broadcastMessage(string $message): void {
@@ -337,7 +270,6 @@ class Island {
     }
 
     /**
-     * @param MessageContainer $container
      * @throws ReflectionException
      */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
@@ -347,7 +279,6 @@ class Island {
     }
 
     /**
-     * @param string $message
      * @throws ReflectionException
      */
     public function broadcastPopup(string $message): void {
@@ -357,7 +288,6 @@ class Island {
     }
 
     /**
-     * @param MessageContainer $container
      * @throws ReflectionException
      */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
@@ -367,7 +297,6 @@ class Island {
     }
 
     /**
-     * @param string $message
      * @throws ReflectionException
      */
     public function broadcastTip(string $message): void {
@@ -377,7 +306,6 @@ class Island {
     }
 
     /**
-     * @param MessageContainer $container
      * @throws ReflectionException
      */
     public function broadcastTranslatedTip(MessageContainer $container): void {

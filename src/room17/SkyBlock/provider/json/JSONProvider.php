@@ -40,9 +40,6 @@ class JSONProvider extends Provider {
         }
     }
 
-    /**
-     * @param BaseSession $session
-     */
     public function loadSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getLowerCaseName());
         $session->setIslandId($config->get("isle", null) ?? null);
@@ -50,9 +47,6 @@ class JSONProvider extends Provider {
         $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
     }
 
-    /**
-     * @param BaseSession $session
-     */
     public function saveSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getLowerCaseName());
         $config->set("isle", $session->getIslandId());
@@ -62,7 +56,6 @@ class JSONProvider extends Provider {
     }
 
     /**
-     * @param string $identifier
      * @throws ReflectionException
      */
     public function loadIsland(string $identifier): void {
@@ -90,9 +83,6 @@ class JSONProvider extends Provider {
         );
     }
 
-    /**
-     * @param Island $island
-     */
     public function saveIsland(Island $island): void {
         $config = $this->getIslandConfig($island->getIdentifier());
         $config->set("identifier", $island->getIdentifier());
@@ -109,10 +99,6 @@ class JSONProvider extends Provider {
         $config->save();
     }
 
-    /**
-     * @param string $username
-     * @return Config
-     */
     private function getUserConfig(string $username): Config {
         return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
             "isle" => null,
@@ -120,10 +106,6 @@ class JSONProvider extends Provider {
         ]);
     }
 
-    /**
-     * @param string $islandId
-     * @return Config
-     */
     private function getIslandConfig(string $islandId): Config {
         return new Config($this->plugin->getDataFolder() . "isles/$islandId.json", Config::JSON);
     }

@@ -25,38 +25,22 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class JoinCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "join";
     }
 
-    /**
-     * @return array
-     */
     public function getAliases(): array {
         return ["go", "spawn"];
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("JOIN_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("JOIN_DESCRIPTION");
     }
 
-    /**
-     * @param Session $session
-     * @param array $args
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
             return;

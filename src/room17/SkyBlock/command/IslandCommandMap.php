@@ -58,10 +58,6 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     /** @var IslandCommand[] */
     private $commands = [];
 
-    /**
-     * IslandCommandMap constructor.
-     * @param SkyBlock $plugin
-     */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         parent::__construct("isle", "SkyBlock command", "Usage: /is", [
@@ -88,10 +84,6 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         return $this->commands;
     }
 
-    /**
-     * @param string $alias
-     * @return null|IslandCommand
-     */
     public function getCommand(string $alias): ?IslandCommand {
         foreach($this->commands as $key => $command) {
             if(in_array(strtolower($alias), $command->getAliases()) or $alias == $command->getName()) {
@@ -101,16 +93,10 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         return null;
     }
 
-    /**
-     * @param IslandCommand $command
-     */
     public function registerCommand(IslandCommand $command): void {
         $this->commands[$command->getName()] = $command;
     }
 
-    /**
-     * @param string $commandName
-     */
     public function unregisterCommand(string $commandName): void {
         if(isset($this->commands[$commandName])) {
             unset($this->commands[$commandName]);
@@ -142,9 +128,6 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     }
 
     /**
-     * @param CommandSender $sender
-     * @param string $commandLabel
-     * @param array $args
      * @throws ReflectionException
      */
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {

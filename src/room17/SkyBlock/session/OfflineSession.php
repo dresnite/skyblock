@@ -24,7 +24,6 @@ use ReflectionException;
 class OfflineSession extends BaseSession {
 
     /**
-     * @return Session|null
      * @throws ReflectionException
      */
     public function getSession(): ?Session {

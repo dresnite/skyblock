@@ -27,17 +27,10 @@ abstract class IslandEvent extends SkyBlockEvent {
     /** @var Island */
     private $island;
 
-    /**
-     * IsleEvent constructor.
-     * @param Island $island
-     */
     public function __construct(Island $island) {
         $this->island = $island;
     }
 
-    /**
-     * @return Island
-     */
     public function getIsland(): Island {
         return $this->island;
     }

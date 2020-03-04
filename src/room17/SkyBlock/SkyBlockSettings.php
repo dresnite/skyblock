@@ -57,49 +57,28 @@ class SkyBlockSettings {
     /** @var string */
     private $chatFormat;
 
-    /**
-     * SkyBlockSettings constructor.
-     * @param SkyBlock $plugin
-     */
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
         $this->refreshData();
         $this->checkVersion();
     }
 
-    /**
-     * @param string $category
-     * @return int
-     */
     public function getSlotsByCategory(string $category): int {
         return $this->slotsByCategory[$category] ?? 1;
     }
 
-    /**
-     * @return Item[]
-     */
     public function getDefaultChestContent(): array {
         return $this->defaultChestContent;
     }
 
-    /**
-     * @param string $generator
-     * @return array
-     */
     public function getCustomChestContent(string $generator): array {
         return $this->customChestContent[$generator] ?? $this->defaultChestContent;
     }
 
-    /**
-     * @return int
-     */
     public function getCreationCooldownDuration(): int {
         return $this->creationCooldownDuration;
     }
 
-    /**
-     * @return bool
-     */
     public function preventVoidDamage(): bool {
         return $this->cancelVoidDamage;
     }
@@ -111,9 +90,6 @@ class SkyBlockSettings {
         return $this->blockedCommands;
     }
 
-    /**
-     * @return string
-     */
     public function getChatFormat(): string {
         return $this->chatFormat;
     }

@@ -10,10 +10,6 @@ use pocketmine\utils\TextFormat;
 
 class Utils {
 
-    /**
-     * @param array $items
-     * @return array
-     */
     public static function parseItems(array $items): array {
         $result = [];
         foreach($items as $item) {
@@ -25,12 +21,6 @@ class Utils {
         return $result;
     }
 
-    /**
-     * Parse an Item
-     *
-     * @param string $item
-     * @return null|Item
-     */
     public static function parseItem(string $item): ?Item {
         $parts = explode(",", str_replace(" ", "", $item));
         foreach($parts as $key => $value) {
@@ -42,10 +32,6 @@ class Utils {
         return null;
     }
 
-    /**
-     * @param string $message
-     * @return string
-     */
     public static function translateColors(string $message): string {
         $message = str_replace("&", TextFormat::ESCAPE, $message);
         $message = str_replace("{BLACK}", TextFormat::BLACK, $message);

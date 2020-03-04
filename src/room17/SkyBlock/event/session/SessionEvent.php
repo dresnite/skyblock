@@ -27,17 +27,10 @@ abstract class SessionEvent extends SkyBlockEvent {
     /** @var Session */
     private $session;
 
-    /**
-     * SessionEvent constructor.
-     * @param Session $session
-     */
     public function __construct(Session $session) {
         $this->session = $session;
     }
 
-    /**
-     * @return Session
-     */
     public function getSession(): Session {
         return $this->session;
     }

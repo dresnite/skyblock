@@ -27,30 +27,19 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class LeaveCommand extends IslandCommand {
 
-    /**
-     * @return string
-     */
     public function getName(): string {
         return "leave";
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("LEAVE_USAGE");
     }
 
-    /**
-     * @return MessageContainer
-     */
     public function getDescriptionMessageContainer(): MessageContainer {
         return new MessageContainer("LEAVE_DESCRIPTION");
     }
 
     /**
-     * @param Session $session
-     * @param array $args
      * @throws ReflectionException
      */
     public function onCommand(Session $session, array $args): void {
