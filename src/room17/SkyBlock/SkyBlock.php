@@ -113,8 +113,10 @@ class SkyBlock extends PluginBase {
     }
 
     private function checkSpawnProtection(): void {
-        if($this->getServer()->getSpawnRadius() > 0) {
-            $this->getLogger()->warning("Please, disable the spawn protection on your server.properties, otherwise SkyBlock won't work correctly");
+        $server = $this->getServer();
+        if($server->getSpawnRadius() > 0) {
+            $this->getLogger()->warning("Disable the spawn protection on your server.properties, otherwise SkyBlock won't work");
+            $server->getPluginManager()->disablePlugin($this);
         }
     }
 
