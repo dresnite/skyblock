@@ -9,7 +9,7 @@ These instructions will get you a copy of the project up and running on your ser
 
 ### Downloading
 
-You can get the latest compiled version in our [Poggit.](https://poggit.pmmp.io/ci/room17/SkyBlock)
+You can get the latest compiled version in our [Poggit.](https://poggit.pmmp.io/ci/GiantQuartz/SkyBlock)
 
 ### Installing
 
