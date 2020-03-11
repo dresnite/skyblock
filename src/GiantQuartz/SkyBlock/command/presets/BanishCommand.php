@@ -18,7 +18,7 @@ use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\SkyBlock;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
 
-class KickCommand extends IslandCommand {
+class BanishCommand extends IslandCommand {
 
     /** @var SkyBlock */
     private $plugin;
@@ -28,15 +28,15 @@ class KickCommand extends IslandCommand {
     }
 
     public function getName(): string {
-        return "kick";
+        return "banish";
     }
 
     public function getUsageMessageContainer(): MessageContainer {
-        return new MessageContainer("KICK_USAGE");
+        return new MessageContainer("BANISH_USAGE");
     }
 
     public function getDescriptionMessageContainer(): MessageContainer {
-        return new MessageContainer("KICK_DESCRIPTION");
+        return new MessageContainer("BANISH_DESCRIPTION");
     }
 
     /**
@@ -46,7 +46,7 @@ class KickCommand extends IslandCommand {
         if($this->checkOfficer($session)) {
             return;
         } elseif(!isset($args[0])) {
-            $session->sendTranslatedMessage(new MessageContainer("KICK_USAGE"));
+            $session->sendTranslatedMessage(new MessageContainer("BANISH_USAGE"));
             return;
         }
         $server = $this->plugin->getServer();
@@ -61,11 +61,11 @@ class KickCommand extends IslandCommand {
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsland() === $session->getIsland()) {
-            $session->sendTranslatedMessage(new MessageContainer("CANNOT_KICK_A_MEMBER"));
+            $session->sendTranslatedMessage(new MessageContainer("CANNOT_BANISH_A_MEMBER"));
         } elseif(in_array($player, $session->getIsland()->getPlayersOnline())) {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
-            $playerSession->sendTranslatedMessage(new MessageContainer("KICKED_FROM_THE_ISLAND"));
-            $session->sendTranslatedMessage(new MessageContainer("YOU_KICKED_A_PLAYER", [
+            $playerSession->sendTranslatedMessage(new MessageContainer("BANISHED_FROM_THE_ISLAND"));
+            $session->sendTranslatedMessage(new MessageContainer("YOU_BANISHED_A_PLAYER", [
                 "name" => $playerSession->getName()
             ]));
         } else {

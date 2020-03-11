@@ -30,7 +30,7 @@ use GiantQuartz\SkyBlock\command\presets\FireCommand;
 use GiantQuartz\SkyBlock\command\presets\HelpCommand;
 use GiantQuartz\SkyBlock\command\presets\InviteCommand;
 use GiantQuartz\SkyBlock\command\presets\JoinCommand;
-use GiantQuartz\SkyBlock\command\presets\KickCommand;
+use GiantQuartz\SkyBlock\command\presets\BanishCommand;
 use GiantQuartz\SkyBlock\command\presets\LeaveCommand;
 use GiantQuartz\SkyBlock\command\presets\LockCommand;
 use GiantQuartz\SkyBlock\command\presets\MembersCommand;
@@ -108,7 +108,7 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         $this->registerCommand(new AcceptCommand());
         $this->registerCommand(new DenyCommand());
         $this->registerCommand(new DisbandCommand($this));
-        $this->registerCommand(new KickCommand($this));
+        $this->registerCommand(new BanishCommand($this));
         $this->registerCommand(new FireCommand($this));
         $this->registerCommand(new PromoteCommand($this));
         $this->registerCommand(new DemoteCommand($this));

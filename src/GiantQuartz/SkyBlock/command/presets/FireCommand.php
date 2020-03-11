@@ -31,6 +31,10 @@ class FireCommand extends IslandCommand {
         return "fire";
     }
 
+    public function getAliases(): array {
+        return ["kick"];
+    }
+
     public function getUsageMessageContainer(): MessageContainer {
         return new MessageContainer("FIRE_USAGE");
     }
