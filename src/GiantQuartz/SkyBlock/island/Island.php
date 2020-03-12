@@ -211,17 +211,7 @@ class Island {
     }
 
     public function updateCategory(): void {
-        if($this->blocksBuilt >= 500000) {
-            $this->category = self::CATEGORY_EXTRA_LARGE;
-        } elseif($this->blocksBuilt >= 100000) {
-            $this->category = self::CATEGORY_LARGE;
-        } elseif($this->blocksBuilt >= 50000) {
-            $this->category = self::CATEGORY_MEDIUM;
-        } elseif($this->blocksBuilt >= 10000) {
-            $this->category = self::CATEGORY_SMALL;
-        } else {
-            $this->category = self::CATEGORY_EXTRA_SMALL;
-        }
+        $this->category = $this->manager->getPlugin()->getSettings()->getCategoryByBlocks($this->blocksBuilt);
     }
 
     public function addBlock(): void {

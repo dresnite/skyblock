@@ -39,6 +39,13 @@ SlotsByCategory:
   L: 15
   XL: 20
 
+# The amount of built blocks necessary to reach the next category
+CategoryByBlocks:
+  XS: 500
+  S: 1000
+  M: 5000
+  L: 10000
+
 # The amount of minutes a person has to wait to create another island, you can use it to prevent players from spamming
 # island creation to slow down your server and/or to prevent them from getting the island chest unlimited times
 CreationCooldownDuration: 20

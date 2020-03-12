@@ -11,13 +11,14 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock;
 
 
+use GiantQuartz\SkyBlock\island\Island;
 use pocketmine\item\Item;
 use pocketmine\utils\Config;
 use GiantQuartz\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
 
-    private const VERSION = "1";
+    private const VERSION = "2";
 
     /** @var SkyBlock */
     private $plugin;
@@ -30,6 +31,9 @@ class SkyBlockSettings {
 
     /** @var int[] */
     private $slotsByCategory;
+
+    /** @var int[] */
+    private $blocksByCategory;
 
     /** @var Item[] */
     private $defaultChestContent;
@@ -57,6 +61,21 @@ class SkyBlockSettings {
 
     public function getSlotsByCategory(string $category): int {
         return $this->slotsByCategory[$category] ?? 1;
+    }
+
+    public function getCategoryByBlocks(int $blocks): string {
+        if($blocks >= $this->blocksByCategory["L"]) {
+            $category = Island::CATEGORY_EXTRA_LARGE;
+        } elseif($blocks >= $this->blocksByCategory["M"]) {
+            $category = Island::CATEGORY_LARGE;
+        } elseif($blocks >= $this->blocksByCategory["S"]) {
+            $category = Island::CATEGORY_MEDIUM;
+        } elseif($blocks >= $this->blocksByCategory["XS"]) {
+            $category = Island::CATEGORY_SMALL;
+        } else {
+            $category = Island::CATEGORY_EXTRA_SMALL;
+        }
+        return $category;
     }
 
     public function getDefaultChestContent(): array {
@@ -93,6 +112,7 @@ class SkyBlockSettings {
 
         $this->settingsVersion = $settingsData["Version"];
         $this->slotsByCategory = $settingsData["SlotsByCategory"];
+        $this->blocksByCategory = $settingsData["CategoryByBlocks"];
         $this->defaultChestContent = Utils::parseItems($settingsData["ChestContent"]);
 
         $this->customChestContent = [];
@@ -112,10 +132,17 @@ class SkyBlockSettings {
         if($this->settingsVersion == self::VERSION) {
             return;
         }
-        // ToDo: Set all the new fields here
-        // $this->settingsConfig->set("newField", "value");
+
+        $this->settingsConfig->set("Version", self::VERSION);
+        $this->settingsConfig->set("CategoryByBlocks", [
+            "XS" => 500,
+            "S" => 1000,
+            "M" => 5000,
+            "XL" => 10000
+        ]);
+
         $this->settingsConfig->save();
-        $this->plugin->getLogger()->warning("The settings version does not match with the current version of SkyBlock, all fields will have been updated");
+        $this->plugin->getLogger()->warning("The settings file does not match with the current version of SkyBlock, the file has been updated");
     }
 
 }
