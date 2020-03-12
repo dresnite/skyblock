@@ -176,7 +176,7 @@ class IslandListener implements Listener {
 
         if($event instanceof EntityDamageByEntityEvent) {
             $this->onDamageByEntityInIsland($island, $event);
-        } elseif($event->getCause() == EntityDamageByEntityEvent::CAUSE_VOID and $this->plugin->getSettings()->preventVoidDamage()) {
+        } elseif($event->getCause() == EntityDamageByEntityEvent::CAUSE_VOID and $this->plugin->getSettings()->isVoidDamageEnabled()) {
             $entity->teleport($island->getSpawnLocation());
             $event->setCancelled();
         }
@@ -238,7 +238,7 @@ class IslandListener implements Listener {
         if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
             $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
-            foreach($this->plugin->getSettings()->getCustomChestContent($type) as $item) {
+            foreach($this->plugin->getSettings()->getChestContentByGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
         }
