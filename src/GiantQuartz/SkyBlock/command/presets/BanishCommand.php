@@ -11,9 +11,9 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
-use GiantQuartz\SkyBlock\command\IslandCommandMap;
 use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\SkyBlock;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
@@ -22,10 +22,6 @@ class BanishCommand extends IslandCommand {
 
     /** @var SkyBlock */
     private $plugin;
-
-    public function __construct(IslandCommandMap $map) {
-        $this->plugin = $map->getPlugin();
-    }
 
     public function getName(): string {
         return "banish";
@@ -57,7 +53,7 @@ class BanishCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession = $this->plugin->getSessionManager()->getSession($player);
+        $playerSession = SessionLocator::getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsland() === $session->getIsland()) {

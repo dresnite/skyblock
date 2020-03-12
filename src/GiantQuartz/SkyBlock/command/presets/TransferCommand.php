@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
 use GiantQuartz\SkyBlock\command\IslandCommandMap;
@@ -61,7 +62,7 @@ class TransferCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession = $this->plugin->getSessionManager()->getSession($player);
+        $playerSession = SessionLocator::getSession($player);
         if($this->checkClone($session, $playerSession)) {
             return;
         } elseif($playerSession->getIsland() !== $session->getIsland()) {

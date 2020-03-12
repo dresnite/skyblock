@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
 use GiantQuartz\SkyBlock\command\IslandCommandMap;
@@ -56,7 +57,7 @@ class CooperateCommand extends IslandCommand {
             ]));
             return;
         }
-        $playerSession = $this->plugin->getSessionManager()->getSession($player);
+        $playerSession = SessionLocator::getSession($player);
         $playerName = $playerSession->getPlayer()->getName();
         $sessionName = $session->getPlayer()->getName();
         $island = $session->getIsland();

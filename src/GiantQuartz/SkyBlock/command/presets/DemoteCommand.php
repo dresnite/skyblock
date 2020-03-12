@@ -11,21 +11,13 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
-use GiantQuartz\SkyBlock\command\IslandCommandMap;
 use GiantQuartz\SkyBlock\session\Session;
-use GiantQuartz\SkyBlock\SkyBlock;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
 
 class DemoteCommand extends IslandCommand {
-
-    /** @var SkyBlock */
-    private $plugin;
-
-    public function __construct(IslandCommandMap $map) {
-        $this->plugin = $map->getPlugin();
-    }
 
     public function getName(): string {
         return "demote";
@@ -50,7 +42,7 @@ class DemoteCommand extends IslandCommand {
             return;
         }
 
-        $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
+        $offlineSession = SessionLocator::getOfflineSession($args[0]);
         if($this->checkClone($session, $offlineSession->getSession())) {
             return;
         } elseif($offlineSession->getIslandId() != $session->getIslandId()) {
