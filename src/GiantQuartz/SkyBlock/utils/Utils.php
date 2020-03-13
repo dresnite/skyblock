@@ -17,25 +17,14 @@ use pocketmine\utils\TextFormat;
 class Utils {
 
     public static function parseItems(array $items): array {
-        $result = [];
-        foreach($items as $item) {
-            $item = self::parseItem($item);
-            if($item != null) {
-                $result[] = $item;
-            }
-        }
-        return $result;
+        return array_filter(array_map("self::parseItem", $items), function($value) {
+            return $value != null;
+        });
     }
 
     public static function parseItem(string $item): ?Item {
-        $parts = explode(",", str_replace(" ", "", $item));
-        foreach($parts as $key => $value) {
-            $parts[$key] = (int)$value;
-        }
-        if(isset($parts[0])) {
-            return Item::get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1);
-        }
-        return null;
+        $parts = array_map("intval", explode(",", str_replace(" ", "", $item)));
+        return (count($parts) > 0) ? Item::get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1) : null;
     }
 
     public static function translateColors(string $message): string {
