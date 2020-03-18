@@ -15,7 +15,4 @@ use pocketmine\event\Event;
 
 abstract class SkyBlockEvent extends Event {
 
-    /** @var null */
-    public static $handlerList = null;
-
 }
