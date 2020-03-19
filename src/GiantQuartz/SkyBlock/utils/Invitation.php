@@ -32,6 +32,12 @@ class Invitation {
 
     public static function send(Session $sender, Session $target) {
         $target->sendInvitation(new Invitation($sender, $target));
+        $target->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
+            "name" => $sender->getName()
+        ]));
+        $sender->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_INVITED", [
+            "name" => $target->getName()
+        ]));
     }
 
     public function __construct(Session $sender, Session $target) {

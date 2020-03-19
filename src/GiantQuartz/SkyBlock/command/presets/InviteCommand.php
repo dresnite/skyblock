@@ -83,12 +83,6 @@ class InviteCommand extends IslandCommand {
             return;
         }
         Invitation::send($session, $playerSession);
-        $playerSession->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
-            "name" => $session->getName()
-        ]));
-        $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_INVITED", [
-            "name" => $player->getName()
-        ]));
     }
 
 }
