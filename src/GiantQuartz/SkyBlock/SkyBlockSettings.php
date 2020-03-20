@@ -43,7 +43,11 @@ class SkyBlockSettings {
     }
 
     public function getChestContentByGenerator(string $generator): array {
-        return $this->generatorChestContent[$generator] ?? $this->defaultChestContent;
+        $chestContent = $this->generatorChestContent[$generator] ?? [];
+        if(empty($chestContent)) {
+            return $this->defaultChestContent;
+        }
+        return $chestContent;
     }
 
     public function getCreationCooldownDuration(): int {
