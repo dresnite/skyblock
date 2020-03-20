@@ -68,6 +68,10 @@ class SkyBlock extends PluginBase {
         $this->commandMap = new IslandCommandMap($this);
         $this->commandMap->registerDefaultCommands();
         $this->checkSpawnProtection();
+        $logger = $this->getLogger();
+        $logger->info("SkyBlock is open-source software, consider donating to help me continue working on it");
+        $logger->info("https://github.com/GiantQuartz/SkyBlock#donating");
+        $logger->info("You could also follow me on twitter or github (@GiantQuartz)");
     }
 
     public function onDisable(): void {
