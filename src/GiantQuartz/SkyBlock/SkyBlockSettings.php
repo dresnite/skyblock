@@ -67,15 +67,15 @@ class SkyBlockSettings {
     }
 
     public function getCategoryByBlocks(int $blocks): string {
-        $blocksByCategory = array_map("intval", $this->config->get("BlocksByCategory"));
+        $categoryByBlocks = array_map("intval", $this->config->get("CategoryByBlocks"));
 
-        if($blocks >= $blocksByCategory["L"]) {
+        if($blocks >= $categoryByBlocks["L"]) {
             $category = Island::CATEGORY_EXTRA_LARGE;
-        } elseif($blocks >= $blocksByCategory["M"]) {
+        } elseif($blocks >= $categoryByBlocks["M"]) {
             $category = Island::CATEGORY_LARGE;
-        } elseif($blocks >= $blocksByCategory["S"]) {
+        } elseif($blocks >= $categoryByBlocks["S"]) {
             $category = Island::CATEGORY_MEDIUM;
-        } elseif($blocks >= $blocksByCategory["XS"]) {
+        } elseif($blocks >= $categoryByBlocks["XS"]) {
             $category = Island::CATEGORY_SMALL;
         } else {
             $category = Island::CATEGORY_EXTRA_SMALL;
@@ -104,7 +104,7 @@ class SkyBlockSettings {
         }
 
         $this->config->set("Version", self::CURRENT_VERSION);
-        $this->config->set("BlocksByCategory", [
+        $this->config->set("CategoryByBlocks", [
             "XS" => 500,
             "S" => 1000,
             "M" => 5000,
