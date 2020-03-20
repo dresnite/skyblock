@@ -104,11 +104,11 @@ class SkyBlockSettings {
         }
 
         $this->config->set("Version", self::CURRENT_VERSION);
-        $this->config->set("CategoryByBlocks", [
+        $this->config->set("BlocksByCategory", [
             "XS" => 500,
             "S" => 1000,
             "M" => 5000,
-            "XL" => 10000
+            "L" => 10000
         ]);
 
         $this->config->save();
