@@ -30,7 +30,7 @@ class Invitation {
     /** @var float */
     private $creationTime;
 
-    public static function send(Session $sender, Session $target) {
+    public static function send(Session $sender, Session $target): void {
         $target->sendInvitation(new Invitation($sender, $target));
         $target->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $sender->getName()
