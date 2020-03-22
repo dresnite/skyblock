@@ -88,7 +88,7 @@ class SkyBlockSettings {
         return $category;
     }
 
-    public function initialize(): void {
+    private function initialize(): void {
         $this->config = new Config($this->plugin->getDataFolder() . "settings.yml");
         $settingsData = $this->config->getAll();
 
