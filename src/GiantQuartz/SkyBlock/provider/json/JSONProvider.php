@@ -12,7 +12,6 @@ namespace GiantQuartz\SkyBlock\provider\json;
 
 
 use pocketmine\utils\Config;
-use ReflectionException;
 use GiantQuartz\SkyBlock\island\Island;
 use GiantQuartz\SkyBlock\island\IslandFactory;
 use GiantQuartz\SkyBlock\provider\Provider;
@@ -47,9 +46,6 @@ class JSONProvider extends Provider {
         $config->save();
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function loadIsland(string $identifier): void {
         $islandManager = $this->plugin->getIslandManager();
         if($islandManager->getIsland($identifier) != null) {
