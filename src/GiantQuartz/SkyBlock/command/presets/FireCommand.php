@@ -54,7 +54,7 @@ class FireCommand extends IslandCommand {
             return;
         }
         $offlineSession = $this->plugin->getSessionManager()->getOfflineSession($args[0]);
-        if($this->checkClone($session, $offlineSession->getSession())) {
+        if($this->checkClone($session, $offlineSession->getOnlineSession())) {
             return;
         } elseif($offlineSession->getIslandId() != $session->getIslandId()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
@@ -63,7 +63,7 @@ class FireCommand extends IslandCommand {
         } elseif($offlineSession->getRank() == Session::RANK_FOUNDER) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_FIRE_FOUNDER"));
         } else {
-            $onlineSession = $offlineSession->getSession();
+            $onlineSession = $offlineSession->getOnlineSession();
             if($onlineSession != null) {
                 if($onlineSession->getIsland()->getLevel() === $onlineSession->getPlayer()->getLevel()) {
                     $onlineSession->getPlayer()->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());

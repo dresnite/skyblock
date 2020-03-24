@@ -43,7 +43,7 @@ class PromoteCommand extends IslandCommand {
         }
 
         $offlineSession = SessionLocator::getOfflineSession($args[0]);
-        if($this->checkClone($session, $offlineSession->getSession())) {
+        if($this->checkClone($session, $offlineSession->getOnlineSession())) {
             return;
         } elseif($offlineSession->getIslandId() != $session->getIslandId()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
@@ -68,7 +68,7 @@ class PromoteCommand extends IslandCommand {
                 ]));
                 return;
             }
-            $onlineSession = $offlineSession->getSession();
+            $onlineSession = $offlineSession->getOnlineSession();
             if($onlineSession != null) {
                 $onlineSession->setRank($rank);
                 $onlineSession->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_PROMOTED"));

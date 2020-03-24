@@ -41,7 +41,7 @@ class DemoteCommand extends IslandCommand {
         }
 
         $offlineSession = SessionLocator::getOfflineSession($args[0]);
-        if($this->checkClone($session, $offlineSession->getSession()) or $this->checkDifferentIsland($session, $offlineSession)) {
+        if($this->checkClone($session, $offlineSession->getOnlineSession()) or $this->checkDifferentIsland($session, $offlineSession)) {
             return;
         }
 
@@ -69,7 +69,7 @@ class DemoteCommand extends IslandCommand {
      * @throws ReflectionException
      */
     private function sendDemoteMessage(OfflineSession $session): void {
-        $online = $session->getSession();
+        $online = $session->getOnlineSession();
         if($online != null) {
             $online->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_DEMOTED"));
         }

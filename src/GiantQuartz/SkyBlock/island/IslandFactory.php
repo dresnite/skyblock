@@ -73,7 +73,7 @@ class IslandFactory {
             $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
         }
         foreach($island->getMembers() as $offlineMember) {
-            $onlineSession = $offlineMember->getSession();
+            $onlineSession = $offlineMember->getOnlineSession();
             if($onlineSession != null) {
                 $onlineSession->setIsland(null);
                 $onlineSession->setRank(Session::RANK_DEFAULT);

@@ -100,7 +100,7 @@ class Island {
     public function getSessionsOnline(): array {
         $sessions = [];
         foreach($this->members as $member) {
-            $session = $member->getSession();
+            $session = $member->getOnlineSession();
             if($session != null) {
                 $sessions[] = $session;
             }

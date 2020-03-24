@@ -42,7 +42,7 @@ class MembersCommand extends IslandCommand {
             "amount" => count($members)
         ]));
         foreach($members as $member) {
-            $memberSession = $member->getSession();
+            $memberSession = $member->getOnlineSession();
             if($memberSession != null) {
                 $session->sendTranslatedMessage(new MessageContainer("ONLINE_MEMBER", [
                     "name" => $memberSession->getName()
