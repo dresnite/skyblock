@@ -307,19 +307,12 @@ class PalmIsland extends IslandGenerator {
         }
     }
 
-    public function populateChunk(int $chunkX, int $chunkZ): void {
-    }
-
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(9, 40, 11);
     }
 
     public static function getChestPosition(): Vector3 {
         return new Vector3(7, 40, 8);
-    }
-
-    public function getSpawn(): Vector3 {
-        return new Vector3(9, 40, 11);
     }
 
 }

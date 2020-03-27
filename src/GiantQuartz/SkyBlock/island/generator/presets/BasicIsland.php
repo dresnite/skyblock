@@ -58,21 +58,12 @@ class BasicIsland extends IslandGenerator {
         }
     }
 
-    public function populateChunk(int $chunkX, int $chunkZ): void {
-        return;
-    }
-
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(7, 66, 7);
     }
 
     public static function getChestPosition(): Vector3 {
         return new Vector3(8, 64, 7);
-    }
-
-
-    public function getSpawn(): Vector3 {
-        return new Vector3(7, 66, 7);
     }
 
 }

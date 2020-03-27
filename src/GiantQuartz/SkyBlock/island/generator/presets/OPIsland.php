@@ -43,20 +43,12 @@ class OPIsland extends IslandGenerator {
         }
     }
 
-    public function populateChunk(int $chunkX, int $chunkZ): void {
-        return;
-    }
-
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(8, 7, 10);
     }
 
     public static function getChestPosition(): Vector3 {
         return new Vector3(10, 6, 8);
-    }
-
-    public function getSpawn(): Vector3 {
-        return new Vector3(8, 7, 10);
     }
 
 }

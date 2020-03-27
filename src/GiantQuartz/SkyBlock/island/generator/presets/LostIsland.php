@@ -217,19 +217,12 @@ class LostIsland extends IslandGenerator {
         }
     }
 
-    public function populateChunk(int $chunkX, int $chunkZ): void {
-    }
-
     public static function getWorldSpawn(): Vector3 {
         return new Vector3(10, 35, 9);
     }
 
     public static function getChestPosition(): Vector3 {
         return new Vector3(6, 35, 9);
-    }
-
-    public function getSpawn(): Vector3 {
-        return new Vector3(10, 35, 9);
     }
 
 }
