@@ -11,12 +11,12 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\provider\json;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use pocketmine\utils\Config;
 use GiantQuartz\SkyBlock\island\Island;
 use GiantQuartz\SkyBlock\island\IslandFactory;
 use GiantQuartz\SkyBlock\provider\Provider;
 use GiantQuartz\SkyBlock\session\BaseSession;
-use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\session\SessionLocator;
 
 class JSONProvider extends Provider {
@@ -34,7 +34,7 @@ class JSONProvider extends Provider {
     public function loadSession(BaseSession $session): void {
         $config = $this->getUserConfig($session->getLowerCaseName());
         $session->setIslandId($config->get("isle", null) ?? null);
-        $session->setRank($config->get("rank", null) ?? Session::RANK_DEFAULT);
+        $session->setRank($config->get("rank", null) ?? RankIds::MEMBER);
         $session->setLastIslandCreationTime($config->get("lastIsle", null) ?? null);
     }
 
@@ -90,7 +90,7 @@ class JSONProvider extends Provider {
     private function getUserConfig(string $username): Config {
         return new Config($this->plugin->getDataFolder() . "users/$username.json", Config::JSON, [
             "isle" => null,
-            "rank" => Session::RANK_DEFAULT
+            "rank" => RankIds::MEMBER
         ]);
     }
 

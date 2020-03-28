@@ -11,11 +11,11 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
 use GiantQuartz\SkyBlock\command\IslandCommandMap;
-use GiantQuartz\SkyBlock\session\BaseSession;
 use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\SkyBlock;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
@@ -71,12 +71,12 @@ class TransferCommand extends IslandCommand {
             ]));
             return;
         }
-        $session->setRank(BaseSession::RANK_DEFAULT);
-        $playerSession->setRank(BaseSession::RANK_FOUNDER);
-        $session->sendTranslatedMessage(new MessageContainer("RANK_TRANSFERRED", [
+        $session->setRank(RankIds::MEMBER);
+        $playerSession->setRank(RankIds::FOUNDER);
+        $session->sendTranslatedMessage(new MessageContainer("TRANSFERRED", [
             "name" => $playerSession->getName()
         ]));
-        $playerSession->sendTranslatedMessage(new MessageContainer("GOT_RANK_TRANSFERRED", [
+        $playerSession->sendTranslatedMessage(new MessageContainer("GOT_TRANSFERRED", [
             "name" => $session->getName()
         ]));
     }

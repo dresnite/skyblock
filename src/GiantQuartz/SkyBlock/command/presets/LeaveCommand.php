@@ -11,9 +11,9 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
-use GiantQuartz\SkyBlock\session\BaseSession;
 use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
 
@@ -37,11 +37,11 @@ class LeaveCommand extends IslandCommand {
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
             return;
-        } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
+        } elseif($session->getRank() == RankIds::FOUNDER) {
             $session->sendTranslatedMessage(new MessageContainer("FOUNDER_CANNOT_LEAVE"));
             return;
         }
-        $session->setRank(BaseSession::RANK_DEFAULT);
+        $session->setRank(RankIds::MEMBER);
         $session->setIsland(null);
         $session->setInChat(false);
         $session->sendTranslatedMessage(new MessageContainer("LEFT_ISLAND"));

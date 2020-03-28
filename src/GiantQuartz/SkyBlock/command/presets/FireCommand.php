@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
 use GiantQuartz\SkyBlock\command\IslandCommandMap;
@@ -60,7 +61,7 @@ class FireCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_PART_OF_YOUR_ISLAND", [
                 "name" => $args[0]
             ]));
-        } elseif($offlineSession->getRank() == Session::RANK_FOUNDER) {
+        } elseif($offlineSession->getRank() == RankIds::FOUNDER) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_FIRE_FOUNDER"));
         } else {
             $onlineSession = $offlineSession->getOnlineSession();
@@ -68,13 +69,13 @@ class FireCommand extends IslandCommand {
                 if($onlineSession->getIsland()->getLevel() === $onlineSession->getPlayer()->getLevel()) {
                     $onlineSession->getPlayer()->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
                 }
-                $onlineSession->setRank(Session::RANK_DEFAULT);
+                $onlineSession->setRank(RankIds::MEMBER);
                 $onlineSession->setIsland(null);
                 $onlineSession->sendTranslatedMessage(new MessageContainer("YOU_HAVE_BEEN_FIRED"));
                 $onlineSession->save();
             } else {
                 $offlineSession->setIslandId(null);
-                $offlineSession->setRank(Session::RANK_DEFAULT);
+                $offlineSession->setRank(RankIds::MEMBER);
                 $offlineSession->save();
             }
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_FIRED", [

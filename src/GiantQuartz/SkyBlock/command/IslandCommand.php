@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command;
 
 
-use GiantQuartz\SkyBlock\session\BaseSession;
+use GiantQuartz\SkyBlock\island\RankIds;
 use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
 
@@ -32,7 +32,7 @@ abstract class IslandCommand {
     public function checkFounder(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
-        } elseif($session->getRank() == BaseSession::RANK_FOUNDER) {
+        } elseif($session->getRank() == RankIds::FOUNDER) {
             return false;
         }
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_FOUNDER"));
@@ -42,7 +42,7 @@ abstract class IslandCommand {
     public function checkLeader(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
-        } elseif($session->getRank() == BaseSession::RANK_FOUNDER or $session->getRank() == BaseSession::RANK_LEADER) {
+        } elseif($session->getRank() == RankIds::FOUNDER or $session->getRank() == RankIds::LEADER) {
             return false;
         }
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_LEADER"));
@@ -52,7 +52,7 @@ abstract class IslandCommand {
     public function checkOfficer(Session $session): bool {
         if($this->checkIsland($session)) {
             return true;
-        } elseif($session->getRank() != BaseSession::RANK_DEFAULT) {
+        } elseif($session->getRank() != RankIds::MEMBER) {
             return false;
         }
         $session->sendTranslatedMessage(new MessageContainer("MUST_BE_OFFICER"));

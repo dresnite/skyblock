@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
 use GiantQuartz\SkyBlock\command\IslandCommand;
@@ -53,12 +54,12 @@ class PromoteCommand extends IslandCommand {
             $rank = null;
             $rankName = "";
             switch($offlineSession->getRank()) {
-                case Session::RANK_DEFAULT:
-                    $rank = Session::RANK_OFFICER;
+                case RankIds::MEMBER:
+                    $rank = RankIds::OFFICER;
                     $rankName = "OFFICER";
                     break;
-                case Session::RANK_OFFICER:
-                    $rank = Session::RANK_LEADER;
+                case RankIds::OFFICER:
+                    $rank = RankIds::LEADER;
                     $rankName = "LEADER";
                     break;
             }

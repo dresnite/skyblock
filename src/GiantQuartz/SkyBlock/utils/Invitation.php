@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\utils;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use ReflectionException;
 use GiantQuartz\SkyBlock\island\Island;
 use GiantQuartz\SkyBlock\session\Session;
@@ -69,7 +70,7 @@ class Invitation {
     public function accept(): void {
         $this->target->removeInvitation($this);
         $this->target->setIsland($this->island);
-        $this->target->setRank(Session::RANK_DEFAULT);
+        $this->target->setRank(RankIds::MEMBER);
         $this->target->clearInvitations();
         $this->island->broadcastTranslatedMessage(new MessageContainer("PLAYER_JOINED_THE_ISLAND", [
             "name" => $this->target->getName()

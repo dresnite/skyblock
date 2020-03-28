@@ -17,7 +17,6 @@ use ReflectionException;
 use GiantQuartz\SkyBlock\event\island\IslandCreateEvent;
 use GiantQuartz\SkyBlock\event\island\IslandDisbandEvent;
 use GiantQuartz\SkyBlock\island\generator\IslandGenerator;
-use GiantQuartz\SkyBlock\session\BaseSession;
 use GiantQuartz\SkyBlock\session\Session;
 use GiantQuartz\SkyBlock\SkyBlock;
 use GiantQuartz\SkyBlock\utils\message\MessageContainer;
@@ -55,7 +54,7 @@ class IslandFactory {
             self::createIslandWorld($identifier, $type), 0);
 
         $session->setIsland($island = $islandManager->getIsland($identifier));
-        $session->setRank(BaseSession::RANK_FOUNDER);
+        $session->setRank(RankIds::FOUNDER);
         $session->setLastIslandCreationTime(microtime(true));
         $session->getPlayer()->teleport($island->getSpawnLocation());
 
@@ -76,12 +75,12 @@ class IslandFactory {
             $onlineSession = $offlineMember->getOnlineSession();
             if($onlineSession != null) {
                 $onlineSession->setIsland(null);
-                $onlineSession->setRank(Session::RANK_DEFAULT);
+                $onlineSession->setRank(RankIds::MEMBER);
                 $onlineSession->save();
                 $onlineSession->sendTranslatedMessage(new MessageContainer("ISLAND_DISBANDED"));
             } else {
                 $offlineMember->setIslandId(null);
-                $offlineMember->setRank(Session::RANK_DEFAULT);
+                $offlineMember->setRank(RankIds::MEMBER);
                 $offlineMember->save();
             }
         }

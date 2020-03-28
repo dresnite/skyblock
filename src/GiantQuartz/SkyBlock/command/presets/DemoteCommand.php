@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\command\presets;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use GiantQuartz\SkyBlock\session\OfflineSession;
 use GiantQuartz\SkyBlock\session\SessionLocator;
 use ReflectionException;
@@ -56,7 +57,7 @@ class DemoteCommand extends IslandCommand {
                 "name" => $args[0],
                 "to" => $session->getMessage(new MessageContainer($this->getRankName($lowerRank)))
             ]));
-        } elseif($offlineSession->getRank() == Session::RANK_FOUNDER) {
+        } elseif($offlineSession->getRank() == RankIds::FOUNDER) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_DEMOTE_FOUNDER"));
         } else {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_DEMOTE_MEMBER", [
@@ -77,23 +78,23 @@ class DemoteCommand extends IslandCommand {
 
     private function getLowerRank(int $rank): ?int {
         switch($rank) {
-            case Session::RANK_OFFICER:
-                return Session::RANK_DEFAULT;
-            case Session::RANK_LEADER:
-                return Session::RANK_OFFICER;
+            case RankIds::OFFICER:
+                return RankIds::MEMBER;
+            case RankIds::LEADER:
+                return RankIds::OFFICER;
         }
         return null;
     }
 
     private function getRankName(int $rank): ?string {
         switch($rank) {
-            case Session::RANK_DEFAULT:
+            case RankIds::MEMBER:
                 return "MEMBER";
-            case Session::RANK_OFFICER:
+            case RankIds::OFFICER:
                 return "OFFICER";
-            case Session::RANK_LEADER:
+            case RankIds::LEADER:
                 return "LEADER";
-            case Session::RANK_FOUNDER:
+            case RankIds::FOUNDER:
                 return "FOUNDER";
         }
         return null;

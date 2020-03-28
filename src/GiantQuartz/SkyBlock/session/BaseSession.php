@@ -11,14 +11,10 @@ declare(strict_types=1);
 namespace GiantQuartz\SkyBlock\session;
 
 
+use GiantQuartz\SkyBlock\island\RankIds;
 use GiantQuartz\SkyBlock\provider\Provider;
 
 abstract class BaseSession {
-
-    public const RANK_DEFAULT = 0;
-    public const RANK_OFFICER = 1;
-    public const RANK_LEADER = 2;
-    public const RANK_FOUNDER = 3;
 
     /** @var SessionManager */
     protected $manager;
@@ -80,7 +76,7 @@ abstract class BaseSession {
         $this->inChat = $inChat;
     }
 
-    public function setRank(int $rank = self::RANK_DEFAULT): void {
+    public function setRank(int $rank = RankIds::MEMBER): void {
         $this->rank = $rank;
     }
 
