@@ -74,6 +74,10 @@ class SkyBlock extends PluginBase {
         foreach($this->islandManager->getIslands() as $island) {
             $island->save();
         }
+
+        foreach($this->sessionManager->getSessions() as $session) {
+            $session->save();
+        }
     }
 
     public function getSettings(): SkyBlockSettings {
