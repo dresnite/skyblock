@@ -9,7 +9,7 @@
 namespace room17\SkyBlock\island;
 
 
-class CategoryIds {
+interface CategoryIds {
 
     public const EXTRA_SMALL = "XS";
     public const SMALL = "S";
