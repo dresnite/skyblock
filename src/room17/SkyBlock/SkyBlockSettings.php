@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock;
 
 
-use room17\SkyBlock\island\Island;
+use room17\SkyBlock\island\CategoryIds;
 use pocketmine\item\Item;
 use pocketmine\utils\Config;
 use room17\SkyBlock\utils\Utils;
@@ -74,15 +74,15 @@ class SkyBlockSettings {
         $categoryByBlocks = array_map("intval", $this->config->get("CategoryByBlocks"));
 
         if($blocks >= $categoryByBlocks["L"]) {
-            $category = Island::CATEGORY_EXTRA_LARGE;
+            $category = CategoryIds::EXTRA_LARGE;
         } elseif($blocks >= $categoryByBlocks["M"]) {
-            $category = Island::CATEGORY_LARGE;
+            $category = CategoryIds::LARGE;
         } elseif($blocks >= $categoryByBlocks["S"]) {
-            $category = Island::CATEGORY_MEDIUM;
+            $category = CategoryIds::MEDIUM;
         } elseif($blocks >= $categoryByBlocks["XS"]) {
-            $category = Island::CATEGORY_SMALL;
+            $category = CategoryIds::SMALL;
         } else {
-            $category = Island::CATEGORY_EXTRA_SMALL;
+            $category = CategoryIds::EXTRA_SMALL;
         }
 
         return $category;

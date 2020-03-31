@@ -23,12 +23,6 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class Island {
 
-    public const CATEGORY_EXTRA_SMALL = "XS";
-    public const CATEGORY_SMALL = "S";
-    public const CATEGORY_MEDIUM = "M";
-    public const CATEGORY_LARGE = "L";
-    public const CATEGORY_EXTRA_LARGE = "XL";
-
     /** @var IslandManager */
     private $manager;
 
@@ -150,20 +144,20 @@ class Island {
 
     public function getNextCategory(): ?string {
         switch($this->category) {
-            case self::CATEGORY_EXTRA_LARGE:
+            case CategoryIds::EXTRA_LARGE:
                 return null;
                 break;
-            case self::CATEGORY_LARGE:
-                return self::CATEGORY_EXTRA_LARGE;
+            case CategoryIds::LARGE:
+                return CategoryIds::EXTRA_LARGE;
                 break;
-            case self::CATEGORY_MEDIUM:
-                return self::CATEGORY_LARGE;
+            case CategoryIds::MEDIUM:
+                return CategoryIds::LARGE;
                 break;
-            case self::CATEGORY_SMALL:
-                return self::CATEGORY_MEDIUM;
+            case CategoryIds::SMALL:
+                return CategoryIds::MEDIUM;
                 break;
             default:
-                return self::CATEGORY_SMALL;
+                return CategoryIds::SMALL;
         }
     }
 
