@@ -20,7 +20,6 @@ use pocketmine\event\Cancellable;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\level\ChunkLoadEvent;
-use pocketmine\event\level\LevelUnloadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
@@ -241,17 +240,6 @@ class IslandListener implements Listener {
             foreach($this->plugin->getSettings()->getChestContentByGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
-        }
-    }
-
-    /**
-     * Teleports players to the spawn when an island is closed
-     * Not sure if this is even necessary
-     * @throws ReflectionException
-     */
-    public function onUnloadLevel(LevelUnloadEvent $event): void {
-        foreach($event->getLevel()->getPlayers() as $player) {
-            SessionLocator::getSession($player)->teleportToSpawn();
         }
     }
 
