@@ -26,6 +26,10 @@ class MessageContainer {
         $this->arguments = $arguments;
     }
 
+    public function __toString(): string {
+        return $this->getMessage();
+    }
+
     public function getMessageId(): string {
         return $this->messageId;
     }
