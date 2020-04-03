@@ -146,16 +146,12 @@ class Island {
         switch($this->category) {
             case CategoryIds::EXTRA_LARGE:
                 return null;
-                break;
             case CategoryIds::LARGE:
                 return CategoryIds::EXTRA_LARGE;
-                break;
             case CategoryIds::MEDIUM:
                 return CategoryIds::LARGE;
-                break;
             case CategoryIds::SMALL:
                 return CategoryIds::MEDIUM;
-                break;
             default:
                 return CategoryIds::SMALL;
         }
