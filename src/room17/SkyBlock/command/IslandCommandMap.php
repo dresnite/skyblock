@@ -77,8 +77,9 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     }
 
     public function getCommand(string $alias): ?IslandCommand {
+        $alias = strtolower($alias);
         foreach($this->commands as $key => $command) {
-            if(in_array(strtolower($alias), $command->getAliases()) or $alias == $command->getName()) {
+            if(in_array($alias, $command->getAliases()) or $alias == strtolower($command->getName())) {
                 return $command;
             }
         }
@@ -86,12 +87,13 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
     }
 
     public function registerCommand(IslandCommand $command): void {
-        $this->commands[$command->getName()] = $command;
+        $this->commands[strtolower($command->getName())] = $command;
     }
 
     public function unregisterCommand(string $commandName): void {
-        if(isset($this->commands[$commandName])) {
-            unset($this->commands[$commandName]);
+        $name = strtolower($commandName);
+        if(isset($this->commands[$name])) {
+            unset($this->commands[$name]);
         }
     }
 
