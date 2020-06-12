@@ -124,6 +124,7 @@ class Session extends BaseSession {
     }
 
     /**
+     * @param Island|null $island
      * @throws ReflectionException
      */
     public function setIsland(?Island $island): void {
