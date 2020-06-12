@@ -16,26 +16,26 @@ use room17\SkyBlock\SkyBlock;
 class MessageContainer {
 
     /** @var string */
-    private $messageId;
+    private $id;
 
     /** @var array */
-    private $arguments = [];
+    private $args;
 
-    public function __construct(string $messageId, array $arguments = []) {
-        $this->messageId = $messageId;
-        $this->arguments = $arguments;
+    public function __construct(string $id, array $arguments = []) {
+        $this->id = $id;
+        $this->args = $arguments;
     }
 
     public function __toString(): string {
         return $this->getMessage();
     }
 
-    public function getMessageId(): string {
-        return $this->messageId;
+    public function getId(): string {
+        return $this->id;
     }
 
-    public function getArguments(): array {
-        return $this->arguments;
+    public function getArgs(): array {
+        return $this->args;
     }
 
     public function getMessage(): string {

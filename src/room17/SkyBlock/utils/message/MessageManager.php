@@ -31,10 +31,10 @@ class MessageManager {
     }
 
     public function getMessage(MessageContainer $container): string {
-        $identifier = $container->getMessageId();
+        $identifier = $container->getId();
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
         $message = Utils::translateColors($message);
-        foreach($container->getArguments() as $arg => $value) {
+        foreach($container->getArgs() as $arg => $value) {
             $message = str_replace("{" . $arg . "}", $value, $message);
         }
         return $message;
