@@ -42,7 +42,8 @@ class SessionManager {
     }
 
     /**
-     * @throws ReflectionException
+     * @param Player $player
+     * @return Session
      */
     public function getSession(Player $player): Session {
         if(!$this->isSessionOpen($player)) {
@@ -60,7 +61,7 @@ class SessionManager {
     }
 
     /**
-     * @throws ReflectionException
+     * @param Player $player
      */
     public function openSession(Player $player): void {
         $this->sessions[$username = $player->getName()] = new Session($this, $player);
@@ -68,6 +69,7 @@ class SessionManager {
     }
 
     /**
+     * @param Player $player
      * @throws ReflectionException
      */
     public function closeSession(Player $player): void {
