@@ -12,7 +12,6 @@ namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\island\RankIds;
-use ReflectionException;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -31,9 +30,6 @@ class LeaveCommand extends IslandCommand {
         return new MessageContainer("LEAVE_DESCRIPTION");
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkIsland($session)) {
             return;

@@ -12,7 +12,6 @@ namespace room17\SkyBlock\utils;
 
 
 use room17\SkyBlock\island\RankIds;
-use ReflectionException;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -64,9 +63,6 @@ class Invitation {
         return $this->creationTime;
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function accept(): void {
         $this->target->removeInvitation($this);
         $this->target->setIsland($this->island);
@@ -77,9 +73,6 @@ class Invitation {
         ]));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function deny(): void {
         $this->target->removeInvitation($this);
         $this->target->sendTranslatedMessage(new MessageContainer("INVITATION_REFUSED"));

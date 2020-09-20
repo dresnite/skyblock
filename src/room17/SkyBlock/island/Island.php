@@ -16,7 +16,6 @@ use pocketmine\level\Level;
 use pocketmine\level\Position;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
-use ReflectionException;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -89,7 +88,6 @@ class Island {
 
     /**
      * @return Session[]
-     * @throws ReflectionException
      */
     public function getSessionsOnline(): array {
         $sessions = [];
@@ -106,7 +104,6 @@ class Island {
      * Returns the sessions of the players that are in the private island's chat
      *
      * @return Player[]
-     * @throws ReflectionException
      */
     public function getChattingPlayers(): array {
         $players = [];
@@ -233,54 +230,36 @@ class Island {
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastMessage(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendMessage($message);
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastTranslatedMessage(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedMessage($container);
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastPopup(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendPopup($message);
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastTranslatedPopup(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedPopup($container);
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastTip(string $message): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->getPlayer()->sendTip($message);
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function broadcastTranslatedTip(MessageContainer $container): void {
         foreach($this->getSessionsOnline() as $session) {
             $session->sendTranslatedTip($container);
@@ -291,9 +270,6 @@ class Island {
         $this->manager->getPlugin()->getProvider()->saveIsland($this);
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function updateMembers(): void {
         foreach($this->getSessionsOnline() as $member) {
             if($member->getIsland() !== $this) {
@@ -302,9 +278,6 @@ class Island {
         }
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function tryToClose(): void {
         $this->updateMembers();
         if(!$this->closed and empty($this->getPlayersOnline()) and empty($this->getSessionsOnline())) {

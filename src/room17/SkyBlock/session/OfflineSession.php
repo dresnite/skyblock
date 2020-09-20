@@ -11,13 +11,9 @@ declare(strict_types=1);
 namespace room17\SkyBlock\session;
 
 
-use ReflectionException;
 
 class OfflineSession extends BaseSession {
 
-    /**
-     * @throws ReflectionException
-     */
     public function getOnlineSession(): ?Session {
         $player = $this->manager->getPlugin()->getServer()->getPlayerExact($this->lowerCaseName);
         if($player != null) {

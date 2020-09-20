@@ -12,7 +12,6 @@ namespace room17\SkyBlock\command\presets;
 
 
 use room17\SkyBlock\session\SessionLocator;
-use ReflectionException;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\SkyBlock;
@@ -35,9 +34,6 @@ class BanishCommand extends IslandCommand {
         return new MessageContainer("BANISH_DESCRIPTION");
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function onCommand(Session $session, array $args): void {
         if($this->checkOfficer($session)) {
             return;

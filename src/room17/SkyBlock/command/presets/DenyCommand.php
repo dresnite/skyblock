@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
-use ReflectionException;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
@@ -34,9 +33,6 @@ class DenyCommand extends IslandCommand {
         return new MessageContainer("DENY_DESCRIPTION");
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function onCommand(Session $session, array $args): void {
         $invitation = null;
         if(isset($args[0]) and $session->hasInvitationFrom($args[0])) {

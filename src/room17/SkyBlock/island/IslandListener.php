@@ -29,7 +29,6 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
-use ReflectionException;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
@@ -51,7 +50,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents players from breaking blocks on others property
-     * @throws ReflectionException
      */
     public function onBreak(BlockBreakEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -74,7 +72,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents players from placing blocks on others property
-     * @throws ReflectionException
      */
     public function onPlace(BlockPlaceEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -100,7 +97,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevent players from interacting on others property
-     * @throws ReflectionException
      */
     public function onInteract(PlayerInteractEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -113,7 +109,6 @@ class IslandListener implements Listener {
     /**
      * Prevents players from sleeping on beds inside islands
      * This is known for causing unexpected behavior on the plugin
-     * @throws ReflectionException
      */
     public function onEnterBed(PlayerBedEnterEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -124,7 +119,6 @@ class IslandListener implements Listener {
 
     /**
      * Sends the message to the island private chat if the player is connected to it
-     * @throws ReflectionException
      */
     public function onChat(PlayerChatEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -141,7 +135,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevent players from sending blocked commands inside islands
-     * @throws ReflectionException
      */
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
@@ -158,7 +151,6 @@ class IslandListener implements Listener {
 
     /**
      * Makes sure nobody gets void damage if it's not enabled!
-     * @throws ReflectionException
      */
     public function onDamage(EntityDamageEvent $event): void {
         $entity = $event->getEntity();
@@ -183,7 +175,6 @@ class IslandListener implements Listener {
 
     /**
      * Prevents PvP inside islands and makes sure nobody can steal your paintings!
-     * @throws ReflectionException
      */
     private function onDamageByEntityInIsland(Island $island, EntityDamageByEntityEvent $event): void {
         $entity = $event->getEntity();
@@ -198,7 +189,6 @@ class IslandListener implements Listener {
 
     /**
      * Removes the player as cooperator if possible and tries to close their island
-     * @throws ReflectionException
      */
     public function onQuit(PlayerQuitEvent $event): void {
         $player = $event->getPlayer();

@@ -16,7 +16,6 @@ use pocketmine\command\CommandSender;
 use pocketmine\command\PluginIdentifiableCommand;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
-use ReflectionException;
 use room17\SkyBlock\command\presets\AcceptCommand;
 use room17\SkyBlock\command\presets\BlocksCommand;
 use room17\SkyBlock\command\presets\CategoryCommand;
@@ -121,9 +120,6 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         $this->registerCommand(new CooperateCommand($this));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {
         if(!$sender instanceof Player) {
             $sender->sendMessage("Please, run this command in game");
