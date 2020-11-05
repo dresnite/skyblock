@@ -29,6 +29,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
+use room17\SkyBlock\island\generator\IslandGenerator;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
@@ -222,6 +223,10 @@ class IslandListener implements Listener {
         }
 
         $generator = $this->plugin->getGeneratorManager()->getGenerator($type = $island->getType());
+        if($generator === null or !is_subclass_of($generator, IslandGenerator::class)) {
+            return;
+        }
+
         $position = $generator::getChestPosition();
 
         if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
