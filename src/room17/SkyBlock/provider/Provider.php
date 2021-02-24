@@ -22,7 +22,6 @@ abstract class Provider {
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
-        $this->initialize();
     }
 
     public abstract function initialize(): void;

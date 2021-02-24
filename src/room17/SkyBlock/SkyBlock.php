@@ -12,11 +12,13 @@ namespace room17\SkyBlock;
 
 use pocketmine\plugin\PluginBase;
 use room17\SkyBlock\command\IslandCommandMap;
+use room17\SkyBlock\event\provider\ProviderUpdateEvent;
 use room17\SkyBlock\island\generator\IslandGeneratorManager;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\provider\sqlite\SQLiteProvider;
+use room17\SkyBlock\provider\Validable;
 use room17\SkyBlock\session\SessionManager;
 use room17\SkyBlock\utils\message\MessageManager;
 
@@ -62,11 +64,7 @@ class SkyBlock extends PluginBase {
     public function onEnable(): void {
         $this->settings = new SkyBlockSettings($this);
 
-        if($this->settings->getProvider() === "sqlite" and SQLiteProvider::validateExtension()) {
-            $this->provider = new SQLiteProvider($this);
-        } else {
-            $this->provider = new JSONProvider($this);
-        }
+        $this->setProvider($this->settings->getProvider() === "sqlite" ? SQLiteProvider::class : JSONProvider::class);
 
         $this->sessionManager = new SessionManager($this);
         $this->islandManager = new IslandManager($this);
@@ -94,6 +92,22 @@ class SkyBlock extends PluginBase {
 
     public function getProvider(): Provider {
         return $this->provider;
+    }
+
+    public function setProvider(string $providerClass): void {
+        $event = new ProviderUpdateEvent($providerClass);
+        $event->call();
+
+        $class = $event->getProviderClass();
+        $provider = new $class($this);
+        if(!$provider instanceof Validable xor $provider::validate()) {
+            $this->provider = $provider;
+        } else {
+            $this->provider = new JSONProvider($this);
+            $this->getLogger()->warning("Couldn't validate SkyBlock provider, using the default JSON provider instead.");
+        }
+
+        $provider->initialize();
     }
 
     public function getSessionManager(): SessionManager {

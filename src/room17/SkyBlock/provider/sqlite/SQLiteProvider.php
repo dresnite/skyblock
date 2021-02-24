@@ -14,16 +14,17 @@ namespace room17\SkyBlock\provider\sqlite;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\island\RankIds;
 use room17\SkyBlock\provider\Provider;
+use room17\SkyBlock\provider\Validable;
 use room17\SkyBlock\session\BaseSession;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 
-class SQLiteProvider extends Provider {
+class SQLiteProvider extends Provider implements Validable {
 
     /** @var \SQLite3 */
     private $db;
 
-    public static function validateExtension(): bool {
+    public static function validate(): bool {
         if(extension_loaded("sqlite3")) {
             return true;
         }
