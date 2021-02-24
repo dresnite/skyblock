@@ -62,7 +62,7 @@ class SkyBlock extends PluginBase {
     public function onEnable(): void {
         $this->settings = new SkyBlockSettings($this);
 
-        if($this->settings->getProvider() === "sqlite"){
+        if($this->settings->getProvider() === "sqlite" and SQLiteProvider::validateExtension()) {
             $this->provider = new SQLiteProvider($this);
         } else {
             $this->provider = new JSONProvider($this);

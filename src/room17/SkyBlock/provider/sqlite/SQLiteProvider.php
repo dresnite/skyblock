@@ -23,17 +23,25 @@ class SQLiteProvider extends Provider {
     /** @var \SQLite3 */
     private $db;
 
-    public function initialize(): void {
-        $plugin = SkyBlock::getInstance();
-        $plugin->saveResource("skyblock.db");
-
-        if(!extension_loaded("sqlite3")) {
-            $plugin->getLogger()->error("SkyBlock requires the SQLite3 extension to use a SQLite database. Please, install it or update the provider setting to 'json'");
-            $plugin->getServer()->getPluginManager()->disablePlugin($plugin);
-            return;
+    public static function validateExtension(): bool {
+        if(extension_loaded("sqlite3")) {
+            return true;
         }
 
-        $this->db = new \SQLite3($plugin->getDataFolder() . "skyblock.db");
+        $plugin = SkyBlock::getInstance();
+        $plugin->getLogger()->error("SkyBlock requires the SQLite3 extension to use a SQLite database. Please, install it or update the provider setting to 'json'");
+        $plugin->getServer()->getPluginManager()->disablePlugin($plugin);
+
+        return false;
+    }
+
+    public function initialize(): void {
+        $this->plugin->saveResource("skyblock.db");
+        $this->db = new \SQLite3($this->plugin->getDataFolder() . "skyblock.db");
+        $this->createTables();
+    }
+
+    public function createTables(): void {
         $this->db->query("CREATE TABLE IF NOT EXISTS islands (
             identifier TEXT PRIMARY KEY NOT NULL,
             locked BOOLEAN,
@@ -105,7 +113,7 @@ class SQLiteProvider extends Provider {
         );
     }
 
-    public function saveIsland(Island $island) : void{
+    public function saveIsland(Island $island): void {
         $stmt = $this->db->prepare("INSERT OR REPLACE INTO islands (identifier, locked, islandType, members, blocks) VALUES (:identifier, :locked, :islandType, :members, :blocks)");
         $stmt->bindValue(":identifier", $island->getIdentifier());
         $stmt->bindValue(":locked", $island->isLocked());
