@@ -15,6 +15,7 @@ use room17\SkyBlock\island\Island;
 use room17\SkyBlock\island\RankIds;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\session\BaseSession;
+use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 
 class SQLiteProvider extends Provider {
@@ -25,6 +26,12 @@ class SQLiteProvider extends Provider {
     public function initialize(): void {
         $plugin = SkyBlock::getInstance();
         $plugin->saveResource("skyblock.db");
+
+        if(!extension_loaded("sqlite3")) {
+            $plugin->getLogger()->error("SkyBlock requires the SQLite3 extension to use a SQLite database. Please, install it or update the provider setting to 'json'");
+            $plugin->getServer()->getPluginManager()->disablePlugin($plugin);
+            return;
+        }
 
         $this->db = new \SQLite3($plugin->getDataFolder() . "skyblock.db");
         $this->db->query("CREATE TABLE IF NOT EXISTS islands (
@@ -93,7 +100,7 @@ class SQLiteProvider extends Provider {
             $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
-        $islandManager->openIsland($identifier, $members, $info["locked"] ?? false, $info["islandType"] ?? "basic",
+        $islandManager->openIsland($identifier, $members, boolval($info["locked"] ?? false), $info["islandType"] ?? "basic",
             $server->getLevelByName($identifier), $info["blocks"] ?? 0
         );
     }
