@@ -43,7 +43,8 @@ class DisbandCommand extends IslandCommand {
         if($this->checkFounder($session)) {
             return;
         }
-        IslandFactory::disbandIsland($session->getIsland());
+
+        IslandFactory::getInstance()->disbandIsland($session->getIsland());
     }
 
 }

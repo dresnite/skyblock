@@ -46,7 +46,7 @@ class CreateCommand extends IslandCommand {
         
         $generator = strtolower($args[0] ?? "Shelly");
         if($this->plugin->getGeneratorManager()->isGenerator($generator) and $this->hasPermission($session, $generator)) {
-            IslandFactory::createIslandFor($session, $generator);
+            IslandFactory::getInstance()->createIslandFor($session, $generator);
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
         } else {
             $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", ["name" => $generator]));

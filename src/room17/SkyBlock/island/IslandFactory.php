@@ -13,6 +13,7 @@ namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
+use pocketmine\utils\SingletonTrait;
 use room17\SkyBlock\event\island\IslandCreateEvent;
 use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\island\generator\IslandGenerator;
@@ -21,8 +22,9 @@ use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\message\MessageContainer;
 
 class IslandFactory {
+    use SingletonTrait;
 
-    public static function createIslandWorld(string $identifier, string $type): Level {
+    public function createIslandWorld(string $identifier, string $type): Level {
         $skyblock = SkyBlock::getInstance();
 
         $generatorManager = $skyblock->getGeneratorManager();
@@ -42,7 +44,7 @@ class IslandFactory {
         return $level;
     }
 
-    public static function createIslandFor(Session $session, string $type): void {
+    public function createIslandFor(Session $session, string $type): void {
         $identifier = uniqid("sb-");
         $islandManager = SkyBlock::getInstance()->getIslandManager();
 
@@ -60,7 +62,7 @@ class IslandFactory {
         (new IslandCreateEvent($island))->call();
     }
 
-    public static function disbandIsland(Island $island): void {
+    public function disbandIsland(Island $island): void {
         foreach($island->getLevel()->getPlayers() as $player) {
             $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
         }

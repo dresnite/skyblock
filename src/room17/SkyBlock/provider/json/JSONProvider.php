@@ -62,7 +62,7 @@ class JSONProvider extends Provider {
         }
 
         if(!$server->isLevelGenerated($identifier)) {
-            IslandFactory::createIslandWorld($identifier, "Basic");
+            IslandFactory::getInstance()->createIslandWorld($identifier, "Basic");
             $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
