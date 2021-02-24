@@ -20,7 +20,7 @@ class MessageManager {
     private $messages;
 
     public function __construct(SkyBlock $plugin) {
-        $this->messages = json_decode(file_get_contents($plugin->getDataFolder() . "messages.json"), true);
+        $this->addMessageFile($plugin->getDataFolder() . "messages.json");
     }
 
     /**
@@ -42,6 +42,14 @@ class MessageManager {
 
     public function addMessage(string $identifier, string $message): void {
         $this->messages[$identifier] = $message;
+    }
+
+    public function addMessageFile(string $filePath): void {
+        $messages = json_decode(file_get_contents($filePath), true);
+
+        foreach($messages as $identifier => $message) {
+            $this->addMessage($identifier, $message);
+        }
     }
 
 }
