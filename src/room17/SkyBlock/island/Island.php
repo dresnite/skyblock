@@ -79,6 +79,16 @@ class Island {
         return $this->members;
     }
 
+    public function getMemberNames(): array {
+        $names = [];
+
+        foreach($this->members as $member) {
+            $names[] = $member->getLowerCaseName();
+        }
+
+        return $names;
+    }
+
     /**
      * @return Session[]
      */

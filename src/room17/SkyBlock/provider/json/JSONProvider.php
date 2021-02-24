@@ -77,13 +77,7 @@ class JSONProvider extends Provider {
         $config->set("locked", $island->isLocked());
         $config->set("type", $island->getType());
         $config->set("blocks", $island->getBlocksBuilt());
-
-        $members = [];
-        foreach($island->getMembers() as $member) {
-            $members[] = $member->getLowerCaseName();
-        }
-        $config->set("members", $members);
-
+        $config->set("members", $island->getMemberNames());
         $config->save();
     }
 
