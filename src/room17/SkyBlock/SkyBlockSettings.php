@@ -18,7 +18,7 @@ use room17\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
 
-    public const CURRENT_VERSION = "2";
+    public const CURRENT_VERSION = "3";
 
     /** @var SkyBlock */
     private $plugin;
@@ -40,6 +40,10 @@ class SkyBlockSettings {
 
     public function getVersion(): int {
         return (int) $this->config->get("Version");
+    }
+
+    public function getProvider(): string {
+        return (string) $this->config->get("Provider", "json");
     }
 
     public function getChestContentByGenerator(string $generator): array {

@@ -16,6 +16,7 @@ use room17\SkyBlock\island\generator\IslandGeneratorManager;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
 use room17\SkyBlock\provider\Provider;
+use room17\SkyBlock\provider\sqlite\SQLiteProvider;
 use room17\SkyBlock\session\SessionManager;
 use room17\SkyBlock\utils\message\MessageManager;
 
@@ -60,12 +61,19 @@ class SkyBlock extends PluginBase {
 
     public function onEnable(): void {
         $this->settings = new SkyBlockSettings($this);
-        $this->provider = new JSONProvider($this);
+
+        if($this->settings->getProvider() === "sqlite"){
+            $this->provider = new SQLiteProvider($this);
+        } else {
+            $this->provider = new JSONProvider($this);
+        }
+
         $this->sessionManager = new SessionManager($this);
         $this->islandManager = new IslandManager($this);
         $this->generatorManager = new IslandGeneratorManager($this);
         $this->messageManager = new MessageManager($this);
         $this->commandMap = new IslandCommandMap($this);
+
         $this->commandMap->registerDefaultCommands();
         $this->checkSpawnProtection();
     }
