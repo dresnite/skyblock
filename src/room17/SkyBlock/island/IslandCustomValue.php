@@ -46,6 +46,10 @@ class IslandCustomValue {
         return $this->value;
     }
 
+    public function setValue($value) : void{
+        $this->value = $value;
+    }
+
     public function getDbType(): int {
         return $this->dbType;
     }
