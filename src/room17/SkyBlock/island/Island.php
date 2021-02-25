@@ -261,6 +261,12 @@ class Island {
         return $this->customValues[$identifier] ?? null;
     }
 
+    public function createCustomValueIfNotExists(string $identifier, $default, int $type): void {
+        if(!array_key_exists($identifier, $this->customValues)) {
+            $this->addCustomValue(new IslandCustomValue($identifier, $default, $type));
+        }
+    }
+
     public function addCustomValue(IslandCustomValue $value): void {
         $this->customValues[$value->getIdentifier()] = $value;
     }
