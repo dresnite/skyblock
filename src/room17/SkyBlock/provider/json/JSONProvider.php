@@ -89,7 +89,9 @@ class JSONProvider extends Provider {
         $config->set("members", $island->getMemberNames());
 
         foreach($island->getCustomValues() as $value) {
-            $config->set($value->getIdentifier(), $value->getIdentifier());
+            if($value->hasDbType()) {
+                $config->set($value->getIdentifier(), $value->getIdentifier());
+            }
         }
 
         $config->save();

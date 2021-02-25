@@ -20,7 +20,7 @@ class IslandCustomValue {
     /** @var mixed */
     private $value;
 
-    /** @var int */
+    /** @var int|null */
     private $dbType;
 
     /**
@@ -28,11 +28,13 @@ class IslandCustomValue {
      *
      * @param string $identifier
      * @param mixed $value
-     * @param int $dbType
+     * @param ?int $dbType
+     *
+     * If a custom value doesn't have a $dbType specified, it won't be saved to the database
      *
      * @see DbType
      */
-    public function __construct(string $identifier, $value, int $dbType){
+    public function __construct(string $identifier, $value, ?int $dbType){
         $this->identifier = $identifier;
         $this->value = $value;
         $this->dbType = $dbType;
@@ -50,7 +52,11 @@ class IslandCustomValue {
         $this->value = $value;
     }
 
-    public function getDbType(): int {
+    public function hasDbType(): bool {
+        return $this->dbType !== null;
+    }
+
+    public function getDbType(): ?int {
         return $this->dbType;
     }
 

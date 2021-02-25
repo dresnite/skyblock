@@ -159,9 +159,13 @@ class SQLiteProvider extends Provider implements Validable {
         $values = [];
 
         $customValues = $island->getCustomValues();
-        foreach($customValues as $customValue) {
-            $properties[] = $customValue->getIdentifier();
-            $values[] = ":{$customValue->getIdentifier()}";
+        foreach($customValues as $index => $customValue) {
+            if($customValue->hasDbType()) {
+                $properties[] = $customValue->getIdentifier();
+                $values[] = ":{$customValue->getIdentifier()}";
+            } else {
+                unset($customValues[$index]);
+            }
         }
 
         $propertiesQuery = implode(",", $properties);
