@@ -69,7 +69,7 @@ class SessionManager {
 
         $class = $e->getSessionClass();
 
-        $this->sessions[$username = $player->getName()] = $class($this, $player);
+        $this->sessions[$username = $player->getName()] = new $class($this, $player);
 
         (new SessionOpenEvent($this->sessions[$username]))->call();
     }
