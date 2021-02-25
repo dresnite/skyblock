@@ -29,6 +29,8 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Player;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
+use room17\SkyBlock\event\island\IslandBlockAddEvent;
+use room17\SkyBlock\event\island\IslandBlockRemoveEvent;
 use room17\SkyBlock\island\generator\IslandGenerator;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
@@ -58,8 +60,12 @@ class IslandListener implements Listener {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+
+        $block = $event->getBlock();
+        if(!$event->isCancelled() and $block instanceof Solid) {
             $island->destroyBlock();
+
+            (new IslandBlockRemoveEvent($island, $block))->call();
         }
     }
 
@@ -80,8 +86,12 @@ class IslandListener implements Listener {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+
+        $block = $event->getBlock();
+        if(!$event->isCancelled() and $block instanceof Solid) {
             $island->addBlock();
+
+            (new IslandBlockAddEvent($island, $block))->call();
         }
     }
 
