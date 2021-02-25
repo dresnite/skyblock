@@ -100,7 +100,7 @@ class Island {
     }
 
     /**
-     * @return Session[]
+     * @return Player[]
      */
     public function getPlayersOnline(): array {
         return $this->level->getPlayers();
