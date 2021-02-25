@@ -48,7 +48,7 @@ class IslandManager {
         return $this->getIsland($level->getName());
     }
 
-    public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt, array $customValues): void {
+    public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt, array $customValues = []): void {
         $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt, $customValues);
         (new IslandOpenEvent($this->islands[$identifier]))->call();
     }
