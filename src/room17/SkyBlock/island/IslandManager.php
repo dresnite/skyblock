@@ -12,6 +12,7 @@ namespace room17\SkyBlock\island;
 
 
 use pocketmine\level\Level;
+use room17\SkyBlock\event\island\IslandCreationEvent;
 use room17\SkyBlock\event\island\IslandOpenEvent;
 use room17\SkyBlock\event\island\IslandCloseEvent;
 use room17\SkyBlock\SkyBlock;
@@ -49,7 +50,13 @@ class IslandManager {
     }
 
     public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt, array $customValues = []): void {
-        $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt, $customValues);
+        $e = new IslandCreationEvent(Island::class);
+        $e->call();
+
+        $class = $e->getIslandClass();
+
+        $this->islands[$identifier] = new $class($this, $identifier, $members, $locked, $type, $level, $blocksBuilt, $customValues);
+
         (new IslandOpenEvent($this->islands[$identifier]))->call();
     }
 
