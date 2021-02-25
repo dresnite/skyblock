@@ -55,7 +55,7 @@ class IslandListener implements Listener {
      * Prevents players from breaking blocks on others property
      */
     public function onBreak(BlockBreakEvent $event): void {
-        $session = SessionLocator::getSession($event->getPlayer());
+        $session = SessionLocator::getSession($player = $event->getPlayer());
         if(($island = $session->getIslandByLevel()) == null) {
             return;
         }
@@ -65,7 +65,7 @@ class IslandListener implements Listener {
         if(!$event->isCancelled() and $block instanceof Solid) {
             $island->destroyBlock();
 
-            (new IslandBlockRemoveEvent($island, $block))->call();
+            (new IslandBlockRemoveEvent($island, $player, $block))->call();
         }
     }
 
@@ -81,7 +81,7 @@ class IslandListener implements Listener {
      * Prevents players from placing blocks on others property
      */
     public function onPlace(BlockPlaceEvent $event): void {
-        $session = SessionLocator::getSession($event->getPlayer());
+        $session = SessionLocator::getSession($player = $event->getPlayer());
         if(($island = $session->getIslandByLevel()) == null) {
             return;
         }
@@ -91,7 +91,7 @@ class IslandListener implements Listener {
         if(!$event->isCancelled() and $block instanceof Solid) {
             $island->addBlock();
 
-            (new IslandBlockAddEvent($island, $block))->call();
+            (new IslandBlockAddEvent($island, $player, $block))->call();
         }
     }
 

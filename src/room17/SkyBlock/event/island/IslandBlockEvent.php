@@ -12,16 +12,31 @@ namespace room17\SkyBlock\event\island;
 
 
 use pocketmine\block\Block;
+use pocketmine\Player;
 use room17\SkyBlock\island\Island;
+use room17\SkyBlock\session\Session;
+use room17\SkyBlock\session\SessionLocator;
 
 abstract class IslandBlockEvent extends IslandEvent {
+
+    /** @var Player */
+    private $player;
 
     /** @var Block */
     private $block;
 
-    public function __construct(Island $island, Block $block) {
+    public function __construct(Island $island, Player $player, Block $block) {
+        $this->player = $player;
         $this->block = $block;
         parent::__construct($island);
+    }
+
+    public function getPlayer(): Player {
+        return $this->player;
+    }
+
+    public function getSession(): Session {
+        return SessionLocator::getSession($this->player);
     }
 
     public function getBlock(): Block {
