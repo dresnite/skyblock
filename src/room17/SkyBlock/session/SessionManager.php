@@ -13,7 +13,7 @@ namespace room17\SkyBlock\session;
 
 use pocketmine\Player;
 use room17\SkyBlock\event\session\SessionCloseEvent;
-use room17\SkyBlock\event\session\SessionCreateEvent;
+use room17\SkyBlock\event\session\SessionCreationEvent;
 use room17\SkyBlock\event\session\SessionOpenEvent;
 use room17\SkyBlock\SkyBlock;
 
@@ -64,7 +64,7 @@ class SessionManager {
      * @param Player $player
      */
     public function openSession(Player $player): void {
-        $e = new SessionCreateEvent(Session::class);
+        $e = new SessionCreationEvent(Session::class);
         $e->call();
 
         $class = $e->getSessionClass();

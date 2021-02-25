@@ -14,7 +14,7 @@ namespace room17\SkyBlock\event\session;
 use room17\SkyBlock\event\SkyBlockEvent;
 use room17\SkyBlock\session\Session;
 
-class SessionCreateEvent extends SkyBlockEvent {
+class SessionCreationEvent extends SkyBlockEvent {
 
     /** @var string */
     private $sessionClass;
