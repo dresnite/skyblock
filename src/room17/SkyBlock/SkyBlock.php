@@ -12,7 +12,6 @@ namespace room17\SkyBlock;
 
 use pocketmine\plugin\PluginBase;
 use room17\SkyBlock\command\IslandCommandMap;
-use room17\SkyBlock\event\provider\ProviderUpdateEvent;
 use room17\SkyBlock\island\generator\IslandGeneratorManager;
 use room17\SkyBlock\island\IslandManager;
 use room17\SkyBlock\provider\json\JSONProvider;
@@ -95,16 +94,17 @@ class SkyBlock extends PluginBase {
     }
 
     public function setProvider(string $providerClass): void {
-        $event = new ProviderUpdateEvent($providerClass);
-        $event->call();
+        $provider = new $providerClass($this);
 
-        $class = $event->getProviderClass();
-        $provider = new $class($this);
-        if(!$provider instanceof Validable xor $provider::validate()) {
-            $this->provider = $provider;
+        if($provider instanceof Validable) {
+            if($provider::validate()) {
+                $this->provider = $provider;
+            } else {
+                $this->provider = new JSONProvider($this);
+                $this->getLogger()->warning("Couldn't validate SkyBlock provider, using the default JSON provider instead.");
+            }
         } else {
-            $this->provider = new JSONProvider($this);
-            $this->getLogger()->warning("Couldn't validate SkyBlock provider, using the default JSON provider instead.");
+            $this->provider = $provider;
         }
 
         $provider->initialize();
