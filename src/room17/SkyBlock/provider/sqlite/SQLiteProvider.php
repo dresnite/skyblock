@@ -11,7 +11,11 @@ declare(strict_types=1);
 namespace room17\SkyBlock\provider\sqlite;
 
 
+use room17\SkyBlock\island\DbType;
 use room17\SkyBlock\island\Island;
+use room17\SkyBlock\island\IslandCustomProperty;
+use room17\SkyBlock\island\IslandCustomValue;
+use room17\SkyBlock\island\IslandFactory;
 use room17\SkyBlock\island\RankIds;
 use room17\SkyBlock\provider\Provider;
 use room17\SkyBlock\provider\Validable;
@@ -22,7 +26,7 @@ use room17\SkyBlock\SkyBlock;
 class SQLiteProvider extends Provider implements Validable {
 
     /** @var \SQLite3 */
-    private $db;
+    protected $db;
 
     public static function validate(): bool {
         if(extension_loaded("sqlite3")) {
@@ -43,13 +47,42 @@ class SQLiteProvider extends Provider implements Validable {
     }
 
     public function createTables(): void {
+        $generated = [];
+
+        /** @var IslandCustomProperty $property */
+        foreach(IslandFactory::getInstance()->getProperties() as $property){
+            $value = "";
+            $value .= $property->getName();
+            $value .= " ";
+
+            switch($property->getDbType()){
+                case DbType::TYPE_TEXT:
+                    $value .= "TEXT";
+                    break;
+                case DbType::TYPE_INTEGER:
+                    $value .= "INTEGER";
+                    break;
+                case DbType::TYPE_BOOLEAN:
+                    $value .= "BOOLEAN";
+                    break;
+                default:
+                    throw new \InvalidArgumentException("Not recognized data type {$property->getDbType()}");
+            }
+
+            $generated[] = $value;
+        }
+
+        $generated = implode(",", $generated);
+
         $this->db->query("CREATE TABLE IF NOT EXISTS islands (
             identifier TEXT PRIMARY KEY NOT NULL,
             locked BOOLEAN,
             islandType TEXT,
             members TEXT,
-            blocks INTEGER
+            blocks INTEGER,
+            $generated
         )");
+
 
         $this->db->query("CREATE TABLE IF NOT EXISTS users (
             username TEXT PRIMARY KEY NOT NULL,
@@ -72,7 +105,7 @@ class SQLiteProvider extends Provider implements Validable {
 
         $session->setIslandId($info["island"] ?? null);
         $session->setRank($info["rank"] ?? RankIds::MEMBER);
-        $session->setLastIslandCreationTime((array_key_exists("lastIsland", $info) and strlen($info["lastIsland"]) > 0) ? (float) $info["lastIsland"] : null);
+        $session->setLastIslandCreationTime((array_key_exists("lastIsland", $info) and strlen($info["lastIsland"] ?? "") > 0) ? (float) $info["lastIsland"] : null);
     }
 
     public function saveSession(BaseSession $session): void {
@@ -109,18 +142,42 @@ class SQLiteProvider extends Provider implements Validable {
             $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
+        $customValues = [];
+        /** @var IslandCustomProperty $property */
+        foreach(IslandFactory::getInstance()->getProperties() as $property){
+            $name = $property->getName();
+            $customValues[] = new IslandCustomValue($name, $info[$name], $property->getDbType());
+        }
+
         $islandManager->openIsland($identifier, $members, boolval($info["locked"] ?? false), $info["islandType"] ?? "basic",
-            $server->getLevelByName($identifier), $info["blocks"] ?? 0
+            $server->getLevelByName($identifier), $info["blocks"] ?? 0, $customValues
         );
     }
 
     public function saveIsland(Island $island): void {
-        $stmt = $this->db->prepare("INSERT OR REPLACE INTO islands (identifier, locked, islandType, members, blocks) VALUES (:identifier, :locked, :islandType, :members, :blocks)");
+        $properties = [];
+        $values = [];
+
+        $customValues = $island->getCustomValues();
+        foreach($customValues as $customValue) {
+            $properties[] = $customValue->getIdentifier();
+            $values[] = ":{$customValue->getIdentifier()}";
+        }
+
+        $propertiesQuery = implode(",", $properties);
+        $valuesQuery = implode(",", $values);
+
+        $stmt = $this->db->prepare("INSERT OR REPLACE INTO islands (identifier, locked, islandType, members, blocks, $propertiesQuery) VALUES (:identifier, :locked, :islandType, :members, :blocks, $valuesQuery)");
         $stmt->bindValue(":identifier", $island->getIdentifier());
         $stmt->bindValue(":locked", $island->isLocked());
         $stmt->bindValue(":islandType", $island->getType());
         $stmt->bindValue(":members", implode(",", $island->getMemberNames()));
         $stmt->bindValue(":blocks", $island->getBlocksBuilt());
+
+        foreach($customValues as $customValue) {
+            $stmt->bindValue(":" . $customValue->getIdentifier(), $customValue->getValue());
+        }
+
         $stmt->execute();
     }
 

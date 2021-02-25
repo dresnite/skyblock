@@ -52,14 +52,24 @@ class Island {
     /** @var bool */
     private $closed = false;
 
+    /** @var IslandCustomValue[] */
+    private $customValues = [];
+
     public function __construct(IslandManager $manager, string $identifier, array $members, bool $locked, string $type,
-                                Level $level, int $blocksBuilt) {
+                                Level $level, int $blocksBuilt, array $customValues) {
         $this->manager = $manager;
         $this->identifier = $identifier;
         $this->locked = $locked;
         $this->type = $type;
         $this->level = $level;
         $this->blocksBuilt = $blocksBuilt;
+
+        $r = [];
+        foreach($customValues as $customValue) {
+            $r[$customValue->getIdentifier()] = $customValue;
+        }
+
+        $this->customValues = $r;
 
         foreach($members as $member) {
             $this->addMember($member);
@@ -238,6 +248,28 @@ class Island {
         if(isset($this->cooperators[$username = $session->getLowerCaseName()])) {
             unset($this->cooperators[$username]);
         }
+    }
+
+    /**
+     * @return IslandCustomValue[]
+     */
+    public function getCustomValues(): array {
+        return $this->customValues;
+    }
+
+    public function getCustomValue(string $identifier): ?IslandCustomValue {
+        return $this->customValues[$identifier] ?? null;
+    }
+
+    public function addCustomValue(IslandCustomValue $value): void {
+        $this->customValues[$value->getIdentifier()] = $value;
+    }
+
+    /**
+     * @param IslandCustomValue[] $customValues
+     */
+    public function setCustomValues(array $customValues): void {
+        $this->customValues = $customValues;
     }
 
     public function broadcastMessage(string $message): void {

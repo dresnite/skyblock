@@ -24,6 +24,20 @@ use room17\SkyBlock\utils\message\MessageContainer;
 class IslandFactory {
     use SingletonTrait;
 
+    /** @var IslandCustomProperty[] */
+    private $properties = [];
+
+    /**
+     * @return IslandCustomProperty[]
+     */
+    public function getProperties(): array {
+        return $this->properties;
+    }
+
+    public function addProperty(IslandCustomProperty $property): void {
+        $this->properties[$property->getName()] = $property;
+    }
+
     public function createIslandWorld(string $identifier, string $type): Level {
         $skyblock = SkyBlock::getInstance();
 
@@ -49,7 +63,8 @@ class IslandFactory {
         $islandManager = SkyBlock::getInstance()->getIslandManager();
 
         $islandManager->openIsland($identifier, [$session->getOfflineSession()], true, $type,
-            self::createIslandWorld($identifier, $type), 0);
+            self::createIslandWorld($identifier, $type), 0, []
+        );
 
         $session->setIsland($island = $islandManager->getIsland($identifier));
         $session->setRank(RankIds::FOUNDER);

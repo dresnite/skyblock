@@ -11,6 +11,8 @@ declare(strict_types=1);
 namespace room17\SkyBlock\provider\json;
 
 
+use room17\SkyBlock\island\IslandCustomProperty;
+use room17\SkyBlock\island\IslandCustomValue;
 use room17\SkyBlock\island\RankIds;
 use pocketmine\utils\Config;
 use room17\SkyBlock\island\Island;
@@ -66,6 +68,13 @@ class JSONProvider extends Provider {
             $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
+        $customValues = [];
+        /** @var IslandCustomProperty $property */
+        foreach(IslandFactory::getInstance()->getProperties() as $property){
+            $name = $property->getName();
+            $customValues[] = new IslandCustomValue($name, $info[$name], $property->getDbType());
+        }
+
         $islandManager->openIsland($identifier, $members, $config->get("locked"), $config->get("type") ?? "basic",
             $server->getLevelByName($identifier), $config->get("blocks") ?? 0
         );
@@ -78,6 +87,11 @@ class JSONProvider extends Provider {
         $config->set("type", $island->getType());
         $config->set("blocks", $island->getBlocksBuilt());
         $config->set("members", $island->getMemberNames());
+
+        foreach($island->getCustomValues() as $value) {
+            $config->set($value->getIdentifier(), $value->getIdentifier());
+        }
+
         $config->save();
     }
 
