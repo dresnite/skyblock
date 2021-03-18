@@ -48,7 +48,7 @@
   "PLAYER_JOINED_THE_ISLAND": "{RED}{BOLD}> {WHITE}{name} {GREEN}joined the island!",
   "ACCEPT_USAGE": "Usage: /is accept [invitation=last invitation]",
   "ACCEPT_DESCRIPTION": "Accepts an invitation to join an island",
-  "DENY_USAGE": "Usage: /is accept [invitation=last invitation]",
+  "DENY_USAGE": "Usage: /is deny [invitation=last invitation]",
   "DENY_DESCRIPTION": "Denies an invitation to join an island",
   "NOT_VALID_GENERATOR": "{WHITE}{name} {YELLOW}is not a valid island generator!",
   "ISLAND_DISBANDED": "{YELLOW}{BOLD}Your island was disbanded!",
