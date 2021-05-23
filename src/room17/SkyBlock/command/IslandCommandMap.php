@@ -109,7 +109,7 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
         $this->registerCommand(new AcceptCommand());
         $this->registerCommand(new DenyCommand());
         $this->registerCommand(new DisbandCommand($this));
-        $this->registerCommand(new BanishCommand());
+        $this->registerCommand(new BanishCommand($this));
         $this->registerCommand(new FireCommand($this));
         $this->registerCommand(new PromoteCommand());
         $this->registerCommand(new DemoteCommand());

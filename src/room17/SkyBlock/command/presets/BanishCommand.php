@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
+use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\session\Session;
@@ -21,6 +22,10 @@ class BanishCommand extends IslandCommand {
 
     /** @var SkyBlock */
     private $plugin;
+
+    public function __construct(IslandCommandMap $map) {
+        $this->plugin = $map->getPlugin();
+    }
 
     public function getName(): string {
         return "banish";
@@ -54,7 +59,7 @@ class BanishCommand extends IslandCommand {
             return;
         } elseif($playerSession->getIsland() === $session->getIsland()) {
             $session->sendTranslatedMessage(new MessageContainer("CANNOT_BANISH_A_MEMBER"));
-        } elseif(in_array($player, $session->getIsland()->getPlayersOnline())) {
+        } elseif(in_array($player, $session->getIsland()->getPlayersOnline(), true)) {
             $player->teleport($server->getDefaultLevel()->getSpawnLocation());
             $playerSession->sendTranslatedMessage(new MessageContainer("BANISHED_FROM_THE_ISLAND"));
             $session->sendTranslatedMessage(new MessageContainer("YOU_BANISHED_A_PLAYER", [
