@@ -18,11 +18,10 @@ use room17\SkyBlock\SkyBlock;
 
 class SessionManager {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     /** @var Session[] */
-    private $sessions = [];
+    private array $sessions = [];
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;

@@ -17,7 +17,7 @@ use room17\SkyBlock\utils\Utils;
 class MessageManager {
 
     /** @var string[] */
-    private $messages;
+    private array $messages;
 
     public function __construct(SkyBlock $plugin) {
         $this->messages = json_decode(file_get_contents($plugin->getDataFolder() . "messages.json"), true);
