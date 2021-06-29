@@ -23,29 +23,16 @@ use room17\SkyBlock\utils\message\MessageManager;
 
 class SkyBlock extends PluginBase {
 
-    /** @var SkyBlock */
-    private static $instance;
+    private static SkyBlock $instance;
 
-    /** @var SkyBlockSettings */
-    private $settings;
+    private SkyBlockSettings $settings;
+    private Provider $provider;
 
-    /** @var Provider */
-    private $provider;
-
-    /** @var SessionManager */
-    private $sessionManager;
-
-    /** @var IslandManager */
-    private $islandManager;
-
-    /** @var IslandCommandMap */
-    private $commandMap;
-
-    /** @var IslandGeneratorManager */
-    private $generatorManager;
-
-    /** @var MessageManager */
-    private $messageManager;
+    private SessionManager $sessionManager;
+    private IslandManager $islandManager;
+    private IslandCommandMap $commandMap;
+    private IslandGeneratorManager $generatorManager;
+    private MessageManager $messageManager;
 
     public static function getInstance(): SkyBlock {
         return self::$instance;
