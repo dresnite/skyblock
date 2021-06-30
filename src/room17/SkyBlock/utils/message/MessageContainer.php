@@ -15,11 +15,8 @@ use room17\SkyBlock\SkyBlock;
 
 class MessageContainer {
 
-    /** @var string */
-    private $id;
-
-    /** @var array */
-    private $args;
+    private string $id;
+    private array $args;
 
     public function __construct(string $id, array $arguments = []) {
         $this->id = $id;
