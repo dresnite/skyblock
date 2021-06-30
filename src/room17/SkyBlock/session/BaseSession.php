@@ -15,26 +15,14 @@ use room17\SkyBlock\provider\Provider;
 
 abstract class BaseSession {
 
-    /** @var SessionManager */
-    protected $manager;
+    protected SessionManager $manager;
+    protected Provider $provider;
 
-    /** @var Provider */
-    protected $provider;
-
-    /** @var string */
-    protected $lowerCaseName;
-
-    /** @var string|null */
-    protected $islandId = null;
-
-    /** @var bool */
-    protected $inChat = false;
-
-    /** @var int */
-    protected $rank = false;
-
-    /** @var float|null */
-    protected $lastIslandCreationTime;
+    protected string $lowerCaseName;
+    protected ?string $islandId = null;
+    protected bool $inChat = false;
+    protected int $rank;
+    protected ?float $lastIslandCreationTime;
 
     public function __construct(SessionManager $manager, string $name) {
         $this->manager = $manager;

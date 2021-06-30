@@ -18,17 +18,13 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class Session extends BaseSession {
 
-    /** @var string */
-    private $name;
+    private string $name;
 
-    /** @var Player */
-    private $player;
-
-    /** @var null|Island */
-    private $island = null;
+    private Player $player;
+    private ?Island $island = null;
 
     /** @var Invitation[] */
-    private $invitations = [];
+    private array $invitations = [];
 
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
