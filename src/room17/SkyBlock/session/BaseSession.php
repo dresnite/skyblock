@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace room17\SkyBlock\session;
 
 
-use room17\SkyBlock\island\RankIds;
 use room17\SkyBlock\provider\Provider;
 
 abstract class BaseSession {
@@ -76,7 +75,7 @@ abstract class BaseSession {
         $this->inChat = $inChat;
     }
 
-    public function setRank(int $rank = RankIds::MEMBER): void {
+    public function setRank(int $rank): void {
         $this->rank = $rank;
     }
 
