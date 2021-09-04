@@ -1,3 +1,4 @@
+---
 name: SkyBlock
 description: A powerful core for SkyBlock servers
 author: GiantQuartz
@@ -10,3 +11,4 @@ permissions:
   skyblock.interaction:
     description: Allows players to interact with an island regardless of whether they belong to it
     default: op
+...
