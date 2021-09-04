@@ -78,7 +78,8 @@ class InviteCommand extends IslandCommand {
             ]));
             return;
         }
-        Invitation::send($session, $playerSession);
+
+        Invitation::send($session, $playerSession, $session->getIsland());
     }
 
 }

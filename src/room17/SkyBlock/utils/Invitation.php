@@ -18,20 +18,14 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class Invitation {
 
-    /** @var Session */
-    private $sender;
+    private Session $sender;
+    private Session $target;
+    private Island $island;
 
-    /** @var Session */
-    private $target;
+    private float $creationTime;
 
-    /** @var Island */
-    private $island;
-
-    /** @var float */
-    private $creationTime;
-
-    public static function send(Session $sender, Session $target): void {
-        $target->sendInvitation(new Invitation($sender, $target));
+    public static function send(Session $sender, Session $target, Island $island): void {
+        $target->sendInvitation(new Invitation($sender, $target, $island));
         $target->sendTranslatedMessage(new MessageContainer("YOU_WERE_INVITED_TO_AN_ISLAND", [
             "name" => $sender->getName()
         ]));
@@ -40,10 +34,10 @@ class Invitation {
         ]));
     }
 
-    public function __construct(Session $sender, Session $target) {
+    public function __construct(Session $sender, Session $target, Island $island) {
         $this->sender = $sender;
         $this->target = $target;
-        $this->island = $sender->getIsland();
+        $this->island = $island;
         $this->creationTime = microtime(true);
     }
 

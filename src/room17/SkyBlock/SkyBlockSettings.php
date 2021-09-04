@@ -20,17 +20,13 @@ class SkyBlockSettings {
 
     public const CURRENT_VERSION = "3";
 
-    /** @var SkyBlock */
-    private $plugin;
-
-    /** @var Config */
-    private $config;
+    private SkyBlock $plugin;
+    private Config $config;
 
     /** @var Item[] */
-    private $defaultChestContent;
-
+    private array $defaultChestContent;
     /** @var array[] */
-    private $generatorChestContent;
+    private array $generatorChestContent;
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
