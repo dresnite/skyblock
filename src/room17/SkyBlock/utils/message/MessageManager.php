@@ -35,7 +35,7 @@ class MessageManager {
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
         $message = Utils::translateColors($message);
         foreach($container->getArgs() as $arg => $value) {
-            $message = str_replace("{" . $arg . "}", $value, $message);
+            $message = str_replace("{" . $arg . "}", (string)$value, $message);
         }
         return $message;
     }
