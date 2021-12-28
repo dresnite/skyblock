@@ -21,29 +21,17 @@ use room17\SkyBlock\utils\message\MessageManager;
 
 class SkyBlock extends PluginBase {
 
-    /** @var SkyBlock */
-    private static $instance;
+    private static self $instance;
 
-    /** @var SkyBlockSettings */
-    private $settings;
+    private SkyBlockSettings $settings;
+    private Provider $provider;
 
-    /** @var Provider */
-    private $provider;
+    private SessionManager $sessionManager;
+    private IslandManager $islandManager;
+    private IslandGeneratorManager $generatorManager;
+    private MessageManager $messageManager;
 
-    /** @var SessionManager */
-    private $sessionManager;
-
-    /** @var IslandManager */
-    private $islandManager;
-
-    /** @var IslandCommandMap */
-    private $commandMap;
-
-    /** @var IslandGeneratorManager */
-    private $generatorManager;
-
-    /** @var MessageManager */
-    private $messageManager;
+    private IslandCommandMap $commandMap;
 
     public static function getInstance(): SkyBlock {
         return self::$instance;
@@ -67,7 +55,6 @@ class SkyBlock extends PluginBase {
         $this->messageManager = new MessageManager($this);
         $this->commandMap = new IslandCommandMap($this);
         $this->commandMap->registerDefaultCommands();
-        $this->checkSpawnProtection();
     }
 
     public function onDisable(): void {
@@ -106,14 +93,6 @@ class SkyBlock extends PluginBase {
 
     public function getCommandMap(): IslandCommandMap {
         return $this->commandMap;
-    }
-
-    private function checkSpawnProtection(): void {
-        $server = $this->getServer();
-        if($server->getSpawnRadius() > 0) {
-            $this->getLogger()->warning("Disable the spawn protection on your server.properties, otherwise SkyBlock won't work");
-            $server->getPluginManager()->disablePlugin($this);
-        }
     }
 
 }

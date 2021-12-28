@@ -20,8 +20,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class DisbandCommand extends IslandCommand {
 
-    /** @var IslandManager */
-    private $islandManager;
+    private IslandManager $islandManager;
 
     public function __construct(IslandCommandMap $map) {
         $this->islandManager = $map->getPlugin()->getIslandManager();

@@ -12,7 +12,8 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
-use pocketmine\level\Level;
+use pocketmine\world\World;
+use pocketmine\world\WorldCreationOptions;
 use room17\SkyBlock\event\island\IslandCreateEvent;
 use room17\SkyBlock\event\island\IslandDisbandEvent;
 use room17\SkyBlock\island\generator\IslandGenerator;
@@ -22,24 +23,24 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class IslandFactory {
 
-    public static function createIslandWorld(string $identifier, string $type): Level {
-        $skyblock = SkyBlock::getInstance();
+    public static function createIslandWorld(string $identifier, string $type): World {
+        $plugin = SkyBlock::getInstance();
 
-        $generatorManager = $skyblock->getGeneratorManager();
+        $generatorManager = $plugin->getGeneratorManager();
         if($generatorManager->isGenerator($type)) {
             $generator = $generatorManager->getGenerator($type);
         } else {
             $generator = $generatorManager->getGenerator("Basic");
         }
 
-        $server = $skyblock->getServer();
-        $server->generateLevel($identifier, null, $generator);
-        $server->loadLevel($identifier);
-        $level = $server->getLevelByName($identifier);
+        $worldManager = $plugin->getServer()->getWorldManager();
+        $worldManager->generateWorld($identifier, (new WorldCreationOptions())->setGeneratorClass($generator));
+        $worldManager->loadWorld($identifier);
+        $world = $worldManager->getWorldByName($identifier);
         /** @var IslandGenerator $generator */
-        $level->setSpawnLocation($generator::getWorldSpawn());
+        $world->setSpawnLocation($generator::getWorldSpawn());
 
-        return $level;
+        return $world;
     }
 
     public static function createIslandFor(Session $session, string $type): void {
@@ -61,8 +62,8 @@ class IslandFactory {
     }
 
     public static function disbandIsland(Island $island): void {
-        foreach($island->getLevel()->getPlayers() as $player) {
-            $player->teleport($player->getServer()->getDefaultLevel()->getSpawnLocation());
+        foreach($island->getWorld()->getPlayers() as $player) {
+            $player->teleport($player->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
         }
         foreach($island->getMembers() as $offlineMember) {
             $onlineSession = $offlineMember->getOnlineSession();

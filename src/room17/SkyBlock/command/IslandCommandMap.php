@@ -13,9 +13,9 @@ namespace room17\SkyBlock\command;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
-use pocketmine\command\PluginIdentifiableCommand;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\plugin\PluginOwned;
 use room17\SkyBlock\command\presets\AcceptCommand;
 use room17\SkyBlock\command\presets\BlocksCommand;
 use room17\SkyBlock\command\presets\CategoryCommand;
@@ -41,13 +41,12 @@ use room17\SkyBlock\session\SessionLocator;
 use room17\SkyBlock\SkyBlock;
 use room17\SkyBlock\utils\message\MessageContainer;
 
-class IslandCommandMap extends Command implements PluginIdentifiableCommand {
+class IslandCommandMap extends Command implements PluginOwned {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     /** @var IslandCommand[] */
-    private $commands = [];
+    private array $commands = [];
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
@@ -65,6 +64,10 @@ class IslandCommandMap extends Command implements PluginIdentifiableCommand {
      * @return SkyBlock|Plugin
      */
     public function getPlugin(): Plugin {
+        return $this->plugin;
+    }
+
+    public function getOwningPlugin(): Plugin {
         return $this->plugin;
     }
 

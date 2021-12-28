@@ -18,17 +18,11 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class Invitation {
 
-    /** @var Session */
-    private $sender;
+    private Session $sender;
+    private Session $target;
 
-    /** @var Session */
-    private $target;
-
-    /** @var Island */
-    private $island;
-
-    /** @var float */
-    private $creationTime;
+    private Island $island;
+    private float $creationTime;
 
     public static function send(Session $sender, Session $target): void {
         $target->sendInvitation(new Invitation($sender, $target));

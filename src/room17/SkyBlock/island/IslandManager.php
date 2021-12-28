@@ -11,18 +11,17 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
-use pocketmine\level\Level;
+use pocketmine\world\World;
 use room17\SkyBlock\event\island\IslandOpenEvent;
 use room17\SkyBlock\event\island\IslandCloseEvent;
 use room17\SkyBlock\SkyBlock;
 
 class IslandManager {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     /** @var Island[] */
-    private $islands = [];
+    private array $islands = [];
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
@@ -44,12 +43,12 @@ class IslandManager {
         return $this->islands[$identifier] ?? null;
     }
 
-    public function getIslandByLevel(Level $level): ?Island {
-        return $this->getIsland($level->getName());
+    public function getIslandByWorld(World $world): ?Island {
+        return $this->getIsland($world->getFolderName());
     }
 
-    public function openIsland(string $identifier, array $members, bool $locked, string $type, Level $level, int $blocksBuilt): void {
-        $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $level, $blocksBuilt);
+    public function openIsland(string $identifier, array $members, bool $locked, string $type, World $world, int $blocksBuilt): void {
+        $this->islands[$identifier] = new Island($this, $identifier, $members, $locked, $type, $world, $blocksBuilt);
         (new IslandOpenEvent($this->islands[$identifier]))->call();
     }
 
@@ -57,7 +56,7 @@ class IslandManager {
         $island->save();
         $server = $this->plugin->getServer();
         (new IslandCloseEvent($island))->call();
-        $server->unloadLevel($island->getLevel());
+        $server->getWorldManager()->unloadWorld($island->getWorld());
         unset($this->islands[$island->getIdentifier()]);
     }
 

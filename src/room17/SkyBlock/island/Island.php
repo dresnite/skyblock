@@ -12,53 +12,42 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
-use pocketmine\level\Level;
-use pocketmine\level\Position;
+use pocketmine\world\Position;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use pocketmine\world\World;
 use room17\SkyBlock\session\OfflineSession;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\utils\message\MessageContainer;
 
 class Island {
 
-    /** @var IslandManager */
-    private $manager;
-
-    /** @var string */
-    private $identifier;
+    private IslandManager $manager;
+    private string $identifier;
 
     /** @var OfflineSession[] */
-    private $members = [];
+    private array $members = [];
 
-    /** @var bool */
-    private $locked;
+    private bool $locked;
+    private string $type;
 
-    /** @var string */
-    private $type;
+    private World $world;
 
-    /** @var Level */
-    private $level;
-
-    /** @var int */
-    private $blocksBuilt;
-
-    /** @var string */
-    private $category;
+    private int $blocksBuilt;
+    private string $category;
 
     /** @var Session[] */
-    private $cooperators = [];
+    private array $cooperators = [];
 
-    /** @var bool */
-    private $closed = false;
+    private bool $closed = false;
 
     public function __construct(IslandManager $manager, string $identifier, array $members, bool $locked, string $type,
-                                Level $level, int $blocksBuilt) {
+                                World $world, int $blocksBuilt) {
         $this->manager = $manager;
         $this->identifier = $identifier;
         $this->locked = $locked;
         $this->type = $type;
-        $this->level = $level;
+        $this->world = $world;
         $this->blocksBuilt = $blocksBuilt;
 
         foreach($members as $member) {
@@ -83,7 +72,7 @@ class Island {
      * @return Session[]
      */
     public function getPlayersOnline(): array {
-        return $this->level->getPlayers();
+        return $this->world->getPlayers();
     }
 
     /**
@@ -123,12 +112,12 @@ class Island {
         return $this->type;
     }
 
-    public function getLevel(): Level {
-        return $this->level;
+    public function getWorld(): World {
+        return $this->world;
     }
 
     public function getSpawnLocation(): Position {
-        return $this->level->getSpawnLocation();
+        return $this->world->getSpawnLocation();
     }
 
     public function getBlocksBuilt(): int {
@@ -140,18 +129,13 @@ class Island {
     }
 
     public function getNextCategory(): ?string {
-        switch($this->category) {
-            case CategoryIds::EXTRA_LARGE:
-                return null;
-            case CategoryIds::LARGE:
-                return CategoryIds::EXTRA_LARGE;
-            case CategoryIds::MEDIUM:
-                return CategoryIds::LARGE;
-            case CategoryIds::SMALL:
-                return CategoryIds::MEDIUM;
-            default:
-                return CategoryIds::SMALL;
-        }
+        return match ($this->category) {
+            CategoryIds::EXTRA_LARGE => null,
+            CategoryIds::LARGE => CategoryIds::EXTRA_LARGE,
+            CategoryIds::MEDIUM => CategoryIds::LARGE,
+            CategoryIds::SMALL => CategoryIds::MEDIUM,
+            default => CategoryIds::SMALL,
+        };
     }
 
     public function getSlots(): int {
@@ -189,7 +173,7 @@ class Island {
     }
 
     public function setSpawnLocation(Vector3 $position): void {
-        $this->level->setSpawnLocation($position);
+        $this->world->setSpawnLocation($position);
     }
 
     public function setBlocksBuilt(int $blocksBuilt): void {

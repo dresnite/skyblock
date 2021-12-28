@@ -37,7 +37,7 @@ class JoinCommand extends IslandCommand {
         if($this->checkIsland($session)) {
             return;
         }
-        $session->getPlayer()->teleport($session->getIsland()->getLevel()->getSpawnLocation());
+        $session->getPlayer()->teleport($session->getIsland()->getWorld()->getSpawnLocation());
         $session->sendTranslatedMessage(new MessageContainer("TELEPORTED_TO_ISLAND"));
     }
 

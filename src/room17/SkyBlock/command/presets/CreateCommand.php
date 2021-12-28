@@ -20,8 +20,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class CreateCommand extends IslandCommand {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();

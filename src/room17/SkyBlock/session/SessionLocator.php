@@ -11,7 +11,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\session;
 
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use room17\SkyBlock\SkyBlock;
 
 class SessionLocator {
