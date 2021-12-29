@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock;
 
 use pocketmine\plugin\PluginBase;
+use pocketmine\utils\SingletonTrait;
 use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\island\generator\IslandGeneratorManager;
 use room17\SkyBlock\island\IslandManager;
@@ -20,8 +21,7 @@ use room17\SkyBlock\session\SessionManager;
 use room17\SkyBlock\utils\message\MessageManager;
 
 class SkyBlock extends PluginBase {
-
-    private static self $instance;
+    use SingletonTrait;
 
     private SkyBlockSettings $settings;
     private Provider $provider;
@@ -33,12 +33,8 @@ class SkyBlock extends PluginBase {
 
     private IslandCommandMap $commandMap;
 
-    public static function getInstance(): SkyBlock {
-        return self::$instance;
-    }
-
     public function onLoad(): void {
-        self::$instance = $this;
+        self::setInstance($this);
         if(!is_dir($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder);
         }
