@@ -35,7 +35,7 @@ class IslandFactory {
 
         $worldManager = $plugin->getServer()->getWorldManager();
         $worldManager->generateWorld($identifier, (new WorldCreationOptions())->setGeneratorClass($generator));
-        $worldManager->loadWorld($identifier);
+        $worldManager->loadWorld($identifier, true);
         $world = $worldManager->getWorldByName($identifier);
         /** @var IslandGenerator $generator */
         $world->setSpawnLocation($generator::getWorldSpawn());
