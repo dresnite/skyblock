@@ -28,19 +28,19 @@ class OPIsland extends IslandGenerator {
         if($chunkX == 0 && $chunkZ == 0) {
             for($x = 0; $x < 16; $x++) {
                 for($z = 0; $z < 16; $z++) {
-                    $chunk->setFullBlock($x, 0, $z, VanillaBlocks::BEDROCK()->getTypeId());
+                    $world->setBlockAt($x, 0, $z, VanillaBlocks::BEDROCK());
                     for($y = 1; $y <= 3; $y++) {
-                        $chunk->setFullBlock($x, $y, $z, VanillaBlocks::STONE()->getTypeId());
+                        $world->setBlockAt($x, $y, $z, VanillaBlocks::STONE());
                     }
-                    $chunk->setFullBlock($x, 4, $z, VanillaBlocks::DIRT()->getTypeId());
-                    $chunk->setFullBlock($x, 5, $z, VanillaBlocks::GRASS()->getTypeId());
+                    $world->setBlockAt($x, 4, $z, VanillaBlocks::DIRT());
+                    $world->setBlockAt($x, 5, $z, VanillaBlocks::GRASS());
                 }
             }
             $tree = new OakTree();
             $transaction = $tree->getBlockTransaction($world, 8, 6, 8, $this->random);
             $transaction->apply();
 
-            $chunk->setFullBlock(10, 6, 8, VanillaBlocks::CHEST()->getTypeId());
+            $world->setBlockAt(10, 6, 8, VanillaBlocks::CHEST());
         }
         $world->setChunk($chunkX, $chunkZ, $chunk);
     }
