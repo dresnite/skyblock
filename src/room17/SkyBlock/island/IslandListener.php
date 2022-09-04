@@ -228,6 +228,9 @@ class IslandListener implements Listener {
         if($world->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
             $chest = $world->getBlock($generator::getChestPosition());
+
+            if (!$chest instanceof Chest) return;
+
             foreach($this->plugin->getSettings()->getChestContentByGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
