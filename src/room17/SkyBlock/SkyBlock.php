@@ -10,6 +10,9 @@ declare(strict_types=1);
 
 namespace room17\SkyBlock;
 
+use pocketmine\permission\DefaultPermissions;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\island\generator\IslandGeneratorManager;
@@ -54,6 +57,7 @@ class SkyBlock extends PluginBase {
         $this->generatorManager = new IslandGeneratorManager($this);
         $this->messageManager = new MessageManager($this);
         $this->commandMap = new IslandCommandMap($this);
+        $this->registerPermissions();
         $this->commandMap->registerDefaultCommands();
     }
 
@@ -95,4 +99,12 @@ class SkyBlock extends PluginBase {
         return $this->commandMap;
     }
 
+    public function registerPermissions(): void {
+        $user = PermissionManager::getInstance()->getPermission(DefaultPermissions::ROOT_USER);
+        if ($user !== null) {
+            foreach ($this->getGeneratorManager()->getGenerators() as $generator){
+                DefaultPermissions::registerPermission(new Permission("skyblock.island.{$generator}"), [$user]);
+            }
+        }
+    }
 }
