@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
+use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockPlaceEvent;
@@ -227,13 +228,18 @@ class IslandListener implements Listener {
 
         if($world->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
-            $chest = $world->getBlock($generator::getChestPosition());
+            $chest = $world->getTile($generator::getChestPosition());
 
-            if (!$chest instanceof Chest) return;
+            if (!$chest instanceof Chest) {
+                $world->setBlock($generator::getChestPosition(), VanillaBlocks::CHEST());
+                $chest = $world->getTile($generator::getChestPosition());
+            }
+
 
             foreach($this->plugin->getSettings()->getChestContentByGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
+
         }
     }
 
