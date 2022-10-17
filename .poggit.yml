@@ -1,9 +1,0 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/GiantAmethyst/SkyBlock
-branches:
-- master
-- stable
-projects:
-  SkyBlock:
-    path: ""
-    icon: icon.png
-...
