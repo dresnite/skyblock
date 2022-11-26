@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace room17\SkyBlock\command\presets;
 
 
+use pocketmine\permission\DefaultPermissions;
 use room17\SkyBlock\command\IslandCommand;
 use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\session\Session;
@@ -19,8 +20,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class VisitCommand extends IslandCommand {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
@@ -57,14 +57,14 @@ class VisitCommand extends IslandCommand {
         }
         $this->plugin->getProvider()->loadIsland($islandId);
         $island = $this->plugin->getIslandManager()->getIsland($islandId);
-        if($island->isLocked() and !($session->getPlayer()->isOp())) {
+        if($island->isLocked() and !$session->getPlayer()->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             $session->sendTranslatedMessage(new MessageContainer("HIS_ISLAND_IS_LOCKED", [
                 "name" => $args[0]
             ]));
             $island->tryToClose();
             return;
         }
-        $session->getPlayer()->teleport($island->getLevel()->getSpawnLocation());
+        $session->getPlayer()->teleport($island->getWorld()->getSpawnLocation());
         $session->sendTranslatedMessage(new MessageContainer("VISITING_ISLAND", [
             "name" => $args[0]
         ]));

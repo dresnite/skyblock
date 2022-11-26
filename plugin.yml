@@ -1,10 +1,10 @@
 name: SkyBlock
 description: A powerful core for SkyBlock servers
-author: GiantQuartz
-website: twitter.com/GiantQuartz
+author: dresnite
+website: twitter.com/dresnite
 main: room17\SkyBlock\SkyBlock
-version: 3.0.1
-api: 3.0.0
+version: 3.0.2
+api: 4.0.0
 
 permissions:
   skyblock.interaction:

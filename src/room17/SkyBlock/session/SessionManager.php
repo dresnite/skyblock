@@ -11,18 +11,17 @@ declare(strict_types=1);
 namespace room17\SkyBlock\session;
 
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use room17\SkyBlock\event\session\SessionCloseEvent;
 use room17\SkyBlock\event\session\SessionOpenEvent;
 use room17\SkyBlock\SkyBlock;
 
 class SessionManager {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     /** @var Session[] */
-    private $sessions = [];
+    private array $sessions = [];
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;
@@ -40,10 +39,6 @@ class SessionManager {
         return $this->sessions;
     }
 
-    /**
-     * @param Player $player
-     * @return Session
-     */
     public function getSession(Player $player): Session {
         if(!$this->isSessionOpen($player)) {
             $this->openSession($player);
@@ -59,17 +54,11 @@ class SessionManager {
         return new OfflineSession($this, $username);
     }
 
-    /**
-     * @param Player $player
-     */
     public function openSession(Player $player): void {
         $this->sessions[$username = $player->getName()] = new Session($this, $player);
         (new SessionOpenEvent($this->sessions[$username]))->call();
     }
 
-    /**
-     * @param Player $player
-     */
     public function closeSession(Player $player): void {
         if(isset($this->sessions[$username = $player->getName()])) {
             $session = $this->sessions[$username];

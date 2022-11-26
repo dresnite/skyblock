@@ -53,21 +53,21 @@ class JSONProvider extends Provider {
         }
 
         $config = $this->getIslandConfig($identifier);
-        $server = $this->plugin->getServer();
-        $server->loadLevel($identifier);
+        $worldManager = $this->plugin->getServer()->getWorldManager();
+        $worldManager->loadWorld($identifier, true);
 
         $members = [];
         foreach($config->get("members", []) as $username) {
             $members[] = SessionLocator::getOfflineSession($username);
         }
 
-        if(!$server->isLevelGenerated($identifier)) {
+        if(!$worldManager->isWorldGenerated($identifier)) {
             IslandFactory::createIslandWorld($identifier, "Basic");
             $this->plugin->getLogger()->warning("Couldn't find island $identifier world - One has been created");
         }
 
         $islandManager->openIsland($identifier, $members, $config->get("locked"), $config->get("type") ?? "basic",
-            $server->getLevelByName($identifier), $config->get("blocks") ?? 0
+            $worldManager->getWorldByName($identifier), $config->get("blocks") ?? 0
         );
     }
 

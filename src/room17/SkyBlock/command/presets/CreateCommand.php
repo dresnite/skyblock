@@ -20,8 +20,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class CreateCommand extends IslandCommand {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
@@ -45,9 +44,13 @@ class CreateCommand extends IslandCommand {
         }
         
         $generator = strtolower($args[0] ?? "Shelly");
-        if($this->plugin->getGeneratorManager()->isGenerator($generator) and $this->hasPermission($session, $generator)) {
-            IslandFactory::createIslandFor($session, $generator);
-            $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
+        if($this->plugin->getGeneratorManager()->isGenerator($generator)) {
+            if($this->hasPermission($session, $generator)) {
+                IslandFactory::createIslandFor($session, $generator);
+                $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_CREATED_A_ISLAND"));
+            } else {
+                $session->sendTranslatedMessage(new MessageContainer("NO_PERMISSON_GENERATOR", ["name" => $generator]));
+            }
         } else {
             $session->sendTranslatedMessage(new MessageContainer("NOT_VALID_GENERATOR", ["name" => $generator]));
         }

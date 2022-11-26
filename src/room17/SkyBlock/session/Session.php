@@ -11,24 +11,20 @@ declare(strict_types=1);
 namespace room17\SkyBlock\session;
 
 
-use pocketmine\Player;
+use pocketmine\player\Player;
 use room17\SkyBlock\island\Island;
 use room17\SkyBlock\utils\Invitation;
 use room17\SkyBlock\utils\message\MessageContainer;
 
 class Session extends BaseSession {
 
-    /** @var string */
-    private $name;
+    private string $name;
+    private Player $player;
 
-    /** @var Player */
-    private $player;
-
-    /** @var null|Island */
-    private $island = null;
+    private ?Island $island = null;
 
     /** @var Invitation[] */
-    private $invitations = [];
+    private array $invitations = [];
 
     public function __construct(SessionManager $manager, Player $player) {
         $this->player = $player;
@@ -51,8 +47,8 @@ class Session extends BaseSession {
     /**
      * Returns the island the player is currently in or null if he's not in one
      */
-    public function getIslandByLevel(): ?Island {
-        return $this->manager->getPlugin()->getIslandManager()->getIsland($this->player->getLevel()->getName());
+    public function getIslandByWorld(): ?Island {
+        return $this->manager->getPlugin()->getIslandManager()->getIsland($this->player->getWorld()->getFolderName());
     }
 
     public function hasIsland(): bool {
@@ -151,7 +147,7 @@ class Session extends BaseSession {
     }
 
     public function teleportToSpawn(): void {
-        $this->player->teleport($this->player->getServer()->getDefaultLevel()->getSafeSpawn());
+        $this->player->teleport($this->player->getServer()->getWorldManager()->getDefaultWorld()->getSafeSpawn());
     }
 
 }

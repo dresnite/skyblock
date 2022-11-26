@@ -12,6 +12,7 @@ namespace room17\SkyBlock\utils;
 
 
 use pocketmine\item\Item;
+use pocketmine\item\ItemFactory;
 use pocketmine\utils\TextFormat;
 
 class Utils {
@@ -24,7 +25,7 @@ class Utils {
 
     public static function parseItem(string $item): ?Item {
         $parts = array_map("intval", explode(",", str_replace(" ", "", $item)));
-        return (count($parts) > 0) ? Item::get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1) : null;
+        return (count($parts) > 0) ? ItemFactory::getInstance()->get($parts[0], $parts[1] ?? 0, $parts[2] ?? 1) : null;
     }
 
     public static function translateColors(string $message): string {

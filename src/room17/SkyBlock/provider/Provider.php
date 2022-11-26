@@ -17,8 +17,7 @@ use room17\SkyBlock\SkyBlock;
 
 abstract class Provider {
 
-    /** @var SkyBlock */
-    protected $plugin;
+    protected SkyBlock $plugin;
 
     public function __construct(SkyBlock $plugin) {
         $this->plugin = $plugin;

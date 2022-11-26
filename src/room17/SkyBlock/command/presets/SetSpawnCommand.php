@@ -32,10 +32,10 @@ class SetSpawnCommand extends IslandCommand {
     public function onCommand(Session $session, array $args): void {
         if($this->checkOfficer($session)) {
             return;
-        } elseif($session->getPlayer()->getLevel() !== $session->getIsland()->getLevel()) {
+        } elseif($session->getPlayer()->getWorld() !== $session->getIsland()->getWorld()) {
             $session->sendTranslatedMessage(new MessageContainer("MUST_BE_IN_YOUR_ISLAND"));
         } else {
-            $session->getIsland()->setSpawnLocation($session->getPlayer());
+            $session->getIsland()->setSpawnLocation($session->getPlayer()->getPosition()->asVector3());
             $session->sendTranslatedMessage(new MessageContainer("SUCCESSFULLY_SET_SPAWN"));
         }
     }

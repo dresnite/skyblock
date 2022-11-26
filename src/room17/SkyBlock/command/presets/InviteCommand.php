@@ -62,7 +62,7 @@ class InviteCommand extends IslandCommand {
             }
             return;
         }
-        $player = $this->plugin->getServer()->getPlayer($args[0]);
+        $player = $this->plugin->getServer()->getPlayerByPrefix($args[0]);
         if($player == null) {
             $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]

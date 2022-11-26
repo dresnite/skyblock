@@ -10,6 +10,9 @@ declare(strict_types=1);
 
 namespace room17\SkyBlock;
 
+use pocketmine\permission\DefaultPermissions;
+use pocketmine\permission\Permission;
+use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
 use room17\SkyBlock\command\IslandCommandMap;
 use room17\SkyBlock\island\generator\IslandGeneratorManager;
@@ -21,29 +24,17 @@ use room17\SkyBlock\utils\message\MessageManager;
 
 class SkyBlock extends PluginBase {
 
-    /** @var SkyBlock */
-    private static $instance;
+    private static self $instance;
 
-    /** @var SkyBlockSettings */
-    private $settings;
+    private SkyBlockSettings $settings;
+    private Provider $provider;
 
-    /** @var Provider */
-    private $provider;
+    private SessionManager $sessionManager;
+    private IslandManager $islandManager;
+    private IslandGeneratorManager $generatorManager;
+    private MessageManager $messageManager;
 
-    /** @var SessionManager */
-    private $sessionManager;
-
-    /** @var IslandManager */
-    private $islandManager;
-
-    /** @var IslandCommandMap */
-    private $commandMap;
-
-    /** @var IslandGeneratorManager */
-    private $generatorManager;
-
-    /** @var MessageManager */
-    private $messageManager;
+    private IslandCommandMap $commandMap;
 
     public static function getInstance(): SkyBlock {
         return self::$instance;
@@ -66,8 +57,8 @@ class SkyBlock extends PluginBase {
         $this->generatorManager = new IslandGeneratorManager($this);
         $this->messageManager = new MessageManager($this);
         $this->commandMap = new IslandCommandMap($this);
+        $this->registerPermissions();
         $this->commandMap->registerDefaultCommands();
-        $this->checkSpawnProtection();
     }
 
     public function onDisable(): void {
@@ -108,12 +99,12 @@ class SkyBlock extends PluginBase {
         return $this->commandMap;
     }
 
-    private function checkSpawnProtection(): void {
-        $server = $this->getServer();
-        if($server->getSpawnRadius() > 0) {
-            $this->getLogger()->warning("Disable the spawn protection on your server.properties, otherwise SkyBlock won't work");
-            $server->getPluginManager()->disablePlugin($this);
+    public function registerPermissions(): void {
+        $user = PermissionManager::getInstance()->getPermission(DefaultPermissions::ROOT_USER);
+        if($user !== null) {
+            foreach($this->getGeneratorManager()->getGenerators() as $generator){
+                DefaultPermissions::registerPermission(new Permission("skyblock.island.{$generator}"), [$user]);
+            }
         }
     }
-
 }

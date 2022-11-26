@@ -20,8 +20,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class FireCommand extends IslandCommand {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
@@ -62,8 +61,8 @@ class FireCommand extends IslandCommand {
         } else {
             $onlineSession = $offlineSession->getOnlineSession();
             if($onlineSession != null) {
-                if($onlineSession->getIsland()->getLevel() === $onlineSession->getPlayer()->getLevel()) {
-                    $onlineSession->getPlayer()->teleport($this->plugin->getServer()->getDefaultLevel()->getSpawnLocation());
+                if($onlineSession->getIsland()->getWorld() === $onlineSession->getPlayer()->getWorld()) {
+                    $onlineSession->getPlayer()->teleport($this->plugin->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation());
                 }
                 $onlineSession->setRank(RankIds::MEMBER);
                 $onlineSession->setIsland(null);

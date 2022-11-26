@@ -12,23 +12,22 @@ declare(strict_types=1);
 namespace room17\SkyBlock\island;
 
 
-use pocketmine\block\Solid;
+use pocketmine\block\VanillaBlocks;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockFormEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Cancellable;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\level\ChunkLoadEvent;
+use pocketmine\event\world\ChunkLoadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\Player;
-use pocketmine\tile\Chest;
-use pocketmine\tile\Tile;
+use pocketmine\player\Player;
+use pocketmine\block\tile\Chest;
 use room17\SkyBlock\island\generator\IslandGenerator;
 use room17\SkyBlock\session\Session;
 use room17\SkyBlock\session\SessionLocator;
@@ -38,11 +37,8 @@ use room17\SkyBlock\utils\Utils;
 
 class IslandListener implements Listener {
 
-    /** @var IslandManager */
-    private $manager;
-
-    /** @var SkyBlock */
-    private $plugin;
+    private IslandManager $manager;
+    private SkyBlock $plugin;
 
     public function __construct(IslandManager $manager) {
         $this->manager = $manager;
@@ -54,11 +50,11 @@ class IslandListener implements Listener {
      */
     public function onBreak(BlockBreakEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if(($island = $session->getIslandByLevel()) == null) {
+        if(($island = $session->getIslandByWorld()) == null) {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+        if(!$event->isCancelled() and $event->getBlock()->isSolid()) {
             $island->destroyBlock();
         }
     }
@@ -68,7 +64,8 @@ class IslandListener implements Listener {
             return;
         }
         $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
-        $event->setCancelled();
+        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
+        $event->cancel();
     }
 
     /**
@@ -76,11 +73,11 @@ class IslandListener implements Listener {
      */
     public function onPlace(BlockPlaceEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if(($island = $session->getIslandByLevel()) == null) {
+        if(($island = $session->getIslandByWorld()) == null) {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if(!$event->isCancelled() and $event->getBlock() instanceof Solid) {
+        if(!$event->isCancelled() and $event->getBlock()->isSolid()) {
             $island->addBlock();
         }
     }
@@ -90,8 +87,8 @@ class IslandListener implements Listener {
      */
     public function onBlockForm(BlockFormEvent $event): void {
         $block = $event->getBlock();
-        $island = $this->manager->getIsland($block->getLevel()->getName());
-        if($island != null and !$block instanceof Solid and $event->getNewState() instanceof Solid) {
+        $island = $this->manager->getIsland($block->getPosition()->getWorld()->getFolderName());
+        if($island != null and !$block->isSolid() and $event->getNewState()->isSolid()) {
             $island->addBlock();
         }
     }
@@ -101,7 +98,7 @@ class IslandListener implements Listener {
      */
     public function onInteract(PlayerInteractEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        $island = $session->getIslandByLevel();
+        $island = $session->getIslandByWorld();
         if($island != null) {
             $this->checkPermissionToInteract($island, $session, $event);
         }
@@ -113,8 +110,8 @@ class IslandListener implements Listener {
      */
     public function onEnterBed(PlayerBedEnterEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
-        if($session->getIslandByLevel() != null) {
-            $event->setCancelled();
+        if($session->getIslandByWorld() != null) {
+            $event->cancel();
         }
     }
 
@@ -140,13 +137,13 @@ class IslandListener implements Listener {
     public function onCommand(PlayerCommandPreprocessEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
         $message = $event->getMessage();
-        if($session->getIslandByLevel() == null or $message[0] != "/") {
+        if($session->getIslandByWorld() == null or $message[0] != "/") {
             return;
         }
         $command = strtolower(substr($message, 1));
         if(in_array($command, $this->plugin->getSettings()->getBlockedCommands())) {
             $session->sendTranslatedMessage(new MessageContainer("BLOCKED_COMMAND"));
-            $event->setCancelled();
+            $event->cancel();
         }
     }
 
@@ -155,13 +152,13 @@ class IslandListener implements Listener {
      */
     public function onDamage(EntityDamageEvent $event): void {
         $entity = $event->getEntity();
-        $level = $entity->getLevel();
+        $world = $entity->getWorld();
 
-        if($level == null) {
+        if($world == null) {
             return; // Basically a hack to prevent SkyBlock from crashing because of shitty poggit plugins
         }
 
-        $island = $this->manager->getIslandByLevel($level);
+        $island = $this->manager->getIslandByWorld($world);
         if($island == null) {
             return;
         }
@@ -170,7 +167,7 @@ class IslandListener implements Listener {
             $this->onDamageByEntityInIsland($island, $event);
         } elseif($event->getCause() == EntityDamageByEntityEvent::CAUSE_VOID and $this->plugin->getSettings()->isVoidDamageEnabled()) {
             $entity->teleport($island->getSpawnLocation());
-            $event->setCancelled();
+            $event->cancel();
         }
     }
 
@@ -182,7 +179,7 @@ class IslandListener implements Listener {
         $damager = $event->getDamager();
 
         if($entity instanceof Player) {
-            $event->setCancelled();
+            $event->cancel();
         } elseif($damager instanceof Player) {
             $this->checkPermissionToInteract($island, SessionLocator::getSession($damager), $event);
         }
@@ -202,7 +199,7 @@ class IslandListener implements Listener {
             $island->removeCooperator($session);
         }
 
-        $island = $session->getIslandByLevel();
+        $island = $session->getIslandByWorld();
         if($island != null) {
             $session->teleportToSpawn();
             $island->tryToClose();
@@ -215,8 +212,8 @@ class IslandListener implements Listener {
      * Spawns the chest of recently created islands
      */
     public function onChunkLoad(ChunkLoadEvent $event): void {
-        $level = $event->getLevel();
-        $island = $this->manager->getIsland($level->getName());
+        $world = $event->getWorld();
+        $island = $this->manager->getIsland($world->getFolderName());
 
         if($island == null) {
             return;
@@ -229,12 +226,20 @@ class IslandListener implements Listener {
 
         $position = $generator::getChestPosition();
 
-        if($level->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
+        if($world->getChunk($position->x >> 4, $position->z >> 4) === $event->getChunk() and $event->isNewChunk()) {
             /** @var Chest $chest */
-            $chest = Tile::createTile(Tile::CHEST, $level, Chest::createNBT($position));
+            $chest = $world->getTile($generator::getChestPosition());
+
+            if(!$chest instanceof Chest) {
+                $world->setBlock($generator::getChestPosition(), VanillaBlocks::CHEST());
+                $chest = $world->getTile($generator::getChestPosition());
+            }
+
+
             foreach($this->plugin->getSettings()->getChestContentByGenerator($type) as $item) {
                 $chest->getInventory()->addItem($item);
             }
+
         }
     }
 

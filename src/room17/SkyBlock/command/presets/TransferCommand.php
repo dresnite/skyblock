@@ -21,8 +21,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class TransferCommand extends IslandCommand {
 
-    /** @var SkyBlock */
-    private $plugin;
+    private SkyBlock $plugin;
 
     public function __construct(IslandCommandMap $map) {
         $this->plugin = $map->getPlugin();
@@ -51,7 +50,7 @@ class TransferCommand extends IslandCommand {
             $session->sendTranslatedMessage(new MessageContainer("TRANSFER_USAGE"));
             return;
         }
-        $player = $this->plugin->getServer()->getPlayer($args[0]);
+        $player = $this->plugin->getServer()->getPlayerByPrefix($args[0]);
         if($player == null) {
             $session->sendTranslatedMessage(new MessageContainer("NOT_ONLINE_PLAYER", [
                 "name" => $args[0]

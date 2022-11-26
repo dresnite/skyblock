@@ -17,7 +17,7 @@ use room17\SkyBlock\utils\Utils;
 class MessageManager {
 
     /** @var string[] */
-    private $messages;
+    private array $messages;
 
     public function __construct(SkyBlock $plugin) {
         $this->messages = json_decode(file_get_contents($plugin->getDataFolder() . "messages.json"), true);
@@ -35,7 +35,7 @@ class MessageManager {
         $message = $this->messages[$identifier] ?? "Message ($identifier) not found";
         $message = Utils::translateColors($message);
         foreach($container->getArgs() as $arg => $value) {
-            $message = str_replace("{" . $arg . "}", $value, $message);
+            $message = str_replace("{" . $arg . "}", (string) $value, $message);
         }
         return $message;
     }

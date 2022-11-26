@@ -16,8 +16,7 @@ use room17\SkyBlock\island\Island;
 
 abstract class IslandEvent extends SkyBlockEvent {
 
-    /** @var Island */
-    private $island;
+    private Island $island;
 
     public function __construct(Island $island) {
         $this->island = $island;

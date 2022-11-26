@@ -18,8 +18,7 @@ use room17\SkyBlock\utils\message\MessageContainer;
 
 class HelpCommand extends IslandCommand {
 
-    /** @var IslandCommandMap */
-    private $map;
+    private IslandCommandMap $map;
 
     public function __construct(IslandCommandMap $map) {
         $this->map = $map;

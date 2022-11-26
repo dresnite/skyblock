@@ -16,8 +16,7 @@ use room17\SkyBlock\session\Session;
 
 abstract class SessionEvent extends SkyBlockEvent {
 
-    /** @var Session */
-    private $session;
+    private Session $session;
 
     public function __construct(Session $session) {
         $this->session = $session;

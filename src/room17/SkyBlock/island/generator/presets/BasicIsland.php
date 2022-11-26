@@ -10,9 +10,10 @@ declare(strict_types=1);
 
 namespace room17\SkyBlock\island\generator\presets;
 
-use pocketmine\block\Block;
-use pocketmine\block\BlockIds;
-use pocketmine\level\generator\object\Tree;
+
+use pocketmine\block\VanillaBlocks;
+use pocketmine\world\ChunkManager;
+use pocketmine\world\generator\object\OakTree;
 use pocketmine\math\Vector3;
 use room17\SkyBlock\island\generator\IslandGenerator;
 
@@ -22,39 +23,39 @@ class BasicIsland extends IslandGenerator {
         return "Basic";
     }
 
-    public function generateChunk(int $chunkX, int $chunkZ): void {
-        $chunk = $this->level->getChunk($chunkX, $chunkZ);
-        $chunk->setGenerated();
-        if($chunkX == 0 && $chunkZ == 0) {
+    public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
+        $chunk = $world->getChunk($chunkX, $chunkZ);
+        if($chunkX == 0 and $chunkZ == 0) {
             for($x = 6; $x < 12; $x++) {
                 for($z = 6; $z < 12; $z++) {
-                    $chunk->setBlock($x, 61, $z, Block::DIRT);
-                    $chunk->setBlock($x, 62, $z, Block::DIRT);
-                    $chunk->setBlock($x, 63, $z, Block::GRASS);
+                    $world->setBlockAt($x, 61, $z, VanillaBlocks::DIRT());
+                    $world->setBlockAt($x, 62, $z, VanillaBlocks::DIRT());
+                    $world->setBlockAt($x, 63, $z, VanillaBlocks::GRASS());
                 }
             }
             for($airX = 9; $airX < 12; $airX++) {
                 for($airZ = 9; $airZ < 12; $airZ++) {
-                    $chunk->setBlock($airX, 61, $airZ, Block::AIR);
-                    $chunk->setBlock($airX, 62, $airZ, Block::AIR);
-                    $chunk->setBlock($airX, 63, $airZ, Block::AIR);
+                    $world->setBlockAt($airX, 61, $airZ, VanillaBlocks::AIR());
+                    $world->setBlockAt($airX, 62, $airZ, VanillaBlocks::AIR());
+                    $world->setBlockAt($airX, 63, $airZ, VanillaBlocks::AIR());
                 }
             }
-            Tree::growTree($this->level, 11, 64, 6, $this->random, 0);
-            $chunk->setBlock(8, 64, 7, Block::CHEST);
-            $chunk->setX($chunkX);
-            $chunk->setZ($chunkZ);
-            $this->level->setChunk($chunkX, $chunkZ, $chunk);
+            $tree = new OakTree();
+            $transaction = $tree->getBlockTransaction($world, 11, 64, 6, $this->random);
+            $transaction->apply();
+
+            $world->setBlockAt(8, 64, 7, VanillaBlocks::CHEST());
+            $world->setChunk($chunkX, $chunkZ, $chunk);
         }
         if($chunkX == 4 and $chunkZ == 0) {
             for($x = 6; $x < 11; $x++) {
                 for($z = 6; $z < 11; $z++) {
                     for($y = 60; $y < 65; $y++) {
-                        $chunk->setBlock($x, $y, $z, Block::SAND);
+                        $world->setBlockAt($x, $y, $z, VanillaBlocks::SAND());
                     }
                 }
             }
-            $chunk->setBlock(8, 65, 8, BlockIds::CACTUS);
+            $world->setBlockAt(8, 65, 8, VanillaBlocks::CACTUS());
         }
     }
 
