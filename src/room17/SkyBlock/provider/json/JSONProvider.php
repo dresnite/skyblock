@@ -54,7 +54,7 @@ class JSONProvider extends Provider {
 
         $config = $this->getIslandConfig($identifier);
         $worldManager = $this->plugin->getServer()->getWorldManager();
-        $worldManager->loadWorld($identifier);
+        $worldManager->loadWorld($identifier, true);
 
         $members = [];
         foreach($config->get("members", []) as $username) {

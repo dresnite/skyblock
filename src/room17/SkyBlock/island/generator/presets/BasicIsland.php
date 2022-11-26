@@ -28,34 +28,34 @@ class BasicIsland extends IslandGenerator {
         if($chunkX == 0 && $chunkZ == 0) {
             for($x = 6; $x < 12; $x++) {
                 for($z = 6; $z < 12; $z++) {
-                    $chunk->setFullBlock($x, 61, $z, VanillaBlocks::DIRT()->getId());
-                    $chunk->setFullBlock($x, 62, $z, VanillaBlocks::DIRT()->getId());
-                    $chunk->setFullBlock($x, 63, $z, VanillaBlocks::GRASS()->getId());
+                    $world->setBlockAt($x, 61, $z, VanillaBlocks::DIRT());
+                    $world->setBlockAt($x, 62, $z, VanillaBlocks::DIRT());
+                    $world->setBlockAt($x, 63, $z, VanillaBlocks::GRASS());
                 }
             }
             for($airX = 9; $airX < 12; $airX++) {
                 for($airZ = 9; $airZ < 12; $airZ++) {
-                    $chunk->setFullBlock($airX, 61, $airZ, VanillaBlocks::AIR()->getId());
-                    $chunk->setFullBlock($airX, 62, $airZ, VanillaBlocks::AIR()->getId());
-                    $chunk->setFullBlock($airX, 63, $airZ, VanillaBlocks::AIR()->getId());
+                    $world->setBlockAt($airX, 61, $airZ, VanillaBlocks::AIR());
+                    $world->setBlockAt($airX, 62, $airZ, VanillaBlocks::AIR());
+                    $world->setBlockAt($airX, 63, $airZ, VanillaBlocks::AIR());
                 }
             }
             $tree = new OakTree();
             $transaction = $tree->getBlockTransaction($world, 11, 64, 6, $this->random);
             $transaction->apply();
 
-            $chunk->setFullBlock(8, 64, 7, VanillaBlocks::CHEST()->getId());
+            $world->setBlockAt(8, 64, 7, VanillaBlocks::CHEST());
             $world->setChunk($chunkX, $chunkZ, $chunk);
         }
         if($chunkX == 4 and $chunkZ == 0) {
             for($x = 6; $x < 11; $x++) {
                 for($z = 6; $z < 11; $z++) {
                     for($y = 60; $y < 65; $y++) {
-                        $chunk->setFullBlock($x, $y, $z, VanillaBlocks::SAND()->getId());
+                        $world->setBlockAt($x, $y, $z, VanillaBlocks::SAND());
                     }
                 }
             }
-            $chunk->setFullBlock(8, 65, 8, VanillaBlocks::CACTUS()->getId());
+            $world->setBlockAt(8, 65, 8, VanillaBlocks::CACTUS());
         }
     }
 

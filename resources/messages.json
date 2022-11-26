@@ -108,5 +108,6 @@
   "COOPERATE_DESCRIPTION": "Allows another player to interact with your island",
   "YOU_HAVE_TO_WAIT": "{YELLOW}To create another island you have to wait {WHITE}{minutes} {YELLOW}minutes!",
   "BLOCKED_COMMAND": "{YELLOW}That command is not allowed in the islands!",
-  "INVITATION_CANCELLED": "{YELLOW}The invitation from {WHITE}{sender} {YELLOW}to {WHITE}{target}{YELLOW} is no longer valid"
+  "INVITATION_CANCELLED": "{YELLOW}The invitation from {WHITE}{sender} {YELLOW}to {WHITE}{target}{YELLOW} is no longer valid",
+  "NO_PERMISSON_GENERATOR": "{RED}You don't have enough permissions to use the {name} generator!"
 }
