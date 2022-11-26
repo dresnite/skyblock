@@ -1,4 +1,4 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/BlckqPlugins/SkyBlock
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/dresnite/SkyBlock
 build-by-default: true
 branches:
 - pm4
