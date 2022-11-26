@@ -101,8 +101,8 @@ class SkyBlock extends PluginBase {
 
     public function registerPermissions(): void {
         $user = PermissionManager::getInstance()->getPermission(DefaultPermissions::ROOT_USER);
-        if ($user !== null) {
-            foreach ($this->getGeneratorManager()->getGenerators() as $generator){
+        if($user !== null) {
+            foreach($this->getGeneratorManager()->getGenerators() as $generator){
                 DefaultPermissions::registerPermission(new Permission("skyblock.island.{$generator}"), [$user]);
             }
         }

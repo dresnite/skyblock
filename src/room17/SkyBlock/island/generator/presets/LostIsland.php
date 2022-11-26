@@ -24,7 +24,7 @@ class LostIsland extends IslandGenerator {
 
     public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
         $chunk = $world->getChunk($chunkX, $chunkZ);
-        if($chunkX == 0 && $chunkZ == 0) {
+        if($chunkX == 0 and $chunkZ == 0) {
             $world->setBlockAt(11, 34, 9, VanillaBlocks::GRASS());
             $world->setBlockAt(11, 35, 9, VanillaBlocks::OAK_FENCE());
             $world->setBlockAt(11, 32, 8, VanillaBlocks::DIRT());

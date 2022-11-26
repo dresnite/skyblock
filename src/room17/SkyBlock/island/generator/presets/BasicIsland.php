@@ -25,7 +25,7 @@ class BasicIsland extends IslandGenerator {
 
     public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
         $chunk = $world->getChunk($chunkX, $chunkZ);
-        if($chunkX == 0 && $chunkZ == 0) {
+        if($chunkX == 0 and $chunkZ == 0) {
             for($x = 6; $x < 12; $x++) {
                 for($z = 6; $z < 12; $z++) {
                     $world->setBlockAt($x, 61, $z, VanillaBlocks::DIRT());

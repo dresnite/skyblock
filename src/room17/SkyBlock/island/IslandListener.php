@@ -230,7 +230,7 @@ class IslandListener implements Listener {
             /** @var Chest $chest */
             $chest = $world->getTile($generator::getChestPosition());
 
-            if (!$chest instanceof Chest) {
+            if(!$chest instanceof Chest) {
                 $world->setBlock($generator::getChestPosition(), VanillaBlocks::CHEST());
                 $chest = $world->getTile($generator::getChestPosition());
             }

@@ -57,7 +57,7 @@ class VisitCommand extends IslandCommand {
         }
         $this->plugin->getProvider()->loadIsland($islandId);
         $island = $this->plugin->getIslandManager()->getIsland($islandId);
-        if($island->isLocked() && !$session->getPlayer()->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+        if($island->isLocked() and !$session->getPlayer()->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
             $session->sendTranslatedMessage(new MessageContainer("HIS_ISLAND_IS_LOCKED", [
                 "name" => $args[0]
             ]));

@@ -25,7 +25,7 @@ class OPIsland extends IslandGenerator {
 
     public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void {
         $chunk = $world->getChunk($chunkX, $chunkZ);
-        if($chunkX == 0 && $chunkZ == 0) {
+        if($chunkX == 0 and $chunkZ == 0) {
             for($x = 0; $x < 16; $x++) {
                 for($z = 0; $z < 16; $z++) {
                     $world->setBlockAt($x, 0, $z, VanillaBlocks::BEDROCK());
