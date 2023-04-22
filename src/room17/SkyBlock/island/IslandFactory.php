@@ -44,7 +44,9 @@ class IslandFactory {
     }
 
     public static function createIslandFor(Session $session, string $type): void {
-        $identifier = uniqid("sb-");
+      //$identifier = uniqid("sb-");
+        $name = strtolower($session->getName());
+        $identifier = "sb-".$name;
         $islandManager = SkyBlock::getInstance()->getIslandManager();
 
         $islandManager->openIsland($identifier, [$session->getOfflineSession()], true, $type,
