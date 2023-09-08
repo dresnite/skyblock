@@ -23,9 +23,9 @@ use pocketmine\event\world\ChunkLoadEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerBedEnterEvent;
 use pocketmine\event\player\PlayerChatEvent;
-use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\player\chat\LegacyRawChatFormatter;
 use pocketmine\player\Player;
 use pocketmine\block\tile\Chest;
 use room17\SkyBlock\island\generator\IslandGenerator;
@@ -134,7 +134,7 @@ class IslandListener implements Listener {
     /**
      * Prevent players from sending blocked commands inside islands
      */
-    public function onCommand(PlayerCommandPreprocessEvent $event): void {
+    public function onCommand(PlayerChatEvent $event): void {
         $session = SessionLocator::getSession($event->getPlayer());
         $message = $event->getMessage();
         if($session->getIslandByWorld() == null or $message[0] != "/") {
