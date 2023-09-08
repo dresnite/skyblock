@@ -89,7 +89,7 @@ class SkyBlockSettings {
         $this->config = new Config($this->plugin->getDataFolder() . "settings.yml");
         $settingsData = $this->config->getAll();
 
-        $this->defaultChestContent = Utils::parseItems($settingsData["NewChestContent"]);
+        $this->defaultChestContent = Utils::parseItems($settingsData["NewChestContent"]) ?? [];
 
         $this->generatorChestContent = [];
         foreach($settingsData["CustomChestContent"] as $generator => $items) {
