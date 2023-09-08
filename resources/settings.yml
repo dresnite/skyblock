@@ -2,9 +2,9 @@
 
 # DO NOT CHANGE THIS UNLESS YOU KNOW WHAT YOU ARE DOING
 # The plugin uses this value to update your settings file when it is necessary
-Version: 2
+Version: 3
 
-CustomChestContent:
+NewCustomChestContent:
   basic: []
   lost: []
   op: []
@@ -13,22 +13,23 @@ CustomChestContent:
 
 # If you don't have set a specific chest content for a generator, it will be spawned with the following chest content.
 # Each value of the list stands for an item, this is the required format to add a new item:
-# [Item id], [Metadata value = 0], [Count = 1]
-ChestContent:
-  - "325, 8, 2"
-  - "325, 10, 1"
-  - "79, 0, 2"
-  - "360"
-  - "352, 0, 12"
-  - "361"
-  - "81"
-  - "338"
-  - "297"
-  - "296"
-  - "298"
-  - "299"
-  - "300"
-  - "301"
+# [Item name], [Count = 1]
+NewChestContent:
+  - ["minecraft:bucket"]
+  - ["minecraft:lava_bucket"]
+  - ["minecraft:water_bucket"]
+  - ["minecraft:ice"]
+  - ["minecraft:melon_slice", 2]
+  - ["minecraft:bone"]
+  - ["minecraft:pumpkin_seeds"]
+  - ["minecraft:cactus"]
+  - ["minecraft:sugar_cane"]
+  - ["minecraft:bread"]
+  - ["minecraft:wheat"]
+  - ["minecraft:leather_helmet"]
+  - ["minecraft:leather_chestplate"]
+  - ["minecraft:leather_leggings"]
+  - ["minecraft:leather_boots"]
 
 # The amount of slots an island will have in base of their island's category
 # The category changes in base of how many blocks have been built on an island
