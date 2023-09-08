@@ -124,11 +124,13 @@ class IslandListener implements Listener {
             return;
         }
         $chatFormat = $this->plugin->getSettings()->getChatFormat();
+
         $chatFormat = str_replace("{username}", $session->getName(), $chatFormat);
         $chatFormat = str_replace("{message}", $event->getMessage(), $chatFormat);
         $chatFormat = Utils::translateColors($chatFormat);
-        $event->setFormat($chatFormat);
-        $event->setRecipients($session->getIsland()->getChattingPlayers());
+
+		$event->setFormatter(new LegacyRawChatFormatter($chatFormat));
+		$event->setRecipients($session->getIsland()->getChattingPlayers());
     }
 
     /**
