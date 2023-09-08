@@ -3,7 +3,7 @@ description: A powerful core for SkyBlock servers
 author: dresnite
 website: twitter.com/dresnite
 main: room17\SkyBlock\SkyBlock
-version: 4.0.0
+version: 4.0.1
 api: 5.0.0
 
 permissions:
