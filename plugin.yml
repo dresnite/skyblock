@@ -10,3 +10,6 @@ permissions:
   skyblock.interaction:
     description: Allows players to interact with an island regardless of whether they belong to it
     default: op
+  skyblock.command.island:
+    description: Allows players to use the island command
+    default: true
