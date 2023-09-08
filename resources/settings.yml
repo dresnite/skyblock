@@ -4,7 +4,7 @@
 # The plugin uses this value to update your settings file when it is necessary
 Version: 3
 
-NewCustomChestContent:
+CustomChestContent:
   basic: []
   lost: []
   op: []

@@ -89,7 +89,7 @@ class SkyBlockSettings {
         $this->config = new Config($this->plugin->getDataFolder() . "settings.yml");
         $settingsData = $this->config->getAll();
 
-        $this->defaultChestContent = Utils::parseItems($settingsData["NewChestContent"]) ?? [];
+        $this->defaultChestContent = Utils::parseItems($settingsData["NewChestContent"] ?? []);
 
         $this->generatorChestContent = [];
         foreach($settingsData["CustomChestContent"] as $generator => $items) {
@@ -116,7 +116,7 @@ class SkyBlockSettings {
 			["minecraft:lava_bucket"],
 			["minecraft:water_bucket"],
 			["minecraft:ice"],
-			["minecraft:melon_slice", 2]
+			["minecraft:melon_slice", 2],
 			["minecraft:bone"],
 			["minecraft:pumpkin_seeds"],
 			["minecraft:cactus"],
