@@ -18,7 +18,7 @@ use room17\SkyBlock\utils\Utils;
 
 class SkyBlockSettings {
 
-    public const CURRENT_VERSION = "2";
+    public const CURRENT_VERSION = "3";
 
     private SkyBlock $plugin;
     private Config $config;
@@ -89,7 +89,7 @@ class SkyBlockSettings {
         $this->config = new Config($this->plugin->getDataFolder() . "settings.yml");
         $settingsData = $this->config->getAll();
 
-        $this->defaultChestContent = Utils::parseItems($settingsData["ChestContent"]);
+        $this->defaultChestContent = Utils::parseItems($settingsData["NewChestContent"]);
 
         $this->generatorChestContent = [];
         foreach($settingsData["CustomChestContent"] as $generator => $items) {
@@ -111,6 +111,23 @@ class SkyBlockSettings {
             "M" => 5000,
             "L" => 10000
         ]);
+		$this->config->set("NewChestContent", [
+			["minecraft:bucket"],
+			["minecraft:lava_bucket"],
+			["minecraft:water_bucket"],
+			["minecraft:ice"],
+			["minecraft:melon_slice", 2]
+			["minecraft:bone"],
+			["minecraft:pumpkin_seeds"],
+			["minecraft:cactus"],
+			["minecraft:sugar_cane"],
+			["minecraft:bread"],
+			["minecraft:wheat"],
+			["minecraft:leather_helmet"],
+			["minecraft:leather_chestplate"],
+			["minecraft:leather_leggings"],
+			["minecraft:leather_boots"]
+		]);
 
         $this->config->save();
         $this->plugin->getLogger()->warning("The settings file does not match with the current version of SkyBlock, the file has been updated");
