@@ -57,6 +57,7 @@ class IslandCommandMap extends Command implements PluginOwned {
             "sb",
             "skyblock"
         ]);
+		$this->setPermission("skyblock.command.island");
         $plugin->getServer()->getCommandMap()->register("skyblock", $this);
     }
 
