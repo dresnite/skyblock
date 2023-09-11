@@ -77,7 +77,7 @@ class IslandListener implements Listener {
             return;
         }
         $this->checkPermissionToInteract($island, $session, $event);
-        if(!$event->isCancelled() and $event->getBlock()->isSolid()) {
+        if(!$event->isCancelled() and $event->getBlockAgainst()->isSolid()) {
             $island->addBlock();
         }
     }
