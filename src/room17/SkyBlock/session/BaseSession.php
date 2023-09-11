@@ -23,15 +23,15 @@ abstract class BaseSession {
     protected ?string $islandId = null;
 
     protected bool $inChat = false;
-    protected int $rank;
+    protected int $rank = RankIds::MEMBER;
 
-    protected ?float $lastIslandCreationTime;
+    protected ?float $lastIslandCreationTime = null;
 
     public function __construct(SessionManager $manager, string $name) {
         $this->manager = $manager;
         $this->lowerCaseName = strtolower($name);
         $this->provider = $manager->getPlugin()->getProvider();
-        $this->provider->loadSession($this);
+        $this->load();
     }
 
     public function getLowerCaseName(): string {
@@ -76,6 +76,10 @@ abstract class BaseSession {
 
     public function save(): void {
         $this->provider->saveSession($this);
+    }
+
+    public function load(): void {
+        $this->provider->loadSession($this);
     }
 
 }

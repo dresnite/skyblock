@@ -12,6 +12,8 @@ namespace room17\SkyBlock\session;
 
 
 
+use pocketmine\Server;
+
 class OfflineSession extends BaseSession {
 
     public function getOnlineSession(): ?Session {
@@ -20,6 +22,12 @@ class OfflineSession extends BaseSession {
             return $this->manager->getSession($player);
         }
         return null;
+    }
+
+    public function load(): void {
+        if(Server::getInstance()->hasOfflinePlayerData($this->lowerCaseName)) {
+            parent::load();
+        }
     }
 
 }
