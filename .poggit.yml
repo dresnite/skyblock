@@ -6,4 +6,5 @@ branches:
 projects:
   SkyBlock:
     path: ""
+    icon: "icon.png"
 ...
