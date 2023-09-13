@@ -64,7 +64,6 @@ class IslandListener implements Listener {
             return;
         }
         $session->sendTranslatedPopup(new MessageContainer("MUST_BE_MEMBER"));
-        /** @noinspection PhpPossiblePolymorphicInvocationInspection */
         $event->cancel();
     }
 
