@@ -12,14 +12,13 @@ namespace room17\SkyBlock\utils;
 
 
 use pocketmine\item\Item;
-use pocketmine\item\ItemFactory;
 use pocketmine\item\StringToItemParser;
 use pocketmine\utils\TextFormat;
 
 class Utils {
 
     public static function parseItems(array $items): array {
-        return array_filter(array_map("self::parseItem", $items), function($value) {
+        return array_filter(array_map([self::class, "parseItem"], $items), function($value) {
             return $value != null;
         });
     }
