@@ -69,12 +69,12 @@ class IslandFactory {
             $onlineSession = $offlineMember->getOnlineSession();
             if($onlineSession != null) {
                 $onlineSession->setIsland(null);
-                $onlineSession->setRank(RankIds::MEMBER);
+                $onlineSession->setRank();
                 $onlineSession->save();
                 $onlineSession->sendTranslatedMessage(new MessageContainer("ISLAND_DISBANDED"));
             } else {
                 $offlineMember->setIslandId(null);
-                $offlineMember->setRank(RankIds::MEMBER);
+                $offlineMember->setRank();
                 $offlineMember->save();
             }
         }
